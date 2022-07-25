@@ -9,6 +9,7 @@ import UIKit
 
 extension UIColor {
     static let nerdleBlack = UIColor(red: 18/255, green: 18/255, blue: 20/255, alpha: 1)
+    static let nerdleKeyboardLightGray = UIColor(red: 212/255, green: 213/255, blue: 217/255, alpha: 1)
     static let nerdleBorderGray = UIColor(red: 217/255, green: 217/255, blue: 217/255, alpha: 1)
     static let nerdleLightGray = UIColor(red: 120/255, green: 124/255, blue: 127/255, alpha: 1)
     static let nerdleDarkGray = UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1)

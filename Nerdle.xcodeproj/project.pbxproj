@@ -16,6 +16,8 @@
 		49A07DE5288DC163008270F9 /* LetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE4288DC163008270F9 /* LetterView.swift */; };
 		49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE6288DC29C008270F9 /* LetterState.swift */; };
 		49A07DE9288DC459008270F9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE8288DC459008270F9 /* UIColorExtension.swift */; };
+		49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEA288F05C9008270F9 /* KeyboardView.swift */; };
+		49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		49A07DE4288DC163008270F9 /* LetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterView.swift; sourceTree = "<group>"; };
 		49A07DE6288DC29C008270F9 /* LetterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterState.swift; sourceTree = "<group>"; };
 		49A07DE8288DC459008270F9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		49A07DEA288F05C9008270F9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,15 +110,41 @@
 		49A07DCE288DB76A008270F9 /* Nerdle MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
-				49A07DCF288DB76A008270F9 /* MessagesViewController.swift */,
-				49A07DE4288DC163008270F9 /* LetterView.swift */,
 				49A07DD1288DB76A008270F9 /* MainInterface.storyboard */,
+				49A07DCF288DB76A008270F9 /* MessagesViewController.swift */,
+				49A07DEC288F05DF008270F9 /* Views */,
 				49A07DD4288DB76B008270F9 /* Assets.xcassets */,
 				49A07DD6288DB76B008270F9 /* Info.plist */,
-				49A07DE6288DC29C008270F9 /* LetterState.swift */,
-				49A07DE8288DC459008270F9 /* UIColorExtension.swift */,
+				49A07DED288F05F3008270F9 /* Model */,
+				49A07DEE288F060E008270F9 /* Extensions */,
 			);
 			path = "Nerdle MessagesExtension";
+			sourceTree = "<group>";
+		};
+		49A07DEC288F05DF008270F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				49A07DE4288DC163008270F9 /* LetterView.swift */,
+				49A07DEA288F05C9008270F9 /* KeyboardView.swift */,
+				49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		49A07DED288F05F3008270F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				49A07DE6288DC29C008270F9 /* LetterState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		49A07DEE288F060E008270F9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				49A07DE8288DC459008270F9 /* UIColorExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +249,8 @@
 				49A07DE5288DC163008270F9 /* LetterView.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
+				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
+				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
 				49A07DE9288DC459008270F9 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
