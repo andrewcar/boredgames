@@ -12,8 +12,17 @@ class MessagesViewController: MSMessagesAppViewController {
         
     // MARK: - Properties
     let padding: CGFloat = 10
-    let logoBottomPadding: CGFloat = 15
+    var centerX: CGFloat {
+        view.frame.width / 2
+    }
+    
     let logoSize = CGSize(width: 117, height: 30)
+    let logoBottomPadding: CGFloat = 15
+    let logoOriginX = centerX - (logoSize.width / 2)
+
+    let letterSize = CGSize(width: 50, height: 50)
+    let gridWidth = (letterSize.width * 5) + (padding * 6)
+    let gridOriginX = centerX - (gridWidth / 2)
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -24,19 +33,14 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Private Methods
     private func addLogo() {
-        let centerX = view.frame.size.width / 2
-        let logoOriginX = centerX - (logoSize.width / 2)
         let logoImageView = UIImageView(frame: CGRect(x: logoOriginX, y: padding, width: logoSize.width, height: logoSize.height))
         logoImageView.image = UIImage(named: "nerdle.png")
         view.addSubview(logoImageView)
     }
     
     private func addLetters() {
-        let size = CGSize(width: 50, height: 50)
-        let centerX = view.frame.width / 2
-        let gridWidth = (size.width * 5) + (padding * 6)
-        let gridOriginX = centerX - (gridWidth / 2)
         
+        // first row
         let a1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -67,6 +71,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // second row
         let b1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -97,6 +103,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding + size.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // third row
         let c1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -127,6 +135,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding + size.height + padding + size.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // fourth row
         let d1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -157,6 +167,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding + size.height + padding + size.height + padding + size.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // fifth row
         let e1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -187,6 +199,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding + size.height + padding + size.height + padding + size.height + padding + size.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // sixth row
         let f1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
@@ -217,6 +231,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 y: logoBottomPadding + logoSize.height + padding + size.height + padding + size.height + padding + size.height + padding + size.height + padding + size.height + padding,
                 width: size.width,
                 height: size.height))
+        
+        // add all letter subviews to view
         for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
             view.addSubview(letter)
         }
