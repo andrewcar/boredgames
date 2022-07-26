@@ -1,5 +1,5 @@
 //
-//  LetterView.swift
+//  GridLetterView.swift
 //  Nerdle MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/24/22.
@@ -7,11 +7,12 @@
 
 import UIKit
 
-class LetterView: UIView {
+class GridLetterView: UIView {
     
     // MARK: - Properties
     private var letterState: LetterState = .blank
-    var letter: String = ""
+    private var letterLabel: UILabel?
+    
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -26,6 +27,10 @@ class LetterView: UIView {
     
     
     // MARK: - Public Methods
+    func updateLetter(with letter: String) {
+        letterLabel?.text = letter
+    }
+    
     func updateLetter(to state: LetterState, completion: @escaping () -> ()) {
         letterState = state
 
@@ -46,6 +51,16 @@ class LetterView: UIView {
     }
     
     
+    // MARK: - Public Methods
+    func setBorderActive() {
+        layer.borderColor = UIColor.nerdleActiveBorderLightModeGray.cgColor
+    }
+    
+    func setBorderInactive() {
+        layer.borderColor = UIColor.nerdleBorderLightModeGray.cgColor
+    }
+    
+    
     // MARK: - Private Methods
     private func setupSubviews() {
         setupBorder()
@@ -53,17 +68,16 @@ class LetterView: UIView {
     }
     
     private func setupBorder() {
-        layer.borderColor = UIColor.nerdleBorderGray.cgColor
         layer.borderWidth = 2
+        setBorderInactive()
     }
     
     private func setupLetterLabel() {
-        let letterLabel = UILabel(frame: frame)
-        letterLabel.text = letter
-        letterLabel.textAlignment = .center
-        letterLabel.font = .systemFont(ofSize: 27, weight: .bold)
-        letterLabel.textColor = .black
-        addSubview(letterLabel)
+        letterLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        letterLabel?.textAlignment = .center
+        letterLabel?.font = .systemFont(ofSize: 31, weight: .bold)
+        letterLabel?.textColor = .black
+        addSubview(letterLabel!)
     }
     
     private func setBackgroundColor(for state: LetterState) {
@@ -71,7 +85,7 @@ class LetterView: UIView {
         case .blank:
             self.backgroundColor = .white
         case .gray:
-            self.backgroundColor = .nerdleLightGray
+            self.backgroundColor = .nerdleLetterLightModeGray
         case .yellow:
             self.backgroundColor = .nerdleYellow
         case .green:

@@ -37,7 +37,7 @@ class KeyboardLetterView: UIView {
         
         let letterLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         letterLabel.text = letter
-        letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 12 : 9, weight: .bold)
+        letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
         letterLabel.textAlignment = .center
         letterLabel.textColor = .black
         addSubview(letterLabel)
@@ -46,7 +46,7 @@ class KeyboardLetterView: UIView {
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         button.setTitle(letter, for: .normal)
         button.setTitleColor(.clear, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 12 : 9, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
         button.titleLabel?.textAlignment = .center
         addSubview(button)
     }
