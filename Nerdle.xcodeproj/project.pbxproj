@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
 		49A07DC8288DB76A008270F9 /* Nerdle MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49A07DCD288DB76A008270F9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A07DCC288DB76A008270F9 /* Messages.framework */; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		49A07DBE288DB769008270F9 /* Nerdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nerdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DC1288DB76A008270F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Nerdle MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				49A07DE6288DC29C008270F9 /* LetterState.swift */,
+				495EAD70288F4ED1004290AD /* ButtonTag.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A07DE5288DC163008270F9 /* LetterView.swift in Sources */,
+				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,

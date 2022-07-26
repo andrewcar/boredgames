@@ -299,3 +299,17 @@ class MessagesViewController: MSMessagesAppViewController {
     }
 
 }
+
+extension MessagesViewController: KeyboardDelegate {
+    func didTapLetter(_ letter: String) {
+        <#code#>
+    }
+    
+    func didTapEnter() {
+        //
+    }
+    
+    func didTapBackspace() {
+        //
+    }
+}

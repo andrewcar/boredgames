@@ -11,12 +11,12 @@ class LetterView: UIView {
     
     // MARK: - Properties
     private var letterState: LetterState = .blank
-    
+    var letter: String = ""
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         setupSubviews()
     }
     
@@ -49,11 +49,21 @@ class LetterView: UIView {
     // MARK: - Private Methods
     private func setupSubviews() {
         setupBorder()
+        setupLetterLabel()
     }
     
     private func setupBorder() {
         layer.borderColor = UIColor.nerdleBorderGray.cgColor
         layer.borderWidth = 2
+    }
+    
+    private func setupLetterLabel() {
+        let letterLabel = UILabel(frame: frame)
+        letterLabel.text = letter
+        letterLabel.textAlignment = .center
+        letterLabel.font = .systemFont(ofSize: 27, weight: .bold)
+        letterLabel.textColor = .black
+        addSubview(letterLabel)
     }
     
     private func setBackgroundColor(for state: LetterState) {
