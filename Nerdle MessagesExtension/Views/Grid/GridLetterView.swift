@@ -22,6 +22,7 @@ class GridLetterView: UIView {
     }
     
     required init?(coder: NSCoder) {
+        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -35,15 +36,16 @@ class GridLetterView: UIView {
         letterState = state
 
         // shrink
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-            self.frame.size.height = 1
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+            self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
         } completion: { _ in
             
             self.setBackgroundColor(for: state)
-
+            self.setFontColor(for: state)
+            self.setBorderColor(for: state)
             // grow
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.frame.size.height = 50
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                self.transform = CGAffineTransform(scaleX: 1, y: 1)
             } completion: { _ in
                 completion()
             }
@@ -83,13 +85,35 @@ class GridLetterView: UIView {
     private func setBackgroundColor(for state: LetterState) {
         switch state {
         case .blank:
-            self.backgroundColor = .white
+            backgroundColor = .white
         case .gray:
-            self.backgroundColor = .nerdleLetterLightModeGray
+            backgroundColor = .nerdleLetterLightModeGray
         case .yellow:
-            self.backgroundColor = .nerdleYellow
+            backgroundColor = .nerdleYellow
         case .green:
-            self.backgroundColor = .nerdleGreen
+            backgroundColor = .nerdleGreen
+        }
+    }
+    
+    private func setBorderColor(for state: LetterState) {
+        switch state {
+        case .blank:
+            break
+        case .gray:
+            layer.borderColor = UIColor.nerdleLetterLightModeGray.cgColor
+        case .yellow:
+            layer.borderColor = UIColor.nerdleYellow.cgColor
+        case .green:
+            layer.borderColor = UIColor.nerdleGreen.cgColor
+        }
+    }
+    
+    private func setFontColor(for state: LetterState) {
+        switch state {
+        case .blank:
+            letterLabel?.textColor = .black
+        default:
+            letterLabel?.textColor = .white
         }
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 enum CurrentLetter: CaseIterable {
+    case a0
     case a1
     case a2
     case a3
