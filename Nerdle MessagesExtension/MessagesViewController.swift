@@ -28,8 +28,40 @@ class MessagesViewController: MSMessagesAppViewController {
         centerX - (gridWidth / 2)
     }
     var gridMaxY: CGFloat {
-        logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height
+        logoBottomPadding + logoSize.height + (padding * 6) + (letterSize.height * 6)
     }
+    
+    var a1: LetterView?
+    var a2: LetterView?
+    var a3: LetterView?
+    var a4: LetterView?
+    var a5: LetterView?
+    var b1: LetterView?
+    var b2: LetterView?
+    var b3: LetterView?
+    var b4: LetterView?
+    var b5: LetterView?
+    var c1: LetterView?
+    var c2: LetterView?
+    var c3: LetterView?
+    var c4: LetterView?
+    var c5: LetterView?
+    var d1: LetterView?
+    var d2: LetterView?
+    var d3: LetterView?
+    var d4: LetterView?
+    var d5: LetterView?
+    var e1: LetterView?
+    var e2: LetterView?
+    var e3: LetterView?
+    var e4: LetterView?
+    var e5: LetterView?
+    var f1: LetterView?
+    var f2: LetterView?
+    var f3: LetterView?
+    var f4: LetterView?
+    var f5: LetterView?
+    
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -49,31 +81,31 @@ class MessagesViewController: MSMessagesAppViewController {
     private func addLetters() {
 
         // first row
-        let a1 = LetterView(
+        a1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let a2 = LetterView(
+        a2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let a3 = LetterView(
+        a3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let a4 = LetterView(
+        a4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let a5 = LetterView(
+        a5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding,
@@ -81,31 +113,31 @@ class MessagesViewController: MSMessagesAppViewController {
                 height: letterSize.height))
         
         // second row
-        let b1 = LetterView(
+        b1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let b2 = LetterView(
+        b2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let b3 = LetterView(
+        b3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let b4 = LetterView(
+        b4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let b5 = LetterView(
+        b5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding,
@@ -113,31 +145,31 @@ class MessagesViewController: MSMessagesAppViewController {
                 height: letterSize.height))
         
         // third row
-        let c1 = LetterView(
+        c1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let c2 = LetterView(
+        c2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let c3 = LetterView(
+        c3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let c4 = LetterView(
+        c4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let c5 = LetterView(
+        c5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding,
@@ -145,31 +177,31 @@ class MessagesViewController: MSMessagesAppViewController {
                 height: letterSize.height))
         
         // fourth row
-        let d1 = LetterView(
+        d1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let d2 = LetterView(
+        d2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let d3 = LetterView(
+        d3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let d4 = LetterView(
+        d4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let d5 = LetterView(
+        d5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
@@ -177,31 +209,31 @@ class MessagesViewController: MSMessagesAppViewController {
                 height: letterSize.height))
         
         // fifth row
-        let e1 = LetterView(
+        e1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let e2 = LetterView(
+        e2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let e3 = LetterView(
+        e3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let e4 = LetterView(
+        e4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let e5 = LetterView(
+        e5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
@@ -209,31 +241,31 @@ class MessagesViewController: MSMessagesAppViewController {
                 height: letterSize.height))
         
         // sixth row
-        let f1 = LetterView(
+        f1 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let f2 = LetterView(
+        f2 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let f3 = LetterView(
+        f3 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let f4 = LetterView(
+        f4 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
                 width: letterSize.width,
                 height: letterSize.height))
-        let f5 = LetterView(
+        f5 = LetterView(
             frame: CGRect(
                 x: gridOriginX + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding + letterSize.width + padding,
                 y: logoBottomPadding + logoSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding + letterSize.height + padding,
@@ -242,14 +274,18 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // add all letter subviews to view
         for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
+            guard let letter = letter else { return }
             view.addSubview(letter)
         }
     }
     
     private func addKeyboardView() {
         let frame = CGRect(x: 0, y: gridMaxY + logoBottomPadding, width: view.frame.width, height: gridWidth)
-        view.addSubview(KeyboardView(frame: frame))
+        let keyboardView = KeyboardView(frame: frame)
+        keyboardView.keyboardDelegate = self
+        view.addSubview(keyboardView)
     }
+    
     
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
@@ -300,9 +336,72 @@ class MessagesViewController: MSMessagesAppViewController {
 
 }
 
+
+// MARK: - KeyboardDelegate
 extension MessagesViewController: KeyboardDelegate {
     func didTapLetter(_ letter: String) {
-        <#code#>
+        switch Game.shared.currentLetter {
+        case .a1:
+            a1?.letter = letter
+        case .a2:
+            a2?.letter = letter
+        case .a3:
+            a3?.letter = letter
+        case .a4:
+            a4?.letter = letter
+        case .a5:
+            a5?.letter = letter
+        case .b1:
+            b1?.letter = letter
+        case .b2:
+            b2?.letter = letter
+        case .b3:
+            b3?.letter = letter
+        case .b4:
+            b4?.letter = letter
+        case .b5:
+            b5?.letter = letter
+        case .c1:
+            c1?.letter = letter
+        case .c2:
+            c2?.letter = letter
+        case .c3:
+            c3?.letter = letter
+        case .c4:
+            c4?.letter = letter
+        case .c5:
+            c5?.letter = letter
+        case .d1:
+            d1?.letter = letter
+        case .d2:
+            d2?.letter = letter
+        case .d3:
+            d3?.letter = letter
+        case .d4:
+            d4?.letter = letter
+        case .d5:
+            d5?.letter = letter
+        case .e1:
+            e1?.letter = letter
+        case .e2:
+            e2?.letter = letter
+        case .e3:
+            e3?.letter = letter
+        case .e4:
+            e4?.letter = letter
+        case .e5:
+            e5?.letter = letter
+        case .f1:
+            f1?.letter = letter
+        case .f2:
+            f2?.letter = letter
+        case .f3:
+            f3?.letter = letter
+        case .f4:
+            f4?.letter = letter
+        case .f5:
+            f5?.letter = letter
+        }
     }
     
     func didTapEnter() {

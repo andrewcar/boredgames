@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
+		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
+		495EAD75288F74CE004290AD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* Game.swift */; };
 		49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
 		49A07DC8288DB76A008270F9 /* Nerdle MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49A07DCD288DB76A008270F9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A07DCC288DB76A008270F9 /* Messages.framework */; };
@@ -47,6 +49,8 @@
 
 /* Begin PBXFileReference section */
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
+		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
+		495EAD74288F74CE004290AD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		49A07DBE288DB769008270F9 /* Nerdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nerdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DC1288DB76A008270F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Nerdle MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +142,8 @@
 			children = (
 				49A07DE6288DC29C008270F9 /* LetterState.swift */,
 				495EAD70288F4ED1004290AD /* ButtonTag.swift */,
+				495EAD72288F7461004290AD /* CurrentLetter.swift */,
+				495EAD74288F74CE004290AD /* Game.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -250,6 +256,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A07DE5288DC163008270F9 /* LetterView.swift in Sources */,
+				495EAD75288F74CE004290AD /* Game.swift in Sources */,
+				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
