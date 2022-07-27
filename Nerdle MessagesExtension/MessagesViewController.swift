@@ -7,6 +7,7 @@
 
 import UIKit
 import Messages
+import MessageUI
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -37,31 +38,48 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func addSendButton() {
-        sendButton = UIButton(frame: CGRect(x: (view.frame.width / 2) - 50, y: Frame.Grid.maxY(view.frame) + 250, width: 100, height: 40))
+        sendButton = UIButton(frame: Frame.SendButton.frame(view.frame))
         sendButton?.addTarget(self, action: #selector(didTapSendButton(sender:)), for: .touchUpInside)
-        sendButton?.backgroundColor = .nerdleGreen
-        sendButton?.setTitle("Send", for: .normal)
+        sendButton?.layer.cornerCurve = .continuous
+        sendButton?.layer.cornerRadius = 5
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 42, weight: .bold, scale: .medium)
+        let image = UIImage(systemName: "arrow.up.circle.fill", withConfiguration: largeConfig)!
+        sendButton?.setImage(image, for: .normal)
         sendButton?.setTitleColor(.white, for: .normal)
         view.addSubview(sendButton!)
     }
     
     @objc
     private func didTapSendButton(sender: UIButton) {
-        activeConversation?.insert(composeMessage())
+        activeConversation?.send(composeMessage(), completionHandler: { error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        })
     }
     
     private func composeMessage() -> MSMessage {
         let session = activeConversation?.selectedMessage?.session
-        let message = MSMessage()
-        let components = NSURLComponents()
-        message.url = components.url!
+        let message = MSMessage(session: session ?? MSSession())
         
+        let components = NSURLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "answer", value: GameModel.shared.answer),
+            URLQueryItem(name: "guess1", value: GameModel.shared.firstGuess),
+            URLQueryItem(name: "guess2", value: GameModel.shared.secondGuess),
+            URLQueryItem(name: "guess3", value: GameModel.shared.thirdGuess),
+            URLQueryItem(name: "guess4", value: GameModel.shared.fourthGuess),
+            URLQueryItem(name: "guess5", value: GameModel.shared.fifthGuess),
+            URLQueryItem(name: "guess6", value: GameModel.shared.sixthGuess),
+        ]
+        message.url = components.url!
+
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "nerdle.png")
-        layout.caption = "Nerdle!"
-        layout.subcaption = "I wanna play a game."
-        layout.trailingSubcaption = "It's gon be sweet"
-        
+        layout.caption = "Nerdle"
+        layout.subcaption = "It's your turn!"
+        layout.trailingSubcaption = "🟨🟩⬜️⬜️⬜️"
+
         message.layout = layout
         return message
     }
@@ -92,12 +110,47 @@ class MessagesViewController: MSMessagesAppViewController {
         // extension on a remote device.
         
         // Use this method to trigger UI updates in response to the message.
-        print("didReceive(_ message: MSMessage, conversation: MSConversation)")
+        guard let url = message.url else {
+            print("Could not get URL from MSMessage.")
+            return
+        }
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            print("Could not create NSURLComponents from MSMessage URL.")
+            return
+        }
+        
+        if let queryItems = components.queryItems {
+            for queryItem in queryItems {
+                print("queryItem name: \(queryItem.name)")
+                if let value = queryItem.value {
+                    print("queryItem value: \(value)")
+                    switch queryItem.name {
+                    case "answer":
+                        GameModel.shared.answer = value
+                    case "guess1":
+                        GameModel.shared.firstGuess = value
+                    case "guess2":
+                        GameModel.shared.secondGuess = value
+                    case "guess3":
+                        GameModel.shared.thirdGuess = value
+                    case "guess4":
+                        GameModel.shared.fourthGuess = value
+                    case "guess5":
+                        GameModel.shared.fifthGuess = value
+                    case "guess6":
+                        GameModel.shared.sixthGuess = value
+                    default: ()
+                    }
+                }
+            }
+        }
+        
+        gridView?.keyboardView?.isUserInteractionEnabled = true
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user taps the send button.
-        print("didStartSending(_ message: MSMessage, conversation: MSConversation)")
+        requestPresentationStyle(.compact)
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -111,14 +164,19 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called before the extension transitions to a new presentation style.
     
         // Use this method to prepare for the change in presentation style.
-        print("willTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
     
         // Use this method to finalize any behaviors associated with the change in presentation style.
-        print("didTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
     }
 
+}
+
+extension MessagesViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        print("messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult)")
+        print("result: \(result)")
+    }
 }

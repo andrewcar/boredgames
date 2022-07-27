@@ -12,7 +12,6 @@ struct Frame {
     // general
     static let padding: CGFloat = 5
     
-    // logo
     struct Logo {
         static let size = CGSize(width: 117, height: 30)
         static let bottomPadding: CGFloat = 10
@@ -26,12 +25,13 @@ struct Frame {
         }
     }
     
-    // grid
     struct Grid {
-        static let outerPadding: CGFloat = padding * 10
+        static func outerPadding(_ viewFrame: CGRect) -> CGFloat {
+            viewFrame.width / 7
+        }
         static let bottomPadding: CGFloat = 20
         static func letterSize(_ viewFrame: CGRect) -> CGSize {
-            let width = (viewFrame.width - (padding * 4) - (outerPadding * 2)) / 5
+            let width = (viewFrame.width - (padding * 4) - (outerPadding(viewFrame) * 2)) / 5
             return CGSize(width: width, height: width)
         }
         static func maxY(_ viewFrame: CGRect) -> CGFloat {
@@ -45,10 +45,24 @@ struct Frame {
         }
     }
     
-    // keyboard
     struct Keyboard {
         static func frame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: 0, y: Frame.Grid.maxY(viewFrame) + Frame.Grid.bottomPadding, width: viewFrame.width, height: Frame.Grid.frame(viewFrame).width)
+            CGRect(
+                x: 0,
+                y: Frame.Grid.maxY(viewFrame) + Frame.Grid.bottomPadding,
+                width: viewFrame.width,
+                height: Frame.Grid.frame(viewFrame).width)
+        }
+    }
+    
+    struct SendButton {
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            let size = CGSize(width: 50, height: 50)
+            return CGRect(
+                x: viewFrame.width - size.width - (padding * 5),
+                y: Grid.maxY(viewFrame) + 230,
+                width: size.width,
+                height: size.height)
         }
     }
 }

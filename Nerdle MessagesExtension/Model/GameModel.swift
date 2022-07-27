@@ -14,7 +14,13 @@ class GameModel: NSObject {
     var guessNumber: Guess = .first
     var currentLetter: CurrentLetter = .a0
     var answer: String?
-    var guess = ""
+    var currentGuess = ""
+    var firstGuess = ""
+    var secondGuess = ""
+    var thirdGuess = ""
+    var fourthGuess = ""
+    var fifthGuess = ""
+    var sixthGuess = ""
     var answerLetterCounts: [String: Int] = [
         "a": 0,
         "b": 0,
@@ -102,7 +108,7 @@ class GameModel: NSObject {
     }
     
     func incrementGuessLetter(_ letter: String) {
-        guard !guess.isEmpty else { return }
+        guard !currentGuess.isEmpty else { return }
         guessCorrectLetterCounts[letter.lowercased()]! += 1
     }
     

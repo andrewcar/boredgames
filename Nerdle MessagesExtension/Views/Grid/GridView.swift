@@ -40,7 +40,7 @@ class GridView: UIView {
     private var f3: GridLetterView?
     private var f4: GridLetterView?
     private var f5: GridLetterView?
-    private var keyboardView: KeyboardView?
+    var keyboardView: KeyboardView?
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -63,31 +63,31 @@ class GridView: UIView {
         // first row
         a1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         a2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         a3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         a4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         a5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -95,31 +95,31 @@ class GridView: UIView {
         // second row
         b1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         b2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         b3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         b4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         b5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -127,31 +127,31 @@ class GridView: UIView {
         // third row
         c1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         c2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         c3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         c4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         c5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -159,31 +159,31 @@ class GridView: UIView {
         // fourth row
         d1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         d2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         d3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         d4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         d5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -191,31 +191,31 @@ class GridView: UIView {
         // fifth row
         e1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         e2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         e3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         e4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         e5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -223,31 +223,31 @@ class GridView: UIView {
         // sixth row
         f1 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding,
+                x: Frame.Grid.outerPadding(frame),
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         f2 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         f3 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         f4 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
         f5 = GridLetterView(
             frame: CGRect(
-                x: Frame.Grid.outerPadding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
+                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
                 y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
                 width: Frame.Grid.letterSize(frame).width,
                 height: Frame.Grid.letterSize(frame).height))
@@ -267,15 +267,14 @@ class GridView: UIView {
     
     private func setupGame() {
         GameModel.shared.setAnswerRandomly()
-        if let answer = GameModel.shared.answer {
-            print(answer)
-        }
     }
     
     private func checkWord(completion: @escaping () -> ()) {
         switch GameModel.shared.guessNumber {
         case .first:
-            guard GameModel.shared.currentLetter == .a5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.firstGuess = GameModel.shared.currentGuess.lowercased()
             updateA1 {
                 self.updateA2 {
                     self.updateA3 {
@@ -288,7 +287,9 @@ class GridView: UIView {
                 }
             }
         case .second:
-            guard GameModel.shared.currentLetter == .b5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.secondGuess = GameModel.shared.currentGuess.lowercased()
             updateB1 {
                 self.updateB2 {
                     self.updateB3 {
@@ -301,7 +302,9 @@ class GridView: UIView {
                 }
             }
         case .third:
-            guard GameModel.shared.currentLetter == .c5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.thirdGuess = GameModel.shared.currentGuess.lowercased()
             updateC1 {
                 self.updateC2 {
                     self.updateC3 {
@@ -314,7 +317,9 @@ class GridView: UIView {
                 }
             }
         case .fourth:
-            guard GameModel.shared.currentLetter == .d5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.fourthGuess = GameModel.shared.currentGuess.lowercased()
             updateD1 {
                 self.updateD2 {
                     self.updateD3 {
@@ -327,7 +332,9 @@ class GridView: UIView {
                 }
             }
         case .fifth:
-            guard GameModel.shared.currentLetter == .e5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.fifthGuess = GameModel.shared.currentGuess.lowercased()
             updateE1 {
                 self.updateE2 {
                     self.updateE3 {
@@ -340,7 +347,9 @@ class GridView: UIView {
                 }
             }
         case .sixth:
-            guard GameModel.shared.currentLetter == .f5 && GameModel.shared.guess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { return }
+            keyboardView?.isUserInteractionEnabled = false
+            GameModel.shared.sixthGuess = GameModel.shared.currentGuess.lowercased()
             updateF1 {
                 self.updateF2 {
                     self.updateF3 {
@@ -357,7 +366,7 @@ class GridView: UIView {
     
     private func updateA1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -392,7 +401,7 @@ class GridView: UIView {
     
     private func updateA2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -427,7 +436,7 @@ class GridView: UIView {
     
     private func updateA3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -462,7 +471,7 @@ class GridView: UIView {
     
     private func updateA4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -497,7 +506,7 @@ class GridView: UIView {
     
     private func updateA5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -532,7 +541,7 @@ class GridView: UIView {
     
     private func updateB1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -567,7 +576,7 @@ class GridView: UIView {
     
     private func updateB2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -602,7 +611,7 @@ class GridView: UIView {
     
     private func updateB3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -637,7 +646,7 @@ class GridView: UIView {
     
     private func updateB4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -672,7 +681,7 @@ class GridView: UIView {
     
     private func updateB5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -707,7 +716,7 @@ class GridView: UIView {
     
     private func updateC1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -742,7 +751,7 @@ class GridView: UIView {
     
     private func updateC2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -777,7 +786,7 @@ class GridView: UIView {
     
     private func updateC3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -812,7 +821,7 @@ class GridView: UIView {
     
     private func updateC4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -847,7 +856,7 @@ class GridView: UIView {
     
     private func updateC5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -882,7 +891,7 @@ class GridView: UIView {
     
     private func updateD1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -917,7 +926,7 @@ class GridView: UIView {
     
     private func updateD2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -952,7 +961,7 @@ class GridView: UIView {
     
     private func updateD3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -987,7 +996,7 @@ class GridView: UIView {
     
     private func updateD4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -1022,7 +1031,7 @@ class GridView: UIView {
     
     private func updateD5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -1057,7 +1066,7 @@ class GridView: UIView {
     
     private func updateE1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -1092,7 +1101,7 @@ class GridView: UIView {
     
     private func updateE2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -1127,7 +1136,7 @@ class GridView: UIView {
     
     private func updateE3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -1162,7 +1171,7 @@ class GridView: UIView {
     
     private func updateE4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -1197,7 +1206,7 @@ class GridView: UIView {
     
     private func updateE5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -1232,7 +1241,7 @@ class GridView: UIView {
     
     private func updateF1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
@@ -1267,7 +1276,7 @@ class GridView: UIView {
     
     private func updateF2(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
@@ -1302,7 +1311,7 @@ class GridView: UIView {
     
     private func updateF3(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
@@ -1337,7 +1346,7 @@ class GridView: UIView {
     
     private func updateF4(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
@@ -1372,7 +1381,7 @@ class GridView: UIView {
     
     private func updateF5(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.guess.lowercased()
+        let guess = GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
@@ -1415,196 +1424,196 @@ extension GridView: KeyboardDelegate {
             a1?.updateLetter(with: letter)
             a1?.setBorderActive()
             a1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .a1
         case .a1:
             a2?.updateLetter(with: letter)
             a2?.setBorderActive()
             a2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .a2
         case .a2:
             a3?.updateLetter(with: letter)
             a3?.setBorderActive()
             a3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .a3
         case .a3:
             a4?.updateLetter(with: letter)
             a4?.setBorderActive()
             a4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .a4
         case .a4:
             a5?.updateLetter(with: letter)
             a5?.setBorderActive()
             a5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .a5
         case .b0:
             GameModel.shared.guessNumber = .second
             b1?.updateLetter(with: letter)
             b1?.setBorderActive()
             b1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .b1
         case .b1:
             b2?.updateLetter(with: letter)
             b2?.setBorderActive()
             b2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .b2
         case .b2:
             b3?.updateLetter(with: letter)
             b3?.setBorderActive()
             b3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .b3
         case .b3:
             b4?.updateLetter(with: letter)
             b4?.setBorderActive()
             b4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .b4
         case .b4:
             b5?.updateLetter(with: letter)
             b5?.setBorderActive()
             b5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .b5
         case .c0:
             GameModel.shared.guessNumber = .third
             c1?.updateLetter(with: letter)
             c1?.setBorderActive()
             c1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .c1
         case .c1:
             c2?.updateLetter(with: letter)
             c2?.setBorderActive()
             c2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .c2
         case .c2:
             c3?.updateLetter(with: letter)
             c3?.setBorderActive()
             c3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .c3
         case .c3:
             c4?.updateLetter(with: letter)
             c4?.setBorderActive()
             c4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .c4
         case .c4:
             c5?.updateLetter(with: letter)
             c5?.setBorderActive()
             c5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .c5
         case .d0:
             GameModel.shared.guessNumber = .fourth
             d1?.updateLetter(with: letter)
             d1?.setBorderActive()
             d1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .d1
         case .d1:
             d2?.updateLetter(with: letter)
             d2?.setBorderActive()
             d2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .d2
         case .d2:
             d3?.updateLetter(with: letter)
             d3?.setBorderActive()
             d3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .d3
         case .d3:
             d4?.updateLetter(with: letter)
             d4?.setBorderActive()
             d4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .d4
         case .d4:
             d5?.updateLetter(with: letter)
             d5?.setBorderActive()
             d5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .d5
         case .e0:
             GameModel.shared.guessNumber = .fifth
             e1?.updateLetter(with: letter)
             e1?.setBorderActive()
             e1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .e1
         case .e1:
             e2?.updateLetter(with: letter)
             e2?.setBorderActive()
             e2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .e2
         case .e2:
             e3?.updateLetter(with: letter)
             e3?.setBorderActive()
             e3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .e3
         case .e3:
             e4?.updateLetter(with: letter)
             e4?.setBorderActive()
             e4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .e4
         case .e4:
             e5?.updateLetter(with: letter)
             e5?.setBorderActive()
             e5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .e5
         case .f0:
             GameModel.shared.guessNumber = .sixth
             f1?.updateLetter(with: letter)
             f1?.setBorderActive()
             f1?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .f1
         case .f1:
             f2?.updateLetter(with: letter)
             f2?.setBorderActive()
             f2?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .f2
         case .f2:
             f3?.updateLetter(with: letter)
             f3?.setBorderActive()
             f3?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .f3
         case .f3:
             f4?.updateLetter(with: letter)
             f4?.setBorderActive()
             f4?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .f4
         case .f4:
             f5?.updateLetter(with: letter)
             f5?.setBorderActive()
             f5?.growAndShrink()
-            GameModel.shared.guess += letter
+            GameModel.shared.currentGuess += letter
             GameModel.shared.currentLetter = .f5
         case .a5, .b5, .c5, .d5, .e5, .f5: ()
         }
     }
     
     func didTapEnter() {
-        guard GameModel.shared.guess.count == 5 else { return }
+        guard GameModel.shared.currentGuess.count == 5 else { return }
         
         self.checkWord {
-            if GameModel.shared.guess == GameModel.shared.answer {
+            if GameModel.shared.currentGuess == GameModel.shared.answer {
                 print("You win!")
             } else {
                 switch GameModel.shared.currentLetter {
@@ -1621,13 +1630,13 @@ extension GridView: KeyboardDelegate {
                 default: ()
                 }
             }
-            GameModel.shared.guess = ""
+            GameModel.shared.currentGuess = ""
         }
     }
     
     func didTapBackspace() {
-        if !GameModel.shared.guess.isEmpty {
-            GameModel.shared.guess.removeLast()
+        if !GameModel.shared.currentGuess.isEmpty {
+            GameModel.shared.currentGuess.removeLast()
         }
         
         switch GameModel.shared.currentLetter {
