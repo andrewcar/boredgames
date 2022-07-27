@@ -15,7 +15,7 @@ struct Frame {
     // logo
     struct Logo {
         static let size = CGSize(width: 117, height: 30)
-        static let bottomPadding: CGFloat = 5
+        static let bottomPadding: CGFloat = 10
         static let maxY: CGFloat = size.height + (padding * 2)
         
         static func originX(viewFrame: CGRect) -> CGFloat {
@@ -29,7 +29,7 @@ struct Frame {
     // grid
     struct Grid {
         static let outerPadding: CGFloat = padding * 10
-        static let bottomPadding: CGFloat = 40
+        static let bottomPadding: CGFloat = 20
         static func letterSize(_ viewFrame: CGRect) -> CGSize {
             let width = (viewFrame.width - (padding * 4) - (outerPadding * 2)) / 5
             return CGSize(width: width, height: width)

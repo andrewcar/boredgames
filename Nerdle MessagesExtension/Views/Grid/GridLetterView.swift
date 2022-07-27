@@ -62,6 +62,16 @@ class GridLetterView: UIView {
         layer.borderColor = UIColor.nerdleBorderLightModeGray.cgColor
     }
     
+    func growAndShrink() {
+        UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+                self.transform = CGAffineTransform(scaleX: 1, y: 1)
+            } completion: { _ in
+            }
+        }
+    }
     
     // MARK: - Private Methods
     private func setupSubviews() {

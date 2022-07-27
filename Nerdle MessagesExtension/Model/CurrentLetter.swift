@@ -14,26 +14,31 @@ enum CurrentLetter: CaseIterable {
     case a3
     case a4
     case a5
+    case b0
     case b1
     case b2
     case b3
     case b4
     case b5
+    case c0
     case c1
     case c2
     case c3
     case c4
     case c5
+    case d0
     case d1
     case d2
     case d3
     case d4
     case d5
+    case e0
     case e1
     case e2
     case e3
     case e4
     case e5
+    case f0
     case f1
     case f2
     case f3

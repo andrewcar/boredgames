@@ -358,27 +358,29 @@ class GridView: UIView {
     private func updateA1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             a1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            a1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -388,12 +390,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             a2?.updateLetter(to: .green, completion: {
                 completion()
@@ -401,12 +400,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             a2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -422,12 +421,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             a3?.updateLetter(to: .green, completion: {
                 completion()
@@ -435,12 +431,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             a3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -456,12 +452,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             a4?.updateLetter(to: .green, completion: {
                 completion()
@@ -469,12 +462,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             a4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -490,12 +483,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             a5?.updateLetter(to: .green, completion: {
                 completion()
@@ -503,12 +493,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             a5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             a5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -523,27 +513,29 @@ class GridView: UIView {
     private func updateB1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             b1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            b1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -553,12 +545,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             b2?.updateLetter(to: .green, completion: {
                 completion()
@@ -566,12 +555,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             b2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -587,12 +576,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             b3?.updateLetter(to: .green, completion: {
                 completion()
@@ -600,12 +586,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             b3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -621,12 +607,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             b4?.updateLetter(to: .green, completion: {
                 completion()
@@ -634,12 +617,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             b4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -655,12 +638,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             b5?.updateLetter(to: .green, completion: {
                 completion()
@@ -668,12 +648,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             b5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             b5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -688,27 +668,29 @@ class GridView: UIView {
     private func updateC1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             c1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            c1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -718,12 +700,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             c2?.updateLetter(to: .green, completion: {
                 completion()
@@ -731,12 +710,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             c2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -752,12 +731,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             c3?.updateLetter(to: .green, completion: {
                 completion()
@@ -765,12 +741,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             c3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -786,12 +762,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             c4?.updateLetter(to: .green, completion: {
                 completion()
@@ -799,12 +772,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             c4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -820,12 +793,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             c5?.updateLetter(to: .green, completion: {
                 completion()
@@ -833,12 +803,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             c5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             c5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -853,27 +823,29 @@ class GridView: UIView {
     private func updateD1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             d1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            d1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -883,12 +855,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             d2?.updateLetter(to: .green, completion: {
                 completion()
@@ -896,12 +865,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             d2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -917,12 +886,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             d3?.updateLetter(to: .green, completion: {
                 completion()
@@ -930,12 +896,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             d3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -951,12 +917,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             d4?.updateLetter(to: .green, completion: {
                 completion()
@@ -964,12 +927,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             d4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -985,12 +948,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             d5?.updateLetter(to: .green, completion: {
                 completion()
@@ -998,12 +958,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             d5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             d5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1018,27 +978,29 @@ class GridView: UIView {
     private func updateE1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             e1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            e1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -1048,12 +1010,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             e2?.updateLetter(to: .green, completion: {
                 completion()
@@ -1061,12 +1020,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             e2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1082,12 +1041,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             e3?.updateLetter(to: .green, completion: {
                 completion()
@@ -1095,12 +1051,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             e3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1116,12 +1072,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             e4?.updateLetter(to: .green, completion: {
                 completion()
@@ -1129,12 +1082,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             e4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1150,12 +1103,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             e5?.updateLetter(to: .green, completion: {
                 completion()
@@ -1163,12 +1113,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             e5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             e5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1183,27 +1133,29 @@ class GridView: UIView {
     private func updateF1(completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
-        print("answer = \(answer)")
-        print("guess = \(guess)")
-
+        let guessLetter = "\(guess[0])"
+        
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
-            print("first letter correct")
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f1?.updateLetter(to: .green, completion: {
                 completion()
             })
             
-        // if first guessed letter is not in word, make it gray
+            // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            print("first letter is not in word")
             f1?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
-        // if first guessed letter is not correct, but is in the word, make it yellow
-        } else {
-            print("first letter is wrong but is in word")
+        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f1?.updateLetter(to: .yellow, completion: {
+                completion()
+            })
+            
+        } else {
+            f1?.updateLetter(to: .gray, completion: {
                 completion()
             })
         }
@@ -1213,12 +1165,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[1])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
-            print("second letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             f2?.updateLetter(to: .green, completion: {
                 completion()
@@ -1226,12 +1175,12 @@ class GridView: UIView {
             
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            print("second letter is not in word")
             f2?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f2?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1247,12 +1196,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[2])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
-            print("third letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             f3?.updateLetter(to: .green, completion: {
                 completion()
@@ -1260,12 +1206,12 @@ class GridView: UIView {
             
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            print("third letter is not in word")
             f3?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f3?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1281,12 +1227,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[3])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
-            print("fourth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             f4?.updateLetter(to: .green, completion: {
                 completion()
@@ -1294,12 +1237,12 @@ class GridView: UIView {
             
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            print("fourth letter is not in word")
             f4?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f4?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1315,12 +1258,9 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         let guess = GameModel.shared.guess.lowercased()
         let guessLetter = "\(guess[4])"
-        print("answer = \(answer)")
-        print("guess = \(guess)")
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
-            print("fifth letter correct")
             GameModel.shared.incrementGuessLetter(guessLetter)
             f5?.updateLetter(to: .green, completion: {
                 completion()
@@ -1328,12 +1268,12 @@ class GridView: UIView {
             
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            print("fifth letter is not in word")
             f5?.updateLetter(to: .gray, completion: {
                 completion()
             })
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            GameModel.shared.incrementGuessLetter(guessLetter)
             f5?.updateLetter(to: .yellow, completion: {
                 completion()
             })
@@ -1354,207 +1294,409 @@ extension GridView: KeyboardDelegate {
             GameModel.shared.guessNumber = .first
             a1?.updateLetter(with: letter)
             a1?.setBorderActive()
+            a1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .a1
         case .a1:
-            GameModel.shared.guessNumber = .first
             a2?.updateLetter(with: letter)
             a1?.setBorderInactive()
             a2?.setBorderActive()
+            a2?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .a2
         case .a2:
-            GameModel.shared.guessNumber = .first
             a3?.updateLetter(with: letter)
             a2?.setBorderInactive()
             a3?.setBorderActive()
+            a3?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .a3
         case .a3:
-            GameModel.shared.guessNumber = .first
             a4?.updateLetter(with: letter)
             a3?.setBorderInactive()
             a4?.setBorderActive()
+            a4?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .a4
         case .a4:
-            GameModel.shared.guessNumber = .first
             a5?.updateLetter(with: letter)
             a4?.setBorderInactive()
             a5?.setBorderActive()
+            a5?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .a5
-        case .a5:
-            GameModel.shared.guessNumber = .first
+        case .b0:
+            GameModel.shared.guessNumber = .second
             b1?.updateLetter(with: letter)
-            a5?.setBorderInactive()
             b1?.setBorderActive()
+            b1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .b1
         case .b1:
-            GameModel.shared.guessNumber = .second
             b2?.updateLetter(with: letter)
             b1?.setBorderInactive()
             b2?.setBorderActive()
+            b2?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .b2
         case .b2:
-            GameModel.shared.guessNumber = .second
             b3?.updateLetter(with: letter)
             b2?.setBorderInactive()
             b3?.setBorderActive()
+            b3?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .b3
         case .b3:
-            GameModel.shared.guessNumber = .second
             b4?.updateLetter(with: letter)
             b3?.setBorderInactive()
             b4?.setBorderActive()
+            b4?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .b4
         case .b4:
-            GameModel.shared.guessNumber = .second
             b5?.updateLetter(with: letter)
             b4?.setBorderInactive()
             b5?.setBorderActive()
+            b5?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .b5
-        case .b5:
-            GameModel.shared.guessNumber = .second
+        case .c0:
+            GameModel.shared.guessNumber = .third
             c1?.updateLetter(with: letter)
-            b5?.setBorderInactive()
             c1?.setBorderActive()
+            c1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .c1
         case .c1:
-            GameModel.shared.guessNumber = .third
             c2?.updateLetter(with: letter)
             c1?.setBorderInactive()
             c2?.setBorderActive()
+            c2?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .c2
         case .c2:
-            GameModel.shared.guessNumber = .third
             c3?.updateLetter(with: letter)
             c2?.setBorderInactive()
             c3?.setBorderActive()
+            c3?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .c3
         case .c3:
-            GameModel.shared.guessNumber = .third
             c4?.updateLetter(with: letter)
             c3?.setBorderInactive()
             c4?.setBorderActive()
+            c4?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .c4
         case .c4:
-            GameModel.shared.guessNumber = .third
             c5?.updateLetter(with: letter)
             c4?.setBorderInactive()
             c5?.setBorderActive()
+            c5?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .c5
-        case .c5:
-            GameModel.shared.guessNumber = .third
+        case .d0:
+            GameModel.shared.guessNumber = .fourth
             d1?.updateLetter(with: letter)
-            c5?.setBorderInactive()
             d1?.setBorderActive()
+            d1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .d1
         case .d1:
-            GameModel.shared.guessNumber = .fourth
             d2?.updateLetter(with: letter)
             d1?.setBorderInactive()
             d2?.setBorderActive()
+            d2?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .d2
         case .d2:
-            GameModel.shared.guessNumber = .fourth
             d3?.updateLetter(with: letter)
             d2?.setBorderInactive()
             d3?.setBorderActive()
+            d3?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .d3
         case .d3:
-            GameModel.shared.guessNumber = .fourth
             d4?.updateLetter(with: letter)
             d3?.setBorderInactive()
             d4?.setBorderActive()
+            d4?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .d4
         case .d4:
-            GameModel.shared.guessNumber = .fourth
             d5?.updateLetter(with: letter)
             d4?.setBorderInactive()
             d5?.setBorderActive()
+            d5?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .d5
-        case .d5:
-            GameModel.shared.guessNumber = .fourth
+        case .e0:
+            GameModel.shared.guessNumber = .fifth
             e1?.updateLetter(with: letter)
-            d5?.setBorderInactive()
             e1?.setBorderActive()
+            e1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .e1
         case .e1:
-            GameModel.shared.guessNumber = .fifth
             e2?.updateLetter(with: letter)
             e1?.setBorderInactive()
             e2?.setBorderActive()
+            e2?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .e2
         case .e2:
-            GameModel.shared.guessNumber = .fifth
             e3?.updateLetter(with: letter)
             e2?.setBorderInactive()
             e3?.setBorderActive()
+            e3?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .e3
         case .e3:
-            GameModel.shared.guessNumber = .fifth
             e4?.updateLetter(with: letter)
             e3?.setBorderInactive()
             e4?.setBorderActive()
+            e4?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .e4
         case .e4:
-            GameModel.shared.guessNumber = .fifth
             e5?.updateLetter(with: letter)
             e4?.setBorderInactive()
             e5?.setBorderActive()
+            e5?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .e5
-        case .e5:
-            GameModel.shared.guessNumber = .fifth
+        case .f0:
+            GameModel.shared.guessNumber = .sixth
             f1?.updateLetter(with: letter)
-            e5?.setBorderInactive()
             f1?.setBorderActive()
+            f1?.growAndShrink()
             GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .f1
         case .f1:
-            GameModel.shared.guessNumber = .sixth
             f2?.updateLetter(with: letter)
             f1?.setBorderInactive()
             f2?.setBorderActive()
+            f2?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .f2
         case .f2:
-            GameModel.shared.guessNumber = .sixth
             f3?.updateLetter(with: letter)
             f2?.setBorderInactive()
             f3?.setBorderActive()
+            f3?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .f3
         case .f3:
-            GameModel.shared.guessNumber = .sixth
             f4?.updateLetter(with: letter)
             f3?.setBorderInactive()
             f4?.setBorderActive()
+            f4?.growAndShrink()
+            GameModel.shared.guess += letter
             GameModel.shared.currentLetter = .f4
         case .f4:
-            GameModel.shared.guessNumber = .sixth
             f5?.updateLetter(with: letter)
             f4?.setBorderInactive()
             f5?.setBorderActive()
-            GameModel.shared.currentLetter = .f5
-        case .f5:
-            GameModel.shared.guessNumber = .sixth
-            f5?.setBorderInactive()
+            f5?.growAndShrink()
             GameModel.shared.guess += letter
+            GameModel.shared.currentLetter = .f5
+        case .a5, .b5, .c5, .d5, .e5, .f5: ()
         }
     }
     
     func didTapEnter() {
         guard GameModel.shared.guess.count == 5 else { return }
+        
+        switch GameModel.shared.currentLetter {
+        case .a5:
+            a5?.setBorderInactive()
+        case .b5:
+            b5?.setBorderInactive()
+        case .c5:
+            c5?.setBorderInactive()
+        case .d5:
+            d5?.setBorderInactive()
+        case .e5:
+            e5?.setBorderInactive()
+        case .f5:
+            f5?.setBorderInactive()
+        default: ()
+        }
+        
         self.checkWord {
-            print("Checked word.")
+            if GameModel.shared.guess == GameModel.shared.answer {
+                print("You win!")
+            } else {
+                print("Next guess...")
+                switch GameModel.shared.currentLetter {
+                case .a5:
+                    GameModel.shared.currentLetter = .b0
+                case .b5:
+                    GameModel.shared.currentLetter = .c0
+                case .c5:
+                    GameModel.shared.currentLetter = .d0
+                case .d5:
+                    GameModel.shared.currentLetter = .e0
+                case .e5:
+                    GameModel.shared.currentLetter = .f0
+                default: ()
+                }
+            }
             GameModel.shared.guess = ""
         }
     }
     
     func didTapBackspace() {
-        //
+        if !GameModel.shared.guess.isEmpty {
+            GameModel.shared.guess.removeLast()
+        }
+        
+        switch GameModel.shared.currentLetter {
+        case .a1:
+            a1?.updateLetter(with: "")
+            a1?.setBorderInactive()
+            GameModel.shared.currentLetter = .a0
+        case .a2:
+            a2?.updateLetter(with: "")
+            a2?.setBorderInactive()
+            a1?.setBorderActive()
+            GameModel.shared.currentLetter = .a1
+        case .a3:
+            a3?.updateLetter(with: "")
+            a3?.setBorderInactive()
+            a2?.setBorderActive()
+            GameModel.shared.currentLetter = .a2
+        case .a4:
+            a4?.updateLetter(with: "")
+            a4?.setBorderInactive()
+            a3?.setBorderActive()
+            GameModel.shared.currentLetter = .a3
+        case .a5:
+            a5?.updateLetter(with: "")
+            a5?.setBorderInactive()
+            a4?.setBorderActive()
+            GameModel.shared.currentLetter = .a4
+        case .b1:
+            b1?.updateLetter(with: "")
+            b1?.setBorderInactive()
+            GameModel.shared.currentLetter = .b0
+        case .b2:
+            b2?.updateLetter(with: "")
+            b2?.setBorderInactive()
+            b1?.setBorderActive()
+            GameModel.shared.currentLetter = .b1
+        case .b3:
+            b3?.updateLetter(with: "")
+            b3?.setBorderInactive()
+            b2?.setBorderActive()
+            GameModel.shared.currentLetter = .b2
+        case .b4:
+            b4?.updateLetter(with: "")
+            b4?.setBorderInactive()
+            b3?.setBorderActive()
+            GameModel.shared.currentLetter = .b3
+        case .b5:
+            b5?.updateLetter(with: "")
+            b5?.setBorderInactive()
+            b4?.setBorderActive()
+            GameModel.shared.currentLetter = .b4
+        case .c1:
+            c1?.updateLetter(with: "")
+            c1?.setBorderInactive()
+            GameModel.shared.currentLetter = .c0
+        case .c2:
+            c2?.updateLetter(with: "")
+            c2?.setBorderInactive()
+            c1?.setBorderActive()
+            GameModel.shared.currentLetter = .c1
+        case .c3:
+            c3?.updateLetter(with: "")
+            c3?.setBorderInactive()
+            c2?.setBorderActive()
+            GameModel.shared.currentLetter = .c2
+        case .c4:
+            c4?.updateLetter(with: "")
+            c4?.setBorderInactive()
+            c3?.setBorderActive()
+            GameModel.shared.currentLetter = .c3
+        case .c5:
+            c5?.updateLetter(with: "")
+            c5?.setBorderInactive()
+            c4?.setBorderActive()
+            GameModel.shared.currentLetter = .c4
+        case .d1:
+            d1?.updateLetter(with: "")
+            d1?.setBorderInactive()
+            GameModel.shared.currentLetter = .d0
+        case .d2:
+            d2?.updateLetter(with: "")
+            d2?.setBorderInactive()
+            d1?.setBorderActive()
+            GameModel.shared.currentLetter = .d1
+        case .d3:
+            d3?.updateLetter(with: "")
+            d3?.setBorderInactive()
+            d2?.setBorderActive()
+            GameModel.shared.currentLetter = .d2
+        case .d4:
+            d4?.updateLetter(with: "")
+            d4?.setBorderInactive()
+            d3?.setBorderActive()
+            GameModel.shared.currentLetter = .d3
+        case .d5:
+            d5?.updateLetter(with: "")
+            d5?.setBorderInactive()
+            d4?.setBorderActive()
+            GameModel.shared.currentLetter = .d4
+        case .e1:
+            e1?.updateLetter(with: "")
+            e1?.setBorderInactive()
+            GameModel.shared.currentLetter = .e0
+        case .e2:
+            e2?.updateLetter(with: "")
+            e2?.setBorderInactive()
+            e1?.setBorderActive()
+            GameModel.shared.currentLetter = .e1
+        case .e3:
+            e3?.updateLetter(with: "")
+            e3?.setBorderInactive()
+            e2?.setBorderActive()
+            GameModel.shared.currentLetter = .e2
+        case .e4:
+            e4?.updateLetter(with: "")
+            e4?.setBorderInactive()
+            e3?.setBorderActive()
+            GameModel.shared.currentLetter = .e3
+        case .e5:
+            e5?.updateLetter(with: "")
+            e5?.setBorderInactive()
+            e4?.setBorderActive()
+            GameModel.shared.currentLetter = .e4
+        case .f1:
+            f1?.updateLetter(with: "")
+            f1?.setBorderInactive()
+            GameModel.shared.currentLetter = .f0
+        case .f2:
+            f2?.updateLetter(with: "")
+            f2?.setBorderInactive()
+            f1?.setBorderActive()
+            GameModel.shared.currentLetter = .f1
+        case .f3:
+            f3?.updateLetter(with: "")
+            f3?.setBorderInactive()
+            f2?.setBorderActive()
+            GameModel.shared.currentLetter = .f2
+        case .f4:
+            f4?.updateLetter(with: "")
+            f4?.setBorderInactive()
+            f3?.setBorderActive()
+            GameModel.shared.currentLetter = .f3
+        case .f5:
+            f5?.updateLetter(with: "")
+            f5?.setBorderInactive()
+            f4?.setBorderActive()
+            GameModel.shared.currentLetter = .f4
+        default: ()
+        }
     }
 }
