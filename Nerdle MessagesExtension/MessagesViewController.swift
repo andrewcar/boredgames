@@ -10,18 +10,17 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
-    
     // MARK: - Properties
     private var logoImageView: UIImageView?
     private var gridView: GridView?
-    
+    private var sendButton: UIButton?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         addLogo()
         addGridView()
+        addSendButton()
     }
     
     
@@ -37,6 +36,36 @@ class MessagesViewController: MSMessagesAppViewController {
         view.addSubview(gridView!)
     }
     
+    private func addSendButton() {
+        sendButton = UIButton(frame: CGRect(x: (view.frame.width / 2) - 50, y: Frame.Grid.maxY(view.frame) + 250, width: 100, height: 40))
+        sendButton?.addTarget(self, action: #selector(didTapSendButton(sender:)), for: .touchUpInside)
+        sendButton?.backgroundColor = .nerdleGreen
+        sendButton?.setTitle("Send", for: .normal)
+        sendButton?.setTitleColor(.white, for: .normal)
+        view.addSubview(sendButton!)
+    }
+    
+    @objc
+    private func didTapSendButton(sender: UIButton) {
+        activeConversation?.insert(composeMessage())
+    }
+    
+    private func composeMessage() -> MSMessage {
+        let session = activeConversation?.selectedMessage?.session
+        let message = MSMessage()
+        let components = NSURLComponents()
+        message.url = components.url!
+        
+        let layout = MSMessageTemplateLayout()
+        layout.image = UIImage(named: "nerdle.png")
+        layout.caption = "Nerdle!"
+        layout.subcaption = "I wanna play a game."
+        layout.trailingSubcaption = "It's gon be sweet"
+        
+        message.layout = layout
+        return message
+    }
+    
     
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
@@ -44,6 +73,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // This will happen when the extension is about to present UI.
         
         // Use this method to configure the extension and restore previously stored state.
+        print("willBecomeActive(with conversation: MSConversation)")
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -54,6 +84,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to release shared resources, save user data, invalidate timers,
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
+        print("didResignActive(with conversation: MSConversation)")
     }
    
     override func didReceive(_ message: MSMessage, conversation: MSConversation) {
@@ -61,28 +92,33 @@ class MessagesViewController: MSMessagesAppViewController {
         // extension on a remote device.
         
         // Use this method to trigger UI updates in response to the message.
+        print("didReceive(_ message: MSMessage, conversation: MSConversation)")
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user taps the send button.
+        print("didStartSending(_ message: MSMessage, conversation: MSConversation)")
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
     
         // Use this to clean up state related to the deleted message.
+        print("didCancelSending(_ message: MSMessage, conversation: MSConversation)")
     }
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
     
         // Use this method to prepare for the change in presentation style.
+        print("willTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
     
         // Use this method to finalize any behaviors associated with the change in presentation style.
+        print("didTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
     }
 
 }
