@@ -113,7 +113,7 @@ class GameModel: NSObject {
     }
     
     // MARK: - Private Methods
-    private func populateAnswerLetterCountDictionary(completion: @escaping () -> ()) {
+    func populateAnswerLetterCountDictionary(completion: @escaping () -> ()) {
         guard let answer = answer else { completion(); return }
         for letter in answer {
             let letterString = "\(letter)"

@@ -488,9 +488,14 @@ class GridView: UIView {
     // MARK: - UPDATE GRID
     private func updateA1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            a1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
-        
+
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -523,6 +528,11 @@ class GridView: UIView {
     
     private func updateA2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            a2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -558,6 +568,11 @@ class GridView: UIView {
     
     private func updateA3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            a3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -593,6 +608,11 @@ class GridView: UIView {
     
     private func updateA4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            a4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -628,6 +648,11 @@ class GridView: UIView {
     
     private func updateA5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            a5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
@@ -663,6 +688,11 @@ class GridView: UIView {
     
     private func updateB1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            b1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
@@ -698,6 +728,11 @@ class GridView: UIView {
     
     private func updateB2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            b2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -733,6 +768,11 @@ class GridView: UIView {
     
     private func updateB3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            b3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -768,6 +808,11 @@ class GridView: UIView {
     
     private func updateB4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            b4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -803,6 +848,11 @@ class GridView: UIView {
     
     private func updateB5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            b5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
@@ -838,6 +888,11 @@ class GridView: UIView {
     
     private func updateC1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            c1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
@@ -873,6 +928,11 @@ class GridView: UIView {
     
     private func updateC2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            c2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -908,6 +968,11 @@ class GridView: UIView {
     
     private func updateC3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            c3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -943,6 +1008,11 @@ class GridView: UIView {
     
     private func updateC4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            c4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -978,6 +1048,11 @@ class GridView: UIView {
     
     private func updateC5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            c5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
@@ -1013,6 +1088,11 @@ class GridView: UIView {
     
     private func updateD1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            d1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
@@ -1048,6 +1128,11 @@ class GridView: UIView {
     
     private func updateD2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            d2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -1083,6 +1168,11 @@ class GridView: UIView {
     
     private func updateD3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            d3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -1118,6 +1208,11 @@ class GridView: UIView {
     
     private func updateD4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            d4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -1153,6 +1248,11 @@ class GridView: UIView {
     
     private func updateD5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            d5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
@@ -1188,6 +1288,11 @@ class GridView: UIView {
     
     private func updateE1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            e1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
@@ -1223,6 +1328,11 @@ class GridView: UIView {
     
     private func updateE2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            e2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -1258,6 +1368,11 @@ class GridView: UIView {
     
     private func updateE3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            e3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -1293,6 +1408,11 @@ class GridView: UIView {
     
     private func updateE4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            e4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -1328,6 +1448,11 @@ class GridView: UIView {
     
     private func updateE5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            e5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
@@ -1363,6 +1488,11 @@ class GridView: UIView {
     
     private func updateF1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            f1?.updateLetter(with: "\(guess[0])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
@@ -1398,6 +1528,11 @@ class GridView: UIView {
     
     private func updateF2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            f2?.updateLetter(with: "\(guess[1])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
@@ -1433,6 +1568,11 @@ class GridView: UIView {
     
     private func updateF3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            f3?.updateLetter(with: "\(guess[2])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
@@ -1468,6 +1608,11 @@ class GridView: UIView {
     
     private func updateF4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            f4?.updateLetter(with: "\(guess[3])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
@@ -1503,6 +1648,11 @@ class GridView: UIView {
     
     private func updateF5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
+        
+        if let guess = guess {
+            f5?.updateLetter(with: "\(guess[4])")
+        }
+        
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 

@@ -121,7 +121,6 @@ class MessagesViewController: MSMessagesAppViewController {
         
         if let queryItems = components.queryItems {
             
-            var answer: String?
             var firstGuess: String?
             var secondGuess: String?
             var thirdGuess: String?
@@ -134,25 +133,36 @@ class MessagesViewController: MSMessagesAppViewController {
                     switch queryItem.name {
                     case "answer":
                         GameModel.shared.answer = value
-                        answer = value
                     case "guess1":
-                        GameModel.shared.firstGuess = value
-                        firstGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.firstGuess = value
+                            firstGuess = value
+                        }
                     case "guess2":
-                        GameModel.shared.secondGuess = value
-                        secondGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.secondGuess = value
+                            secondGuess = value
+                        }
                     case "guess3":
-                        GameModel.shared.thirdGuess = value
-                        thirdGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.thirdGuess = value
+                            thirdGuess = value
+                        }
                     case "guess4":
-                        GameModel.shared.fourthGuess = value
-                        fourthGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.fourthGuess = value
+                            fourthGuess = value
+                        }
                     case "guess5":
-                        GameModel.shared.fifthGuess = value
-                        fifthGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.fifthGuess = value
+                            fifthGuess = value
+                        }
                     case "guess6":
-                        GameModel.shared.sixthGuess = value
-                        sixthGuess = value
+                        if !value.isEmpty {
+                            GameModel.shared.sixthGuess = value
+                            sixthGuess = value
+                        }
                     default: ()
                     }
                 }
@@ -165,7 +175,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 fourthGuess: fourthGuess,
                 fifthGuess: fifthGuess,
                 sixthGuess: sixthGuess)
-
+            GameModel.shared.populateAnswerLetterCountDictionary {}
         }
         
         gridView?.keyboardView?.isUserInteractionEnabled = true
