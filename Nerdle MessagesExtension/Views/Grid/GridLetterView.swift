@@ -32,24 +32,33 @@ class GridLetterView: UIView {
         letterLabel?.text = letter
     }
     
-    func updateLetter(to state: LetterState, completion: @escaping () -> ()) {
+    func updateLetter(to state: LetterState, animated: Bool = true, completion: @escaping () -> ()) {
         letterState = state
 
-        // shrink
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
-            self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
-        } completion: { _ in
-            
-            self.setBackgroundColor(for: state)
-            self.setFontColor(for: state)
-            self.setBorderColor(for: state)
-            // grow
+        if animated {
+            // shrink
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
-                self.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
             } completion: { _ in
-                completion()
+                
+                self.updateColors(for: state)
+                // grow
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                    self.transform = CGAffineTransform(scaleX: 1, y: 1)
+                } completion: { _ in
+                    completion()
+                }
             }
+        } else {
+            updateColors(for: state)
+            completion()
         }
+    }
+    
+    private func updateColors(for state: LetterState) {
+        self.setBackgroundColor(for: state)
+        self.setFontColor(for: state)
+        self.setBorderColor(for: state)
     }
     
     

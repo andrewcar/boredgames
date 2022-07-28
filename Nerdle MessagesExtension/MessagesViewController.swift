@@ -120,29 +120,52 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         if let queryItems = components.queryItems {
+            
+            var answer: String?
+            var firstGuess: String?
+            var secondGuess: String?
+            var thirdGuess: String?
+            var fourthGuess: String?
+            var fifthGuess: String?
+            var sixthGuess: String?
+            
             for queryItem in queryItems {
-                print("queryItem name: \(queryItem.name)")
                 if let value = queryItem.value {
-                    print("queryItem value: \(value)")
                     switch queryItem.name {
                     case "answer":
                         GameModel.shared.answer = value
+                        answer = value
                     case "guess1":
                         GameModel.shared.firstGuess = value
+                        firstGuess = value
                     case "guess2":
                         GameModel.shared.secondGuess = value
+                        secondGuess = value
                     case "guess3":
                         GameModel.shared.thirdGuess = value
+                        thirdGuess = value
                     case "guess4":
                         GameModel.shared.fourthGuess = value
+                        fourthGuess = value
                     case "guess5":
                         GameModel.shared.fifthGuess = value
+                        fifthGuess = value
                     case "guess6":
                         GameModel.shared.sixthGuess = value
+                        sixthGuess = value
                     default: ()
                     }
                 }
             }
+            
+            gridView?.instantlyCheckAllWords(
+                firstGuess: firstGuess,
+                secondGuess: secondGuess,
+                thirdGuess: thirdGuess,
+                fourthGuess: fourthGuess,
+                fifthGuess: fifthGuess,
+                sixthGuess: sixthGuess)
+
         }
         
         gridView?.keyboardView?.isUserInteractionEnabled = true

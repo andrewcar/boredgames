@@ -57,7 +57,7 @@ class GridView: UIView {
     }
     
     
-    // MARK: - Private Methods
+    // MARK: - ADD LETTERS
     private func addLetters() {
 
         // first row
@@ -259,17 +259,138 @@ class GridView: UIView {
         }
     }
 
+    // MARK: - ADD KEYBOARD VIEW
     private func addKeyboardView() {
         keyboardView = KeyboardView(frame: Frame.Keyboard.frame(frame))
         keyboardView?.keyboardDelegate = self
         addSubview(keyboardView!)
     }
     
+    // MARK: - SETUP GAME
     private func setupGame() {
         GameModel.shared.setAnswerRandomly()
     }
     
-    private func checkWord(completion: @escaping () -> ()) {
+    // MARK: - INSTANT CHECK ALL WORDS
+    func instantlyCheckAllWords(firstGuess: String?,
+                                secondGuess: String?,
+                                thirdGuess: String?,
+                                fourthGuess: String?,
+                                fifthGuess: String?,
+                                sixthGuess: String?) {
+        
+        if let firstGuess = firstGuess {
+            instantlyCheckFirstWord(guess: firstGuess.lowercased()) {}
+        }
+        if let secondGuess = secondGuess {
+            instantlyCheckSecondWord(guess: secondGuess.lowercased()) {}
+        }
+        if let thirdGuess = thirdGuess {
+            instantlyCheckThirdWord(guess: thirdGuess.lowercased()) {}
+        }
+        if let fourthGuess = fourthGuess {
+            instantlyCheckFourthWord(guess: fourthGuess.lowercased()) {}
+        }
+        if let fifthGuess = fifthGuess {
+            instantlyCheckFifthWord(guess: fifthGuess.lowercased()) {}
+        }
+        if let sixthGuess = sixthGuess {
+            instantlyCheckSixthWord(guess: sixthGuess.lowercased()) {}
+        }
+    }
+    
+    // MARK: - INSTANT CHECK FIRST WORD
+    func instantlyCheckFirstWord(guess: String, completion: @escaping () -> ()) {
+        updateA1(for: guess, animated: false) {
+            self.updateA2(for: guess, animated: false) {
+                self.updateA3(for: guess, animated: false) {
+                    self.updateA4(for: guess, animated: false) {
+                        self.updateA5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - INSTANT CHECK SECOND WORD
+    func instantlyCheckSecondWord(guess: String, completion: @escaping () -> ()) {
+        updateB1(for: guess, animated: false) {
+            self.updateB2(for: guess, animated: false) {
+                self.updateB3(for: guess, animated: false) {
+                    self.updateB4(for: guess, animated: false) {
+                        self.updateB5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - INSTANT CHECK THIRD WORD
+    func instantlyCheckThirdWord(guess: String, completion: @escaping () -> ()) {
+        updateC1(for: guess, animated: false) {
+            self.updateC2(for: guess, animated: false) {
+                self.updateC3(for: guess, animated: false) {
+                    self.updateC4(for: guess, animated: false) {
+                        self.updateC5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - INSTANT CHECK FOURTH WORD
+    func instantlyCheckFourthWord(guess: String, completion: @escaping () -> ()) {
+        updateD1(for: guess, animated: false) {
+            self.updateD2(for: guess, animated: false) {
+                self.updateD3(for: guess, animated: false) {
+                    self.updateD4(for: guess, animated: false) {
+                        self.updateD5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - INSTANT CHECK FIFTH WORD
+    func instantlyCheckFifthWord(guess: String, completion: @escaping () -> ()) {
+        updateE1(for: guess, animated: false) {
+            self.updateE2(for: guess, animated: false) {
+                self.updateE3(for: guess, animated: false) {
+                    self.updateE4(for: guess, animated: false) {
+                        self.updateE5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - INSTANT CHECK SIXTH WORD
+    func instantlyCheckSixthWord(guess: String, completion: @escaping () -> ()) {
+        updateF1(for: guess, animated: false) {
+            self.updateF2(for: guess, animated: false) {
+                self.updateF3(for: guess, animated: false) {
+                    self.updateF4(for: guess, animated: false) {
+                        self.updateF5(for: guess, animated: false) {
+                            completion()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - CHECK WORD
+    private func checkWord(animated: Bool = true, completion: @escaping () -> ()) {
         switch GameModel.shared.guessNumber {
         case .first:
             guard GameModel.shared.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { return }
@@ -364,1050 +485,1051 @@ class GridView: UIView {
         }
     }
     
-    private func updateA1(completion: @escaping () -> ()) {
+    // MARK: - UPDATE GRID
+    private func updateA1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a1?.updateLetter(to: .green, completion: {
+            a1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
             
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            a1?.updateLetter(to: .gray, completion: {
+            a1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a1?.updateLetter(to: .yellow, completion: {
+            a1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            a1?.updateLetter(to: .gray, completion: {
+            a1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateA2(completion: @escaping () -> ()) {
+    private func updateA2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a2?.updateLetter(to: .green, completion: {
+            a2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            a2?.updateLetter(to: .gray, completion: {
+            a2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a2?.updateLetter(to: .yellow, completion: {
+            a2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            a2?.updateLetter(to: .gray, completion: {
+            a2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateA3(completion: @escaping () -> ()) {
+    private func updateA3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a3?.updateLetter(to: .green, completion: {
+            a3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            a3?.updateLetter(to: .gray, completion: {
+            a3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a3?.updateLetter(to: .yellow, completion: {
+            a3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            a3?.updateLetter(to: .gray, completion: {
+            a3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateA4(completion: @escaping () -> ()) {
+    private func updateA4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a4?.updateLetter(to: .green, completion: {
+            a4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            a4?.updateLetter(to: .gray, completion: {
+            a4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a4?.updateLetter(to: .yellow, completion: {
+            a4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            a4?.updateLetter(to: .gray, completion: {
+            a4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateA5(completion: @escaping () -> ()) {
+    private func updateA5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a5?.updateLetter(to: .green, completion: {
+            a5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            a5?.updateLetter(to: .gray, completion: {
+            a5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            a5?.updateLetter(to: .yellow, completion: {
+            a5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            a5?.updateLetter(to: .gray, completion: {
+            a5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateB1(completion: @escaping () -> ()) {
+    private func updateB1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b1?.updateLetter(to: .green, completion: {
+            b1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            b1?.updateLetter(to: .gray, completion: {
+            b1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b1?.updateLetter(to: .yellow, completion: {
+            b1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            b1?.updateLetter(to: .gray, completion: {
+            b1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateB2(completion: @escaping () -> ()) {
+    private func updateB2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b2?.updateLetter(to: .green, completion: {
+            b2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            b2?.updateLetter(to: .gray, completion: {
+            b2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b2?.updateLetter(to: .yellow, completion: {
+            b2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            b2?.updateLetter(to: .gray, completion: {
+            b2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateB3(completion: @escaping () -> ()) {
+    private func updateB3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b3?.updateLetter(to: .green, completion: {
+            b3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            b3?.updateLetter(to: .gray, completion: {
+            b3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b3?.updateLetter(to: .yellow, completion: {
+            b3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            b3?.updateLetter(to: .gray, completion: {
+            b3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateB4(completion: @escaping () -> ()) {
+    private func updateB4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b4?.updateLetter(to: .green, completion: {
+            b4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            b4?.updateLetter(to: .gray, completion: {
+            b4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b4?.updateLetter(to: .yellow, completion: {
+            b4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
             
         } else {
-            b4?.updateLetter(to: .gray, completion: {
+            b4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateB5(completion: @escaping () -> ()) {
+    private func updateB5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b5?.updateLetter(to: .green, completion: {
+            b5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            b5?.updateLetter(to: .gray, completion: {
+            b5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            b5?.updateLetter(to: .yellow, completion: {
+            b5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            b5?.updateLetter(to: .gray, completion: {
+            b5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateC1(completion: @escaping () -> ()) {
+    private func updateC1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c1?.updateLetter(to: .green, completion: {
+            c1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            c1?.updateLetter(to: .gray, completion: {
+            c1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c1?.updateLetter(to: .yellow, completion: {
+            c1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            c1?.updateLetter(to: .gray, completion: {
+            c1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateC2(completion: @escaping () -> ()) {
+    private func updateC2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c2?.updateLetter(to: .green, completion: {
+            c2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            c2?.updateLetter(to: .gray, completion: {
+            c2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c2?.updateLetter(to: .yellow, completion: {
+            c2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            c2?.updateLetter(to: .gray, completion: {
+            c2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateC3(completion: @escaping () -> ()) {
+    private func updateC3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c3?.updateLetter(to: .green, completion: {
+            c3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            c3?.updateLetter(to: .gray, completion: {
+            c3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c3?.updateLetter(to: .yellow, completion: {
+            c3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            c3?.updateLetter(to: .gray, completion: {
+            c3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateC4(completion: @escaping () -> ()) {
+    private func updateC4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c4?.updateLetter(to: .green, completion: {
+            c4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            c4?.updateLetter(to: .gray, completion: {
+            c4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c4?.updateLetter(to: .yellow, completion: {
+            c4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            c4?.updateLetter(to: .gray, completion: {
+            c4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateC5(completion: @escaping () -> ()) {
+    private func updateC5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c5?.updateLetter(to: .green, completion: {
+            c5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            c5?.updateLetter(to: .gray, completion: {
+            c5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            c5?.updateLetter(to: .yellow, completion: {
+            c5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            c5?.updateLetter(to: .gray, completion: {
+            c5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateD1(completion: @escaping () -> ()) {
+    private func updateD1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d1?.updateLetter(to: .green, completion: {
+            d1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            d1?.updateLetter(to: .gray, completion: {
+            d1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d1?.updateLetter(to: .yellow, completion: {
+            d1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            d1?.updateLetter(to: .gray, completion: {
+            d1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateD2(completion: @escaping () -> ()) {
+    private func updateD2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d2?.updateLetter(to: .green, completion: {
+            d2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            d2?.updateLetter(to: .gray, completion: {
+            d2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d2?.updateLetter(to: .yellow, completion: {
+            d2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            d2?.updateLetter(to: .gray, completion: {
+            d2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateD3(completion: @escaping () -> ()) {
+    private func updateD3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d3?.updateLetter(to: .green, completion: {
+            d3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            d3?.updateLetter(to: .gray, completion: {
+            d3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d3?.updateLetter(to: .yellow, completion: {
+            d3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            d3?.updateLetter(to: .gray, completion: {
+            d3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateD4(completion: @escaping () -> ()) {
+    private func updateD4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d4?.updateLetter(to: .green, completion: {
+            d4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            d4?.updateLetter(to: .gray, completion: {
+            d4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d4?.updateLetter(to: .yellow, completion: {
+            d4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            d4?.updateLetter(to: .gray, completion: {
+            d4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateD5(completion: @escaping () -> ()) {
+    private func updateD5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d5?.updateLetter(to: .green, completion: {
+            d5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            d5?.updateLetter(to: .gray, completion: {
+            d5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            d5?.updateLetter(to: .yellow, completion: {
+            d5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            d5?.updateLetter(to: .gray, completion: {
+            d5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateE1(completion: @escaping () -> ()) {
+    private func updateE1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e1?.updateLetter(to: .green, completion: {
+            e1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            e1?.updateLetter(to: .gray, completion: {
+            e1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e1?.updateLetter(to: .yellow, completion: {
+            e1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
             
         } else {
-            e1?.updateLetter(to: .gray, completion: {
+            e1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateE2(completion: @escaping () -> ()) {
+    private func updateE2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e2?.updateLetter(to: .green, completion: {
+            e2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            e2?.updateLetter(to: .gray, completion: {
+            e2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e2?.updateLetter(to: .yellow, completion: {
+            e2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            e2?.updateLetter(to: .gray, completion: {
+            e2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateE3(completion: @escaping () -> ()) {
+    private func updateE3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e3?.updateLetter(to: .green, completion: {
+            e3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            e3?.updateLetter(to: .gray, completion: {
+            e3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e3?.updateLetter(to: .yellow, completion: {
+            e3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            e3?.updateLetter(to: .gray, completion: {
+            e3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateE4(completion: @escaping () -> ()) {
+    private func updateE4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e4?.updateLetter(to: .green, completion: {
+            e4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            e4?.updateLetter(to: .gray, completion: {
+            e4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e4?.updateLetter(to: .yellow, completion: {
+            e4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            e4?.updateLetter(to: .gray, completion: {
+            e4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateE5(completion: @escaping () -> ()) {
+    private func updateE5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e5?.updateLetter(to: .green, completion: {
+            e5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            e5?.updateLetter(to: .gray, completion: {
+            e5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            e5?.updateLetter(to: .yellow, completion: {
+            e5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            e5?.updateLetter(to: .gray, completion: {
+            e5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateF1(completion: @escaping () -> ()) {
+    private func updateF1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[0])"
         
         // if first guessed letter is same as the word's first letter, make it green
         if guess[0] == answer[0] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f1?.updateLetter(to: .green, completion: {
+            f1?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
-            f1?.updateLetter(to: .gray, completion: {
+            f1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f1?.updateLetter(to: .yellow, completion: {
+            f1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            f1?.updateLetter(to: .gray, completion: {
+            f1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateF2(completion: @escaping () -> ()) {
+    private func updateF2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[1])"
 
         // if second guessed letter is same as the word's first letter, make it green
         if guess[1] == answer[1] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f2?.updateLetter(to: .green, completion: {
+            f2?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
-            f2?.updateLetter(to: .gray, completion: {
+            f2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f2?.updateLetter(to: .yellow, completion: {
+            f2?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            f2?.updateLetter(to: .gray, completion: {
+            f2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateF3(completion: @escaping () -> ()) {
+    private func updateF3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[2])"
 
         // if third guessed letter is same as the word's first letter, make it green
         if guess[2] == answer[2] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f3?.updateLetter(to: .green, completion: {
+            f3?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
-            f3?.updateLetter(to: .gray, completion: {
+            f3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f3?.updateLetter(to: .yellow, completion: {
+            f3?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            f3?.updateLetter(to: .gray, completion: {
+            f3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateF4(completion: @escaping () -> ()) {
+    private func updateF4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[3])"
 
         // if fourth guessed letter is same as the word's first letter, make it green
         if guess[3] == answer[3] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f4?.updateLetter(to: .green, completion: {
+            f4?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
-            f4?.updateLetter(to: .gray, completion: {
+            f4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f4?.updateLetter(to: .yellow, completion: {
+            f4?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            f4?.updateLetter(to: .gray, completion: {
+            f4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
         }
     }
     
-    private func updateF5(completion: @escaping () -> ()) {
+    private func updateF5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
         guard let answer = GameModel.shared.answer else { return }
-        let guess = GameModel.shared.currentGuess.lowercased()
+        let guess = guess ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[4])"
 
         // if fifth guessed letter is same as the word's first letter, make it green
         if guess[4] == answer[4] {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f5?.updateLetter(to: .green, completion: {
+            f5?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
-            f5?.updateLetter(to: .gray, completion: {
+            f5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
-            f5?.updateLetter(to: .yellow, completion: {
+            f5?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
 
         } else {
-            f5?.updateLetter(to: .gray, completion: {
+            f5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
@@ -1415,8 +1537,9 @@ class GridView: UIView {
     }
 }
 
-// MARK: - KeyboardDelegate
 extension GridView: KeyboardDelegate {
+    
+    // MARK: - DID TAP LETTER
     func didTapLetter(_ letter: String) {
         switch GameModel.shared.currentLetter {
         case .a0:
@@ -1609,6 +1732,7 @@ extension GridView: KeyboardDelegate {
         }
     }
     
+    // MARK: - DID TAP ENTER
     func didTapEnter() {
         guard GameModel.shared.currentGuess.count == 5 else { return }
         
@@ -1634,6 +1758,7 @@ extension GridView: KeyboardDelegate {
         }
     }
     
+    // MARK: - DID TAP BACKSPACE
     func didTapBackspace() {
         if !GameModel.shared.currentGuess.isEmpty {
             GameModel.shared.currentGuess.removeLast()
