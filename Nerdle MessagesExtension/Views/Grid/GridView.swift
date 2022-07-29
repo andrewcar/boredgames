@@ -271,36 +271,45 @@ class GridView: UIView {
         GameModel.shared.setAnswerRandomly()
     }
     
-    // MARK: - INSTANT CHECK ALL WORDS
-    func instantlyCheckAllWords(firstGuess: String?,
-                                secondGuess: String?,
-                                thirdGuess: String?,
-                                fourthGuess: String?,
-                                fifthGuess: String?,
-                                sixthGuess: String?) {
+    // MARK: - RESET ROWS
+    func resetRows() {
+        for gridLetter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
+            gridLetter?.updateLetter(with: "")
+            gridLetter?.updateLetter(to: .blank, animated: false, completion: {})
+            gridLetter?.setBorderInactive()
+        }
+    }
+
+    // MARK: - INSTANTLY UPDATE ROWS
+    func instantlyUpdateRows(firstGuess: String?,
+                             secondGuess: String?,
+                             thirdGuess: String?,
+                             fourthGuess: String?,
+                             fifthGuess: String?,
+                             sixthGuess: String?) {
         
         if let firstGuess = firstGuess {
-            instantlyCheckFirstWord(guess: firstGuess.lowercased()) {}
+            instantlyUpdateFirstRow(guess: firstGuess.lowercased()) {}
         }
         if let secondGuess = secondGuess {
-            instantlyCheckSecondWord(guess: secondGuess.lowercased()) {}
+            instantlyUpdateSecondRow(guess: secondGuess.lowercased()) {}
         }
         if let thirdGuess = thirdGuess {
-            instantlyCheckThirdWord(guess: thirdGuess.lowercased()) {}
+            instantlyUpdateThirdRow(guess: thirdGuess.lowercased()) {}
         }
         if let fourthGuess = fourthGuess {
-            instantlyCheckFourthWord(guess: fourthGuess.lowercased()) {}
+            instantlyUpdateFourthRow(guess: fourthGuess.lowercased()) {}
         }
         if let fifthGuess = fifthGuess {
-            instantlyCheckFifthWord(guess: fifthGuess.lowercased()) {}
+            instantlyUpdateFifthRow(guess: fifthGuess.lowercased()) {}
         }
         if let sixthGuess = sixthGuess {
-            instantlyCheckSixthWord(guess: sixthGuess.lowercased()) {}
+            instantlyUpdateSixthRow(guess: sixthGuess.lowercased()) {}
         }
     }
     
-    // MARK: - INSTANT CHECK FIRST WORD
-    func instantlyCheckFirstWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE FIRST ROW
+    func instantlyUpdateFirstRow(guess: String, completion: @escaping () -> ()) {
         updateA1(for: guess, animated: false) {
             self.updateA2(for: guess, animated: false) {
                 self.updateA3(for: guess, animated: false) {
@@ -314,8 +323,8 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANT CHECK SECOND WORD
-    func instantlyCheckSecondWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE SECOND ROW
+    func instantlyUpdateSecondRow(guess: String, completion: @escaping () -> ()) {
         updateB1(for: guess, animated: false) {
             self.updateB2(for: guess, animated: false) {
                 self.updateB3(for: guess, animated: false) {
@@ -329,8 +338,8 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANT CHECK THIRD WORD
-    func instantlyCheckThirdWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE THIRD ROW
+    func instantlyUpdateThirdRow(guess: String, completion: @escaping () -> ()) {
         updateC1(for: guess, animated: false) {
             self.updateC2(for: guess, animated: false) {
                 self.updateC3(for: guess, animated: false) {
@@ -344,8 +353,8 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANT CHECK FOURTH WORD
-    func instantlyCheckFourthWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE FOURTH ROW
+    func instantlyUpdateFourthRow(guess: String, completion: @escaping () -> ()) {
         updateD1(for: guess, animated: false) {
             self.updateD2(for: guess, animated: false) {
                 self.updateD3(for: guess, animated: false) {
@@ -359,8 +368,8 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANT CHECK FIFTH WORD
-    func instantlyCheckFifthWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE FIFTH ROW
+    func instantlyUpdateFifthRow(guess: String, completion: @escaping () -> ()) {
         updateE1(for: guess, animated: false) {
             self.updateE2(for: guess, animated: false) {
                 self.updateE3(for: guess, animated: false) {
@@ -374,8 +383,8 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANT CHECK SIXTH WORD
-    func instantlyCheckSixthWord(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INSTANTLY UPDATE SIXTH ROW
+    func instantlyUpdateSixthRow(guess: String, completion: @escaping () -> ()) {
         updateF1(for: guess, animated: false) {
             self.updateF2(for: guess, animated: false) {
                 self.updateF3(for: guess, animated: false) {
@@ -390,10 +399,10 @@ class GridView: UIView {
     }
     
     // MARK: - CHECK WORD
-    private func checkWord(animated: Bool = true, completion: @escaping () -> ()) {
+    private func checkWord(completion: @escaping () -> ()) {
         switch GameModel.shared.guessNumber {
         case .first:
-            guard GameModel.shared.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.firstGuess = GameModel.shared.currentGuess.lowercased()
             updateA1 {
@@ -408,7 +417,7 @@ class GridView: UIView {
                 }
             }
         case .second:
-            guard GameModel.shared.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.secondGuess = GameModel.shared.currentGuess.lowercased()
             updateB1 {
@@ -423,7 +432,7 @@ class GridView: UIView {
                 }
             }
         case .third:
-            guard GameModel.shared.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.thirdGuess = GameModel.shared.currentGuess.lowercased()
             updateC1 {
@@ -438,7 +447,7 @@ class GridView: UIView {
                 }
             }
         case .fourth:
-            guard GameModel.shared.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.fourthGuess = GameModel.shared.currentGuess.lowercased()
             updateD1 {
@@ -453,7 +462,7 @@ class GridView: UIView {
                 }
             }
         case .fifth:
-            guard GameModel.shared.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.fifthGuess = GameModel.shared.currentGuess.lowercased()
             updateE1 {
@@ -468,7 +477,7 @@ class GridView: UIView {
                 }
             }
         case .sixth:
-            guard GameModel.shared.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { return }
+            guard GameModel.shared.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
             keyboardView?.isUserInteractionEnabled = false
             GameModel.shared.sixthGuess = GameModel.shared.currentGuess.lowercased()
             updateF1 {
@@ -490,7 +499,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            a1?.updateLetter(with: "\(guess[0])")
+            a1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -530,7 +539,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            a2?.updateLetter(with: "\(guess[1])")
+            a2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -570,7 +579,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            a3?.updateLetter(with: "\(guess[2])")
+            a3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -610,7 +619,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            a4?.updateLetter(with: "\(guess[3])")
+            a4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -650,7 +659,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            a5?.updateLetter(with: "\(guess[4])")
+            a5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -690,7 +699,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            b1?.updateLetter(with: "\(guess[0])")
+            b1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -730,7 +739,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            b2?.updateLetter(with: "\(guess[1])")
+            b2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -770,7 +779,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            b3?.updateLetter(with: "\(guess[2])")
+            b3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -810,7 +819,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            b4?.updateLetter(with: "\(guess[3])")
+            b4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -850,7 +859,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            b5?.updateLetter(with: "\(guess[4])")
+            b5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -890,7 +899,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            c1?.updateLetter(with: "\(guess[0])")
+            c1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -930,7 +939,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            c2?.updateLetter(with: "\(guess[1])")
+            c2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -970,7 +979,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            c3?.updateLetter(with: "\(guess[2])")
+            c3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1010,7 +1019,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            c4?.updateLetter(with: "\(guess[3])")
+            c4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1050,7 +1059,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            c5?.updateLetter(with: "\(guess[4])")
+            c5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1090,7 +1099,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            d1?.updateLetter(with: "\(guess[0])")
+            d1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1130,7 +1139,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            d2?.updateLetter(with: "\(guess[1])")
+            d2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1170,7 +1179,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            d3?.updateLetter(with: "\(guess[2])")
+            d3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1210,7 +1219,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            d4?.updateLetter(with: "\(guess[3])")
+            d4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1250,7 +1259,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            d5?.updateLetter(with: "\(guess[4])")
+            d5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1290,7 +1299,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            e1?.updateLetter(with: "\(guess[0])")
+            e1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1330,7 +1339,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            e2?.updateLetter(with: "\(guess[1])")
+            e2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1370,7 +1379,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            e3?.updateLetter(with: "\(guess[2])")
+            e3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1410,7 +1419,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            e4?.updateLetter(with: "\(guess[3])")
+            e4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1450,7 +1459,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            e5?.updateLetter(with: "\(guess[4])")
+            e5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1490,7 +1499,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            f1?.updateLetter(with: "\(guess[0])")
+            f1?.updateLetter(with: "\(guess.uppercased()[0])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1530,7 +1539,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            f2?.updateLetter(with: "\(guess[1])")
+            f2?.updateLetter(with: "\(guess.uppercased()[1])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1570,7 +1579,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            f3?.updateLetter(with: "\(guess[2])")
+            f3?.updateLetter(with: "\(guess.uppercased()[2])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1610,7 +1619,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            f4?.updateLetter(with: "\(guess[3])")
+            f4?.updateLetter(with: "\(guess.uppercased()[3])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()
@@ -1650,7 +1659,7 @@ class GridView: UIView {
         guard let answer = GameModel.shared.answer else { return }
         
         if let guess = guess {
-            f5?.updateLetter(with: "\(guess[4])")
+            f5?.updateLetter(with: "\(guess.uppercased()[4])")
         }
         
         let guess = guess ?? GameModel.shared.currentGuess.lowercased()

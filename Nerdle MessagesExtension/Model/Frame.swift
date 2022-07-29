@@ -65,4 +65,15 @@ struct Frame {
                 height: size.height)
         }
     }
+    
+    struct ResetButton {
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            let size = CGSize(width: 50, height: 50)
+            return CGRect(
+                x: viewFrame.width - (size.width * 2) - (padding * 7),
+                y: Grid.maxY(viewFrame) + 230,
+                width: size.width,
+                height: size.height)
+        }
+    }
 }

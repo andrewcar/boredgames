@@ -15,6 +15,7 @@ class MessagesViewController: MSMessagesAppViewController {
     private var logoImageView: UIImageView?
     private var gridView: GridView?
     private var sendButton: UIButton?
+    private var resetButton: UIButton?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -22,6 +23,7 @@ class MessagesViewController: MSMessagesAppViewController {
         addLogo()
         addGridView()
         addSendButton()
+        addResetButton()
     }
     
     
@@ -40,13 +42,21 @@ class MessagesViewController: MSMessagesAppViewController {
     private func addSendButton() {
         sendButton = UIButton(frame: Frame.SendButton.frame(view.frame))
         sendButton?.addTarget(self, action: #selector(didTapSendButton(sender:)), for: .touchUpInside)
-        sendButton?.layer.cornerCurve = .continuous
-        sendButton?.layer.cornerRadius = 5
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 42, weight: .bold, scale: .medium)
         let image = UIImage(systemName: "arrow.up.circle.fill", withConfiguration: largeConfig)!
         sendButton?.setImage(image, for: .normal)
         sendButton?.setTitleColor(.white, for: .normal)
         view.addSubview(sendButton!)
+    }
+    
+    private func addResetButton() {
+        resetButton = UIButton(frame: Frame.ResetButton.frame(view.frame))
+        resetButton?.addTarget(self, action: #selector(didTapResetButton(sender:)), for: .touchUpInside)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 42, weight: .bold, scale: .medium)
+        let image = UIImage(systemName: "trash.circle.fill", withConfiguration: largeConfig)!
+        resetButton?.setImage(image, for: .normal)
+        resetButton?.setTitleColor(.white, for: .normal)
+        view.addSubview(resetButton!)
     }
     
     @objc
@@ -56,6 +66,13 @@ class MessagesViewController: MSMessagesAppViewController {
                 print("Error: \(error.localizedDescription)")
             }
         })
+    }
+    
+    @objc
+    private func didTapResetButton(sender: UIButton) {
+        GameModel.shared.resetGame()
+        gridView?.resetRows()
+        gridView?.keyboardView?.resetKeyboard()
     }
     
     private func composeMessage() -> MSMessage {
@@ -71,6 +88,7 @@ class MessagesViewController: MSMessagesAppViewController {
             URLQueryItem(name: "guess4", value: GameModel.shared.fourthGuess),
             URLQueryItem(name: "guess5", value: GameModel.shared.fifthGuess),
             URLQueryItem(name: "guess6", value: GameModel.shared.sixthGuess),
+            URLQueryItem(name: "guessNumber", value: GameModel.shared.guessNumber.rawValue)
         ]
         message.url = components.url!
 
@@ -84,6 +102,97 @@ class MessagesViewController: MSMessagesAppViewController {
         return message
     }
     
+    private func decode(_ message: MSMessage) {
+        guard let url = message.url else {
+            print("Could not get URL from MSMessage.")
+            return
+        }
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            print("Could not create NSURLComponents from MSMessage URL.")
+            return
+        }
+        
+        if let queryItems = components.queryItems {
+            
+            var answer: String?
+            var firstGuess: String?
+            var secondGuess: String?
+            var thirdGuess: String?
+            var fourthGuess: String?
+            var fifthGuess: String?
+            var sixthGuess: String?
+            var guessNumber: String?
+            
+            for queryItem in queryItems {
+                if let value = queryItem.value {
+                    switch queryItem.name {
+                    case "answer":
+                        if !value.isEmpty {
+                            answer = value
+                        }
+                    case "guess1":
+                        if !value.isEmpty {
+                            firstGuess = value
+                        }
+                    case "guess2":
+                        if !value.isEmpty {
+                            secondGuess = value
+                        }
+                    case "guess3":
+                        if !value.isEmpty {
+                            thirdGuess = value
+                        }
+                    case "guess4":
+                        if !value.isEmpty {
+                            fourthGuess = value
+                        }
+                    case "guess5":
+                        if !value.isEmpty {
+                            fifthGuess = value
+                        }
+                    case "guess6":
+                        if !value.isEmpty {
+                            sixthGuess = value
+                        }
+                    case "guessNumber":
+                        if !value.isEmpty {
+                            guessNumber = value
+                        }
+                    default: ()
+                    }
+                }
+            }
+            
+            if let answer = answer {
+                GameModel.shared.save(answer: answer)
+            }
+            if let firstGuess = firstGuess {
+                GameModel.shared.save(firstGuess: firstGuess)
+            }
+            if let secondGuess = secondGuess {
+                GameModel.shared.save(secondGuess: secondGuess)
+            }
+            if let thirdGuess = thirdGuess {
+                GameModel.shared.save(thirdGuess: thirdGuess)
+            }
+            if let fourthGuess = fourthGuess {
+                GameModel.shared.save(fourthGuess: fourthGuess)
+            }
+            if let fifthGuess = fifthGuess {
+                GameModel.shared.save(fifthGuess: fifthGuess)
+            }
+            if let sixthGuess = sixthGuess {
+                GameModel.shared.save(sixthGuess: sixthGuess)
+            }
+            if let guessNumber = guessNumber {
+                GameModel.shared.save(guessNumber: guessNumber)
+            }
+            
+            GameModel.shared.populateAnswerLetterCountDictionary {}
+        }
+        
+        gridView?.keyboardView?.isUserInteractionEnabled = true
+    }
     
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
@@ -92,6 +201,66 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // Use this method to configure the extension and restore previously stored state.
         print("willBecomeActive(with conversation: MSConversation)")
+        
+        requestPresentationStyle(.expanded)
+        
+        if let selectedMessage = conversation.selectedMessage {
+            decode(selectedMessage)
+            
+            if let answer = GameModel.shared.retrieveAnswer() {
+                GameModel.shared.answer = answer
+            }
+            
+            if let guessNumber = GameModel.shared.retrieveGuessNumber() {
+                print("Retrieved guess number: \(guessNumber)")
+                switch guessNumber {
+                case "first":
+                    GameModel.shared.guessNumber = .first
+                case "second":
+                    GameModel.shared.guessNumber = .second
+                case "third":
+                    GameModel.shared.guessNumber = .third
+                case "fourth":
+                    GameModel.shared.guessNumber = .fourth
+                case "fifth":
+                    GameModel.shared.guessNumber = .fifth
+                case "sixth":
+                    GameModel.shared.guessNumber = .sixth
+                default: ()
+                }
+            }
+            
+            gridView?.instantlyUpdateRows(
+                firstGuess: GameModel.shared.retrieveFirstGuess(),
+                secondGuess: GameModel.shared.retrieveSecondGuess(),
+                thirdGuess: GameModel.shared.retrieveThirdGuess(),
+                fourthGuess: GameModel.shared.retrieveFourthGuess(),
+                fifthGuess: GameModel.shared.retrieveFifthGuess(),
+                sixthGuess: GameModel.shared.retrieveSixthGuess())
+            
+            switch GameModel.shared.guessNumber {
+            case .first:
+                GameModel.shared.guessNumber = .second
+                GameModel.shared.currentLetter = .b0
+            case .second:
+                GameModel.shared.guessNumber = .third
+                GameModel.shared.currentLetter = .c0
+            case .third:
+                GameModel.shared.guessNumber = .fourth
+                GameModel.shared.currentLetter = .d0
+            case .fourth:
+                GameModel.shared.guessNumber = .fifth
+                GameModel.shared.currentLetter = .e0
+            case .fifth:
+                GameModel.shared.guessNumber = .sixth
+                GameModel.shared.currentLetter = .f0
+            case .sixth: ()
+            }
+        }
+    }
+    
+    override func didBecomeActive(with conversation: MSConversation) {
+//        conversation.selectedMessage
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -110,75 +279,9 @@ class MessagesViewController: MSMessagesAppViewController {
         // extension on a remote device.
         
         // Use this method to trigger UI updates in response to the message.
-        guard let url = message.url else {
-            print("Could not get URL from MSMessage.")
-            return
-        }
-        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            print("Could not create NSURLComponents from MSMessage URL.")
-            return
-        }
+        print("didReceive(_ message: MSMessage, conversation: MSConversation)")
         
-        if let queryItems = components.queryItems {
-            
-            var firstGuess: String?
-            var secondGuess: String?
-            var thirdGuess: String?
-            var fourthGuess: String?
-            var fifthGuess: String?
-            var sixthGuess: String?
-            
-            for queryItem in queryItems {
-                if let value = queryItem.value {
-                    switch queryItem.name {
-                    case "answer":
-                        GameModel.shared.answer = value
-                    case "guess1":
-                        if !value.isEmpty {
-                            GameModel.shared.firstGuess = value
-                            firstGuess = value
-                        }
-                    case "guess2":
-                        if !value.isEmpty {
-                            GameModel.shared.secondGuess = value
-                            secondGuess = value
-                        }
-                    case "guess3":
-                        if !value.isEmpty {
-                            GameModel.shared.thirdGuess = value
-                            thirdGuess = value
-                        }
-                    case "guess4":
-                        if !value.isEmpty {
-                            GameModel.shared.fourthGuess = value
-                            fourthGuess = value
-                        }
-                    case "guess5":
-                        if !value.isEmpty {
-                            GameModel.shared.fifthGuess = value
-                            fifthGuess = value
-                        }
-                    case "guess6":
-                        if !value.isEmpty {
-                            GameModel.shared.sixthGuess = value
-                            sixthGuess = value
-                        }
-                    default: ()
-                    }
-                }
-            }
-            
-            gridView?.instantlyCheckAllWords(
-                firstGuess: firstGuess,
-                secondGuess: secondGuess,
-                thirdGuess: thirdGuess,
-                fourthGuess: fourthGuess,
-                fifthGuess: fifthGuess,
-                sixthGuess: sixthGuess)
-            GameModel.shared.populateAnswerLetterCountDictionary {}
-        }
-        
-        gridView?.keyboardView?.isUserInteractionEnabled = true
+//        decode(message)
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
@@ -193,10 +296,23 @@ class MessagesViewController: MSMessagesAppViewController {
         print("didCancelSending(_ message: MSMessage, conversation: MSConversation)")
     }
     
+    override func didSelect(_ message: MSMessage, conversation: MSConversation) {
+        print("didSelect(_ message: MSMessage, conversation: MSConversation)")
+        
+        if let selectedMessage = conversation.selectedMessage {
+            decode(selectedMessage)
+        }
+    }
+    
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
     
         // Use this method to prepare for the change in presentation style.
+        print("willTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
+        
+        if let selectedMessage = activeConversation?.selectedMessage {
+            decode(selectedMessage)
+        }
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {

@@ -34,8 +34,8 @@ class KeyboardLetterView: UIView {
     
     // MARK: - Public Methods
     func updateColors(for state: LetterState) {
+        updateTextColor(for: state)
         updateBackgroundColor(for: state)
-        updateTextColorToWhite()
     }
     
     
@@ -62,18 +62,23 @@ class KeyboardLetterView: UIView {
     
     private func updateBackgroundColor(for state: LetterState) {
         switch state {
+        case .blank:
+            backgroundColor = .nerdleKeyboardLightModeGray
         case .gray:
             backgroundColor = .nerdleLetterLightModeGray
         case .yellow:
             backgroundColor = .nerdleYellow
         case .green:
             backgroundColor = .nerdleGreen
-        default: ()
         }
     }
     
-    private func updateTextColorToWhite() {
-        letterLabel?.textColor = .white
+    private func updateTextColor(for state: LetterState) {
+        if state == .blank {
+            letterLabel?.textColor = .black
+        } else {
+            letterLabel?.textColor = .white
+        }
     }
     
     @objc
