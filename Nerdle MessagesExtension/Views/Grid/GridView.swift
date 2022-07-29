@@ -2028,7 +2028,8 @@ extension GridView: KeyboardDelegate {
     // MARK: - DID TAP ENTER
     func didTapEnter() {
         guard GameModel.shared.currentGuess.count == 5 else { return }
-
+        guard let words = GameModel.shared.words else { return }
+        guard words.list.contains(GameModel.shared.currentGuess) else { return }
         if GameModel.shared.guessNumber == .first {
             GameModel.shared.setAnswerRandomly()
         }

@@ -11,6 +11,7 @@ class GameModel: NSObject {
     
     // MARK: - Properties
     static let shared = GameModel()
+    var words: Words?
     var guessNumber: Guess = .first
     var currentLetter: CurrentLetter = .a0
     var answer: String?
@@ -228,8 +229,8 @@ class GameModel: NSObject {
     }
     
     func setAnswerRandomly() {
-        let words: Words = GameModel.shared.load("words.json")
-        guard let randomWord = words.list.randomElement() else { return }
+        words = GameModel.shared.load("words.json")
+        guard let randomWord = words?.list.randomElement() else { return }
         answer = randomWord
         populateAnswerLetterCountDictionary {}
     }
