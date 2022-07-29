@@ -280,41 +280,48 @@ class GridView: UIView {
         }
     }
 
-    // MARK: - INSTANTLY UPDATE ROWS
-    func instantlyUpdateRows(firstGuess: String?,
-                             secondGuess: String?,
-                             thirdGuess: String?,
-                             fourthGuess: String?,
-                             fifthGuess: String?,
-                             sixthGuess: String?) {
+    // MARK: - UPDATE ROWS
+    func updateRows(firstGuess: String?,
+                    secondGuess: String?,
+                    thirdGuess: String?,
+                    fourthGuess: String?,
+                    fifthGuess: String?,
+                    sixthGuess: String?,
+                    guessToAnimate: Guess? = .first) {
         
         if let firstGuess = firstGuess {
-            instantlyUpdateFirstRow(guess: firstGuess.lowercased()) {}
+            updateFirstRow(guess: firstGuess.lowercased(),
+                           animated: guessToAnimate == .first ? true : false) {}
         }
         if let secondGuess = secondGuess {
-            instantlyUpdateSecondRow(guess: secondGuess.lowercased()) {}
+            updateSecondRow(guess: secondGuess.lowercased(),
+                            animated: guessToAnimate == .second ? true : false) {}
         }
         if let thirdGuess = thirdGuess {
-            instantlyUpdateThirdRow(guess: thirdGuess.lowercased()) {}
+            updateThirdRow(guess: thirdGuess.lowercased(),
+                           animated: guessToAnimate == .third ? true : false) {}
         }
         if let fourthGuess = fourthGuess {
-            instantlyUpdateFourthRow(guess: fourthGuess.lowercased()) {}
+            updateFourthRow(guess: fourthGuess.lowercased(),
+                            animated: guessToAnimate == .fourth ? true : false) {}
         }
         if let fifthGuess = fifthGuess {
-            instantlyUpdateFifthRow(guess: fifthGuess.lowercased()) {}
+            updateFifthRow(guess: fifthGuess.lowercased(),
+                           animated: guessToAnimate == .fifth ? true : false) {}
         }
         if let sixthGuess = sixthGuess {
-            instantlyUpdateSixthRow(guess: sixthGuess.lowercased()) {}
+            updateSixthRow(guess: sixthGuess.lowercased(),
+                           animated: guessToAnimate == .sixth ? true : false) {}
         }
     }
     
-    // MARK: - INSTANTLY UPDATE FIRST ROW
-    func instantlyUpdateFirstRow(guess: String, completion: @escaping () -> ()) {
-        updateA1(for: guess, animated: false) {
-            self.updateA2(for: guess, animated: false) {
-                self.updateA3(for: guess, animated: false) {
-                    self.updateA4(for: guess, animated: false) {
-                        self.updateA5(for: guess, animated: false) {
+    // MARK: - UPDATE FIRST ROW
+    func updateFirstRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateA1(for: guess, animated: animated) {
+            self.updateA2(for: guess, animated: animated) {
+                self.updateA3(for: guess, animated: animated) {
+                    self.updateA4(for: guess, animated: animated) {
+                        self.updateA5(for: guess, animated: animated) {
                             completion()
                         }
                     }
@@ -323,13 +330,13 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANTLY UPDATE SECOND ROW
-    func instantlyUpdateSecondRow(guess: String, completion: @escaping () -> ()) {
-        updateB1(for: guess, animated: false) {
-            self.updateB2(for: guess, animated: false) {
-                self.updateB3(for: guess, animated: false) {
-                    self.updateB4(for: guess, animated: false) {
-                        self.updateB5(for: guess, animated: false) {
+    // MARK: - UPDATE SECOND ROW
+    func updateSecondRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateB1(for: guess, animated: animated) {
+            self.updateB2(for: guess, animated: animated) {
+                self.updateB3(for: guess, animated: animated) {
+                    self.updateB4(for: guess, animated: animated) {
+                        self.updateB5(for: guess, animated: animated) {
                             completion()
                         }
                     }
@@ -338,13 +345,13 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANTLY UPDATE THIRD ROW
-    func instantlyUpdateThirdRow(guess: String, completion: @escaping () -> ()) {
-        updateC1(for: guess, animated: false) {
-            self.updateC2(for: guess, animated: false) {
-                self.updateC3(for: guess, animated: false) {
-                    self.updateC4(for: guess, animated: false) {
-                        self.updateC5(for: guess, animated: false) {
+    // MARK: - UPDATE THIRD ROW
+    func updateThirdRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateC1(for: guess, animated: animated) {
+            self.updateC2(for: guess, animated: animated) {
+                self.updateC3(for: guess, animated: animated) {
+                    self.updateC4(for: guess, animated: animated) {
+                        self.updateC5(for: guess, animated: animated) {
                             completion()
                         }
                     }
@@ -353,13 +360,13 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANTLY UPDATE FOURTH ROW
-    func instantlyUpdateFourthRow(guess: String, completion: @escaping () -> ()) {
-        updateD1(for: guess, animated: false) {
-            self.updateD2(for: guess, animated: false) {
-                self.updateD3(for: guess, animated: false) {
-                    self.updateD4(for: guess, animated: false) {
-                        self.updateD5(for: guess, animated: false) {
+    // MARK: - UPDATE FOURTH ROW
+    func updateFourthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateD1(for: guess, animated: animated) {
+            self.updateD2(for: guess, animated: animated) {
+                self.updateD3(for: guess, animated: animated) {
+                    self.updateD4(for: guess, animated: animated) {
+                        self.updateD5(for: guess, animated: animated) {
                             completion()
                         }
                     }
@@ -368,13 +375,13 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANTLY UPDATE FIFTH ROW
-    func instantlyUpdateFifthRow(guess: String, completion: @escaping () -> ()) {
-        updateE1(for: guess, animated: false) {
-            self.updateE2(for: guess, animated: false) {
-                self.updateE3(for: guess, animated: false) {
-                    self.updateE4(for: guess, animated: false) {
-                        self.updateE5(for: guess, animated: false) {
+    // MARK: - UPDATE FIFTH ROW
+    func updateFifthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateE1(for: guess, animated: animated) {
+            self.updateE2(for: guess, animated: animated) {
+                self.updateE3(for: guess, animated: animated) {
+                    self.updateE4(for: guess, animated: animated) {
+                        self.updateE5(for: guess, animated: animated) {
                             completion()
                         }
                     }
@@ -383,13 +390,13 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INSTANTLY UPDATE SIXTH ROW
-    func instantlyUpdateSixthRow(guess: String, completion: @escaping () -> ()) {
-        updateF1(for: guess, animated: false) {
-            self.updateF2(for: guess, animated: false) {
-                self.updateF3(for: guess, animated: false) {
-                    self.updateF4(for: guess, animated: false) {
-                        self.updateF5(for: guess, animated: false) {
+    // MARK: - UPDATE SIXTH ROW
+    func updateSixthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
+        updateF1(for: guess, animated: animated) {
+            self.updateF2(for: guess, animated: animated) {
+                self.updateF3(for: guess, animated: animated) {
+                    self.updateF4(for: guess, animated: animated) {
+                        self.updateF5(for: guess, animated: animated) {
                             completion()
                         }
                     }

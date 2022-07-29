@@ -221,9 +221,9 @@ class GameModel: NSObject {
         }
     }
     
-    func retrieveGuessNumber() -> String? {
+    func retrieveGuessNumber() -> Guess? {
         guard let guessNumber = UserDefaults.standard.string(forKey: "guessNumber") else { return nil }
-        return guessNumber
+        return Guess(rawValue: guessNumber)
     }
     
     func setAnswerRandomly() {

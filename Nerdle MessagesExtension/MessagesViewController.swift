@@ -200,8 +200,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // This will happen when the extension is about to present UI.
         
         // Use this method to configure the extension and restore previously stored state.
-        print("willBecomeActive(with conversation: MSConversation)")
-        
         requestPresentationStyle(.expanded)
         
         if let selectedMessage = conversation.selectedMessage {
@@ -212,31 +210,18 @@ class MessagesViewController: MSMessagesAppViewController {
             }
             
             if let guessNumber = GameModel.shared.retrieveGuessNumber() {
-                print("Retrieved guess number: \(guessNumber)")
-                switch guessNumber {
-                case "first":
-                    GameModel.shared.guessNumber = .first
-                case "second":
-                    GameModel.shared.guessNumber = .second
-                case "third":
-                    GameModel.shared.guessNumber = .third
-                case "fourth":
-                    GameModel.shared.guessNumber = .fourth
-                case "fifth":
-                    GameModel.shared.guessNumber = .fifth
-                case "sixth":
-                    GameModel.shared.guessNumber = .sixth
-                default: ()
-                }
+                GameModel.shared.guessNumber = guessNumber
             }
             
-            gridView?.instantlyUpdateRows(
+            gridView?.updateRows(
                 firstGuess: GameModel.shared.retrieveFirstGuess(),
                 secondGuess: GameModel.shared.retrieveSecondGuess(),
                 thirdGuess: GameModel.shared.retrieveThirdGuess(),
                 fourthGuess: GameModel.shared.retrieveFourthGuess(),
                 fifthGuess: GameModel.shared.retrieveFifthGuess(),
-                sixthGuess: GameModel.shared.retrieveSixthGuess())
+                sixthGuess: GameModel.shared.retrieveSixthGuess(),
+                guessToAnimate: GameModel.shared.retrieveGuessNumber()
+            )
             
             switch GameModel.shared.guessNumber {
             case .first:
@@ -260,7 +245,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didBecomeActive(with conversation: MSConversation) {
-//        conversation.selectedMessage
+        //
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -271,7 +256,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to release shared resources, save user data, invalidate timers,
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
-        print("didResignActive(with conversation: MSConversation)")
     }
    
     override func didReceive(_ message: MSMessage, conversation: MSConversation) {
@@ -279,9 +263,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // extension on a remote device.
         
         // Use this method to trigger UI updates in response to the message.
-        print("didReceive(_ message: MSMessage, conversation: MSConversation)")
-        
-//        decode(message)
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
@@ -293,12 +274,9 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called when the user deletes the message without sending it.
     
         // Use this to clean up state related to the deleted message.
-        print("didCancelSending(_ message: MSMessage, conversation: MSConversation)")
     }
     
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
-        print("didSelect(_ message: MSMessage, conversation: MSConversation)")
-        
         if let selectedMessage = conversation.selectedMessage {
             decode(selectedMessage)
         }
@@ -308,8 +286,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called before the extension transitions to a new presentation style.
     
         // Use this method to prepare for the change in presentation style.
-        print("willTransition(to presentationStyle: MSMessagesAppPresentationStyle)")
-        
         if let selectedMessage = activeConversation?.selectedMessage {
             decode(selectedMessage)
         }
@@ -325,7 +301,6 @@ class MessagesViewController: MSMessagesAppViewController {
 
 extension MessagesViewController: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        print("messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult)")
-        print("result: \(result)")
+        //
     }
 }
