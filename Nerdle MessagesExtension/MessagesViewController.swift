@@ -13,6 +13,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Properties
     private var logoImageView: UIImageView?
+    private var answerLabel: UILabel?
     private var gridView: GridView?
     private var sendButton: UIButton?
     private var resetButton: UIButton?
@@ -21,6 +22,7 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addLogo()
+//        addAnswerLabel()
         addGridView()
         addSendButton()
         addResetButton()
@@ -32,6 +34,16 @@ class MessagesViewController: MSMessagesAppViewController {
         logoImageView = UIImageView(frame: Frame.Logo.frame(view.frame))
         logoImageView?.image = UIImage(named: "nerdle.png")
         view.addSubview(logoImageView!)
+    }
+    
+    private func addAnswerLabel() {
+        answerLabel = UILabel(frame: Frame.Logo.frame(view.frame))
+        answerLabel?.font = .systemFont(ofSize: 12, weight: .bold)
+        answerLabel?.textAlignment = .center
+        answerLabel?.textColor = .black
+        answerLabel?.layer.borderColor = UIColor.red.cgColor
+        answerLabel?.layer.borderWidth = 2
+        view.addSubview(answerLabel!)
     }
     
     private func addGridView() {
@@ -70,7 +82,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     @objc
     private func didTapResetButton(sender: UIButton) {
-        GameModel.shared.resetGame()
+        GameModel.shared.resetGame {}
         gridView?.resetRows()
         gridView?.keyboardView?.resetKeyboard()
     }
@@ -96,7 +108,7 @@ class MessagesViewController: MSMessagesAppViewController {
         layout.image = UIImage(named: "nerdle.png")
         layout.caption = "Nerdle"
         layout.subcaption = "It's your turn!"
-        layout.trailingSubcaption = "🟨🟩⬜️⬜️⬜️"
+        layout.trailingSubcaption = GameModel.shared.lastGuessInEmojis
 
         message.layout = layout
         return message
@@ -188,6 +200,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 GameModel.shared.save(guessNumber: guessNumber)
             }
             
+            GameModel.shared.resetAnswerLetterCountDictionary {}
             GameModel.shared.populateAnswerLetterCountDictionary {}
         }
         
@@ -201,7 +214,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // Use this method to configure the extension and restore previously stored state.
         requestPresentationStyle(.expanded)
-        
+                
         if let selectedMessage = conversation.selectedMessage {
             decode(selectedMessage)
             
@@ -213,39 +226,45 @@ class MessagesViewController: MSMessagesAppViewController {
                 GameModel.shared.guessNumber = guessNumber
             }
             
-            gridView?.updateRows(
-                firstGuess: GameModel.shared.retrieveFirstGuess(),
-                secondGuess: GameModel.shared.retrieveSecondGuess(),
-                thirdGuess: GameModel.shared.retrieveThirdGuess(),
-                fourthGuess: GameModel.shared.retrieveFourthGuess(),
-                fifthGuess: GameModel.shared.retrieveFifthGuess(),
-                sixthGuess: GameModel.shared.retrieveSixthGuess(),
-                guessToAnimate: GameModel.shared.retrieveGuessNumber()
-            )
-            
-            switch GameModel.shared.guessNumber {
-            case .first:
-                GameModel.shared.guessNumber = .second
-                GameModel.shared.currentLetter = .b0
-            case .second:
-                GameModel.shared.guessNumber = .third
-                GameModel.shared.currentLetter = .c0
-            case .third:
-                GameModel.shared.guessNumber = .fourth
-                GameModel.shared.currentLetter = .d0
-            case .fourth:
-                GameModel.shared.guessNumber = .fifth
-                GameModel.shared.currentLetter = .e0
-            case .fifth:
-                GameModel.shared.guessNumber = .sixth
-                GameModel.shared.currentLetter = .f0
-            case .sixth: ()
+            GameModel.shared.resetCorrectGuessLetterCountDictionary {
+                self.gridView?.updateRows(
+                    firstGuess: GameModel.shared.retrieveFirstGuess(),
+                    secondGuess: GameModel.shared.retrieveSecondGuess(),
+                    thirdGuess: GameModel.shared.retrieveThirdGuess(),
+                    fourthGuess: GameModel.shared.retrieveFourthGuess(),
+                    fifthGuess: GameModel.shared.retrieveFifthGuess(),
+                    sixthGuess: GameModel.shared.retrieveSixthGuess(),
+                    guessToAnimate: GameModel.shared.retrieveGuessNumber(),
+                    completion: {
+                        GameModel.shared.lastGuessInEmojis = ""
+                        GameModel.shared.resetCorrectGuessLetterCountDictionary {}
+                    }
+                )
+                
+                switch GameModel.shared.guessNumber {
+                case .first:
+                    GameModel.shared.guessNumber = .second
+                    GameModel.shared.currentLetter = .b0
+                case .second:
+                    GameModel.shared.guessNumber = .third
+                    GameModel.shared.currentLetter = .c0
+                case .third:
+                    GameModel.shared.guessNumber = .fourth
+                    GameModel.shared.currentLetter = .d0
+                case .fourth:
+                    GameModel.shared.guessNumber = .fifth
+                    GameModel.shared.currentLetter = .e0
+                case .fifth:
+                    GameModel.shared.guessNumber = .sixth
+                    GameModel.shared.currentLetter = .f0
+                case .sixth: ()
+                }
             }
         }
     }
     
     override func didBecomeActive(with conversation: MSConversation) {
-        //
+        answerLabel?.text = GameModel.shared.answer
     }
     
     override func didResignActive(with conversation: MSConversation) {

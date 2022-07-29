@@ -48,7 +48,6 @@ class GridView: UIView {
         
         addLetters()
         addKeyboardView()
-        setupGame()
     }
     
     required init?(coder: NSCoder) {
@@ -266,11 +265,6 @@ class GridView: UIView {
         addSubview(keyboardView!)
     }
     
-    // MARK: - SETUP GAME
-    private func setupGame() {
-        GameModel.shared.setAnswerRandomly()
-    }
-    
     // MARK: - RESET ROWS
     func resetRows() {
         for gridLetter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
@@ -287,31 +281,44 @@ class GridView: UIView {
                     fourthGuess: String?,
                     fifthGuess: String?,
                     sixthGuess: String?,
-                    guessToAnimate: Guess? = .first) {
+                    guessToAnimate: Guess? = .first,
+                    completion: @escaping () -> ()) {
         
         if let firstGuess = firstGuess {
             updateFirstRow(guess: firstGuess.lowercased(),
-                           animated: guessToAnimate == .first ? true : false) {}
+                           animated: guessToAnimate == .first ? true : false) {
+                completion()
+            }
         }
         if let secondGuess = secondGuess {
             updateSecondRow(guess: secondGuess.lowercased(),
-                            animated: guessToAnimate == .second ? true : false) {}
+                            animated: guessToAnimate == .second ? true : false) {
+                completion()
+            }
         }
         if let thirdGuess = thirdGuess {
             updateThirdRow(guess: thirdGuess.lowercased(),
-                           animated: guessToAnimate == .third ? true : false) {}
+                           animated: guessToAnimate == .third ? true : false) {
+                completion()
+            }
         }
         if let fourthGuess = fourthGuess {
             updateFourthRow(guess: fourthGuess.lowercased(),
-                            animated: guessToAnimate == .fourth ? true : false) {}
+                            animated: guessToAnimate == .fourth ? true : false) {
+                completion()
+            }
         }
         if let fifthGuess = fifthGuess {
             updateFifthRow(guess: fifthGuess.lowercased(),
-                           animated: guessToAnimate == .fifth ? true : false) {}
+                           animated: guessToAnimate == .fifth ? true : false) {
+                completion()
+            }
         }
         if let sixthGuess = sixthGuess {
             updateSixthRow(guess: sixthGuess.lowercased(),
-                           animated: guessToAnimate == .sixth ? true : false) {}
+                           animated: guessToAnimate == .sixth ? true : false) {
+                completion()
+            }
         }
     }
     
@@ -519,6 +526,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
             
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -526,6 +534,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
             
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -533,12 +542,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             a1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -559,6 +570,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -566,6 +578,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -573,12 +586,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             a2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -599,6 +614,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -606,6 +622,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -613,12 +630,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             a3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -639,6 +658,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -646,6 +666,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -653,12 +674,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             a4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -679,6 +702,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -686,6 +710,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -693,12 +718,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             a5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -719,6 +746,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -726,19 +754,22 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
-            
+            GameModel.shared.lastGuessInEmojis += "⬜️"
+
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
             b1?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             b1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -759,6 +790,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -766,6 +798,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -773,12 +806,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             b2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -799,6 +834,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -806,6 +842,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -813,12 +850,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             b3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -839,6 +878,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -846,6 +886,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -853,12 +894,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
-            
+            GameModel.shared.lastGuessInEmojis += "🟨"
+
         } else {
             b4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -879,6 +922,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -886,6 +930,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -893,12 +938,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             b5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -919,6 +966,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -926,6 +974,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -933,12 +982,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             c1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -959,6 +1010,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -966,6 +1018,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -973,12 +1026,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             c2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -999,6 +1054,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -1006,6 +1062,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1013,12 +1070,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             c3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1039,6 +1098,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -1046,6 +1106,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1053,12 +1114,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             c4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1079,6 +1142,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -1086,6 +1150,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1093,12 +1158,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             c5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1119,6 +1186,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -1126,6 +1194,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1133,12 +1202,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             d1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1159,6 +1230,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -1166,6 +1238,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1173,12 +1246,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             d2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1199,6 +1274,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -1206,6 +1282,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1213,12 +1290,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             d3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1239,6 +1318,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -1246,6 +1326,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1253,12 +1334,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             d4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1279,6 +1362,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -1286,6 +1370,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1293,12 +1378,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             d5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1319,6 +1406,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -1326,6 +1414,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1333,12 +1422,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
-            
+            GameModel.shared.lastGuessInEmojis += "🟨"
+
         } else {
             e1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1359,6 +1450,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -1366,6 +1458,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1373,12 +1466,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             e2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1399,6 +1494,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -1406,6 +1502,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1413,12 +1510,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             e3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1439,6 +1538,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -1446,6 +1546,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1453,12 +1554,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             e4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1479,6 +1582,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -1486,6 +1590,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1493,12 +1598,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             e5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1519,6 +1626,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
             // if first guessed letter is not in word, make it gray
         } else if !answer.contains(guess[0]) {
@@ -1526,6 +1634,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1533,12 +1642,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             f1?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1559,6 +1670,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if second guessed letter is not in word, make it gray
         } else if !answer.contains(guess[1]) {
@@ -1566,6 +1678,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1573,12 +1686,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             f2?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1599,6 +1714,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if third guessed letter is not in word, make it gray
         } else if !answer.contains(guess[2]) {
@@ -1606,6 +1722,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1613,12 +1730,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             f3?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1639,6 +1758,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fourth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[3]) {
@@ -1646,6 +1766,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1653,12 +1774,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             f4?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
@@ -1679,6 +1802,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
 
         // if fifth guessed letter is not in word, make it gray
         } else if !answer.contains(guess[4]) {
@@ -1686,6 +1810,7 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
 
         } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
             GameModel.shared.incrementGuessLetter(guessLetter)
@@ -1693,12 +1818,14 @@ class GridView: UIView {
                 completion()
             })
             keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
 
         } else {
             f5?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
             keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
 }
@@ -1901,6 +2028,10 @@ extension GridView: KeyboardDelegate {
     // MARK: - DID TAP ENTER
     func didTapEnter() {
         guard GameModel.shared.currentGuess.count == 5 else { return }
+
+        if GameModel.shared.guessNumber == .first {
+            GameModel.shared.setAnswerRandomly()
+        }
         
         self.checkWord {
             if GameModel.shared.currentGuess == GameModel.shared.answer {

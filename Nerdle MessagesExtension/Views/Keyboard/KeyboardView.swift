@@ -120,56 +120,82 @@ class KeyboardView: UIView {
     func setKeyToYellow(for letter: String) {
         switch letter {
         case "a":
+            guard let key = a, key.letterState != .green else { return }
             a?.updateColors(for: .yellow)
         case "b":
+            guard let key = b, key.letterState != .green else { return }
             b?.updateColors(for: .yellow)
         case "c":
+            guard let key = c, key.letterState != .green else { return }
             c?.updateColors(for: .yellow)
         case "d":
+            guard let key = d, key.letterState != .green else { return }
             d?.updateColors(for: .yellow)
         case "e":
+            guard let key = e, key.letterState != .green else { return }
             e?.updateColors(for: .yellow)
         case "f":
+            guard let key = f, key.letterState != .green else { return }
             f?.updateColors(for: .yellow)
         case "g":
+            guard let key = g, key.letterState != .green else { return }
             g?.updateColors(for: .yellow)
         case "h":
+            guard let key = h, key.letterState != .green else { return }
             h?.updateColors(for: .yellow)
         case "i":
+            guard let key = i, key.letterState != .green else { return }
             i?.updateColors(for: .yellow)
         case "j":
+            guard let key = j, key.letterState != .green else { return }
             j?.updateColors(for: .yellow)
         case "k":
+            guard let key = k, key.letterState != .green else { return }
             k?.updateColors(for: .yellow)
         case "l":
+            guard let key = l, key.letterState != .green else { return }
             l?.updateColors(for: .yellow)
         case "m":
+            guard let key = m, key.letterState != .green else { return }
             m?.updateColors(for: .yellow)
         case "n":
+            guard let key = n, key.letterState != .green else { return }
             n?.updateColors(for: .yellow)
         case "o":
+            guard let key = o, key.letterState != .green else { return }
             o?.updateColors(for: .yellow)
         case "p":
+            guard let key = p, key.letterState != .green else { return }
             p?.updateColors(for: .yellow)
         case "q":
+            guard let key = q, key.letterState != .green else { return }
             q?.updateColors(for: .yellow)
         case "r":
+            guard let key = r, key.letterState != .green else { return }
             r?.updateColors(for: .yellow)
         case "s":
+            guard let key = s, key.letterState != .green else { return }
             s?.updateColors(for: .yellow)
         case "t":
+            guard let key = t, key.letterState != .green else { return }
             t?.updateColors(for: .yellow)
         case "u":
+            guard let key = u, key.letterState != .green else { return }
             u?.updateColors(for: .yellow)
         case "v":
+            guard let key = v, key.letterState != .green else { return }
             v?.updateColors(for: .yellow)
         case "w":
+            guard let key = w, key.letterState != .green else { return }
             w?.updateColors(for: .yellow)
         case "x":
+            guard let key = x, key.letterState != .green else { return }
             x?.updateColors(for: .yellow)
         case "y":
+            guard let key = y, key.letterState != .green else { return }
             y?.updateColors(for: .yellow)
         case "z":
+            guard let key = z, key.letterState != .green else { return }
             z?.updateColors(for: .yellow)
         default: ()
         }
@@ -178,56 +204,82 @@ class KeyboardView: UIView {
     func setKeyToGray(for letter: String) {
         switch letter {
         case "a":
+            guard let key = a, key.letterState != .green, key.letterState != .yellow else { return }
             a?.updateColors(for: .gray)
         case "b":
+            guard let key = b, key.letterState != .green, key.letterState != .yellow else { return }
             b?.updateColors(for: .gray)
         case "c":
+            guard let key = c, key.letterState != .green, key.letterState != .yellow else { return }
             c?.updateColors(for: .gray)
         case "d":
+            guard let key = d, key.letterState != .green, key.letterState != .yellow else { return }
             d?.updateColors(for: .gray)
         case "e":
+            guard let key = e, key.letterState != .green, key.letterState != .yellow else { return }
             e?.updateColors(for: .gray)
         case "f":
+            guard let key = f, key.letterState != .green, key.letterState != .yellow else { return }
             f?.updateColors(for: .gray)
         case "g":
+            guard let key = g, key.letterState != .green, key.letterState != .yellow else { return }
             g?.updateColors(for: .gray)
         case "h":
+            guard let key = h, key.letterState != .green, key.letterState != .yellow else { return }
             h?.updateColors(for: .gray)
         case "i":
+            guard let key = i, key.letterState != .green, key.letterState != .yellow else { return }
             i?.updateColors(for: .gray)
         case "j":
+            guard let key = j, key.letterState != .green, key.letterState != .yellow else { return }
             j?.updateColors(for: .gray)
         case "k":
+            guard let key = k, key.letterState != .green, key.letterState != .yellow else { return }
             k?.updateColors(for: .gray)
         case "l":
+            guard let key = l, key.letterState != .green, key.letterState != .yellow else { return }
             l?.updateColors(for: .gray)
         case "m":
+            guard let key = m, key.letterState != .green, key.letterState != .yellow else { return }
             m?.updateColors(for: .gray)
         case "n":
+            guard let key = n, key.letterState != .green, key.letterState != .yellow else { return }
             n?.updateColors(for: .gray)
         case "o":
+            guard let key = o, key.letterState != .green, key.letterState != .yellow else { return }
             o?.updateColors(for: .gray)
         case "p":
+            guard let key = p, key.letterState != .green, key.letterState != .yellow else { return }
             p?.updateColors(for: .gray)
         case "q":
+            guard let key = q, key.letterState != .green, key.letterState != .yellow else { return }
             q?.updateColors(for: .gray)
         case "r":
+            guard let key = r, key.letterState != .green, key.letterState != .yellow else { return }
             r?.updateColors(for: .gray)
         case "s":
+            guard let key = s, key.letterState != .green, key.letterState != .yellow else { return }
             s?.updateColors(for: .gray)
         case "t":
+            guard let key = t, key.letterState != .green, key.letterState != .yellow else { return }
             t?.updateColors(for: .gray)
         case "u":
+            guard let key = u, key.letterState != .green, key.letterState != .yellow else { return }
             u?.updateColors(for: .gray)
         case "v":
+            guard let key = v, key.letterState != .green, key.letterState != .yellow else { return }
             v?.updateColors(for: .gray)
         case "w":
+            guard let key = w, key.letterState != .green, key.letterState != .yellow else { return }
             w?.updateColors(for: .gray)
         case "x":
+            guard let key = x, key.letterState != .green, key.letterState != .yellow else { return }
             x?.updateColors(for: .gray)
         case "y":
+            guard let key = y, key.letterState != .green, key.letterState != .yellow else { return }
             y?.updateColors(for: .gray)
         case "z":
+            guard let key = z, key.letterState != .green, key.letterState != .yellow else { return }
             z?.updateColors(for: .gray)
         default: ()
         }

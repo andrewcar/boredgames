@@ -14,13 +14,14 @@ class GameModel: NSObject {
     var guessNumber: Guess = .first
     var currentLetter: CurrentLetter = .a0
     var answer: String?
-    var currentGuess = ""
     var firstGuess: String?
     var secondGuess: String?
     var thirdGuess: String?
     var fourthGuess: String?
     var fifthGuess: String?
     var sixthGuess: String?
+    var currentGuess = ""
+    var lastGuessInEmojis = ""
     var answerLetterCounts: [String: Int] = [
         "a": 0,
         "b": 0,
@@ -233,11 +234,12 @@ class GameModel: NSObject {
         populateAnswerLetterCountDictionary {}
     }
     
-    func resetGame() {
+    func resetGame(completion: @escaping () -> ()) {
         guessNumber = .first
         currentLetter = .a0
         answer = nil
         currentGuess = ""
+        lastGuessInEmojis = ""
         firstGuess = nil
         secondGuess = nil
         thirdGuess = nil
@@ -245,7 +247,11 @@ class GameModel: NSObject {
         fifthGuess = nil
         sixthGuess = nil
         resetSavedData()
-        setAnswerRandomly()
+        resetAnswerLetterCountDictionary {
+            self.resetCorrectGuessLetterCountDictionary {
+                completion()
+            }
+        }
     }
     
     private func resetSavedData() {
@@ -269,6 +275,20 @@ class GameModel: NSObject {
         for letter in answer {
             let letterString = "\(letter)"
             answerLetterCounts[letterString]! += 1
+        }
+        completion()
+    }
+    
+    func resetAnswerLetterCountDictionary(completion: @escaping () -> ()) {
+        for (key, _) in answerLetterCounts {
+            answerLetterCounts[key] = 0
+        }
+        completion()
+    }
+    
+    func resetCorrectGuessLetterCountDictionary(completion: @escaping () -> ()) {
+        for (key, _) in guessCorrectLetterCounts {
+            guessCorrectLetterCounts[key] = 0
         }
         completion()
     }

@@ -18,6 +18,7 @@ class KeyboardLetterView: UIView {
     // MARK: - Properties
     var letterDelegate: LetterDelegate!
     var letterLabel: UILabel?
+    var letterState: LetterState = .blank
     
     // MARK: - Initializers
     init(_ letter: String, frame: CGRect) {
@@ -64,12 +65,16 @@ class KeyboardLetterView: UIView {
         switch state {
         case .blank:
             backgroundColor = .nerdleKeyboardLightModeGray
+            letterState = .blank
         case .gray:
             backgroundColor = .nerdleLetterLightModeGray
+            letterState = .gray
         case .yellow:
             backgroundColor = .nerdleYellow
+            letterState = .yellow
         case .green:
             backgroundColor = .nerdleGreen
+            letterState = .green
         }
     }
     
