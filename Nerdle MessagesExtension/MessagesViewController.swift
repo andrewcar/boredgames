@@ -105,7 +105,7 @@ class MessagesViewController: MSMessagesAppViewController {
         message.url = components.url!
 
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "nerdle.png")
+        layout.image = UIImage(named: "nerdle_small.png")
         layout.caption = "Nerdle"
         layout.subcaption = "It's your turn!"
         layout.trailingSubcaption = GameModel.shared.lastGuessInEmojis
