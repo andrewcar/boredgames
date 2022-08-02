@@ -84,11 +84,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - NEW GAME BUTTON
+    /// gamecontroller.fill, eject.circle.fill, sparkles, wind, tornado, arrow.up.right.and.arrow.down.left.rectangle.fill, arrow.counterclockwise.circle.fill, arrow.triangle.2.circlepath, arrow.clockwise.circle.fill
     private func addNewGameButton() {
         newGameButton = UIButton(frame: Frame.NewGame.buttonFrame(view.frame))
         newGameButton?.addTarget(self, action: #selector(didTapNewGameButton(sender:)), for: .touchUpInside)
         let image = scaledSystemImage(
-            named: "gamecontroller.fill",
+            named: "arrow.triangle.2.circlepath",
             size: Frame.Stats.buttonSize,
             weight: .bold)
         newGameButton?.setImage(image, for: .normal)
@@ -97,12 +98,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - STATS BUTTON
-    /// chart.bar.xaxis, chart.bar.doc.horizontal
+    /// chart.bar.xaxis, chart.xyaxis.line, chart.bar.doc.horizontal, waveform.and.magnifyingglass
     private func addStatsButton() {
         statsButton = UIButton(frame: Frame.Stats.buttonFrame(view.frame))
         statsButton?.addTarget(self, action: #selector(didTapStatsButton(sender:)), for: .touchUpInside)
         let image = scaledSystemImage(
-            named: "waveform.and.magnifyingglass",
+            named: "chart.bar.xaxis",
             size: Frame.Stats.buttonSize,
             weight: .regular)
         statsButton?.setImage(image, for: .normal)
@@ -111,11 +112,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - GRID BUTTON
+    /// square.grid.3x3.middleright.filled, circle.grid.3x3.circle.fill, chart.xyaxis.line, chart.line.uptrend.xyaxis, chart.line.uptrend.xyaxis.circle.fill
     private func addGridButton() {
-        gridButton = UIButton(frame: Frame.Stats.hiddenButtonFrame(view.frame))
+        gridButton = UIButton(frame: Frame.Grid.hiddenButtonFrame(view.frame))
         gridButton?.addTarget(self, action: #selector(didTapGridButton(sender:)), for: .touchUpInside)
         let image = scaledSystemImage(
-            named: "square.grid.3x3.middleright.filled",
+            named: "circle.grid.3x3.circle.fill",
             size: Frame.Grid.buttonSize,
             weight: .regular)
         gridButton?.setImage(image, for: .normal)
@@ -163,7 +165,7 @@ class MessagesViewController: MSMessagesAppViewController {
             self.successView?.frame = Frame.Success.frame(self.view.frame)
             self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
             self.gridButton?.frame = Frame.Grid.hiddenButtonFrame(self.view.frame)
-            self.statsButton?.frame = Frame.Grid.buttonFrame(self.view.frame)
+            self.statsButton?.frame = Frame.Stats.buttonFrame(self.view.frame)
         } completion: { _ in
         }
     }

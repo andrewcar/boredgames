@@ -87,14 +87,14 @@ struct Frame {
         static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
                 x: padding * 4,
-                y: Grid.maxY(viewFrame) + 320,
+                y: Grid.maxY(viewFrame) + 280,
                 width: buttonSize.width,
                 height: buttonSize.height)
         }
         static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
-                x: padding * 4,
-                y: Grid.maxY(viewFrame) + 320 + 200,
+                x: -viewFrame.width,
+                y: Grid.maxY(viewFrame) + 280,
                 width: buttonSize.width,
                 height: buttonSize.height)
         }
@@ -116,7 +116,7 @@ struct Frame {
             (viewFrame.width / 2) - (letterSize(viewFrame).width / 2)
         }
         static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: -viewFrame.width, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(x: viewFrame.width * 2, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
         }
     }
     
@@ -141,15 +141,15 @@ struct Frame {
         static let buttonSize = CGSize(width: 50, height: 50)
         static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
-                x: viewFrame.width - buttonSize.width - (padding * 4),
-                y: Grid.maxY(viewFrame) + 320,
+                x: (viewFrame.width / 2) - (buttonSize.width / 2),
+                y: Grid.maxY(viewFrame) + 280,
                 width: buttonSize.width,
                 height: buttonSize.height)
         }
         static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
-                x: viewFrame.width - buttonSize.width - (padding * 4),
-                y: Grid.maxY(viewFrame) + 320 + 200,
+                x: (viewFrame.width / 2) - (buttonSize.width / 2),
+                y: Grid.maxY(viewFrame) + 280 + 200,
                 width: buttonSize.width,
                 height: buttonSize.height)
         }
@@ -160,15 +160,15 @@ struct Frame {
         static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
             let size = CGSize(width: buttonSize.width, height: buttonSize.height)
             return CGRect(
-                x: padding * 4,
-                y: Grid.maxY(viewFrame) + 320,
+                x: viewFrame.width - buttonSize.width - (padding * 4),
+                y: Grid.maxY(viewFrame) + 280,
                 width: size.width,
                 height: size.height)
         }
         static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
-                x: -viewFrame.width,
-                y: Grid.maxY(viewFrame) + 320,
+                x: viewFrame.width - buttonSize.width - (padding * 4) + viewFrame.width,
+                y: Grid.maxY(viewFrame) + 280,
                 width: buttonSize.width,
                 height: buttonSize.height)
         }
@@ -176,7 +176,7 @@ struct Frame {
             CGRect(x: 0, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
         }
         static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: viewFrame.width * 2, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(x: -viewFrame.width, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
         }
     }
 }
