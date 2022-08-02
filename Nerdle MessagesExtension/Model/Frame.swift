@@ -25,7 +25,79 @@ struct Frame {
         }
     }
     
+    struct SendButton {
+        static let size = CGSize(width: 50, height: 50)
+        static func originX(viewFrame: CGRect) -> CGFloat {
+            (viewFrame.width / 2) - (size.width / 2)
+        }
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: originX(viewFrame: viewFrame),
+                y: Frame.Grid.maxY(viewFrame) + Frame.Grid.bottomPadding,
+                width: size.width,
+                height: size.height)
+        }
+        static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: originX(viewFrame: viewFrame) + viewFrame.width,
+                y: Frame.Grid.maxY(viewFrame) + Frame.Grid.bottomPadding,
+                width: size.width,
+                height: size.height)
+        }
+    }
+    
+    struct Success {
+        static let size = CGSize(width: 116, height: 25)
+        
+        static func originX(viewFrame: CGRect) -> CGFloat {
+            (viewFrame.width / 2) - (size.width / 2)
+        }
+        static func originY(viewFrame: CGRect) -> CGFloat {
+            (viewFrame.height / 2) - (size.height / 2)
+        }
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: originX(viewFrame: viewFrame),
+                y: Grid.maxY(viewFrame) + (padding * 4),
+                width: size.width,
+                height: size.height)
+        }
+        static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: originX(viewFrame: viewFrame) - viewFrame.width,
+                y: Grid.maxY(viewFrame) + (padding * 4),
+                width: size.width,
+                height: size.height)
+        }
+    }
+    
+    struct NotInWordList {
+        static let size = CGSize(width: 126, height: 45)
+        
+        static func originX(viewFrame: CGRect) -> CGFloat {
+            (viewFrame.width / 2) - (size.width / 2)
+        }
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(x: originX(viewFrame: viewFrame), y: padding * 8, width: size.width, height: size.height)
+        }
+    }
+    
     struct Grid {
+        static let buttonSize = CGSize(width: 50, height: 50)
+        static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: padding * 4,
+                y: Grid.maxY(viewFrame) + 320,
+                width: buttonSize.width,
+                height: buttonSize.height)
+        }
+        static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: padding * 4,
+                y: Grid.maxY(viewFrame) + 320 + 200,
+                width: buttonSize.width,
+                height: buttonSize.height)
+        }
         static func outerPadding(_ viewFrame: CGRect) -> CGFloat {
             viewFrame.width / 7
         }
@@ -43,6 +115,9 @@ struct Frame {
         static func originX(_ viewFrame: CGRect) -> CGFloat {
             (viewFrame.width / 2) - (letterSize(viewFrame).width / 2)
         }
+        static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(x: -viewFrame.width, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+        }
     }
     
     struct Keyboard {
@@ -53,27 +128,55 @@ struct Frame {
                 width: viewFrame.width,
                 height: Frame.Grid.frame(viewFrame).width)
         }
-    }
-    
-    struct SendButton {
-        static func frame(_ viewFrame: CGRect) -> CGRect {
-            let size = CGSize(width: 50, height: 50)
-            return CGRect(
-                x: viewFrame.width - size.width - (padding * 5),
-                y: Grid.maxY(viewFrame) + 230,
-                width: size.width,
-                height: size.height)
+        static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: -viewFrame.width,
+                y: frame(viewFrame).minY,
+                width: viewFrame.width,
+                height: Frame.Grid.frame(viewFrame).width)
         }
     }
     
-    struct ResetButton {
-        static func frame(_ viewFrame: CGRect) -> CGRect {
-            let size = CGSize(width: 50, height: 50)
+    struct NewGame {
+        static let buttonSize = CGSize(width: 50, height: 50)
+        static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: viewFrame.width - buttonSize.width - (padding * 4),
+                y: Grid.maxY(viewFrame) + 320,
+                width: buttonSize.width,
+                height: buttonSize.height)
+        }
+        static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: viewFrame.width - buttonSize.width - (padding * 4),
+                y: Grid.maxY(viewFrame) + 320 + 200,
+                width: buttonSize.width,
+                height: buttonSize.height)
+        }
+    }
+    
+    struct Stats {
+        static let buttonSize = CGSize(width: 50, height: 50)
+        static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
+            let size = CGSize(width: buttonSize.width, height: buttonSize.height)
             return CGRect(
-                x: viewFrame.width - (size.width * 2) - (padding * 7),
-                y: Grid.maxY(viewFrame) + 230,
+                x: padding * 4,
+                y: Grid.maxY(viewFrame) + 320,
                 width: size.width,
                 height: size.height)
+        }
+        static func hiddenButtonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: -viewFrame.width,
+                y: Grid.maxY(viewFrame) + 320,
+                width: buttonSize.width,
+                height: buttonSize.height)
+        }
+        static func frame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(x: 0, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+        }
+        static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(x: viewFrame.width * 2, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
         }
     }
 }

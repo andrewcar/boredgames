@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4913C0E1289905930039745B /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E0289905930039745B /* UIImageExtensions.swift */; };
+		4913C0E5289913950039745B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E4289913950039745B /* StatsView.swift */; };
+		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
+		49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BAB2895853C00C5EB5E /* SuccessView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
 		495EAD75288F74CE004290AD /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* GameModel.swift */; };
@@ -24,7 +28,7 @@
 		49A07DD5288DB76B008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DD4288DB76B008270F9 /* Assets.xcassets */; };
 		49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE4288DC163008270F9 /* GridLetterView.swift */; };
 		49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE6288DC29C008270F9 /* LetterState.swift */; };
-		49A07DE9288DC459008270F9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE8288DC459008270F9 /* UIColorExtension.swift */; };
+		49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE8288DC459008270F9 /* UIColorExtensions.swift */; };
 		49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEA288F05C9008270F9 /* KeyboardView.swift */; };
 		49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +58,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4913C0E0289905930039745B /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		4913C0E4289913950039745B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
+		49231BAB2895853C00C5EB5E /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
 		495EAD74288F74CE004290AD /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
@@ -73,7 +81,7 @@
 		49A07DD6288DB76B008270F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49A07DE4288DC163008270F9 /* GridLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLetterView.swift; sourceTree = "<group>"; };
 		49A07DE6288DC29C008270F9 /* LetterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterState.swift; sourceTree = "<group>"; };
-		49A07DE8288DC459008270F9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		49A07DE8288DC459008270F9 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		49A07DEA288F05C9008270F9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +98,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4913C0E6289916C00039745B /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				4913C0E4289913950039745B /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		49231BAA2895852400C5EB5E /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				49231BAB2895853C00C5EB5E /* SuccessView.swift */,
+				49231BA82894B99000C5EB5E /* NotInWordListView.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
 		495EAD7828903C3D004290AD /* Grid */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				495EAD7828903C3D004290AD /* Grid */,
+				4913C0E6289916C00039745B /* Stats */,
 				495EAD7928903C43004290AD /* Keyboard */,
+				49231BAA2895852400C5EB5E /* Alerts */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,8 +219,9 @@
 		49A07DEE288F060E008270F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				49A07DE8288DC459008270F9 /* UIColorExtension.swift */,
+				49A07DE8288DC459008270F9 /* UIColorExtensions.swift */,
 				4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */,
+				4913C0E0289905930039745B /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -298,6 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
 				495EAD75288F74CE004290AD /* GameModel.swift in Sources */,
 				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
@@ -305,13 +334,16 @@
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				4993489D2890736A00BC6B0B /* Guess.swift in Sources */,
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
+				4913C0E5289913950039745B /* StatsView.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
 				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
 				495EAD7728903C06004290AD /* GridView.swift in Sources */,
+				49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */,
 				4993489B28906E3600BC6B0B /* Words.swift in Sources */,
-				49A07DE9288DC459008270F9 /* UIColorExtension.swift in Sources */,
+				49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */,
 				495EAD7B28903E19004290AD /* Frame.swift in Sources */,
+				4913C0E1289905930039745B /* UIImageExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

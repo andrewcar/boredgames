@@ -12,8 +12,7 @@ class NotInWordListView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        addSubviews()
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -23,9 +22,15 @@ class NotInWordListView: UIView {
     
     
     // MARK: - Private Methods
-    private func addSubviews() {
+    private func setup() {
+        addSubviews()
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = 4
         backgroundColor = .nerdleBorderDarkModeGray
-        
+        isHidden = true
+    }
+    
+    private func addSubviews() {
         let padding = (frame.height / 3) / 2
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: padding, width: frame.width, height: frame.height / 3))

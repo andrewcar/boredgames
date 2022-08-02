@@ -13,64 +13,124 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Properties
     private var logoImageView: UIImageView?
-    private var answerLabel: UILabel?
+    private var notInWordListView: NotInWordListView?
+    private var successView: SuccessView?
     private var gridView: GridView?
+    private var statsView: StatsView?
     private var sendButton: UIButton?
-    private var resetButton: UIButton?
+    private var newGameButton: UIButton?
+    private var statsButton: UIButton?
+    private var gridButton: UIButton?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         addLogo()
-//        addAnswerLabel()
         addGridView()
+        addNotInWordListView()
+        addSuccessView()
+        addStatsView()
         addSendButton()
-        addResetButton()
+        addNewGameButton()
+        addStatsButton()
+        addGridButton()
     }
     
     
-    // MARK: - Private Methods
+    // MARK: - LOGO IMAGE VIEW
     private func addLogo() {
         logoImageView = UIImageView(frame: Frame.Logo.frame(view.frame))
         logoImageView?.image = UIImage(named: "nerdle.png")
         view.addSubview(logoImageView!)
     }
     
-    private func addAnswerLabel() {
-        answerLabel = UILabel(frame: Frame.Logo.frame(view.frame))
-        answerLabel?.font = .systemFont(ofSize: 12, weight: .bold)
-        answerLabel?.textAlignment = .center
-        answerLabel?.textColor = .black
-        answerLabel?.layer.borderColor = UIColor.red.cgColor
-        answerLabel?.layer.borderWidth = 2
-        view.addSubview(answerLabel!)
+    // MARK: - NOT IN WORD LIST VIEW
+    private func addNotInWordListView() {
+        notInWordListView = NotInWordListView(frame: Frame.NotInWordList.frame(view.frame))
+        view.addSubview(notInWordListView!)
     }
     
+    // MARK: - SUCCESS VIEW
+    private func addSuccessView() {
+        successView = SuccessView(frame: Frame.Success.frame(view.frame))
+        view.addSubview(successView!)
+    }
+    
+    // MARK: - GRID VIEW
     private func addGridView() {
         gridView = GridView(frame: Frame.Grid.frame(view.frame))
+        gridView?.gridDelegate = self
         view.addSubview(gridView!)
     }
     
+    // MARK: - STATS VIEW
+    private func addStatsView() {
+        statsView = StatsView(frame: Frame.Stats.hiddenFrame(view.frame))
+//        statsView?.statsDelegate = self
+        view.addSubview(statsView!)
+    }
+    
+    // MARK: - SEND BUTTON
     private func addSendButton() {
-        sendButton = UIButton(frame: Frame.SendButton.frame(view.frame))
+        sendButton = UIButton(frame: Frame.SendButton.hiddenFrame(view.frame))
         sendButton?.addTarget(self, action: #selector(didTapSendButton(sender:)), for: .touchUpInside)
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 42, weight: .bold, scale: .medium)
-        let image = UIImage(systemName: "arrow.up.circle.fill", withConfiguration: largeConfig)!
+        let image = scaledSystemImage(
+            named: "arrow.up.circle.fill",
+            size: Frame.Stats.buttonSize,
+            weight: .bold)
         sendButton?.setImage(image, for: .normal)
         sendButton?.setTitleColor(.white, for: .normal)
         view.addSubview(sendButton!)
     }
     
-    private func addResetButton() {
-        resetButton = UIButton(frame: Frame.ResetButton.frame(view.frame))
-        resetButton?.addTarget(self, action: #selector(didTapResetButton(sender:)), for: .touchUpInside)
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 42, weight: .bold, scale: .medium)
-        let image = UIImage(systemName: "trash.circle.fill", withConfiguration: largeConfig)!
-        resetButton?.setImage(image, for: .normal)
-        resetButton?.setTitleColor(.white, for: .normal)
-        view.addSubview(resetButton!)
+    // MARK: - NEW GAME BUTTON
+    private func addNewGameButton() {
+        newGameButton = UIButton(frame: Frame.NewGame.buttonFrame(view.frame))
+        newGameButton?.addTarget(self, action: #selector(didTapNewGameButton(sender:)), for: .touchUpInside)
+        let image = scaledSystemImage(
+            named: "gamecontroller.fill",
+            size: Frame.Stats.buttonSize,
+            weight: .bold)
+        newGameButton?.setImage(image, for: .normal)
+        newGameButton?.setTitleColor(.white, for: .normal)
+        view.addSubview(newGameButton!)
     }
     
+    // MARK: - STATS BUTTON
+    /// chart.bar.xaxis, chart.bar.doc.horizontal
+    private func addStatsButton() {
+        statsButton = UIButton(frame: Frame.Stats.buttonFrame(view.frame))
+        statsButton?.addTarget(self, action: #selector(didTapStatsButton(sender:)), for: .touchUpInside)
+        let image = scaledSystemImage(
+            named: "waveform.and.magnifyingglass",
+            size: Frame.Stats.buttonSize,
+            weight: .regular)
+        statsButton?.setImage(image, for: .normal)
+        statsButton?.setTitleColor(.white, for: .normal)
+        view.addSubview(statsButton!)
+    }
+    
+    // MARK: - GRID BUTTON
+    private func addGridButton() {
+        gridButton = UIButton(frame: Frame.Stats.hiddenButtonFrame(view.frame))
+        gridButton?.addTarget(self, action: #selector(didTapGridButton(sender:)), for: .touchUpInside)
+        let image = scaledSystemImage(
+            named: "square.grid.3x3.middleright.filled",
+            size: Frame.Grid.buttonSize,
+            weight: .regular)
+        gridButton?.setImage(image, for: .normal)
+        gridButton?.setTitleColor(.white, for: .normal)
+        view.addSubview(gridButton!)
+    }
+    
+    // MARK: - SCALED SYSTEM IMAGE
+    private func scaledSystemImage(named systemImageName: String, size: CGSize, weight: UIImage.SymbolWeight) -> UIImage {
+        let config = UIImage.SymbolConfiguration(pointSize: 42, weight: weight, scale: .medium)
+        let image = UIImage(systemName: systemImageName, withConfiguration: config)!
+        return image.scalePreservingAspectRatio(targetSize: size)
+    }
+    
+    // MARK: - DID TAP SEND BUTTON
     @objc
     private func didTapSendButton(sender: UIButton) {
         activeConversation?.send(composeMessage(), completionHandler: { error in
@@ -80,13 +140,50 @@ class MessagesViewController: MSMessagesAppViewController {
         })
     }
     
+    // MARK: - DID TAP STATS BUTTON
     @objc
-    private func didTapResetButton(sender: UIButton) {
-        GameModel.shared.resetGame {}
-        gridView?.resetRows()
-        gridView?.keyboardView?.resetKeyboard()
+    private func didTapStatsButton(sender: UIButton) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+            self.statsView?.frame = Frame.Stats.frame(self.view.frame)
+            self.gridView?.frame = Frame.Grid.hiddenFrame(self.view.frame)
+            self.successView?.frame = Frame.Success.hiddenFrame(self.view.frame)
+            self.statsButton?.frame = Frame.Stats.hiddenButtonFrame(self.view.frame)
+            self.gridButton?.frame = Frame.Grid.buttonFrame(self.view.frame)
+            self.newGameButton?.frame = Frame.NewGame.hiddenButtonFrame(self.view.frame)
+        } completion: { _ in
+        }
     }
     
+    // MARK: - DID TAP GRID BUTTON
+    @objc
+    private func didTapGridButton(sender: UIButton) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+            self.gridView?.frame = Frame.Grid.frame(self.view.frame)
+            self.statsView?.frame = Frame.Stats.hiddenFrame(self.view.frame)
+            self.successView?.frame = Frame.Success.frame(self.view.frame)
+            self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
+            self.gridButton?.frame = Frame.Grid.hiddenButtonFrame(self.view.frame)
+            self.statsButton?.frame = Frame.Grid.buttonFrame(self.view.frame)
+        } completion: { _ in
+        }
+    }
+    
+    // MARK: - DID TAP NEW GAME BUTTON
+    @objc
+    private func didTapNewGameButton(sender: UIButton) {
+        reset()
+    }
+    
+    // MARK: - RESET
+    private func reset() {
+        GameModel.shared.resetGame {
+            self.gridView?.resetRows()
+            self.gridView?.keyboardView?.resetKeyboard()
+            self.successView?.isHidden = true
+        }
+    }
+    
+    // MARK: - COMPOSE MESSAGE
     private func composeMessage() -> MSMessage {
         let session = activeConversation?.selectedMessage?.session
         let message = MSMessage(session: session ?? MSSession())
@@ -114,6 +211,7 @@ class MessagesViewController: MSMessagesAppViewController {
         return message
     }
     
+    // MARK: - DECODE
     private func decode(_ message: MSMessage) {
         guard let url = message.url else {
             print("Could not get URL from MSMessage.")
@@ -207,26 +305,27 @@ class MessagesViewController: MSMessagesAppViewController {
         gridView?.keyboardView?.isUserInteractionEnabled = true
     }
     
-    // MARK: - Conversation Handling
-    override func willBecomeActive(with conversation: MSConversation) {
-        // Called when the extension is about to move from the inactive to active state.
-        // This will happen when the extension is about to present UI.
-        
-        // Use this method to configure the extension and restore previously stored state.
+    // MARK: - COME ALIVE
+    private func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
                 
         if let selectedMessage = conversation.selectedMessage {
             decode(selectedMessage)
             
+            // check for cached answer and update model if there is one
             if let answer = GameModel.shared.retrieveAnswer() {
                 GameModel.shared.answer = answer
             }
             
+            // check for cached guessNumber and update model if there is one
             if let guessNumber = GameModel.shared.retrieveGuessNumber() {
                 GameModel.shared.guessNumber = guessNumber
             }
             
+            // reset correct guess letter counts
             GameModel.shared.resetCorrectGuessLetterCountDictionary {
+                
+                // update the grid view with any cached guesses
                 self.gridView?.updateRows(
                     firstGuess: GameModel.shared.retrieveFirstGuess(),
                     secondGuess: GameModel.shared.retrieveSecondGuess(),
@@ -236,8 +335,45 @@ class MessagesViewController: MSMessagesAppViewController {
                     sixthGuess: GameModel.shared.retrieveSixthGuess(),
                     guessToAnimate: GameModel.shared.retrieveGuessNumber(),
                     completion: {
+                        
+                        // reset the emoji string
                         GameModel.shared.lastGuessInEmojis = ""
                         GameModel.shared.resetCorrectGuessLetterCountDictionary {}
+                        
+                        // if we have a cached guessNumber
+                        if let guessNumber = GameModel.shared.retrieveGuessNumber() {
+                            var currentGuess: String?
+                            switch guessNumber {
+                            case .first:
+                                if let firstGuess = GameModel.shared.retrieveFirstGuess() {
+                                    currentGuess = firstGuess
+                                }
+                            case .second:
+                                if let secondGuess = GameModel.shared.retrieveSecondGuess() {
+                                    currentGuess = secondGuess
+                                }
+                            case .third:
+                                if let thirdGuess = GameModel.shared.retrieveThirdGuess() {
+                                    currentGuess = thirdGuess
+                                }
+                            case .fourth:
+                                if let fourthGuess = GameModel.shared.retrieveFourthGuess() {
+                                    currentGuess = fourthGuess
+                                }
+                            case .fifth:
+                                if let fifthGuess = GameModel.shared.retrieveFifthGuess() {
+                                    currentGuess = fifthGuess
+                                }
+                            case .sixth:
+                                if let sixthGuess = GameModel.shared.retrieveSixthGuess() {
+                                    currentGuess = sixthGuess
+                                }
+                            }
+
+                            if currentGuess == GameModel.shared.answer {
+                                self.showSuccessView()
+                            }
+                        }
                     }
                 )
                 
@@ -263,10 +399,16 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
-    override func didBecomeActive(with conversation: MSConversation) {
-        answerLabel?.text = GameModel.shared.answer
+    // MARK: - WILL BECOME ACTIVE
+    override func willBecomeActive(with conversation: MSConversation) {
+        // Called when the extension is about to move from the inactive to active state.
+        // This will happen when the extension is about to present UI.
+        
+        // Use this method to configure the extension and restore previously stored state.
+        comeAlive(with: conversation)
     }
     
+    // MARK: - DID RESIGN ACTIVE
     override func didResignActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the active to inactive state.
         // This will happen when the user dismisses the extension, changes to a different
@@ -277,6 +419,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // in case it is terminated later.
     }
    
+    // MARK: - DID RECEIVE
     override func didReceive(_ message: MSMessage, conversation: MSConversation) {
         // Called when a message arrives that was generated by another instance of this
         // extension on a remote device.
@@ -284,23 +427,27 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to trigger UI updates in response to the message.
     }
     
+    // MARK: - DID START SENDING
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user taps the send button.
         requestPresentationStyle(.compact)
     }
     
+    // MARK: - DID CANCEL SENDING
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
     
         // Use this to clean up state related to the deleted message.
     }
     
+    // MARK: - DID SELECT
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
         if let selectedMessage = conversation.selectedMessage {
             decode(selectedMessage)
         }
     }
     
+    // MARK: - WILL TRANSITION
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
     
@@ -310,6 +457,7 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: - DID TRANSITION
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
     
@@ -318,8 +466,36 @@ class MessagesViewController: MSMessagesAppViewController {
 
 }
 
+// MARK: - DID FINISH COMPOSING
 extension MessagesViewController: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         //
+    }
+}
+
+// MARK: - GRID DELEGATE
+extension MessagesViewController: GridDelegate {
+    func showNotInWordListView() {
+        
+        notInWordListView?.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.notInWordListView?.isHidden = true
+        }
+    }
+    
+    func showSuccessView() {
+        self.successView?.isHidden = false
+    }
+    
+    func showAnswer() {
+        successView?.showAnswer()
+        successView?.isHidden = false
+    }
+    
+    func showSendButton() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveEaseIn) {
+            self.sendButton?.frame = Frame.SendButton.frame(self.view.frame)
+        } completion: { _ in
+        }
     }
 }

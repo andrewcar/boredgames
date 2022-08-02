@@ -1,5 +1,5 @@
 //
-//  UIColorExtension.swift
+//  UIColorExtensions.swift
 //  Nerdle MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/24/22.
