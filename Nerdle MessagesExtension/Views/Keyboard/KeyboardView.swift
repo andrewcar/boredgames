@@ -43,7 +43,7 @@ class KeyboardView: UIView {
     var b: KeyboardLetterView?
     var n: KeyboardLetterView?
     var m: KeyboardLetterView?
-    
+    var showing: Bool = true
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -289,6 +289,7 @@ class KeyboardView: UIView {
         for letter in [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z] {
             letter?.updateColors(for: .blank)
         }
+        isUserInteractionEnabled = true
     }
     
     

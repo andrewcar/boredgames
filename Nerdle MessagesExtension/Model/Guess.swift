@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Guess: String, CaseIterable {
+enum Guess: String, Hashable, Codable, CaseIterable {
     case first
     case second
     case third

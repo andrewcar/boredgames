@@ -9,6 +9,9 @@ import UIKit
 
 class StatsView: UIView {
     
+    // MARK: - Properties
+    var statBarView: StatBarView?
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,50 +24,41 @@ class StatsView: UIView {
     
     // MARK: - Private Methods
     private func addSubviews() {
-        addGamesPlayedLabels()
-        addWinsLabels()
-        addLossesLabels()
+        addStatBarView()
+        addResetButton()
     }
     
-    private func addGamesPlayedLabels() {
-        let playedNumberLabel = UILabel(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
-        playedNumberLabel.textAlignment = .center
-        playedNumberLabel.font = .systemFont(ofSize: 42, weight: .bold)
-        playedNumberLabel.text = "0"
-        addSubview(playedNumberLabel)
-        
-        let playedTitleLabel = UILabel(frame: CGRect(x: 50, y: 100, width: 100, height: 100))
-        playedTitleLabel.text = "Played"
-        playedTitleLabel.textAlignment = .center
-        playedTitleLabel.font = .systemFont(ofSize: 20, weight: .regular)
-        addSubview(playedTitleLabel)
+    private func addStatBarView() {
+        statBarView = StatBarView(frame: Frame.Stats.barFrame(frame))
+        addSubview(statBarView!)
     }
     
-    private func addWinsLabels() {
-        let winsNumberLabel = UILabel(frame: CGRect(x: 150, y: 50, width: 100, height: 100))
-        winsNumberLabel.textAlignment = .center
-        winsNumberLabel.font = .systemFont(ofSize: 42, weight: .bold)
-        winsNumberLabel.text = "0"
-        addSubview(winsNumberLabel)
-        
-        let winsTitleLabel = UILabel(frame: CGRect(x: 150, y: 100, width: 100, height: 100))
-        winsTitleLabel.text = "Wins"
-        winsTitleLabel.textAlignment = .center
-        winsTitleLabel.font = .systemFont(ofSize: 20, weight: .regular)
-        addSubview(winsTitleLabel)
+    // MARK: - RESET BUTTON
+    private func addResetButton() {
+        let resetButton = UIButton(frame: Frame.Stats.resetButtonFrame(frame))
+        resetButton.addTarget(self, action: #selector(didTapResetButton(sender:)), for: .touchUpInside)
+        let image = UIImage().scaledSystemImage(
+            named: "eject.circle.fill",
+            size: Frame.Stats.buttonSize,
+            weight: .bold)
+        resetButton.setImage(image, for: .normal)
+        resetButton.setTitleColor(.white, for: .normal)
+        addSubview(resetButton)
     }
     
-    private func addLossesLabels() {
-        let lossesNumberLabel = UILabel(frame: CGRect(x: 250, y: 50, width: 100, height: 100))
-        lossesNumberLabel.textAlignment = .center
-        lossesNumberLabel.font = .systemFont(ofSize: 42, weight: .bold)
-        lossesNumberLabel.text = "0"
-        addSubview(lossesNumberLabel)
-        
-        let lossesTitleLabel = UILabel(frame: CGRect(x: 250, y: 100, width: 100, height: 100))
-        lossesTitleLabel.text = "Losses"
-        lossesTitleLabel.textAlignment = .center
-        lossesTitleLabel.font = .systemFont(ofSize: 20, weight: .regular)
-        addSubview(lossesTitleLabel)
+    // MARK: - DID TAP RESET BUTTON
+    @objc
+    private func didTapResetButton(sender: UIButton) {
+        var games = GameModel.shared.games
+        games.value.removeAll()
+        games.gameCount = 0
+        games.winCount = 0
+        games.lossCount = 0
+        GamesCache.save(games)
+        statBarView?.playedNumberLabel?.text = "\(games.gameCount)"
+        statBarView?.winsNumberLabel?.text = "\(games.winCount)"
+        statBarView?.lossesNumberLabel?.text = "\(games.lossCount)"
+        GameModel.shared.games = games
     }
+    
 }

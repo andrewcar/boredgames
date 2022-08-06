@@ -11,6 +11,8 @@
 		4913C0E5289913950039745B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E4289913950039745B /* StatsView.swift */; };
 		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
 		49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BAB2895853C00C5EB5E /* SuccessView.swift */; };
+		49250181289B5B4D0037122E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49250180289B5B4D0037122E /* Game.swift */; };
+		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
 		495EAD75288F74CE004290AD /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* GameModel.swift */; };
@@ -31,6 +33,8 @@
 		49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE8288DC459008270F9 /* UIColorExtensions.swift */; };
 		49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEA288F05C9008270F9 /* KeyboardView.swift */; };
 		49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */; };
+		49A647B7289B9D12008A97A4 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A647B6289B9D12008A97A4 /* GameState.swift */; };
+		49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A647BA289BA858008A97A4 /* GamesCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +66,8 @@
 		4913C0E4289913950039745B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
 		49231BAB2895853C00C5EB5E /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
+		49250180289B5B4D0037122E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
 		495EAD74288F74CE004290AD /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
@@ -84,6 +90,8 @@
 		49A07DE8288DC459008270F9 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		49A07DEA288F05C9008270F9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		49A07DEF288F0B4E008270F9 /* KeyboardLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterView.swift; sourceTree = "<group>"; };
+		49A647B6289B9D12008A97A4 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		49A647BA289BA858008A97A4 /* GamesCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				4913C0E4289913950039745B /* StatsView.swift */,
+				4950D937289B8184004BA711 /* StarBarView.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -212,6 +221,8 @@
 				4993489C2890736A00BC6B0B /* Guess.swift */,
 				495EAD72288F7461004290AD /* CurrentLetter.swift */,
 				4993489A28906E3600BC6B0B /* Words.swift */,
+				49250180289B5B4D0037122E /* Game.swift */,
+				49A647B6289B9D12008A97A4 /* GameState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -222,6 +233,7 @@
 				49A07DE8288DC459008270F9 /* UIColorExtensions.swift */,
 				4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */,
 				4913C0E0289905930039745B /* UIImageExtensions.swift */,
+				49A647BA289BA858008A97A4 /* GamesCache.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -326,20 +338,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49A647B7289B9D12008A97A4 /* GameState.swift in Sources */,
 				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
 				495EAD75288F74CE004290AD /* GameModel.swift in Sources */,
 				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
+				4950D938289B8184004BA711 /* StarBarView.swift in Sources */,
 				4993489D2890736A00BC6B0B /* Guess.swift in Sources */,
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
 				4913C0E5289913950039745B /* StatsView.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
 				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
+				49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */,
 				495EAD7728903C06004290AD /* GridView.swift in Sources */,
 				49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */,
+				49250181289B5B4D0037122E /* Game.swift in Sources */,
 				4993489B28906E3600BC6B0B /* Words.swift in Sources */,
 				49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */,
 				495EAD7B28903E19004290AD /* Frame.swift in Sources */,

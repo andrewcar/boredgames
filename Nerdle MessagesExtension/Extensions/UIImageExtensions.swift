@@ -33,4 +33,15 @@ extension UIImage {
         }
         return scaledImage
     }
+    
+    func scaledSystemImage(named systemImageName: String, size: CGSize, weight: UIImage.SymbolWeight, color: UIColor? = nil) -> UIImage {
+        let config = UIImage.SymbolConfiguration(pointSize: 28, weight: weight, scale: .medium)
+        var image = UIImage(systemName: systemImageName, withConfiguration: config)!
+        
+        if let color = color {
+            image = image.withTintColor(color)
+        }
+        
+        return image.scalePreservingAspectRatio(targetSize: size)
+    }
 }

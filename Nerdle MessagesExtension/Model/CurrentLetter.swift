@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CurrentLetter: CaseIterable {
+enum CurrentLetter: Hashable, Codable, CaseIterable {
     case a0
     case a1
     case a2

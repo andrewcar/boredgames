@@ -11,16 +11,10 @@ class GameModel: NSObject {
     
     // MARK: - Properties
     static let shared = GameModel()
+    
     var words: Words?
-    var guessNumber: Guess = .first
-    var currentLetter: CurrentLetter = .a0
-    var answer: String?
-    var firstGuess: String?
-    var secondGuess: String?
-    var thirdGuess: String?
-    var fourthGuess: String?
-    var fifthGuess: String?
-    var sixthGuess: String?
+    var games = Games(value: [])
+    var currentGame: Game?
     var currentGuess = ""
     var lastGuessInEmojis = ""
     var answerLetterCounts: [String: Int] = [
@@ -51,7 +45,63 @@ class GameModel: NSObject {
         "y": 0,
         "z": 0
     ]
-    var guessCorrectLetterCounts: [String: Int] = [
+    var guessLetterCounts: [String: Int] = [
+        "a": 0,
+        "b": 0,
+        "c": 0,
+        "d": 0,
+        "e": 0,
+        "f": 0,
+        "g": 0,
+        "h": 0,
+        "i": 0,
+        "j": 0,
+        "k": 0,
+        "l": 0,
+        "m": 0,
+        "n": 0,
+        "o": 0,
+        "p": 0,
+        "q": 0,
+        "r": 0,
+        "s": 0,
+        "t": 0,
+        "u": 0,
+        "v": 0,
+        "w": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0
+    ]
+    var guessGreenLetterCounts: [String: Int] = [
+        "a": 0,
+        "b": 0,
+        "c": 0,
+        "d": 0,
+        "e": 0,
+        "f": 0,
+        "g": 0,
+        "h": 0,
+        "i": 0,
+        "j": 0,
+        "k": 0,
+        "l": 0,
+        "m": 0,
+        "n": 0,
+        "o": 0,
+        "p": 0,
+        "q": 0,
+        "r": 0,
+        "s": 0,
+        "t": 0,
+        "u": 0,
+        "v": 0,
+        "w": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0
+    ]
+    var guessYellowLetterCounts: [String: Int] = [
         "a": 0,
         "b": 0,
         "c": 0,
@@ -80,7 +130,7 @@ class GameModel: NSObject {
         "z": 0
     ]
     
-    // MARK: - Public Methods
+    // MARK: - LOAD FILE
     func load<T: Decodable>(_ filename: String) -> T {
         let data: Data
         
@@ -102,177 +152,41 @@ class GameModel: NSObject {
         }
     }
     
-    func save(answer: String?) {
-        self.answer = answer
-        if let answer = answer {
-            UserDefaults.standard.set(answer, forKey: "answer")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "answer")
+    // MARK: - UPDATE GAMES
+    func updateGames(with game: Game) {
+        guard !games.value.contains(where: { $0.number == game.number }) else { return }
+        
+        games.value.append(game)
+        
+        if game.state == .won {
+            games.winCount += 1
+        } else if game.state == .lost {
+            games.lossCount += 1
         }
+        games.gameCount += 1
+        
+        GamesCache.save(games)
     }
     
-    func retrieveAnswer() -> String? {
-        guard let answer = UserDefaults.standard.string(forKey: "answer") else { return nil }
-        return answer
-    }
-    
-    func save(firstGuess: String?) {
-        self.firstGuess = firstGuess
-        if let firstGuess = firstGuess {
-            UserDefaults.standard.set(firstGuess, forKey: "firstGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "firstGuess")
+    // MARK: - UPDATE GAMES FROM USER DEFAULTS
+    func updateGamesFromUserDefaults() {
+        if let cachedGames = GamesCache.get() {
+            games = cachedGames
         }
-    }
-    
-    func retrieveFirstGuess() -> String? {
-        guard let firstGuess = UserDefaults.standard.string(forKey: "firstGuess") else { return nil }
-        return firstGuess
-    }
-    
-    func save(secondGuess: String?) {
-        self.secondGuess = secondGuess
-        if let secondGuess = secondGuess {
-            UserDefaults.standard.set(secondGuess, forKey: "secondGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "secondGuess")
-        }
-    }
-    
-    func retrieveSecondGuess() -> String? {
-        guard let secondGuess = UserDefaults.standard.string(forKey: "secondGuess") else { return nil }
-        return secondGuess
-    }
-    
-    func save(thirdGuess: String?) {
-        self.thirdGuess = thirdGuess
-        if let thirdGuess = thirdGuess {
-            UserDefaults.standard.set(thirdGuess, forKey: "thirdGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "thirdGuess")
-        }
-    }
-    
-    func retrieveThirdGuess() -> String? {
-        guard let thirdGuess = UserDefaults.standard.string(forKey: "thirdGuess") else { return nil }
-        return thirdGuess
-    }
-    
-    func save(fourthGuess: String?) {
-        self.fourthGuess = fourthGuess
-        if let fourthGuess = fourthGuess {
-            UserDefaults.standard.set(fourthGuess, forKey: "fourthGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "fourthGuess")
-        }
-    }
-    
-    func retrieveFourthGuess() -> String? {
-        guard let fourthGuess = UserDefaults.standard.string(forKey: "fourthGuess") else { return nil }
-        return fourthGuess
-    }
-    
-    func save(fifthGuess: String?) {
-        self.fifthGuess = fifthGuess
-        if let fifthGuess = fifthGuess {
-            UserDefaults.standard.set(fifthGuess, forKey: "fifthGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "fifthGuess")
-        }
-    }
-    
-    func retrieveFifthGuess() -> String? {
-        guard let fifthGuess = UserDefaults.standard.string(forKey: "fifthGuess") else { return nil }
-        return fifthGuess
     }
 
-    func save(sixthGuess: String?) {
-        self.sixthGuess = sixthGuess
-        if let sixthGuess = sixthGuess {
-            UserDefaults.standard.set(sixthGuess, forKey: "sixthGuess")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "sixthGuess")
-        }
-    }
-    
-    func retrieveSixthGuess() -> String? {
-        guard let sixthGuess = UserDefaults.standard.string(forKey: "sixthGuess") else { return nil }
-        return sixthGuess
-    }
-    
-    func save(guessNumber: String?) {
-        switch guessNumber {
-        case "first":
-            self.guessNumber = .first
-        case "second":
-            self.guessNumber = .second
-        case "third":
-            self.guessNumber = .third
-        case "fourth":
-            self.guessNumber = .fourth
-        case "fifth":
-            self.guessNumber = .fifth
-        case "sixth":
-            self.guessNumber = .sixth
-        default: ()
-        }
-        if let guessNumber = guessNumber {
-            UserDefaults.standard.set(guessNumber, forKey: "guessNumber")
-        } else {
-            UserDefaults.standard.removeObject(forKey: "guessNumber")
-        }
-    }
-    
-    func retrieveGuessNumber() -> Guess? {
-        guard let guessNumber = UserDefaults.standard.string(forKey: "guessNumber") else { return nil }
-        return Guess(rawValue: guessNumber)
-    }
-    
+    // MARK: - SET ANSWER RANDOMLY
     func setAnswerRandomly() {
         words = GameModel.shared.load("words.json")
         guard let randomWord = words?.list.randomElement() else { return }
-        answer = randomWord
+        currentGame?.answer = randomWord
+        currentGame?.number += 1
         populateAnswerLetterCountDictionary {}
     }
     
-    func resetGame(completion: @escaping () -> ()) {
-        guessNumber = .first
-        currentLetter = .a0
-        answer = nil
-        currentGuess = ""
-        lastGuessInEmojis = ""
-        firstGuess = nil
-        secondGuess = nil
-        thirdGuess = nil
-        fourthGuess = nil
-        fifthGuess = nil
-        sixthGuess = nil
-        resetSavedData()
-        resetAnswerLetterCountDictionary {
-            self.resetCorrectGuessLetterCountDictionary {
-                completion()
-            }
-        }
-    }
-    
-    private func resetSavedData() {
-        save(answer: nil)
-        save(guessNumber: nil)
-        save(firstGuess: nil)
-        save(secondGuess: nil)
-        save(thirdGuess: nil)
-        save(fourthGuess: nil)
-        save(fifthGuess: nil)
-        save(sixthGuess: nil)
-    }
-    
-    func incrementGuessLetter(_ letter: String) {
-        guessCorrectLetterCounts[letter.lowercased()]! += 1
-    }
-    
-    // MARK: - Private Methods
+    // MARK: - POPULATE ANSWER LETTER COUNTS
     func populateAnswerLetterCountDictionary(completion: @escaping () -> ()) {
-        guard let answer = answer else { completion(); return }
+        guard let answer = currentGame?.answer else { completion(); return }
         for letter in answer {
             let letterString = "\(letter)"
             answerLetterCounts[letterString]! += 1
@@ -280,17 +194,57 @@ class GameModel: NSObject {
         completion()
     }
     
+    // MARK: - POPULATE GUESS LETTER COUNTS
+    func populateGuessLetterCountDictionary(with guess: String, completion: @escaping () -> ()) {
+        let lowercasedGuess = guess.lowercased()
+        for letter in lowercasedGuess {
+            let letterString = "\(letter)"
+            guessLetterCounts[letterString]! += 1
+        }
+        completion()
+    }
+    
+    // MARK: - RESET ANSWER LETTER COUNTS
     func resetAnswerLetterCountDictionary(completion: @escaping () -> ()) {
         for (key, _) in answerLetterCounts {
             answerLetterCounts[key] = 0
         }
         completion()
     }
-    
-    func resetCorrectGuessLetterCountDictionary(completion: @escaping () -> ()) {
-        for (key, _) in guessCorrectLetterCounts {
-            guessCorrectLetterCounts[key] = 0
+        
+    // MARK: - RESET GUESS GREEN/YELLOW LETTER COUNTS
+    func resetGuessLetterCountDictionary(completion: @escaping () -> ()) {
+        for (key, _) in guessLetterCounts {
+            guessLetterCounts[key] = 0
+        }
+        for (key, _) in guessGreenLetterCounts {
+            guessGreenLetterCounts[key] = 0
+        }
+        for (key, _) in guessYellowLetterCounts {
+            guessYellowLetterCounts[key] = 0
         }
         completion()
+    }
+    
+    // MARK: - INCREMENT GREEN GUESS LETTER
+    func incrementGreenGuessLetter(_ letter: String) {
+        guessGreenLetterCounts[letter.lowercased()]! += 1
+    }
+    
+    // MARK: - INCREMENT YELLOW GUESS LETTER
+    func incrementYellowGuessLetter(_ letter: String) {
+        guessYellowLetterCounts[letter.lowercased()]! += 1
+    }
+    
+    // MARK: - RESET GAME
+    func resetGame(completion: @escaping () -> ()) {
+        currentGame = Game()
+        currentGuess = ""
+        lastGuessInEmojis = ""
+        resetAnswerLetterCountDictionary {
+            self.resetGuessLetterCountDictionary {
+                completion()
+            }
+        }
     }
 }

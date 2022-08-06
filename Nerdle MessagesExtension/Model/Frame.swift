@@ -33,7 +33,7 @@ struct Frame {
         static func frame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
                 x: originX(viewFrame: viewFrame),
-                y: Frame.Grid.maxY(viewFrame) + Frame.Grid.bottomPadding,
+                y: Frame.Grid.maxY(viewFrame) + Frame.Success.frame(viewFrame).height + (Frame.Grid.bottomPadding * 2),
                 width: size.width,
                 height: size.height)
         }
@@ -173,10 +173,39 @@ struct Frame {
                 height: buttonSize.height)
         }
         static func frame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: 0, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(
+                x: 0,
+                y: Frame.Logo.maxY,
+                width: viewFrame.width,
+                height: viewFrame.height)
         }
         static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: -viewFrame.width, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(
+                x: -viewFrame.width,
+                y: Frame.Logo.maxY,
+                width: viewFrame.width,
+                height: viewFrame.height)
+        }
+        static func statPadding(_ viewFrame: CGRect) -> CGFloat {
+            viewFrame.width / 7
+        }
+        static func barSize(_ viewFrame: CGRect) -> CGSize {
+            let width = viewFrame.width - statPadding(viewFrame)
+            return CGSize(width: width, height: width / 2)
+        }
+        static func barFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: (viewFrame.width / 2) - (barSize(viewFrame).width / 2),
+                y: Frame.Logo.maxY + Frame.Logo.bottomPadding,
+                width: barSize(viewFrame).width,
+                height: barSize(viewFrame).height)
+        }
+        static func resetButtonFrame(_ viewFrame: CGRect) -> CGRect {
+            CGRect(
+                x: (viewFrame.width / 2) - 50,
+                y: barFrame(viewFrame).maxY + statPadding(viewFrame),
+                width: 100,
+                height: 100)
         }
     }
 }

@@ -11,7 +11,7 @@ protocol GridDelegate {
     func showNotInWordListView()
     func showSuccessView()
     func showAnswer()
-    func showSendButton()
+    func showSendButton(completion: @escaping () -> ())
 }
 
 class GridView: UIView {
@@ -282,8 +282,8 @@ class GridView: UIView {
         }
     }
 
-    // MARK: - UPDATE ROWS
-    func updateRows(firstGuess: String?,
+    // MARK: - UPDATE ROWS FROM MESSAGE
+    func updateRowsFromMessage(firstGuess: String?,
                     secondGuess: String?,
                     thirdGuess: String?,
                     fourthGuess: String?,
@@ -332,7 +332,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE FIRST ROW
     func updateFirstRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateA1(for: guess, animated: animated) {
                 self.updateA2(for: guess, animated: animated) {
                     self.updateA3(for: guess, animated: animated) {
@@ -349,7 +349,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE SECOND ROW
     func updateSecondRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateB1(for: guess, animated: animated) {
                 self.updateB2(for: guess, animated: animated) {
                     self.updateB3(for: guess, animated: animated) {
@@ -366,7 +366,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE THIRD ROW
     func updateThirdRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateC1(for: guess, animated: animated) {
                 self.updateC2(for: guess, animated: animated) {
                     self.updateC3(for: guess, animated: animated) {
@@ -383,7 +383,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE FOURTH ROW
     func updateFourthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateD1(for: guess, animated: animated) {
                 self.updateD2(for: guess, animated: animated) {
                     self.updateD3(for: guess, animated: animated) {
@@ -400,7 +400,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE FIFTH ROW
     func updateFifthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateE1(for: guess, animated: animated) {
                 self.updateE2(for: guess, animated: animated) {
                     self.updateE3(for: guess, animated: animated) {
@@ -417,7 +417,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE SIXTH ROW
     func updateSixthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementCorrectLetterCounts(guess: guess) {
+        incrementGreenLetterCounts(guess: guess) {
             self.updateF1(for: guess, animated: animated) {
                 self.updateF2(for: guess, animated: animated) {
                     self.updateF3(for: guess, animated: animated) {
@@ -432,72 +432,72 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - CHECK FIRST ROW
-    private func checkFirstRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE FIRST ROW FROM ENTER
+    private func updateFirstRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.firstGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
+        GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
             self.updateFirstRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
         })
     }
     
-    // MARK: - CHECK SECOND ROW
-    private func checkSecondRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE SECOND ROW FROM ENTER
+    private func updateSecondRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.secondGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSecondRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
         }
     }
     
-    // MARK: - CHECK THIRD ROW
-    private func checkThirdRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE THIRD ROW FROM ENTER
+    private func updateThirdRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.thirdGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateThirdRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
         }
     }
     
-    // MARK: - CHECK FOURTH ROW
-    private func checkFourthRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE FOURTH ROW FROM ENTER
+    private func updateFourthRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.fourthGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFourthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
         }
     }
     
-    // MARK: - CHECK FIFTH ROW
-    private func checkFifthRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE FIFTH ROW FROM ENTER
+    private func updateFifthRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.fifthGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFifthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
         }
     }
     
-    // MARK: - CHECK SIXTH ROW
-    private func checkSixthRow(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+    // MARK: - UPDATE SIXTH ROW FROM ENTER
+    private func updateSixthRowFromEnter(completion: @escaping () -> ()) {
+        guard GameModel.shared.currentGame?.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
-        GameModel.shared.sixthGuess = GameModel.shared.currentGuess.lowercased()
-        incrementCorrectLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess.lowercased()
+        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSixthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -507,258 +507,307 @@ class GridView: UIView {
 
 
     
-    // MARK: - CHECK ROWS
-    private func checkRows(completion: @escaping () -> ()) {
-        switch GameModel.shared.guessNumber {
+    // MARK: - UPDATE ROWS FROM ENTER
+    private func updateRowsFromEnter(completion: @escaping () -> ()) {
+        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
+        guard let guessNumber = currentGame.guessNumber else { completion(); return }
+        switch guessNumber {
         case .first:
-            checkFirstRow { completion() }
+            updateFirstRowFromEnter { completion() }
         case .second:
-            checkSecondRow { completion() }
+            updateSecondRowFromEnter { completion() }
         case .third:
-            checkThirdRow { completion() }
+            updateThirdRowFromEnter { completion() }
         case .fourth:
-            checkFourthRow { completion() }
+            updateFourthRowFromEnter { completion() }
         case .fifth:
-            checkFifthRow { completion() }
+            updateFifthRowFromEnter { completion() }
         case .sixth:
-            checkSixthRow { completion() }
+            updateSixthRowFromEnter { completion() }
         }
     }
     
-    // MARK: - INCREMENT CORRECT LETTER COUNTS
-    private func incrementCorrectLetterCounts(guess: String, completion: @escaping () -> ()) {
-        guard let answer = GameModel.shared.answer else { return }
-        
+    // MARK: - INCREMENT GREEN LETTER COUNTS
+    private func incrementGreenLetterCounts(guess: String, completion: @escaping () -> ()) {
+        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
+        guard let answer = currentGame.answer else { completion(); return }
+
         for (letterIndex, letterCharacter) in guess.enumerated() {
             let letter = "\(letterCharacter)"
-            
+            guard let answerLetterCount = GameModel.shared.answerLetterCounts[letter] else { completion(); return }
+            guard let guessLetterCount = GameModel.shared.guessLetterCounts[letter] else { completion(); return }
+            guard let yellowLetterCount = GameModel.shared.guessYellowLetterCounts[letter] else { completion(); return }
+
             if guess[letterIndex] == answer[letterIndex] {
-                GameModel.shared.incrementGuessLetter(letter)
+                GameModel.shared.incrementGreenGuessLetter(letter)
+            }
+            
+            // if the guess letter is the same as the answer's letter in that slot, mark it green
+            if guess[letterIndex] == answer[letterIndex] {
+                GameModel.shared.incrementGreenGuessLetter(letter)
+
+            // if the guess letter is not in the answer, make it gray
+            } else if !answer.contains(letter) {
+                //
+                
+            // if there are more of the guess letter in the guess than in the answer, it's either yellow or gray...
+            } else if guessLetterCount > answerLetterCount {
+                
+                if answerLetterCount <= yellowLetterCount {
+                    //
+                } else {
+                    GameModel.shared.incrementYellowGuessLetter(letter)
+                }
+
+            } else if answerLetterCount == yellowLetterCount {
+                //
+            } else {
+                GameModel.shared.incrementYellowGuessLetter(letter)
             }
         }
         completion()
     }
     
     // MARK: - UPDATE LETTER VIEW
-    private func update(letterView: GridLetterView?, with guess: String?, at guessIndex: Int, animated: Bool, completion: @escaping () -> ()) {
-        guard let answer = GameModel.shared.answer else { return }
-        
+    private func updateHint(letterView: GridLetterView?, with guess: String?, at guessIndex: Int, animated: Bool, completion: @escaping () -> ()) {
+        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
+        guard let answer = currentGame.answer else { completion(); return }
         if let guess = guess {
             letterView?.updateLetter(with: "\(guess.uppercased()[guessIndex])")
         }
         
         let guess = guess?.lowercased() ?? GameModel.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[guessIndex])".lowercased()
+        guard let answerLetterCount = GameModel.shared.answerLetterCounts[guessLetter] else { completion(); return }
+        guard let guessLetterCount = GameModel.shared.guessLetterCounts[guessLetter] else { completion(); return }
+        guard let yellowLetterCount = GameModel.shared.guessYellowLetterCounts[guessLetter] else { completion(); return }
 
-        // if first guessed letter is same as the word's first letter, make it green
+        // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
+            keyboardView?.setKeyToGreen(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟩"
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
-            keyboardView?.setKeyToGreen(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟩"
             
-            // if first guessed letter is not in word, make it gray
+        // if the guess letter is not in the answer, make it gray
         } else if !answer.contains(guessLetter) {
+            keyboardView?.setKeyToGray(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
+            
+        // if there are more of the guess letter in the guess than in the answer, it's either yellow or gray...
+        } else if guessLetterCount > answerLetterCount {
+            
+            if answerLetterCount <= yellowLetterCount {
+                keyboardView?.setKeyToGray(for: guessLetter)
+                GameModel.shared.lastGuessInEmojis += "⬜️"
+                letterView?.updateLetter(to: .gray, animated: animated, completion: {
+                    completion()
+                })
+            } else {
+                keyboardView?.setKeyToYellow(for: guessLetter)
+                GameModel.shared.lastGuessInEmojis += "🟨"
+                letterView?.updateLetter(to: .yellow, animated: animated, completion: {
+                    completion()
+                })
+            }
+
+        } else if answerLetterCount == yellowLetterCount {
             keyboardView?.setKeyToGray(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "⬜️"
-                        
-        } else if GameModel.shared.answerLetterCounts[guessLetter]! > GameModel.shared.guessCorrectLetterCounts[guessLetter]! {
+            letterView?.updateLetter(to: .gray, animated: animated, completion: {
+                completion()
+            })
+
+        } else {
+            keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
-            keyboardView?.setKeyToYellow(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟨"
-
-        } else {
-            letterView?.updateLetter(to: .gray, animated: animated, completion: {
-                completion()
-            })
-            keyboardView?.setKeyToGray(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "⬜️"
         }
     }
     
     // MARK: - UPDATE GRID
     private func updateA1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: a1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: a1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateA2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: a2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: a2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateA3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: a3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: a3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateA4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: a4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: a4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateA5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: a5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: a5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
     
     private func updateB1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: b1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: b1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateB2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: b2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: b2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateB3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: b3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: b3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateB4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: b4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: b4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateB5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: b5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: b5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
     
     private func updateC1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: c1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: c1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateC2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: c2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: c2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateC3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: c3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: c3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateC4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: c4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: c4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateC5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: c5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: c5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
     
     private func updateD1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: d1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: d1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateD2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: d2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: d2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateD3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: d3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: d3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateD4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: d4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: d4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateD5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: d5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: d5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
     
     private func updateE1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: e1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: e1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateE2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: e2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: e2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateE3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: e3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: e3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateE4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: e4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: e4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateE5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: e5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: e5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
     
     private func updateF1(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: f1, with: guess, at: 0, animated: animated) {
+        updateHint(letterView: f1, with: guess, at: 0, animated: animated) {
             completion()
         }
     }
     
     private func updateF2(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: f2, with: guess, at: 1, animated: animated) {
+        updateHint(letterView: f2, with: guess, at: 1, animated: animated) {
             completion()
         }
     }
     
     private func updateF3(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: f3, with: guess, at: 2, animated: animated) {
+        updateHint(letterView: f3, with: guess, at: 2, animated: animated) {
             completion()
         }
     }
     
     private func updateF4(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: f4, with: guess, at: 3, animated: animated) {
+        updateHint(letterView: f4, with: guess, at: 3, animated: animated) {
             completion()
         }
     }
     
     private func updateF5(for guess: String? = nil, animated: Bool = true, completion: @escaping () -> ()) {
-        update(letterView: f5, with: guess, at: 4, animated: animated) {
+        updateHint(letterView: f5, with: guess, at: 4, animated: animated) {
             completion()
         }
     }
@@ -768,193 +817,194 @@ extension GridView: KeyboardDelegate {
     
     // MARK: - DID TAP LETTER
     func didTapLetter(_ letter: String) {
-        switch GameModel.shared.currentLetter {
+        guard let currentGame = GameModel.shared.currentGame else { return }
+        switch currentGame.currentLetter {
         case .a0:
-            GameModel.shared.guessNumber = .first
+            GameModel.shared.currentGame?.guessNumber = .first
             a1?.updateLetter(with: letter)
             a1?.setBorderActive()
             a1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .a1
+            GameModel.shared.currentGame?.currentLetter = .a1
         case .a1:
             a2?.updateLetter(with: letter)
             a2?.setBorderActive()
             a2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .a2
+            GameModel.shared.currentGame?.currentLetter = .a2
         case .a2:
             a3?.updateLetter(with: letter)
             a3?.setBorderActive()
             a3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .a3
+            GameModel.shared.currentGame?.currentLetter = .a3
         case .a3:
             a4?.updateLetter(with: letter)
             a4?.setBorderActive()
             a4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .a4
+            GameModel.shared.currentGame?.currentLetter = .a4
         case .a4:
             a5?.updateLetter(with: letter)
             a5?.setBorderActive()
             a5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .a5
+            GameModel.shared.currentGame?.currentLetter = .a5
         case .b0:
-            GameModel.shared.guessNumber = .second
+            GameModel.shared.currentGame?.guessNumber = .second
             b1?.updateLetter(with: letter)
             b1?.setBorderActive()
             b1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .b1
+            GameModel.shared.currentGame?.currentLetter = .b1
         case .b1:
             b2?.updateLetter(with: letter)
             b2?.setBorderActive()
             b2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .b2
+            GameModel.shared.currentGame?.currentLetter = .b2
         case .b2:
             b3?.updateLetter(with: letter)
             b3?.setBorderActive()
             b3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .b3
+            GameModel.shared.currentGame?.currentLetter = .b3
         case .b3:
             b4?.updateLetter(with: letter)
             b4?.setBorderActive()
             b4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .b4
+            GameModel.shared.currentGame?.currentLetter = .b4
         case .b4:
             b5?.updateLetter(with: letter)
             b5?.setBorderActive()
             b5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .b5
+            GameModel.shared.currentGame?.currentLetter = .b5
         case .c0:
-            GameModel.shared.guessNumber = .third
+            GameModel.shared.currentGame?.guessNumber = .third
             c1?.updateLetter(with: letter)
             c1?.setBorderActive()
             c1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .c1
+            GameModel.shared.currentGame?.currentLetter = .c1
         case .c1:
             c2?.updateLetter(with: letter)
             c2?.setBorderActive()
             c2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .c2
+            GameModel.shared.currentGame?.currentLetter = .c2
         case .c2:
             c3?.updateLetter(with: letter)
             c3?.setBorderActive()
             c3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .c3
+            GameModel.shared.currentGame?.currentLetter = .c3
         case .c3:
             c4?.updateLetter(with: letter)
             c4?.setBorderActive()
             c4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .c4
+            GameModel.shared.currentGame?.currentLetter = .c4
         case .c4:
             c5?.updateLetter(with: letter)
             c5?.setBorderActive()
             c5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .c5
+            GameModel.shared.currentGame?.currentLetter = .c5
         case .d0:
-            GameModel.shared.guessNumber = .fourth
+            GameModel.shared.currentGame?.guessNumber = .fourth
             d1?.updateLetter(with: letter)
             d1?.setBorderActive()
             d1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .d1
+            GameModel.shared.currentGame?.currentLetter = .d1
         case .d1:
             d2?.updateLetter(with: letter)
             d2?.setBorderActive()
             d2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .d2
+            GameModel.shared.currentGame?.currentLetter = .d2
         case .d2:
             d3?.updateLetter(with: letter)
             d3?.setBorderActive()
             d3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .d3
+            GameModel.shared.currentGame?.currentLetter = .d3
         case .d3:
             d4?.updateLetter(with: letter)
             d4?.setBorderActive()
             d4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .d4
+            GameModel.shared.currentGame?.currentLetter = .d4
         case .d4:
             d5?.updateLetter(with: letter)
             d5?.setBorderActive()
             d5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .d5
+            GameModel.shared.currentGame?.currentLetter = .d5
         case .e0:
-            GameModel.shared.guessNumber = .fifth
+            GameModel.shared.currentGame?.guessNumber = .fifth
             e1?.updateLetter(with: letter)
             e1?.setBorderActive()
             e1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .e1
+            GameModel.shared.currentGame?.currentLetter = .e1
         case .e1:
             e2?.updateLetter(with: letter)
             e2?.setBorderActive()
             e2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .e2
+            GameModel.shared.currentGame?.currentLetter = .e2
         case .e2:
             e3?.updateLetter(with: letter)
             e3?.setBorderActive()
             e3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .e3
+            GameModel.shared.currentGame?.currentLetter = .e3
         case .e3:
             e4?.updateLetter(with: letter)
             e4?.setBorderActive()
             e4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .e4
+            GameModel.shared.currentGame?.currentLetter = .e4
         case .e4:
             e5?.updateLetter(with: letter)
             e5?.setBorderActive()
             e5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .e5
+            GameModel.shared.currentGame?.currentLetter = .e5
         case .f0:
-            GameModel.shared.guessNumber = .sixth
+            GameModel.shared.currentGame?.guessNumber = .sixth
             f1?.updateLetter(with: letter)
             f1?.setBorderActive()
             f1?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .f1
+            GameModel.shared.currentGame?.currentLetter = .f1
         case .f1:
             f2?.updateLetter(with: letter)
             f2?.setBorderActive()
             f2?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .f2
+            GameModel.shared.currentGame?.currentLetter = .f2
         case .f2:
             f3?.updateLetter(with: letter)
             f3?.setBorderActive()
             f3?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .f3
+            GameModel.shared.currentGame?.currentLetter = .f3
         case .f3:
             f4?.updateLetter(with: letter)
             f4?.setBorderActive()
             f4?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .f4
+            GameModel.shared.currentGame?.currentLetter = .f4
         case .f4:
             f5?.updateLetter(with: letter)
             f5?.setBorderActive()
             f5?.growAndShrink()
             GameModel.shared.currentGuess += letter
-            GameModel.shared.currentLetter = .f5
+            GameModel.shared.currentGame?.currentLetter = .f5
         case .a5, .b5, .c5, .d5, .e5, .f5: ()
         }
     }
@@ -986,7 +1036,10 @@ extension GridView: KeyboardDelegate {
     
     // MARK: - SHAKE CURRENT ROW
     private func shakeCurrentRow() {
-        switch GameModel.shared.guessNumber {
+        guard let currentGame = GameModel.shared.currentGame else { return }
+        guard let guessNumber = currentGame.guessNumber else { return }
+        
+        switch guessNumber {
         case .first:
             for letterView in [a1, a2, a3, a4, a5] {
                 shakeLetterView(letterView)
@@ -1022,7 +1075,7 @@ extension GridView: KeyboardDelegate {
             shakeCurrentRow()
             return false
         }
-        if GameModel.shared.guessNumber == .first {
+        if let guessNumber = GameModel.shared.currentGame?.guessNumber, guessNumber == .first {
             GameModel.shared.setAnswerRandomly()
         }
         return true
@@ -1030,6 +1083,7 @@ extension GridView: KeyboardDelegate {
     
     // MARK: - SLIDE KEYBOARD TO LEFT
     private func slideKeyboard(completion: @escaping () -> ()) {
+        keyboardView?.showing = false
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveEaseIn) {
             self.keyboardView?.frame = Frame.Keyboard.hiddenFrame(self.frame)
         } completion: { _ in
@@ -1039,187 +1093,210 @@ extension GridView: KeyboardDelegate {
     
     // MARK: - DID TAP ENTER
     func didTapEnter() {
+        guard let currentGame = GameModel.shared.currentGame else { return }
         guard GameModel.shared.currentGuess.count == 5 else { return }
         
         guard wordIsInList() else { return }
         
-        self.checkRows {
-            if GameModel.shared.currentGuess == GameModel.shared.answer {
-                self.gridDelegate?.showSuccessView()
-            } else {
-                switch GameModel.shared.currentLetter {
-                case .a5:
-                    GameModel.shared.currentLetter = .b0
-                case .b5:
-                    GameModel.shared.currentLetter = .c0
-                case .c5:
-                    GameModel.shared.currentLetter = .d0
-                case .d5:
-                    GameModel.shared.currentLetter = .e0
-                case .e5:
-                    GameModel.shared.currentLetter = .f0
-                default: ()
+        GameModel.shared.populateGuessLetterCountDictionary(with: GameModel.shared.currentGuess) {
+            self.updateRowsFromEnter {
+                if GameModel.shared.currentGuess.lowercased() != currentGame.answer {
+                    switch currentGame.currentLetter {
+                    case .a5:
+                        GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess
+                        GameModel.shared.currentGame?.currentLetter = .b0
+                    case .b5:
+                        GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess
+                        GameModel.shared.currentGame?.currentLetter = .c0
+                    case .c5:
+                        GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess
+                        GameModel.shared.currentGame?.currentLetter = .d0
+                    case .d5:
+                        GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess
+                        GameModel.shared.currentGame?.currentLetter = .e0
+                    case .e5:
+                        GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess
+                        GameModel.shared.currentGame?.currentLetter = .f0
+                    case .f5:
+                        GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess
+                        self.gridDelegate?.showAnswer()
+                        GameModel.shared.currentGame?.state = .lost
+                    default: ()
+                    }
                 }
-            }
-            GameModel.shared.currentGuess = ""
-            
-            self.slideKeyboard {
-                self.gridDelegate?.showSendButton()
+                
+                if GameModel.shared.currentGuess.lowercased() == GameModel.shared.currentGame?.answer {
+                    self.gridDelegate?.showSuccessView()
+                    GameModel.shared.currentGame?.state = .won
+                }
+                
+                if let updatedCurrentGame = GameModel.shared.currentGame,
+                    (updatedCurrentGame.state == .won || updatedCurrentGame.state == .lost) {
+                    GameModel.shared.updateGames(with: updatedCurrentGame)
+                }
+                
+                GameModel.shared.currentGuess = ""
+                
+                self.slideKeyboard {
+                    self.gridDelegate?.showSendButton {}
+                }
             }
         }
     }
     
     // MARK: - DID TAP BACKSPACE
     func didTapBackspace() {
+        guard let currentGame = GameModel.shared.currentGame else { return }
+        
         if !GameModel.shared.currentGuess.isEmpty {
             GameModel.shared.currentGuess.removeLast()
         }
         
-        switch GameModel.shared.currentLetter {
+        switch currentGame.currentLetter {
         case .a1:
             a1?.updateLetter(with: "")
             a1?.setBorderInactive()
-            GameModel.shared.currentLetter = .a0
+            GameModel.shared.currentGame?.currentLetter = .a0
         case .a2:
             a2?.updateLetter(with: "")
             a2?.setBorderInactive()
             a1?.setBorderActive()
-            GameModel.shared.currentLetter = .a1
+            GameModel.shared.currentGame?.currentLetter = .a1
         case .a3:
             a3?.updateLetter(with: "")
             a3?.setBorderInactive()
             a2?.setBorderActive()
-            GameModel.shared.currentLetter = .a2
+            GameModel.shared.currentGame?.currentLetter = .a2
         case .a4:
             a4?.updateLetter(with: "")
             a4?.setBorderInactive()
             a3?.setBorderActive()
-            GameModel.shared.currentLetter = .a3
+            GameModel.shared.currentGame?.currentLetter = .a3
         case .a5:
             a5?.updateLetter(with: "")
             a5?.setBorderInactive()
             a4?.setBorderActive()
-            GameModel.shared.currentLetter = .a4
+            GameModel.shared.currentGame?.currentLetter = .a4
         case .b1:
             b1?.updateLetter(with: "")
             b1?.setBorderInactive()
-            GameModel.shared.currentLetter = .b0
+            GameModel.shared.currentGame?.currentLetter = .b0
         case .b2:
             b2?.updateLetter(with: "")
             b2?.setBorderInactive()
             b1?.setBorderActive()
-            GameModel.shared.currentLetter = .b1
+            GameModel.shared.currentGame?.currentLetter = .b1
         case .b3:
             b3?.updateLetter(with: "")
             b3?.setBorderInactive()
             b2?.setBorderActive()
-            GameModel.shared.currentLetter = .b2
+            GameModel.shared.currentGame?.currentLetter = .b2
         case .b4:
             b4?.updateLetter(with: "")
             b4?.setBorderInactive()
             b3?.setBorderActive()
-            GameModel.shared.currentLetter = .b3
+            GameModel.shared.currentGame?.currentLetter = .b3
         case .b5:
             b5?.updateLetter(with: "")
             b5?.setBorderInactive()
             b4?.setBorderActive()
-            GameModel.shared.currentLetter = .b4
+            GameModel.shared.currentGame?.currentLetter = .b4
         case .c1:
             c1?.updateLetter(with: "")
             c1?.setBorderInactive()
-            GameModel.shared.currentLetter = .c0
+            GameModel.shared.currentGame?.currentLetter = .c0
         case .c2:
             c2?.updateLetter(with: "")
             c2?.setBorderInactive()
             c1?.setBorderActive()
-            GameModel.shared.currentLetter = .c1
+            GameModel.shared.currentGame?.currentLetter = .c1
         case .c3:
             c3?.updateLetter(with: "")
             c3?.setBorderInactive()
             c2?.setBorderActive()
-            GameModel.shared.currentLetter = .c2
+            GameModel.shared.currentGame?.currentLetter = .c2
         case .c4:
             c4?.updateLetter(with: "")
             c4?.setBorderInactive()
             c3?.setBorderActive()
-            GameModel.shared.currentLetter = .c3
+            GameModel.shared.currentGame?.currentLetter = .c3
         case .c5:
             c5?.updateLetter(with: "")
             c5?.setBorderInactive()
             c4?.setBorderActive()
-            GameModel.shared.currentLetter = .c4
+            GameModel.shared.currentGame?.currentLetter = .c4
         case .d1:
             d1?.updateLetter(with: "")
             d1?.setBorderInactive()
-            GameModel.shared.currentLetter = .d0
+            GameModel.shared.currentGame?.currentLetter = .d0
         case .d2:
             d2?.updateLetter(with: "")
             d2?.setBorderInactive()
             d1?.setBorderActive()
-            GameModel.shared.currentLetter = .d1
+            GameModel.shared.currentGame?.currentLetter = .d1
         case .d3:
             d3?.updateLetter(with: "")
             d3?.setBorderInactive()
             d2?.setBorderActive()
-            GameModel.shared.currentLetter = .d2
+            GameModel.shared.currentGame?.currentLetter = .d2
         case .d4:
             d4?.updateLetter(with: "")
             d4?.setBorderInactive()
             d3?.setBorderActive()
-            GameModel.shared.currentLetter = .d3
+            GameModel.shared.currentGame?.currentLetter = .d3
         case .d5:
             d5?.updateLetter(with: "")
             d5?.setBorderInactive()
             d4?.setBorderActive()
-            GameModel.shared.currentLetter = .d4
+            GameModel.shared.currentGame?.currentLetter = .d4
         case .e1:
             e1?.updateLetter(with: "")
             e1?.setBorderInactive()
-            GameModel.shared.currentLetter = .e0
+            GameModel.shared.currentGame?.currentLetter = .e0
         case .e2:
             e2?.updateLetter(with: "")
             e2?.setBorderInactive()
             e1?.setBorderActive()
-            GameModel.shared.currentLetter = .e1
+            GameModel.shared.currentGame?.currentLetter = .e1
         case .e3:
             e3?.updateLetter(with: "")
             e3?.setBorderInactive()
             e2?.setBorderActive()
-            GameModel.shared.currentLetter = .e2
+            GameModel.shared.currentGame?.currentLetter = .e2
         case .e4:
             e4?.updateLetter(with: "")
             e4?.setBorderInactive()
             e3?.setBorderActive()
-            GameModel.shared.currentLetter = .e3
+            GameModel.shared.currentGame?.currentLetter = .e3
         case .e5:
             e5?.updateLetter(with: "")
             e5?.setBorderInactive()
             e4?.setBorderActive()
-            GameModel.shared.currentLetter = .e4
+            GameModel.shared.currentGame?.currentLetter = .e4
         case .f1:
             f1?.updateLetter(with: "")
             f1?.setBorderInactive()
-            GameModel.shared.currentLetter = .f0
+            GameModel.shared.currentGame?.currentLetter = .f0
         case .f2:
             f2?.updateLetter(with: "")
             f2?.setBorderInactive()
             f1?.setBorderActive()
-            GameModel.shared.currentLetter = .f1
+            GameModel.shared.currentGame?.currentLetter = .f1
         case .f3:
             f3?.updateLetter(with: "")
             f3?.setBorderInactive()
             f2?.setBorderActive()
-            GameModel.shared.currentLetter = .f2
+            GameModel.shared.currentGame?.currentLetter = .f2
         case .f4:
             f4?.updateLetter(with: "")
             f4?.setBorderInactive()
             f3?.setBorderActive()
-            GameModel.shared.currentLetter = .f3
+            GameModel.shared.currentGame?.currentLetter = .f3
         case .f5:
             f5?.updateLetter(with: "")
             f5?.setBorderInactive()
             f4?.setBorderActive()
-            GameModel.shared.currentLetter = .f4
+            GameModel.shared.currentGame?.currentLetter = .f4
         default: ()
         }
     }
