@@ -7,16 +7,22 @@
 
 import Foundation
 
+protocol GameDelegate {
+    func didUpdateGame()
+}
+
 class GameModel: NSObject {
     
     // MARK: - Properties
     static let shared = GameModel()
     
+    var gameDelegate: GameDelegate!
     var words: Words?
     var games = Games(value: [])
     var currentGame: Game?
     var currentGuess = ""
     var lastGuessInEmojis = ""
+    var lastLastGuessInEmojis = ""
     var answerLetterCounts: [String: Int] = [
         "a": 0,
         "b": 0,
@@ -154,18 +160,23 @@ class GameModel: NSObject {
     
     // MARK: - UPDATE GAMES
     func updateGames(with game: Game) {
-        guard !games.value.contains(where: { $0.number == game.number }) else { return }
-        
+        guard !games.value.contains(where: { aGame in
+            aGame.id == game.id
+        }) else {
+            return
+        }
+        games.gameCount += 1
         games.value.append(game)
         
         if game.state == .won {
             games.winCount += 1
+            games.streakCount += 1
         } else if game.state == .lost {
             games.lossCount += 1
+            games.streakCount = 0
         }
-        games.gameCount += 1
-        
         GamesCache.save(games)
+        gameDelegate?.didUpdateGame()
     }
     
     // MARK: - UPDATE GAMES FROM USER DEFAULTS
@@ -180,7 +191,6 @@ class GameModel: NSObject {
         words = GameModel.shared.load("words.json")
         guard let randomWord = words?.list.randomElement() else { return }
         currentGame?.answer = randomWord
-        currentGame?.number += 1
         populateAnswerLetterCountDictionary {}
     }
     

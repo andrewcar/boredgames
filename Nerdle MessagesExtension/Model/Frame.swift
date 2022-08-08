@@ -110,13 +110,21 @@ struct Frame {
             Frame.Logo.bottomPadding + Frame.Logo.size.height + (padding * 6) + (letterSize(viewFrame).height * 6)
         }
         static func frame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: 0, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(
+                x: 0,
+                y: Frame.Logo.maxY,
+                width: viewFrame.width,
+                height: viewFrame.height)
         }
         static func originX(_ viewFrame: CGRect) -> CGFloat {
             (viewFrame.width / 2) - (letterSize(viewFrame).width / 2)
         }
         static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
-            CGRect(x: viewFrame.width * 2, y: Frame.Logo.maxY, width: viewFrame.width, height: viewFrame.height)
+            CGRect(
+                x: -viewFrame.width,
+                y: Frame.Logo.maxY,
+                width: viewFrame.width,
+                height: viewFrame.height)
         }
     }
     
@@ -181,17 +189,17 @@ struct Frame {
         }
         static func hiddenFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
-                x: -viewFrame.width,
+                x: viewFrame.width,
                 y: Frame.Logo.maxY,
                 width: viewFrame.width,
                 height: viewFrame.height)
         }
         static func statPadding(_ viewFrame: CGRect) -> CGFloat {
-            viewFrame.width / 7
+            viewFrame.width * 0.1277
         }
         static func barSize(_ viewFrame: CGRect) -> CGSize {
             let width = viewFrame.width - statPadding(viewFrame)
-            return CGSize(width: width, height: width / 2)
+            return CGSize(width: width, height: width * 0.25)
         }
         static func barFrame(_ viewFrame: CGRect) -> CGRect {
             CGRect(

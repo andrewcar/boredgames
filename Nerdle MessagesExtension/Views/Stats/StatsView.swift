@@ -54,10 +54,12 @@ class StatsView: UIView {
         games.gameCount = 0
         games.winCount = 0
         games.lossCount = 0
+        games.streakCount = 0
         GamesCache.save(games)
         statBarView?.playedNumberLabel?.text = "\(games.gameCount)"
         statBarView?.winsNumberLabel?.text = "\(games.winCount)"
         statBarView?.lossesNumberLabel?.text = "\(games.lossCount)"
+        statBarView?.streakNumberLabel?.text = "\(games.streakCount)"
         GameModel.shared.games = games
     }
     

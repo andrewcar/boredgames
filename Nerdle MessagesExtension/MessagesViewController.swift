@@ -37,7 +37,6 @@ class MessagesViewController: MSMessagesAppViewController {
         addGridButton()
     }
     
-    
     // MARK: - LOGO IMAGE VIEW
     private func addLogo() {
         logoImageView = UIImageView(frame: Frame.Logo.frame(view.frame))
@@ -85,12 +84,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - NEW GAME BUTTON
-    /// gamecontroller.fill, eject.circle.fill, sparkles, wind, tornado, arrow.up.right.and.arrow.down.left.rectangle.fill, arrow.counterclockwise.circle.fill, arrow.triangle.2.circlepath, arrow.clockwise.circle.fill, arrow.triangle.2.circlepath, scribble.variable
+    /// gamecontroller.fill, eject.circle.fill, sparkles, wind, tornado, arrow.up.right.and.arrow.down.left.rectangle.fill, arrow.counterclockwise.circle.fill, arrow.triangle.2.circlepath, arrow.clockwise.circle.fill, arrow.triangle.2.circlepath, scribble.variable, scribble
     private func addNewGameButton() {
-        newGameButton = UIButton(frame: Frame.NewGame.buttonFrame(view.frame))
+        newGameButton = UIButton(frame: Frame.NewGame.hiddenButtonFrame(view.frame))
         newGameButton?.addTarget(self, action: #selector(didTapNewGameButton(sender:)), for: .touchUpInside)
         let image = UIImage().scaledSystemImage(
-            named: "scribble",
+            named: "arrow.clockwise.circle.fill",
             size: Frame.Stats.buttonSize,
             weight: .bold)
         newGameButton?.setImage(image, for: .normal)
@@ -104,7 +103,7 @@ class MessagesViewController: MSMessagesAppViewController {
         statsButton = UIButton(frame: Frame.Stats.buttonFrame(view.frame))
         statsButton?.addTarget(self, action: #selector(didTapStatsButton(sender:)), for: .touchUpInside)
         let image = UIImage().scaledSystemImage(
-            named: "chart.bar.xaxis",
+            named: "books.vertical.fill",
             size: Frame.Stats.buttonSize,
             weight: .regular)
         statsButton?.setImage(image, for: .normal)
@@ -113,12 +112,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - GRID BUTTON
-    /// square.grid.3x3.middleright.filled, circle.grid.3x3.circle.fill, chart.xyaxis.line, chart.line.uptrend.xyaxis, chart.line.uptrend.xyaxis.circle.fill
+    /// square.grid.3x3.middleright.filled, circle.grid.3x3.circle.fill
     private func addGridButton() {
         gridButton = UIButton(frame: Frame.Grid.hiddenButtonFrame(view.frame))
         gridButton?.addTarget(self, action: #selector(didTapGridButton(sender:)), for: .touchUpInside)
         let image = UIImage().scaledSystemImage(
-            named: "square.grid.3x3.middleright.filled",
+            named: "gamecontroller.fill",
             size: Frame.Grid.buttonSize,
             weight: .regular)
         gridButton?.setImage(image, for: .normal)
@@ -159,7 +158,9 @@ class MessagesViewController: MSMessagesAppViewController {
             self.gridView?.frame = Frame.Grid.frame(self.view.frame)
             self.statsView?.frame = Frame.Stats.hiddenFrame(self.view.frame)
             self.successView?.frame = Frame.Success.frame(self.view.frame)
-            self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
+            if let currentGame = GameModel.shared.currentGame, currentGame.state == .won {
+                self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
+            }
             self.gridButton?.frame = Frame.Grid.hiddenButtonFrame(self.view.frame)
             self.statsButton?.frame = Frame.Stats.buttonFrame(self.view.frame)
             if let keyboardView = self.gridView?.keyboardView, !keyboardView.showing {
@@ -173,6 +174,7 @@ class MessagesViewController: MSMessagesAppViewController {
     @objc
     private func didTapNewGameButton(sender: UIButton) {
         reset()
+        GamesCache.remove()
     }
     
     // MARK: - RESET
@@ -193,7 +195,7 @@ class MessagesViewController: MSMessagesAppViewController {
         var queryItems: [URLQueryItem] = []
         if let currentGame = GameModel.shared.currentGame {
             
-            queryItems.append(URLQueryItem(name: "gameNumber", value: "\(currentGame.number)"))
+            queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
             queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
             
             if let answer = currentGame.answer {
@@ -226,10 +228,71 @@ class MessagesViewController: MSMessagesAppViewController {
         message.url = components.url!
 
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "nerdle.png")
+        layout.image = UIImage(named: "nerdle_small.png")
         layout.caption = "Nerdle"
-        layout.subcaption = "It's your turn!"
-        layout.trailingSubcaption = GameModel.shared.lastGuessInEmojis
+        if let currentGame = GameModel.shared.currentGame,
+            let guessNumber = currentGame.guessNumber {
+            GamesCache.remove()
+            var subcaptionString: String
+            switch guessNumber {
+            case .first:
+                if let answer = currentGame.answer,
+                    let guess1 = currentGame.guess1,
+                    answer == guess1 {
+                    subcaptionString = "We got it in 1 💀"
+                } else {
+                    subcaptionString = "Guess it in 2."
+                }
+            case .second:
+                if let answer = currentGame.answer,
+                    let guess2 = currentGame.guess2,
+                    answer == guess2 {
+                    subcaptionString = "We got it in 2!"
+                } else {
+                    subcaptionString = "Guess it in 3."
+                }
+            case .third:
+                if let answer = currentGame.answer,
+                    let guess3 = currentGame.guess3,
+                    answer == guess3 {
+                    subcaptionString = "We got it in 3 😎🥳"
+                } else {
+                    subcaptionString = "Guess it in 4."
+                }
+            case .fourth:
+                if let answer = currentGame.answer,
+                    let guess4 = currentGame.guess4,
+                    answer == guess4 {
+                    subcaptionString = "We got it in 4 👍"
+                } else {
+                    subcaptionString = "Guess it in 5."
+                }
+            case .fifth:
+                if let answer = currentGame.answer,
+                    let guess5 = currentGame.guess5,
+                    answer == guess5 {
+                    subcaptionString = "We got it in 5."
+                } else {
+                    subcaptionString = "Guess it in 6."
+                }
+            case .sixth:
+                if let answer = currentGame.answer,
+                    let guess6 = currentGame.guess6,
+                    answer == guess6 {
+                    subcaptionString = "🫣 Did we get it?"
+                } else {
+                    subcaptionString = "🫥"
+                }
+            }
+            layout.subcaption = subcaptionString
+        }
+        
+        if #available(iOS 16.0, *) {
+            layout.trailingCaption = GameModel.shared.lastGuessInEmojis
+//            layout.trailingSubcaption = GameModel.shared.lastGuessInEmojis
+        } else {
+            layout.trailingCaption = GameModel.shared.lastGuessInEmojis
+        }
 
         message.layout = layout
         return message
@@ -248,7 +311,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         if let queryItems = components.queryItems {
             
-            var gameNumber: String?
+            var id: UUID?
             var answer: String?
             var firstGuess: String?
             var secondGuess: String?
@@ -262,9 +325,9 @@ class MessagesViewController: MSMessagesAppViewController {
             for queryItem in queryItems {
                 if let value = queryItem.value {
                     switch queryItem.name {
-                    case "gameNumber":
+                    case "id":
                         if !value.isEmpty {
-                            gameNumber = value
+                            id = UUID(uuidString: value)
                         }
                     case "answer":
                         if !value.isEmpty {
@@ -309,9 +372,9 @@ class MessagesViewController: MSMessagesAppViewController {
            
             let guessNumberValue = guessNumber ?? "first"
             let stateValue = state ?? "playing"
-            if let gameNumber = gameNumber, let gameNumberInt = Int(gameNumber) {
+            if let id = id {
                 let game = Game(
-                    number: gameNumberInt,
+                    id: id,
                     answer: answer,
                     guess1: firstGuess,
                     guess2: secondGuess,
@@ -322,7 +385,6 @@ class MessagesViewController: MSMessagesAppViewController {
                     guessNumber: Guess(rawValue: guessNumberValue),
                     state: GameState(rawValue: stateValue) ?? .playing)
                 GameModel.shared.currentGame = game
-                GameModel.shared.updateGames(with: game)
                 GameModel.shared.resetAnswerLetterCountDictionary {}
                 GameModel.shared.populateAnswerLetterCountDictionary {}
             }
@@ -333,7 +395,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - COME ALIVE
     private func comeAlive(with conversation: MSConversation) {
-        requestPresentationStyle(.expanded)
+//        requestPresentationStyle(.expanded)
                 
         if let selectedMessage = conversation.selectedMessage {
             reset()
@@ -343,91 +405,82 @@ class MessagesViewController: MSMessagesAppViewController {
             GameModel.shared.resetGuessLetterCountDictionary {
                 
                 // update the grid view with any cached guesses
-                self.gridView?.updateRowsFromMessage(
-                    firstGuess: GameModel.shared.currentGame?.guess1,
-                    secondGuess: GameModel.shared.currentGame?.guess2,
-                    thirdGuess: GameModel.shared.currentGame?.guess3,
-                    fourthGuess: GameModel.shared.currentGame?.guess4,
-                    fifthGuess: GameModel.shared.currentGame?.guess5,
-                    sixthGuess: GameModel.shared.currentGame?.guess6,
-                    guessToAnimate: GameModel.shared.currentGame?.guessNumber,
-                    completion: {
-                        
-                        // reset the emoji string
-                        GameModel.shared.lastGuessInEmojis = ""
-                        GameModel.shared.resetGuessLetterCountDictionary {}
-                        
-                        // if we have a cached guessNumber
-                        if let guessNumber = GameModel.shared.currentGame?.guessNumber {
-                            var currentGuess: String?
-                            switch guessNumber {
-                            case .first:
-                                if let firstGuess = GameModel.shared.currentGame?.guess1 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: firstGuess) {
-                                        currentGuess = firstGuess
-                                    }
-                                }
-                            case .second:
-                                if let secondGuess = GameModel.shared.currentGame?.guess2 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: secondGuess) {
-                                        currentGuess = secondGuess
-                                    }
-                                }
-                            case .third:
-                                if let thirdGuess = GameModel.shared.currentGame?.guess3 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: thirdGuess) {
-                                        currentGuess = thirdGuess
-                                    }
-                                }
-                            case .fourth:
-                                if let fourthGuess = GameModel.shared.currentGame?.guess4 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: fourthGuess) {
-                                        currentGuess = fourthGuess
-                                    }
-                                }
-                            case .fifth:
-                                if let fifthGuess = GameModel.shared.currentGame?.guess5 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: fifthGuess) {
-                                        currentGuess = fifthGuess
-                                    }
-                                }
-                            case .sixth:
-                                if let sixthGuess = GameModel.shared.currentGame?.guess6 {
-                                    GameModel.shared.populateGuessLetterCountDictionary(with: sixthGuess) {
-                                        currentGuess = sixthGuess
-                                    }
-                                }
-                            }
-
-                            if currentGuess == GameModel.shared.currentGame?.answer {
-                                self.gridView?.keyboardView?.isUserInteractionEnabled = false
-                                self.showSuccessView()
+                if let currentGame = GameModel.shared.currentGame,
+                   let answer = currentGame.answer,
+                    let guessNumber = currentGame.guessNumber {
+                    
+                    self.gridView?.updateRowsFromMessage(
+                        answer: answer,
+                        firstGuess: currentGame.guess1,
+                        secondGuess: currentGame.guess2,
+                        thirdGuess: currentGame.guess3,
+                        fourthGuess: currentGame.guess4,
+                        fifthGuess: currentGame.guess5,
+                        sixthGuess: currentGame.guess6,
+                        guessToAnimate: guessNumber,
+                        completion: { gameState in
+                            
+                            // reset the emoji string
+                            GameModel.shared.lastLastGuessInEmojis = GameModel.shared.lastGuessInEmojis
+                            GameModel.shared.lastGuessInEmojis = ""
+                            GameModel.shared.resetGuessLetterCountDictionary {}
+                            
+                            switch gameState {
+                            case .won:
+                                self.showTheWin(currentGame: currentGame)
+                            case .lost:
+                                self.showTheLoss(currentGame: currentGame)
+                            default: ()
                             }
                         }
+                    )
+                    
+                    switch GameModel.shared.currentGame?.guessNumber {
+                    case .first:
+                        GameModel.shared.currentGame?.guessNumber = .second
+                        GameModel.shared.currentGame?.currentLetter = .b0
+                    case .second:
+                        GameModel.shared.currentGame?.guessNumber = .third
+                        GameModel.shared.currentGame?.currentLetter = .c0
+                    case .third:
+                        GameModel.shared.currentGame?.guessNumber = .fourth
+                        GameModel.shared.currentGame?.currentLetter = .d0
+                    case .fourth:
+                        GameModel.shared.currentGame?.guessNumber = .fifth
+                        GameModel.shared.currentGame?.currentLetter = .e0
+                    case .fifth:
+                        GameModel.shared.currentGame?.guessNumber = .sixth
+                        GameModel.shared.currentGame?.currentLetter = .f0
+                    default: ()
                     }
-                )
-                
-                switch GameModel.shared.currentGame?.guessNumber {
-                case .first:
-                    GameModel.shared.currentGame?.guessNumber = .second
-                    GameModel.shared.currentGame?.currentLetter = .b0
-                case .second:
-                    GameModel.shared.currentGame?.guessNumber = .third
-                    GameModel.shared.currentGame?.currentLetter = .c0
-                case .third:
-                    GameModel.shared.currentGame?.guessNumber = .fourth
-                    GameModel.shared.currentGame?.currentLetter = .d0
-                case .fourth:
-                    GameModel.shared.currentGame?.guessNumber = .fifth
-                    GameModel.shared.currentGame?.currentLetter = .e0
-                case .fifth:
-                    GameModel.shared.currentGame?.guessNumber = .sixth
-                    GameModel.shared.currentGame?.currentLetter = .f0
-                default: ()
                 }
             }
         } else {
             reset()
+        }
+    }
+    
+    private func showTheWin(currentGame: Game) {
+        self.gridView?.keyboardView?.isUserInteractionEnabled = false
+        self.showSuccessView()
+        if let currentGame = GameModel.shared.currentGame {
+            GameModel.shared.updateGames(with: currentGame)
+        }
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+            self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
+        } completion: { _ in
+        }
+    }
+    
+    private func showTheLoss(currentGame: Game) {
+        self.gridView?.keyboardView?.isUserInteractionEnabled = false
+        self.showAnswer()
+        if let currentGame = GameModel.shared.currentGame {
+            GameModel.shared.updateGames(with: currentGame)
+        }
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
+            self.newGameButton?.frame = Frame.NewGame.buttonFrame(self.view.frame)
+        } completion: { _ in
         }
     }
     

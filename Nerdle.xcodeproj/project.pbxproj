@@ -12,6 +12,7 @@
 		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
 		49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BAB2895853C00C5EB5E /* SuccessView.swift */; };
 		49250181289B5B4D0037122E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49250180289B5B4D0037122E /* Game.swift */; };
+		49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
@@ -67,6 +68,7 @@
 		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
 		49231BAB2895853C00C5EB5E /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		49250180289B5B4D0037122E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				4993489828906BD100BC6B0B /* words.json */,
+				49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4993489928906BD100BC6B0B /* words.json in Resources */,
+				49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */,
 				49A07DD5288DB76B008270F9 /* Assets.xcassets in Resources */,
 				49A07DD3288DB76A008270F9 /* MainInterface.storyboard in Resources */,
 			);

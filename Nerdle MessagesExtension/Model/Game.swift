@@ -12,10 +12,11 @@ struct Games: Hashable, Codable {
     var gameCount: Int = 0
     var winCount: Int = 0
     var lossCount: Int = 0
+    var streakCount: Int = 0
 }
 
 struct Game: Hashable, Codable {
-    var number: Int = 0
+    var id = UUID()
     var answer: String? = nil
     var guess1: String? = nil
     var guess2: String? = nil

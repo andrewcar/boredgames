@@ -27,4 +27,6 @@ extension UIColor {
     static let nerdleRed = UIColor(red: 215/255, green: 81/255, blue: 60/255, alpha: 1)
     
     static let messagesBlue = UIColor(red: 1/255, green: 122/255, blue: 253/255, alpha: 1)
+    
+    static let lightGrayBackground = UIColor(red: 241/255, green: 242/255, blue: 243/255, alpha: 1)
 }

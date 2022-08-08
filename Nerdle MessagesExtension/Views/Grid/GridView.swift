@@ -283,56 +283,76 @@ class GridView: UIView {
     }
 
     // MARK: - UPDATE ROWS FROM MESSAGE
-    func updateRowsFromMessage(firstGuess: String?,
+    func updateRowsFromMessage(
+                    answer: String?,
+                    firstGuess: String?,
                     secondGuess: String?,
                     thirdGuess: String?,
                     fourthGuess: String?,
                     fifthGuess: String?,
                     sixthGuess: String?,
                     guessToAnimate: Guess? = .first,
-                    completion: @escaping () -> ()) {
+                    completion: @escaping (GameState) -> ()) {
         
-        if let firstGuess = firstGuess {
-            updateFirstRow(guess: firstGuess.lowercased(),
-                           animated: guessToAnimate == .first ? true : false) {
-                completion()
+        if let firstGuess = firstGuess, let answer = answer {
+            let guess = firstGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateFirstRow(guess: guess,
+                                    animated: guessToAnimate == .first ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
-        if let secondGuess = secondGuess {
-            updateSecondRow(guess: secondGuess.lowercased(),
-                            animated: guessToAnimate == .second ? true : false) {
-                completion()
+        if let secondGuess = secondGuess, let answer = answer {
+            let guess = secondGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateSecondRow(guess: guess,
+                                animated: guessToAnimate == .second ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
-        if let thirdGuess = thirdGuess {
-            updateThirdRow(guess: thirdGuess.lowercased(),
-                           animated: guessToAnimate == .third ? true : false) {
-                completion()
+        if let thirdGuess = thirdGuess, let answer = answer {
+            let guess = thirdGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateThirdRow(guess: guess,
+                                animated: guessToAnimate == .third ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
-        if let fourthGuess = fourthGuess {
-            updateFourthRow(guess: fourthGuess.lowercased(),
-                            animated: guessToAnimate == .fourth ? true : false) {
-                completion()
+        if let fourthGuess = fourthGuess, let answer = answer {
+            let guess = fourthGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateFourthRow(guess: guess,
+                                animated: guessToAnimate == .fourth ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
-        if let fifthGuess = fifthGuess {
-            updateFifthRow(guess: fifthGuess.lowercased(),
-                           animated: guessToAnimate == .fifth ? true : false) {
-                completion()
+        if let fifthGuess = fifthGuess, let answer = answer {
+            let guess = fifthGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateFifthRow(guess: guess,
+                                animated: guessToAnimate == .fifth ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
-        if let sixthGuess = sixthGuess {
-            updateSixthRow(guess: sixthGuess.lowercased(),
-                           animated: guessToAnimate == .sixth ? true : false) {
-                completion()
+        if let sixthGuess = sixthGuess, let answer = answer {
+            let guess = sixthGuess.lowercased()
+            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.updateSixthRow(guess: guess,
+                                animated: guessToAnimate == .sixth ? true : false) {
+                    completion(guess == answer ? .won : .playing)
+                }
             }
         }
     }
     
     // MARK: - UPDATE FIRST ROW
     func updateFirstRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateA1(for: guess, animated: animated) {
                 self.updateA2(for: guess, animated: animated) {
                     self.updateA3(for: guess, animated: animated) {
@@ -349,7 +369,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE SECOND ROW
     func updateSecondRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateB1(for: guess, animated: animated) {
                 self.updateB2(for: guess, animated: animated) {
                     self.updateB3(for: guess, animated: animated) {
@@ -366,7 +386,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE THIRD ROW
     func updateThirdRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateC1(for: guess, animated: animated) {
                 self.updateC2(for: guess, animated: animated) {
                     self.updateC3(for: guess, animated: animated) {
@@ -383,7 +403,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE FOURTH ROW
     func updateFourthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateD1(for: guess, animated: animated) {
                 self.updateD2(for: guess, animated: animated) {
                     self.updateD3(for: guess, animated: animated) {
@@ -400,7 +420,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE FIFTH ROW
     func updateFifthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateE1(for: guess, animated: animated) {
                 self.updateE2(for: guess, animated: animated) {
                     self.updateE3(for: guess, animated: animated) {
@@ -417,7 +437,7 @@ class GridView: UIView {
     
     // MARK: - UPDATE SIXTH ROW
     func updateSixthRow(guess: String, animated: Bool = false, completion: @escaping () -> ()) {
-        incrementGreenLetterCounts(guess: guess) {
+        incrementLetterCounts(guess: guess) {
             self.updateF1(for: guess, animated: animated) {
                 self.updateF2(for: guess, animated: animated) {
                     self.updateF3(for: guess, animated: animated) {
@@ -437,7 +457,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
             self.updateFirstRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -449,7 +469,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSecondRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -461,7 +481,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateThirdRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -473,7 +493,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFourthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -485,7 +505,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFifthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -497,7 +517,7 @@ class GridView: UIView {
         guard GameModel.shared.currentGame?.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
         keyboardView?.isUserInteractionEnabled = false
         GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess.lowercased()
-        incrementGreenLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
+        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSixthRow(guess: GameModel.shared.currentGuess, animated: true) {
                 completion()
             }
@@ -527,42 +547,18 @@ class GridView: UIView {
         }
     }
     
-    // MARK: - INCREMENT GREEN LETTER COUNTS
-    private func incrementGreenLetterCounts(guess: String, completion: @escaping () -> ()) {
+    // MARK: - INCREMENT LETTER COUNTS
+    private func incrementLetterCounts(guess: String, completion: @escaping () -> ()) {
         guard let currentGame = GameModel.shared.currentGame else { completion(); return }
         guard let answer = currentGame.answer else { completion(); return }
 
         for (letterIndex, letterCharacter) in guess.enumerated() {
             let letter = "\(letterCharacter)"
-            guard let answerLetterCount = GameModel.shared.answerLetterCounts[letter] else { completion(); return }
-            guard let guessLetterCount = GameModel.shared.guessLetterCounts[letter] else { completion(); return }
-            guard let yellowLetterCount = GameModel.shared.guessYellowLetterCounts[letter] else { completion(); return }
-
-            if guess[letterIndex] == answer[letterIndex] {
-                GameModel.shared.incrementGreenGuessLetter(letter)
-            }
             
-            // if the guess letter is the same as the answer's letter in that slot, mark it green
+            // Handling Correct Guess Letters:
+                // if the guess letter is the same as the answer's letter in that slot, mark it green
             if guess[letterIndex] == answer[letterIndex] {
                 GameModel.shared.incrementGreenGuessLetter(letter)
-
-            // if the guess letter is not in the answer, make it gray
-            } else if !answer.contains(letter) {
-                //
-                
-            // if there are more of the guess letter in the guess than in the answer, it's either yellow or gray...
-            } else if guessLetterCount > answerLetterCount {
-                
-                if answerLetterCount <= yellowLetterCount {
-                    //
-                } else {
-                    GameModel.shared.incrementYellowGuessLetter(letter)
-                }
-
-            } else if answerLetterCount == yellowLetterCount {
-                //
-            } else {
-                GameModel.shared.incrementYellowGuessLetter(letter)
             }
         }
         completion()
@@ -581,8 +577,10 @@ class GridView: UIView {
         guard let answerLetterCount = GameModel.shared.answerLetterCounts[guessLetter] else { completion(); return }
         guard let guessLetterCount = GameModel.shared.guessLetterCounts[guessLetter] else { completion(); return }
         guard let yellowLetterCount = GameModel.shared.guessYellowLetterCounts[guessLetter] else { completion(); return }
+        guard let greenLetterCount = GameModel.shared.guessGreenLetterCounts[guessLetter] else { completion(); return }
 
-        // if the guess letter is the same as the answer's letter in that slot, mark it green
+        // Handling Correct Guess Letters:
+            // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
             keyboardView?.setKeyToGreen(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "🟩"
@@ -590,7 +588,8 @@ class GridView: UIView {
                 completion()
             })
             
-        // if the guess letter is not in the answer, make it gray
+        // Handling Incorrect Guess Letters:
+            // if the guess letter is not in the answer, make it gray
         } else if !answer.contains(guessLetter) {
             keyboardView?.setKeyToGray(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "⬜️"
@@ -598,34 +597,54 @@ class GridView: UIView {
                 completion()
             })
             
-        // if there are more of the guess letter in the guess than in the answer, it's either yellow or gray...
+        // Handling Guess Letter Overflow:
+            // if there are more of the guess letter in the guess than in the answer...
+            // it's either gray or yellow...
         } else if guessLetterCount > answerLetterCount {
             
-            if answerLetterCount <= yellowLetterCount {
+            // if there is already the same number of confirmed green guess letters as in the answer...
+            // it must be gray
+            if greenLetterCount == answerLetterCount {
                 keyboardView?.setKeyToGray(for: guessLetter)
                 GameModel.shared.lastGuessInEmojis += "⬜️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
                 })
-            } else {
+                
+            // else if there are less of the confirmed yellow guess letters than in the answer...
+            // it must be yellow
+            } else if yellowLetterCount < answerLetterCount  {
+                GameModel.shared.incrementYellowGuessLetter(guessLetter)
+                
                 keyboardView?.setKeyToYellow(for: guessLetter)
                 GameModel.shared.lastGuessInEmojis += "🟨"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
                 })
+                
+            // else there are more or the same amount of the confirmed yellow guess letters than in the answer
+            } else {
+                keyboardView?.setKeyToGray(for: guessLetter)
+                GameModel.shared.lastGuessInEmojis += "⬜️"
+                letterView?.updateLetter(to: .gray, animated: animated, completion: {
+                    completion()
+                })
             }
 
+        // Handling Guess Letter Scarcity:
+            // if there are more of the guess letter in the answer than in the guess...
+        } else if answerLetterCount > yellowLetterCount {
+            GameModel.shared.incrementYellowGuessLetter(guessLetter)
+            
+            keyboardView?.setKeyToYellow(for: guessLetter)
+            GameModel.shared.lastGuessInEmojis += "🟨"
+            letterView?.updateLetter(to: .yellow, animated: animated, completion: {
+                completion()
+            })
         } else if answerLetterCount == yellowLetterCount {
             keyboardView?.setKeyToGray(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
-                completion()
-            })
-
-        } else {
-            keyboardView?.setKeyToYellow(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟨"
-            letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
         }

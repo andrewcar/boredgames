@@ -12,14 +12,17 @@ struct GamesCache {
     static func save(_ value: Games!) {
          UserDefaults.standard.set(try? PropertyListEncoder().encode(value), forKey: key)
     }
-    static func get() -> Games! {
-        var userData: Games!
+    static func get() -> Games? {
+        var userData: Games
         if let data = UserDefaults.standard.value(forKey: key) as? Data {
-            userData = try? PropertyListDecoder().decode(Games.self, from: data)
-            return userData!
-        } else {
-            return userData
+            do {
+                userData = try PropertyListDecoder().decode(Games.self, from: data)
+                return userData
+            } catch {
+                print("ERROR: \(error.localizedDescription)")
+            }
         }
+        return nil
     }
     static func remove() {
         UserDefaults.standard.removeObject(forKey: key)
