@@ -21,6 +21,7 @@ class MessagesViewController: MSMessagesAppViewController {
     private var newGameButton: UIButton?
     private var statsButton: UIButton?
     private var gridButton: UIButton?
+    private var rotatePromptLabel: UILabel?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -35,6 +36,55 @@ class MessagesViewController: MSMessagesAppViewController {
         addNewGameButton()
         addStatsButton()
         addGridButton()
+        addRotatePromptLabel()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
+            GameModel.shared.orientation = .portrait
+            updateFrames(isLandscape: false)
+        } else {
+            GameModel.shared.orientation = .landscapeLeft
+            updateFrames(isLandscape: true)
+        }
+    }
+    
+    // MARK: - UPDATE FRAMES
+    private func updateFrames(isLandscape: Bool) {
+        if isLandscape {
+            rotatePromptLabel?.isHidden = false
+            gridView?.frame = Frame.Grid.hiddenFrame(view.frame)
+            successView?.frame = Frame.Success.hiddenFrame(view.frame)
+            gridView?.keyboardView?.frame = Frame.Keyboard.hiddenFrame(view.frame)
+            statsButton?.frame = Frame.Stats.hiddenButtonFrame(view.frame)
+        } else {
+            rotatePromptLabel?.isHidden = true
+            gridView?.frame = Frame.Grid.frame(view.frame)
+            successView?.frame = Frame.Success.frame(view.frame)
+            gridView?.keyboardView?.frame = Frame.Keyboard.frame(view.frame)
+            statsButton?.frame = Frame.Stats.buttonFrame(view.frame)
+        }
+        gridButton?.frame = Frame.Grid.hiddenButtonFrame(view.frame)
+        newGameButton?.frame = Frame.NewGame.hiddenButtonFrame(view.frame)
+        sendButton?.frame = Frame.SendButton.hiddenFrame(view.frame)
+        statsView?.frame = Frame.Stats.hiddenFrame(view.frame)
+    }
+
+    // MARK: - PLEASE ROTATE
+    private func addRotatePromptLabel() {
+        let size = CGSize(width: UIScreen.main.bounds.width, height: 200)
+        rotatePromptLabel = UILabel(frame: CGRect(
+            x: 0,
+            y: 50,
+            width: size.width,
+            height: size.height))
+        rotatePromptLabel?.textAlignment = .center
+        rotatePromptLabel?.numberOfLines = 0
+        rotatePromptLabel?.font = UIFont(name: "RobotoSlab-Black", size: 34)
+        rotatePromptLabel?.text = "Please rotate to portrait."
+        view.addSubview(rotatePromptLabel!)
+        rotatePromptLabel?.isHidden = true
     }
     
     // MARK: - LOGO IMAGE VIEW
@@ -228,7 +278,7 @@ class MessagesViewController: MSMessagesAppViewController {
         message.url = components.url!
 
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "nerdle_small.png")
+        layout.image = UIImage(named: "nerdle_message_bubble.png")
         layout.caption = "Nerdle"
         if let currentGame = GameModel.shared.currentGame,
             let guessNumber = currentGame.guessNumber {
@@ -525,21 +575,12 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this to clean up state related to the deleted message.
     }
     
-    // MARK: - DID SELECT
-    override func didSelect(_ message: MSMessage, conversation: MSConversation) {
-        if let selectedMessage = conversation.selectedMessage {
-            decode(selectedMessage)
-        }
-    }
-    
     // MARK: - WILL TRANSITION
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
     
         // Use this method to prepare for the change in presentation style.
-        if let selectedMessage = activeConversation?.selectedMessage {
-            decode(selectedMessage)
-        }
+        print("willTransition(to presentationStyle: \(presentationStyle)")
     }
     
     // MARK: - DID TRANSITION
@@ -547,8 +588,13 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called after the extension transitions to a new presentation style.
     
         // Use this method to finalize any behaviors associated with the change in presentation style.
+        print("didTransition(to presentationStyle: \(presentationStyle)")
     }
-
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+    }
 }
 
 // MARK: - DID FINISH COMPOSING

@@ -344,7 +344,7 @@ class GridView: UIView {
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateSixthRow(guess: guess,
                                 animated: guessToAnimate == .sixth ? true : false) {
-                    completion(guess == answer ? .won : .playing)
+                    completion(guess == answer ? .won : .lost)
                 }
             }
         }

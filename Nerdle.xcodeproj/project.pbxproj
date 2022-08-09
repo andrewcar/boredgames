@@ -23,6 +23,7 @@
 		4993489B28906E3600BC6B0B /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993489A28906E3600BC6B0B /* Words.swift */; };
 		4993489D2890736A00BC6B0B /* Guess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993489C2890736A00BC6B0B /* Guess.swift */; };
 		4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */; };
+		49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A007C628A1B9060016945B /* UIViewExtensions.swift */; };
 		49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
 		49A07DC8288DB76A008270F9 /* Nerdle MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49A07DCD288DB76A008270F9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A07DCC288DB76A008270F9 /* Messages.framework */; };
@@ -79,6 +80,7 @@
 		4993489A28906E3600BC6B0B /* Words.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
 		4993489C2890736A00BC6B0B /* Guess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guess.swift; sourceTree = "<group>"; };
 		4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProcotolExtensions.swift; sourceTree = "<group>"; };
+		49A007C628A1B9060016945B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		49A07DBE288DB769008270F9 /* Nerdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nerdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DC1288DB76A008270F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Nerdle MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +239,7 @@
 				4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */,
 				4913C0E0289905930039745B /* UIImageExtensions.swift */,
 				49A647BA289BA858008A97A4 /* GamesCache.swift */,
+				49A007C628A1B9060016945B /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
 				495EAD75288F74CE004290AD /* GameModel.swift in Sources */,
+				49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */,
 				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,

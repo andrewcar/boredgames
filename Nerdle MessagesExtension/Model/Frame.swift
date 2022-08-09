@@ -9,9 +9,10 @@ import UIKit
 
 struct Frame {
     
-    // general
+    // MARK: - GENERAL
     static let padding: CGFloat = 5
     
+    // MARK: - LOGO
     struct Logo {
         static let size = CGSize(width: 117, height: 30)
         static let bottomPadding: CGFloat = 10
@@ -25,6 +26,7 @@ struct Frame {
         }
     }
     
+    // MARK: - SEND BUTTON
     struct SendButton {
         static let size = CGSize(width: 50, height: 50)
         static func originX(viewFrame: CGRect) -> CGFloat {
@@ -46,6 +48,7 @@ struct Frame {
         }
     }
     
+    // MARK: - SUCCESS
     struct Success {
         static let size = CGSize(width: 116, height: 25)
         
@@ -71,6 +74,7 @@ struct Frame {
         }
     }
     
+    // MARK: - NOT IN WORD LIST
     struct NotInWordList {
         static let size = CGSize(width: 126, height: 45)
         
@@ -82,6 +86,7 @@ struct Frame {
         }
     }
     
+    // MARK: - GRID
     struct Grid {
         static let buttonSize = CGSize(width: 50, height: 50)
         static func buttonFrame(_ viewFrame: CGRect) -> CGRect {
@@ -128,6 +133,7 @@ struct Frame {
         }
     }
     
+    // MARK: - KEYBOARD
     struct Keyboard {
         static func frame(_ viewFrame: CGRect) -> CGRect {
             CGRect(
@@ -145,6 +151,7 @@ struct Frame {
         }
     }
     
+    // MARK: - NEW GAME
     struct NewGame {
         static let buttonSize = CGSize(width: 50, height: 50)
         static func buttonFrame(_ viewFrame: CGRect) -> CGRect {

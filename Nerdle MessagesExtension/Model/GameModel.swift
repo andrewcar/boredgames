@@ -5,7 +5,7 @@
 //  Created by Andrew Carvajal on 7/25/22.
 //
 
-import Foundation
+import UIKit
 
 protocol GameDelegate {
     func didUpdateGame()
@@ -17,6 +17,7 @@ class GameModel: NSObject {
     static let shared = GameModel()
     
     var gameDelegate: GameDelegate!
+    var orientation: UIInterfaceOrientation = .portrait
     var words: Words?
     var games = Games(value: [])
     var currentGame: Game?
