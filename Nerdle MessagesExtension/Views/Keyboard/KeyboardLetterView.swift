@@ -17,13 +17,15 @@ class KeyboardLetterView: UIView {
     
     // MARK: - Properties
     var letterDelegate: LetterDelegate!
-    var letterLabel: UILabel?
+    var letterLabel = UILabel()
+    var letterConstraints: [NSLayoutConstraint] = []
     var letterState: LetterState = .blank
+    var button = UIButton()
     
     // MARK: - Initializers
     init(_ letter: String, frame: CGRect) {
         super.init(frame: frame)
-        
+        translatesAutoresizingMaskIntoConstraints = false
         setupSubviews(letter)
     }
     
@@ -45,20 +47,40 @@ class KeyboardLetterView: UIView {
         backgroundColor = .nerdleKeyboardLightModeGray
         layer.cornerRadius = 4
         
-        letterLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        letterLabel?.text = letter
-        letterLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
-        letterLabel?.textAlignment = .center
-        letterLabel?.textColor = .black
-        addSubview(letterLabel!)
+        letterLabel = UILabel(frame: .zero)
+        letterLabel.translatesAutoresizingMaskIntoConstraints = false
+        letterLabel.text = letter
+        letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
+        letterLabel.textAlignment = .center
+        letterLabel.textColor = .black
+        addSubview(letterLabel)
         
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         button.setTitle(letter, for: .normal)
         button.setTitleColor(.clear, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
         button.titleLabel?.textAlignment = .center
         addSubview(button)
+        
+        activateConstraints()
+    }
+    
+    private func activateConstraints() {
+        NSLayoutConstraint.deactivate(letterConstraints)
+        letterConstraints = [
+            letterLabel.topAnchor.constraint(equalTo: topAnchor),
+            letterLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            letterLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            letterLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            button.topAnchor.constraint(equalTo: topAnchor),
+            button.leadingAnchor.constraint(equalTo: leadingAnchor),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ]
+        NSLayoutConstraint.activate(letterConstraints)
     }
     
     private func updateBackgroundColor(for state: LetterState) {
@@ -80,9 +102,9 @@ class KeyboardLetterView: UIView {
     
     private func updateTextColor(for state: LetterState) {
         if state == .blank {
-            letterLabel?.textColor = .black
+            letterLabel.textColor = .black
         } else {
-            letterLabel?.textColor = .white
+            letterLabel.textColor = .white
         }
     }
     

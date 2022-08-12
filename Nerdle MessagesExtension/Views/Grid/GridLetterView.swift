@@ -11,14 +11,15 @@ class GridLetterView: UIView {
     
     // MARK: - Properties
     private var letterState: LetterState = .blank
-    private var letterLabel: UILabel?
-    
+    private var letterLabel = UILabel()
+    private var letterConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupSubviews()
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +30,7 @@ class GridLetterView: UIView {
     
     // MARK: - Public Methods
     func updateLetter(with letter: String) {
-        letterLabel?.text = letter
+        letterLabel.text = letter
     }
     
     func updateLetter(to state: LetterState, animated: Bool = true, completion: @escaping () -> ()) {
@@ -83,22 +84,35 @@ class GridLetterView: UIView {
     }
     
     // MARK: - Private Methods
-    private func setupSubviews() {
-        setupBorder()
-        setupLetterLabel()
+    private func addSubviews() {
+        addBorder()
+        addLetterLabel()
     }
     
-    private func setupBorder() {
+    private func addBorder() {
         layer.borderWidth = 2
         setBorderInactive()
     }
     
-    private func setupLetterLabel() {
-        letterLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        letterLabel?.textAlignment = .center
-        letterLabel?.font = .systemFont(ofSize: 31, weight: .bold)
-        letterLabel?.textColor = .black
-        addSubview(letterLabel!)
+    private func addLetterLabel() {
+        letterLabel = UILabel(frame: .zero)
+        letterLabel.translatesAutoresizingMaskIntoConstraints = false
+        letterLabel.textAlignment = .center
+        letterLabel.font = .systemFont(ofSize: 31, weight: .bold)
+        letterLabel.textColor = .black
+        addSubview(letterLabel)
+        activateLetterConstraints()
+    }
+    
+    private func activateLetterConstraints() {
+        NSLayoutConstraint.deactivate(letterConstraints)
+        letterConstraints = [
+            letterLabel.topAnchor.constraint(equalTo: topAnchor),
+            letterLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            letterLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            letterLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(letterConstraints)
     }
     
     private func setBackgroundColor(for state: LetterState) {
@@ -130,9 +144,9 @@ class GridLetterView: UIView {
     private func setFontColor(for state: LetterState) {
         switch state {
         case .blank:
-            letterLabel?.textColor = .black
+            letterLabel.textColor = .black
         default:
-            letterLabel?.textColor = .white
+            letterLabel.textColor = .white
         }
     }
 }

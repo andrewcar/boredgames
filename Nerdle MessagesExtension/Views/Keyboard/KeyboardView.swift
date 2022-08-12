@@ -17,38 +17,41 @@ class KeyboardView: UIView {
     
     // MARK: - Properties
     var keyboardDelegate: KeyboardDelegate!
-    var q: KeyboardLetterView?
-    var w: KeyboardLetterView?
-    var e: KeyboardLetterView?
-    var r: KeyboardLetterView?
-    var t: KeyboardLetterView?
-    var y: KeyboardLetterView?
-    var u: KeyboardLetterView?
-    var i: KeyboardLetterView?
-    var o: KeyboardLetterView?
-    var p: KeyboardLetterView?
-    var a: KeyboardLetterView?
-    var s: KeyboardLetterView?
-    var d: KeyboardLetterView?
-    var f: KeyboardLetterView?
-    var g: KeyboardLetterView?
-    var h: KeyboardLetterView?
-    var j: KeyboardLetterView?
-    var k: KeyboardLetterView?
-    var l: KeyboardLetterView?
-    var z: KeyboardLetterView?
-    var x: KeyboardLetterView?
-    var c: KeyboardLetterView?
-    var v: KeyboardLetterView?
-    var b: KeyboardLetterView?
-    var n: KeyboardLetterView?
-    var m: KeyboardLetterView?
+    var q = KeyboardLetterView("Q", frame: .zero)
+    var w = KeyboardLetterView("W", frame: .zero)
+    var e = KeyboardLetterView("E", frame: .zero)
+    var r = KeyboardLetterView("R", frame: .zero)
+    var t = KeyboardLetterView("T", frame: .zero)
+    var y = KeyboardLetterView("Y", frame: .zero)
+    var u = KeyboardLetterView("U", frame: .zero)
+    var i = KeyboardLetterView("I", frame: .zero)
+    var o = KeyboardLetterView("O", frame: .zero)
+    var p = KeyboardLetterView("P", frame: .zero)
+    var a = KeyboardLetterView("A", frame: .zero)
+    var s = KeyboardLetterView("S", frame: .zero)
+    var d = KeyboardLetterView("D", frame: .zero)
+    var f = KeyboardLetterView("F", frame: .zero)
+    var g = KeyboardLetterView("G", frame: .zero)
+    var h = KeyboardLetterView("H", frame: .zero)
+    var j = KeyboardLetterView("J", frame: .zero)
+    var k = KeyboardLetterView("K", frame: .zero)
+    var l = KeyboardLetterView("L", frame: .zero)
+    var enter = KeyboardLetterView("ENTER", frame: .zero)
+    var z = KeyboardLetterView("Z", frame: .zero)
+    var x = KeyboardLetterView("X", frame: .zero)
+    var c = KeyboardLetterView("C", frame: .zero)
+    var v = KeyboardLetterView("V", frame: .zero)
+    var b = KeyboardLetterView("B", frame: .zero)
+    var n = KeyboardLetterView("N", frame: .zero)
+    var m = KeyboardLetterView("M", frame: .zero)
+    var backspace = KeyboardLetterView("⌫", frame: .zero)
     var showing: Bool = true
+    var portraitConstraints: [NSLayoutConstraint] = []
+    var landscapeConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubviews()
     }
     
@@ -59,60 +62,68 @@ class KeyboardView: UIView {
     
     
     // MARK: - Public Methods
+    func updateSubviews(isLandscape: Bool) {
+        if isLandscape {
+            activateLandscapeConstraints()
+        } else {
+            activatePortraitConstraints()
+        }
+    }
+    
     func setKeyToGreen(for letter: String) {
         switch letter {
         case "a":
-            a?.updateColors(for: .green)
+            a.updateColors(for: .green)
         case "b":
-            b?.updateColors(for: .green)
+            b.updateColors(for: .green)
         case "c":
-            c?.updateColors(for: .green)
+            c.updateColors(for: .green)
         case "d":
-            d?.updateColors(for: .green)
+            d.updateColors(for: .green)
         case "e":
-            e?.updateColors(for: .green)
+            e.updateColors(for: .green)
         case "f":
-            f?.updateColors(for: .green)
+            f.updateColors(for: .green)
         case "g":
-            g?.updateColors(for: .green)
+            g.updateColors(for: .green)
         case "h":
-            h?.updateColors(for: .green)
+            h.updateColors(for: .green)
         case "i":
-            i?.updateColors(for: .green)
+            i.updateColors(for: .green)
         case "j":
-            j?.updateColors(for: .green)
+            j.updateColors(for: .green)
         case "k":
-            k?.updateColors(for: .green)
+            k.updateColors(for: .green)
         case "l":
-            l?.updateColors(for: .green)
+            l.updateColors(for: .green)
         case "m":
-            m?.updateColors(for: .green)
+            m.updateColors(for: .green)
         case "n":
-            n?.updateColors(for: .green)
+            n.updateColors(for: .green)
         case "o":
-            o?.updateColors(for: .green)
+            o.updateColors(for: .green)
         case "p":
-            p?.updateColors(for: .green)
+            p.updateColors(for: .green)
         case "q":
-            q?.updateColors(for: .green)
+            q.updateColors(for: .green)
         case "r":
-            r?.updateColors(for: .green)
+            r.updateColors(for: .green)
         case "s":
-            s?.updateColors(for: .green)
+            s.updateColors(for: .green)
         case "t":
-            t?.updateColors(for: .green)
+            t.updateColors(for: .green)
         case "u":
-            u?.updateColors(for: .green)
+            u.updateColors(for: .green)
         case "v":
-            v?.updateColors(for: .green)
+            v.updateColors(for: .green)
         case "w":
-            w?.updateColors(for: .green)
+            w.updateColors(for: .green)
         case "x":
-            x?.updateColors(for: .green)
+            x.updateColors(for: .green)
         case "y":
-            y?.updateColors(for: .green)
+            y.updateColors(for: .green)
         case "z":
-            z?.updateColors(for: .green)
+            z.updateColors(for: .green)
         default: ()
         }
     }
@@ -120,83 +131,83 @@ class KeyboardView: UIView {
     func setKeyToYellow(for letter: String) {
         switch letter {
         case "a":
-            guard let key = a, key.letterState != .green else { return }
-            a?.updateColors(for: .yellow)
+            guard a.letterState != .green else { return }
+            a.updateColors(for: .yellow)
         case "b":
-            guard let key = b, key.letterState != .green else { return }
-            b?.updateColors(for: .yellow)
+            guard b.letterState != .green else { return }
+            b.updateColors(for: .yellow)
         case "c":
-            guard let key = c, key.letterState != .green else { return }
-            c?.updateColors(for: .yellow)
+            guard c.letterState != .green else { return }
+            c.updateColors(for: .yellow)
         case "d":
-            guard let key = d, key.letterState != .green else { return }
-            d?.updateColors(for: .yellow)
+            guard d.letterState != .green else { return }
+            d.updateColors(for: .yellow)
         case "e":
-            guard let key = e, key.letterState != .green else { return }
-            e?.updateColors(for: .yellow)
+            guard e.letterState != .green else { return }
+            e.updateColors(for: .yellow)
         case "f":
-            guard let key = f, key.letterState != .green else { return }
-            f?.updateColors(for: .yellow)
+            guard f.letterState != .green else { return }
+            f.updateColors(for: .yellow)
         case "g":
-            guard let key = g, key.letterState != .green else { return }
-            g?.updateColors(for: .yellow)
+            guard g.letterState != .green else { return }
+            g.updateColors(for: .yellow)
         case "h":
-            guard let key = h, key.letterState != .green else { return }
-            h?.updateColors(for: .yellow)
+            guard h.letterState != .green else { return }
+            h.updateColors(for: .yellow)
         case "i":
-            guard let key = i, key.letterState != .green else { return }
-            i?.updateColors(for: .yellow)
+            guard i.letterState != .green else { return }
+            i.updateColors(for: .yellow)
         case "j":
-            guard let key = j, key.letterState != .green else { return }
-            j?.updateColors(for: .yellow)
+            guard j.letterState != .green else { return }
+            j.updateColors(for: .yellow)
         case "k":
-            guard let key = k, key.letterState != .green else { return }
-            k?.updateColors(for: .yellow)
+            guard k.letterState != .green else { return }
+            k.updateColors(for: .yellow)
         case "l":
-            guard let key = l, key.letterState != .green else { return }
-            l?.updateColors(for: .yellow)
+            guard l.letterState != .green else { return }
+            l.updateColors(for: .yellow)
         case "m":
-            guard let key = m, key.letterState != .green else { return }
-            m?.updateColors(for: .yellow)
+            guard m.letterState != .green else { return }
+            m.updateColors(for: .yellow)
         case "n":
-            guard let key = n, key.letterState != .green else { return }
-            n?.updateColors(for: .yellow)
+            guard y.letterState != .green else { return }
+            n.updateColors(for: .yellow)
         case "o":
-            guard let key = o, key.letterState != .green else { return }
-            o?.updateColors(for: .yellow)
+            guard o.letterState != .green else { return }
+            o.updateColors(for: .yellow)
         case "p":
-            guard let key = p, key.letterState != .green else { return }
-            p?.updateColors(for: .yellow)
+            guard p.letterState != .green else { return }
+            p.updateColors(for: .yellow)
         case "q":
-            guard let key = q, key.letterState != .green else { return }
-            q?.updateColors(for: .yellow)
+            guard q.letterState != .green else { return }
+            q.updateColors(for: .yellow)
         case "r":
-            guard let key = r, key.letterState != .green else { return }
-            r?.updateColors(for: .yellow)
+            guard r.letterState != .green else { return }
+            r.updateColors(for: .yellow)
         case "s":
-            guard let key = s, key.letterState != .green else { return }
-            s?.updateColors(for: .yellow)
+            guard s.letterState != .green else { return }
+            s.updateColors(for: .yellow)
         case "t":
-            guard let key = t, key.letterState != .green else { return }
-            t?.updateColors(for: .yellow)
+            guard t.letterState != .green else { return }
+            t.updateColors(for: .yellow)
         case "u":
-            guard let key = u, key.letterState != .green else { return }
-            u?.updateColors(for: .yellow)
+            guard u.letterState != .green else { return }
+            u.updateColors(for: .yellow)
         case "v":
-            guard let key = v, key.letterState != .green else { return }
-            v?.updateColors(for: .yellow)
+            guard v.letterState != .green else { return }
+            v.updateColors(for: .yellow)
         case "w":
-            guard let key = w, key.letterState != .green else { return }
-            w?.updateColors(for: .yellow)
+            guard w.letterState != .green else { return }
+            w.updateColors(for: .yellow)
         case "x":
-            guard let key = x, key.letterState != .green else { return }
-            x?.updateColors(for: .yellow)
+            guard x.letterState != .green else { return }
+            x.updateColors(for: .yellow)
         case "y":
-            guard let key = y, key.letterState != .green else { return }
-            y?.updateColors(for: .yellow)
+            guard y.letterState != .green else { return }
+            y.updateColors(for: .yellow)
         case "z":
-            guard let key = z, key.letterState != .green else { return }
-            z?.updateColors(for: .yellow)
+            guard z.letterState != .green else { return }
+            z.updateColors(for: .yellow)
         default: ()
         }
     }
@@ -204,90 +215,90 @@ class KeyboardView: UIView {
     func setKeyToGray(for letter: String) {
         switch letter {
         case "a":
-            guard let key = a, key.letterState != .green, key.letterState != .yellow else { return }
-            a?.updateColors(for: .gray)
+            guard a.letterState != .green, a.letterState != .yellow else { return }
+            a.updateColors(for: .gray)
         case "b":
-            guard let key = b, key.letterState != .green, key.letterState != .yellow else { return }
-            b?.updateColors(for: .gray)
+            guard b.letterState != .green, b.letterState != .yellow else { return }
+            b.updateColors(for: .gray)
         case "c":
-            guard let key = c, key.letterState != .green, key.letterState != .yellow else { return }
-            c?.updateColors(for: .gray)
+            guard c.letterState != .green, c.letterState != .yellow else { return }
+            c.updateColors(for: .gray)
         case "d":
-            guard let key = d, key.letterState != .green, key.letterState != .yellow else { return }
-            d?.updateColors(for: .gray)
+            guard d.letterState != .green, d.letterState != .yellow else { return }
+            d.updateColors(for: .gray)
         case "e":
-            guard let key = e, key.letterState != .green, key.letterState != .yellow else { return }
-            e?.updateColors(for: .gray)
+            guard e.letterState != .green, e.letterState != .yellow else { return }
+            e.updateColors(for: .gray)
         case "f":
-            guard let key = f, key.letterState != .green, key.letterState != .yellow else { return }
-            f?.updateColors(for: .gray)
+            guard f.letterState != .green, f.letterState != .yellow else { return }
+            f.updateColors(for: .gray)
         case "g":
-            guard let key = g, key.letterState != .green, key.letterState != .yellow else { return }
-            g?.updateColors(for: .gray)
+            guard g.letterState != .green, g.letterState != .yellow else { return }
+            g.updateColors(for: .gray)
         case "h":
-            guard let key = h, key.letterState != .green, key.letterState != .yellow else { return }
-            h?.updateColors(for: .gray)
+            guard h.letterState != .green, h.letterState != .yellow else { return }
+            h.updateColors(for: .gray)
         case "i":
-            guard let key = i, key.letterState != .green, key.letterState != .yellow else { return }
-            i?.updateColors(for: .gray)
+            guard i.letterState != .green, i.letterState != .yellow else { return }
+            i.updateColors(for: .gray)
         case "j":
-            guard let key = j, key.letterState != .green, key.letterState != .yellow else { return }
-            j?.updateColors(for: .gray)
+            guard j.letterState != .green, j.letterState != .yellow else { return }
+            j.updateColors(for: .gray)
         case "k":
-            guard let key = k, key.letterState != .green, key.letterState != .yellow else { return }
-            k?.updateColors(for: .gray)
+            guard k.letterState != .green, k.letterState != .yellow else { return }
+            k.updateColors(for: .gray)
         case "l":
-            guard let key = l, key.letterState != .green, key.letterState != .yellow else { return }
-            l?.updateColors(for: .gray)
+            guard l.letterState != .green, l.letterState != .yellow else { return }
+            l.updateColors(for: .gray)
         case "m":
-            guard let key = m, key.letterState != .green, key.letterState != .yellow else { return }
-            m?.updateColors(for: .gray)
+            guard m.letterState != .green, m.letterState != .yellow else { return }
+            m.updateColors(for: .gray)
         case "n":
-            guard let key = n, key.letterState != .green, key.letterState != .yellow else { return }
-            n?.updateColors(for: .gray)
+            guard n.letterState != .green, n.letterState != .yellow else { return }
+            n.updateColors(for: .gray)
         case "o":
-            guard let key = o, key.letterState != .green, key.letterState != .yellow else { return }
-            o?.updateColors(for: .gray)
+            guard o.letterState != .green, o.letterState != .yellow else { return }
+            o.updateColors(for: .gray)
         case "p":
-            guard let key = p, key.letterState != .green, key.letterState != .yellow else { return }
-            p?.updateColors(for: .gray)
+            guard p.letterState != .green, p.letterState != .yellow else { return }
+            p.updateColors(for: .gray)
         case "q":
-            guard let key = q, key.letterState != .green, key.letterState != .yellow else { return }
-            q?.updateColors(for: .gray)
+            guard q.letterState != .green, q.letterState != .yellow else { return }
+            q.updateColors(for: .gray)
         case "r":
-            guard let key = r, key.letterState != .green, key.letterState != .yellow else { return }
-            r?.updateColors(for: .gray)
+            guard r.letterState != .green, r.letterState != .yellow else { return }
+            r.updateColors(for: .gray)
         case "s":
-            guard let key = s, key.letterState != .green, key.letterState != .yellow else { return }
-            s?.updateColors(for: .gray)
+            guard s.letterState != .green, s.letterState != .yellow else { return }
+            s.updateColors(for: .gray)
         case "t":
-            guard let key = t, key.letterState != .green, key.letterState != .yellow else { return }
-            t?.updateColors(for: .gray)
+            guard t.letterState != .green, t.letterState != .yellow else { return }
+            t.updateColors(for: .gray)
         case "u":
-            guard let key = u, key.letterState != .green, key.letterState != .yellow else { return }
-            u?.updateColors(for: .gray)
+            guard u.letterState != .green, u.letterState != .yellow else { return }
+            u.updateColors(for: .gray)
         case "v":
-            guard let key = v, key.letterState != .green, key.letterState != .yellow else { return }
-            v?.updateColors(for: .gray)
+            guard v.letterState != .green, v.letterState != .yellow else { return }
+            v.updateColors(for: .gray)
         case "w":
-            guard let key = w, key.letterState != .green, key.letterState != .yellow else { return }
-            w?.updateColors(for: .gray)
+            guard w.letterState != .green, w.letterState != .yellow else { return }
+            w.updateColors(for: .gray)
         case "x":
-            guard let key = x, key.letterState != .green, key.letterState != .yellow else { return }
-            x?.updateColors(for: .gray)
+            guard x.letterState != .green, x.letterState != .yellow else { return }
+            x.updateColors(for: .gray)
         case "y":
-            guard let key = y, key.letterState != .green, key.letterState != .yellow else { return }
-            y?.updateColors(for: .gray)
+            guard y.letterState != .green, y.letterState != .yellow else { return }
+            y.updateColors(for: .gray)
         case "z":
-            guard let key = z, key.letterState != .green, key.letterState != .yellow else { return }
-            z?.updateColors(for: .gray)
+            guard z.letterState != .green, z.letterState != .yellow else { return }
+            z.updateColors(for: .gray)
         default: ()
         }
     }
     
     func resetKeyboard() {
         for letter in [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z] {
-            letter?.updateColors(for: .blank)
+            letter.updateColors(for: .blank)
         }
         isUserInteractionEnabled = true
     }
@@ -295,108 +306,329 @@ class KeyboardView: UIView {
     
     // MARK: - Private Methods
     private func addSubviews() {
-        let padding: CGFloat = 5
-        let letterSize = CGSize(width: (frame.width / 10) - (padding * 1.5), height: 48)
-        let enterWidth: CGFloat = letterSize.width * 1.5
-        let keyboardWidth: CGFloat = (letterSize.width * 10) + (padding * 9)
-        let keyboardOriginX: CGFloat = (frame.width / 2) - (keyboardWidth / 2)
+        let firstRow = [q, w, e, r, t, y, u, i, o, p]
+        let secondRow = [a, s, d, f, g, h, j, k, l]
+        let thirdRow = [enter, z, x, c, v, b, n, m, backspace]
+        let allLetters = firstRow + secondRow + thirdRow
         
-        // first row
-        q = KeyboardLetterView(
-            "Q", frame: CGRect(x: keyboardOriginX, y: 0, width: letterSize.width, height: letterSize.height))
-        q?.letterDelegate = self
-        w = KeyboardLetterView(
-            "W", frame: CGRect(x: keyboardOriginX + letterSize.width + padding, y: 0, width: letterSize.width, height: letterSize.height))
-        w?.letterDelegate = self
-        e = KeyboardLetterView(
-            "E", frame: CGRect(x: keyboardOriginX + (letterSize.width * 2) + (padding * 2), y: 0, width: letterSize.width, height: letterSize.height))
-        e?.letterDelegate = self
-        r = KeyboardLetterView(
-            "R", frame: CGRect(x: keyboardOriginX + (letterSize.width * 3) + (padding * 3), y: 0, width: letterSize.width, height: letterSize.height))
-        r?.letterDelegate = self
-        t = KeyboardLetterView(
-            "T", frame: CGRect(x: keyboardOriginX + (letterSize.width * 4) + (padding * 4), y: 0, width: letterSize.width, height: letterSize.height))
-        t?.letterDelegate = self
-        y = KeyboardLetterView(
-            "Y", frame: CGRect(x: keyboardOriginX + (letterSize.width * 5) + (padding * 5), y: 0, width: letterSize.width, height: letterSize.height))
-        y?.letterDelegate = self
-        u = KeyboardLetterView(
-            "U", frame: CGRect(x: keyboardOriginX + (letterSize.width * 6) + (padding * 6), y: 0, width: letterSize.width, height: letterSize.height))
-        u?.letterDelegate = self
-        i = KeyboardLetterView(
-            "I", frame: CGRect(x: keyboardOriginX + (letterSize.width * 7) + (padding * 7), y: 0, width: letterSize.width, height: letterSize.height))
-        i?.letterDelegate = self
-        o = KeyboardLetterView(
-            "O", frame: CGRect(x: keyboardOriginX + (letterSize.width * 8) + (padding * 8), y: 0, width: letterSize.width, height: letterSize.height))
-        o?.letterDelegate = self
-        p = KeyboardLetterView(
-            "P", frame: CGRect(x: keyboardOriginX + (letterSize.width * 9) + (padding * 9), y: 0, width: letterSize.width, height: letterSize.height))
-        p?.letterDelegate = self
-        
-        // second row
-        a = KeyboardLetterView(
-            "A", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        a?.letterDelegate = self
-        s = KeyboardLetterView(
-            "S", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + letterSize.width + padding, y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        s?.letterDelegate = self
-        d = KeyboardLetterView(
-            "D", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 2) + (padding * 2), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        d?.letterDelegate = self
-        f = KeyboardLetterView(
-            "F", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 3) + (padding * 3), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        f?.letterDelegate = self
-        g = KeyboardLetterView(
-            "G", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 4) + (padding * 4), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        g?.letterDelegate = self
-        h = KeyboardLetterView(
-            "H", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 5) + (padding * 5), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        h?.letterDelegate = self
-        j = KeyboardLetterView(
-            "J", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 6) + (padding * 6), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        j?.letterDelegate = self
-        k = KeyboardLetterView(
-            "K", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 7) + (padding * 7), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        k?.letterDelegate = self
-        l = KeyboardLetterView(
-            "L", frame: CGRect(x: keyboardOriginX + (letterSize.width / 2) + (letterSize.width * 8) + (padding * 8), y: letterSize.height + padding, width: letterSize.width, height: letterSize.height))
-        l?.letterDelegate = self
-        
-        // third row
-        let enter = KeyboardLetterView(
-            "ENTER", frame: CGRect(x: keyboardOriginX, y: (letterSize.height * 2) + (padding * 2), width: enterWidth, height: letterSize.height))
-        enter.letterDelegate = self
-        z = KeyboardLetterView(
-            "Z", frame: CGRect(x: keyboardOriginX + enterWidth + padding, y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        z?.letterDelegate = self
-        x = KeyboardLetterView(
-            "X", frame: CGRect(x: keyboardOriginX + enterWidth + letterSize.width + (padding * 2), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        x?.letterDelegate = self
-        c = KeyboardLetterView(
-            "C", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 2) + (padding * 3), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        c?.letterDelegate = self
-        v = KeyboardLetterView(
-            "V", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 3) + (padding * 4), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        v?.letterDelegate = self
-        b = KeyboardLetterView(
-            "B", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 4) + (padding * 5), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        b?.letterDelegate = self
-        n = KeyboardLetterView(
-            "N", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 5) + (padding * 6), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        n?.letterDelegate = self
-        m = KeyboardLetterView(
-            "M", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 6) + (padding * 7), y: (letterSize.height * 2) + (padding * 2), width: letterSize.width, height: letterSize.height))
-        m?.letterDelegate = self
-        let backspace = KeyboardLetterView(
-            "⌫", frame: CGRect(x: keyboardOriginX + enterWidth + (letterSize.width * 7) + (padding * 8), y: (letterSize.height * 2) + (padding * 2), width: enterWidth, height: letterSize.height))
-        backspace.letterDelegate = self
-        
-        for letter in [q, w, e, r, t, y, u, i, o, p, a, s, d, f, g, h, j, k, l, enter, z, x, c, v, b, n, m, backspace] {
-            if let letter = letter {
-                addSubview(letter)
-            }
+        for letterView in allLetters {
+            letterView.translatesAutoresizingMaskIntoConstraints = false
+            letterView.letterDelegate = self
+            addSubview(letterView)
         }
+        activatePortraitConstraints()
     }
+    
+    // MARK: - ACTIVATE PORTRAIT CONSTRAINTS
+    func activatePortraitConstraints() {
+        NSLayoutConstraint.deactivate(portraitConstraints)
+        NSLayoutConstraint.deactivate(landscapeConstraints)
+        let padding = Frame.Keyboard.portraitLetterPadding
+        let letterSize = Frame.Keyboard.portraitLetterSize
+        let enterWidth = letterSize.width * 1.5
+        portraitConstraints = [
+            
+            // first row
+            q.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            q.widthAnchor.constraint(equalToConstant: letterSize.width),
+            q.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            w.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: padding),
+            w.widthAnchor.constraint(equalToConstant: letterSize.width),
+            w.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            e.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: padding),
+            e.widthAnchor.constraint(equalToConstant: letterSize.width),
+            e.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            r.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: padding),
+            r.widthAnchor.constraint(equalToConstant: letterSize.width),
+            r.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            t.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: padding),
+            t.widthAnchor.constraint(equalToConstant: letterSize.width),
+            t.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            y.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: padding),
+            y.widthAnchor.constraint(equalToConstant: letterSize.width),
+            y.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            u.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: padding),
+            u.widthAnchor.constraint(equalToConstant: letterSize.width),
+            u.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            i.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: padding),
+            i.widthAnchor.constraint(equalToConstant: letterSize.width),
+            i.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            o.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: padding),
+            o.widthAnchor.constraint(equalToConstant: letterSize.width),
+            o.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            p.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: padding),
+            p.widthAnchor.constraint(equalToConstant: letterSize.width),
+            p.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            // second row
+            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: padding),
+            a.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding + letterSize.width / 2),
+            a.widthAnchor.constraint(equalToConstant: letterSize.width),
+            a.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: padding),
+            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: padding),
+            s.widthAnchor.constraint(equalToConstant: letterSize.width),
+            s.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: padding),
+            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: padding),
+            d.widthAnchor.constraint(equalToConstant: letterSize.width),
+            d.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: padding),
+            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: padding),
+            f.widthAnchor.constraint(equalToConstant: letterSize.width),
+            f.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: padding),
+            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: padding),
+            g.widthAnchor.constraint(equalToConstant: letterSize.width),
+            g.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: padding),
+            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: padding),
+            h.widthAnchor.constraint(equalToConstant: letterSize.width),
+            h.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: padding),
+            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: padding),
+            j.widthAnchor.constraint(equalToConstant: letterSize.width),
+            j.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: padding),
+            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: padding),
+            k.widthAnchor.constraint(equalToConstant: letterSize.width),
+            k.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: padding),
+            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: padding),
+            l.widthAnchor.constraint(equalToConstant: letterSize.width),
+            l.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            // third row
+            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            enter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Keyboard.landscapeEnterXOffset),
+            enter.widthAnchor.constraint(equalToConstant: enterWidth),
+            enter.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: padding),
+            z.widthAnchor.constraint(equalToConstant: letterSize.width),
+            z.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: padding),
+            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: padding),
+            x.widthAnchor.constraint(equalToConstant: letterSize.width),
+            x.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: padding),
+            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: padding),
+            c.widthAnchor.constraint(equalToConstant: letterSize.width),
+            c.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: padding),
+            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: padding),
+            v.widthAnchor.constraint(equalToConstant: letterSize.width),
+            v.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: padding),
+            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: padding),
+            b.widthAnchor.constraint(equalToConstant: letterSize.width),
+            b.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: padding),
+            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: padding),
+            n.widthAnchor.constraint(equalToConstant: letterSize.width),
+            n.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: padding),
+            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: padding),
+            m.widthAnchor.constraint(equalToConstant: letterSize.width),
+            m.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: padding),
+            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: padding),
+            backspace.widthAnchor.constraint(equalToConstant: enterWidth),
+            backspace.heightAnchor.constraint(equalToConstant: letterSize.height)
+        ]
+        NSLayoutConstraint.activate(portraitConstraints)
+    }
+    
+    // MARK: - ACTIVATE LANDSCAPE CONSTRAINTS
+    func activateLandscapeConstraints() {
+        NSLayoutConstraint.deactivate(portraitConstraints)
+        NSLayoutConstraint.deactivate(landscapeConstraints)
+        let padding = Frame.Keyboard.landscapeLetterPadding
+        let letterSize = Frame.Keyboard.landscapeLetterSize
+        let enterWidth = letterSize.width * 1.5
+        landscapeConstraints = [
+            
+            // first row
+            q.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            q.widthAnchor.constraint(equalToConstant: letterSize.width),
+            q.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            w.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: padding),
+            w.widthAnchor.constraint(equalToConstant: letterSize.width),
+            w.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            e.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: padding),
+            e.widthAnchor.constraint(equalToConstant: letterSize.width),
+            e.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            r.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: padding),
+            r.widthAnchor.constraint(equalToConstant: letterSize.width),
+            r.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            t.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: padding),
+            t.widthAnchor.constraint(equalToConstant: letterSize.width),
+            t.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            y.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: padding),
+            y.widthAnchor.constraint(equalToConstant: letterSize.width),
+            y.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            u.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: padding),
+            u.widthAnchor.constraint(equalToConstant: letterSize.width),
+            u.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            i.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: padding),
+            i.widthAnchor.constraint(equalToConstant: letterSize.width),
+            i.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            o.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: padding),
+            o.widthAnchor.constraint(equalToConstant: letterSize.width),
+            o.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            p.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: padding),
+            p.widthAnchor.constraint(equalToConstant: letterSize.width),
+            p.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            // second row
+            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: padding),
+            a.leadingAnchor.constraint(equalTo: leadingAnchor, constant: letterSize.width / 2),
+            a.widthAnchor.constraint(equalToConstant: letterSize.width),
+            a.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: padding),
+            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: padding),
+            s.widthAnchor.constraint(equalToConstant: letterSize.width),
+            s.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: padding),
+            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: padding),
+            d.widthAnchor.constraint(equalToConstant: letterSize.width),
+            d.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: padding),
+            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: padding),
+            f.widthAnchor.constraint(equalToConstant: letterSize.width),
+            f.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: padding),
+            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: padding),
+            g.widthAnchor.constraint(equalToConstant: letterSize.width),
+            g.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: padding),
+            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: padding),
+            h.widthAnchor.constraint(equalToConstant: letterSize.width),
+            h.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: padding),
+            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: padding),
+            j.widthAnchor.constraint(equalToConstant: letterSize.width),
+            j.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: padding),
+            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: padding),
+            k.widthAnchor.constraint(equalToConstant: letterSize.width),
+            k.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: padding),
+            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: padding),
+            l.widthAnchor.constraint(equalToConstant: letterSize.width),
+            l.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            // third row
+            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            enter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Keyboard.landscapeEnterXOffset),
+            enter.widthAnchor.constraint(equalToConstant: enterWidth),
+            enter.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: padding),
+            z.widthAnchor.constraint(equalToConstant: letterSize.width),
+            z.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: padding),
+            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: padding),
+            x.widthAnchor.constraint(equalToConstant: letterSize.width),
+            x.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: padding),
+            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: padding),
+            c.widthAnchor.constraint(equalToConstant: letterSize.width),
+            c.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: padding),
+            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: padding),
+            v.widthAnchor.constraint(equalToConstant: letterSize.width),
+            v.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: padding),
+            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: padding),
+            b.widthAnchor.constraint(equalToConstant: letterSize.width),
+            b.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: padding),
+            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: padding),
+            n.widthAnchor.constraint(equalToConstant: letterSize.width),
+            n.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: padding),
+            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: padding),
+            m.widthAnchor.constraint(equalToConstant: letterSize.width),
+            m.heightAnchor.constraint(equalToConstant: letterSize.height),
+            
+            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: padding),
+            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: padding),
+            backspace.widthAnchor.constraint(equalToConstant: enterWidth),
+            backspace.heightAnchor.constraint(equalToConstant: letterSize.height)
+        ]
+        NSLayoutConstraint.activate(landscapeConstraints)
+    }
+
 }
 
 extension KeyboardView: LetterDelegate {

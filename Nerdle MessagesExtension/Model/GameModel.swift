@@ -17,7 +17,7 @@ class GameModel: NSObject {
     static let shared = GameModel()
     
     var gameDelegate: GameDelegate!
-    var orientation: UIInterfaceOrientation = .portrait
+    var isLandscape: Bool = false
     var words: Words?
     var games = Games(value: [])
     var currentGame: Game?

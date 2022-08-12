@@ -11,51 +11,54 @@ protocol GridDelegate {
     func showNotInWordListView()
     func showSuccessView()
     func showAnswer()
-    func showSendButton(completion: @escaping () -> ())
+    func disableKeyboard()
+    func setKeyToGreen(for guessLetter: String)
+    func setKeyToGray(for guessLetter: String)
+    func setKeyToYellow(for guessLetter: String)
+    func slideKeyboard()
 }
 
 class GridView: UIView {
     
     // MARK: - Properties
-    private var a1: GridLetterView?
-    private var a2: GridLetterView?
-    private var a3: GridLetterView?
-    private var a4: GridLetterView?
-    private var a5: GridLetterView?
-    private var b1: GridLetterView?
-    private var b2: GridLetterView?
-    private var b3: GridLetterView?
-    private var b4: GridLetterView?
-    private var b5: GridLetterView?
-    private var c1: GridLetterView?
-    private var c2: GridLetterView?
-    private var c3: GridLetterView?
-    private var c4: GridLetterView?
-    private var c5: GridLetterView?
-    private var d1: GridLetterView?
-    private var d2: GridLetterView?
-    private var d3: GridLetterView?
-    private var d4: GridLetterView?
-    private var d5: GridLetterView?
-    private var e1: GridLetterView?
-    private var e2: GridLetterView?
-    private var e3: GridLetterView?
-    private var e4: GridLetterView?
-    private var e5: GridLetterView?
-    private var f1: GridLetterView?
-    private var f2: GridLetterView?
-    private var f3: GridLetterView?
-    private var f4: GridLetterView?
-    private var f5: GridLetterView?
-    var keyboardView: KeyboardView?
+    var a1 = GridLetterView()
+    var a2 = GridLetterView()
+    var a3 = GridLetterView()
+    var a4 = GridLetterView()
+    var a5 = GridLetterView()
+    var b1 = GridLetterView()
+    var b2 = GridLetterView()
+    var b3 = GridLetterView()
+    var b4 = GridLetterView()
+    var b5 = GridLetterView()
+    var c1 = GridLetterView()
+    var c2 = GridLetterView()
+    var c3 = GridLetterView()
+    var c4 = GridLetterView()
+    var c5 = GridLetterView()
+    var d1 = GridLetterView()
+    var d2 = GridLetterView()
+    var d3 = GridLetterView()
+    var d4 = GridLetterView()
+    var d5 = GridLetterView()
+    var e1 = GridLetterView()
+    var e2 = GridLetterView()
+    var e3 = GridLetterView()
+    var e4 = GridLetterView()
+    var e5 = GridLetterView()
+    var f1 = GridLetterView()
+    var f2 = GridLetterView()
+    var f3 = GridLetterView()
+    var f4 = GridLetterView()
+    var f5 = GridLetterView()
+    private var letterPortraitConstraints: [NSLayoutConstraint] = []
+    private var letterLandscapeConstraints: [NSLayoutConstraint] = []
     var gridDelegate: GridDelegate?
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addLetters()
-        addKeyboardView()
     }
     
     required init?(coder: NSCoder) {
@@ -63,222 +66,400 @@ class GridView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    // MARK: - ADD LETTERS
-    private func addLetters() {
-
-        // first row
-        a1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        a2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        a3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        a4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        a5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // second row
-        b1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        b2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        b3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        b4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        b5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // third row
-        c1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        c2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        c3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        c4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        c5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // fourth row
-        d1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        d2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        d3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        d4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        d5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // fifth row
-        e1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        e2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        e3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        e4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        e5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // sixth row
-        f1 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame),
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        f2 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        f3 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        f4 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        f5 = GridLetterView(
-            frame: CGRect(
-                x: Frame.Grid.outerPadding(frame) + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding + Frame.Grid.letterSize(frame).width + Frame.padding,
-                y: Frame.Logo.bottomPadding + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding + Frame.Grid.letterSize(frame).height + Frame.padding,
-                width: Frame.Grid.letterSize(frame).width,
-                height: Frame.Grid.letterSize(frame).height))
-        
-        // add all letter subviews to view
-        for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
-            guard let letter = letter else { return }
-            addSubview(letter)
-        }
+    // MARK: - LETTER PORTRAIT CONSTRAINTS
+    func activateLetterPortraitConstraints() {
+        NSLayoutConstraint.deactivate(letterPortraitConstraints)
+        NSLayoutConstraint.deactivate(letterLandscapeConstraints)
+        let twoThirdsWidth = (UIScreen.main.bounds.width / 3) * 2
+        let scaledPadding = (Frame.padding / 3) * 2
+        let oneFifthSansPadding: CGFloat = (twoThirdsWidth - (scaledPadding * 6)) / 5
+        let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
+        letterPortraitConstraints = [
+            
+            // FIRST ROW
+            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            a1.widthAnchor.constraint(equalToConstant: size.width),
+            a1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor, constant: Frame.padding),
+            a2.widthAnchor.constraint(equalToConstant: size.width),
+            a2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor, constant: Frame.padding),
+            a3.widthAnchor.constraint(equalToConstant: size.width),
+            a3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a4.leadingAnchor.constraint(equalTo: a3.trailingAnchor, constant: Frame.padding),
+            a4.widthAnchor.constraint(equalToConstant: size.width),
+            a4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a5.leadingAnchor.constraint(equalTo: a4.trailingAnchor, constant: Frame.padding),
+            a5.widthAnchor.constraint(equalToConstant: size.width),
+            a5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // SECOND ROW
+            b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            b1.widthAnchor.constraint(equalToConstant: size.width),
+            b1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b2.topAnchor.constraint(equalTo: a2.bottomAnchor, constant: Frame.padding),
+            b2.leadingAnchor.constraint(equalTo: b1.trailingAnchor, constant: Frame.padding),
+            b2.widthAnchor.constraint(equalToConstant: size.width),
+            b2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b3.topAnchor.constraint(equalTo: a3.bottomAnchor, constant: Frame.padding),
+            b3.leadingAnchor.constraint(equalTo: b2.trailingAnchor, constant: Frame.padding),
+            b3.widthAnchor.constraint(equalToConstant: size.width),
+            b3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b4.topAnchor.constraint(equalTo: a4.bottomAnchor, constant: Frame.padding),
+            b4.leadingAnchor.constraint(equalTo: b3.trailingAnchor, constant: Frame.padding),
+            b4.widthAnchor.constraint(equalToConstant: size.width),
+            b4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b5.topAnchor.constraint(equalTo: a5.bottomAnchor, constant: Frame.padding),
+            b5.leadingAnchor.constraint(equalTo: b4.trailingAnchor, constant: Frame.padding),
+            b5.widthAnchor.constraint(equalToConstant: size.width),
+            b5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // THIRD ROW
+            c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            c1.widthAnchor.constraint(equalToConstant: size.width),
+            c1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c2.topAnchor.constraint(equalTo: b2.bottomAnchor, constant: Frame.padding),
+            c2.leadingAnchor.constraint(equalTo: c1.trailingAnchor, constant: Frame.padding),
+            c2.widthAnchor.constraint(equalToConstant: size.width),
+            c2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c3.topAnchor.constraint(equalTo: b3.bottomAnchor, constant: Frame.padding),
+            c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor, constant: Frame.padding),
+            c3.widthAnchor.constraint(equalToConstant: size.width),
+            c3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c4.topAnchor.constraint(equalTo: b4.bottomAnchor, constant: Frame.padding),
+            c4.leadingAnchor.constraint(equalTo: c3.trailingAnchor, constant: Frame.padding),
+            c4.widthAnchor.constraint(equalToConstant: size.width),
+            c4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c5.topAnchor.constraint(equalTo: b5.bottomAnchor, constant: Frame.padding),
+            c5.leadingAnchor.constraint(equalTo: c4.trailingAnchor, constant: Frame.padding),
+            c5.widthAnchor.constraint(equalToConstant: size.width),
+            c5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // FOURTH ROW
+            d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            d1.widthAnchor.constraint(equalToConstant: size.width),
+            d1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d2.topAnchor.constraint(equalTo: c2.bottomAnchor, constant: Frame.padding),
+            d2.leadingAnchor.constraint(equalTo: d1.trailingAnchor, constant: Frame.padding),
+            d2.widthAnchor.constraint(equalToConstant: size.width),
+            d2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d3.topAnchor.constraint(equalTo: c3.bottomAnchor, constant: Frame.padding),
+            d3.leadingAnchor.constraint(equalTo: d2.trailingAnchor, constant: Frame.padding),
+            d3.widthAnchor.constraint(equalToConstant: size.width),
+            d3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d4.topAnchor.constraint(equalTo: c4.bottomAnchor, constant: Frame.padding),
+            d4.leadingAnchor.constraint(equalTo: d3.trailingAnchor, constant: Frame.padding),
+            d4.widthAnchor.constraint(equalToConstant: size.width),
+            d4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d5.topAnchor.constraint(equalTo: c5.bottomAnchor, constant: Frame.padding),
+            d5.leadingAnchor.constraint(equalTo: d4.trailingAnchor, constant: Frame.padding),
+            d5.widthAnchor.constraint(equalToConstant: size.width),
+            d5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // FIFTH ROW
+            e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            e1.widthAnchor.constraint(equalToConstant: size.width),
+            e1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e2.topAnchor.constraint(equalTo: d2.bottomAnchor, constant: Frame.padding),
+            e2.leadingAnchor.constraint(equalTo: e1.trailingAnchor, constant: Frame.padding),
+            e2.widthAnchor.constraint(equalToConstant: size.width),
+            e2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e3.topAnchor.constraint(equalTo: d3.bottomAnchor, constant: Frame.padding),
+            e3.leadingAnchor.constraint(equalTo: e2.trailingAnchor, constant: Frame.padding),
+            e3.widthAnchor.constraint(equalToConstant: size.width),
+            e3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e4.topAnchor.constraint(equalTo: d4.bottomAnchor, constant: Frame.padding),
+            e4.leadingAnchor.constraint(equalTo: e3.trailingAnchor, constant: Frame.padding),
+            e4.widthAnchor.constraint(equalToConstant: size.width),
+            e4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e5.topAnchor.constraint(equalTo: d5.bottomAnchor, constant: Frame.padding),
+            e5.leadingAnchor.constraint(equalTo: e4.trailingAnchor, constant: Frame.padding),
+            e5.widthAnchor.constraint(equalToConstant: size.width),
+            e5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // SIXTH ROW
+            f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            f1.widthAnchor.constraint(equalToConstant: size.width),
+            f1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f2.topAnchor.constraint(equalTo: e2.bottomAnchor, constant: Frame.padding),
+            f2.leadingAnchor.constraint(equalTo: f1.trailingAnchor, constant: Frame.padding),
+            f2.widthAnchor.constraint(equalToConstant: size.width),
+            f2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f3.topAnchor.constraint(equalTo: e3.bottomAnchor, constant: Frame.padding),
+            f3.leadingAnchor.constraint(equalTo: f2.trailingAnchor, constant: Frame.padding),
+            f3.widthAnchor.constraint(equalToConstant: size.width),
+            f3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f4.topAnchor.constraint(equalTo: e4.bottomAnchor, constant: Frame.padding),
+            f4.leadingAnchor.constraint(equalTo: f3.trailingAnchor, constant: Frame.padding),
+            f4.widthAnchor.constraint(equalToConstant: size.width),
+            f4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f5.topAnchor.constraint(equalTo: e5.bottomAnchor, constant: Frame.padding),
+            f5.leadingAnchor.constraint(equalTo: f4.trailingAnchor, constant: Frame.padding),
+            f5.widthAnchor.constraint(equalToConstant: size.width),
+            f5.heightAnchor.constraint(equalToConstant: size.height),
+        ]
+        NSLayoutConstraint.activate(letterPortraitConstraints)
     }
 
-    // MARK: - ADD KEYBOARD VIEW
-    private func addKeyboardView() {
-        keyboardView = KeyboardView(frame: Frame.Keyboard.frame(frame))
-        keyboardView?.keyboardDelegate = self
-        addSubview(keyboardView!)
+    
+    // MARK: - LETTER LANDSCAPE CONSTRAINTS
+    func activateLetterLandscapeConstraints() {
+        NSLayoutConstraint.deactivate(letterPortraitConstraints)
+        NSLayoutConstraint.deactivate(letterLandscapeConstraints)
+        let oneFifthSansPadding: CGFloat = ((UIScreen.main.bounds.size.width / 2.3) / 5) - (Frame.padding * 6)
+        let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
+        letterLandscapeConstraints = [
+            
+            // FIRST ROW
+            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            a1.widthAnchor.constraint(equalToConstant: size.width),
+            a1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor, constant: Frame.padding),
+            a2.widthAnchor.constraint(equalToConstant: size.width),
+            a2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor, constant: Frame.padding),
+            a3.widthAnchor.constraint(equalToConstant: size.width),
+            a3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a4.leadingAnchor.constraint(equalTo: a3.trailingAnchor, constant: Frame.padding),
+            a4.widthAnchor.constraint(equalToConstant: size.width),
+            a4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a5.leadingAnchor.constraint(equalTo: a4.trailingAnchor, constant: Frame.padding),
+            a5.widthAnchor.constraint(equalToConstant: size.width),
+            a5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // SECOND ROW
+            b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            b1.widthAnchor.constraint(equalToConstant: size.width),
+            b1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b2.topAnchor.constraint(equalTo: a2.bottomAnchor, constant: Frame.padding),
+            b2.leadingAnchor.constraint(equalTo: b1.trailingAnchor, constant: Frame.padding),
+            b2.widthAnchor.constraint(equalToConstant: size.width),
+            b2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b3.topAnchor.constraint(equalTo: a3.bottomAnchor, constant: Frame.padding),
+            b3.leadingAnchor.constraint(equalTo: b2.trailingAnchor, constant: Frame.padding),
+            b3.widthAnchor.constraint(equalToConstant: size.width),
+            b3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b4.topAnchor.constraint(equalTo: a4.bottomAnchor, constant: Frame.padding),
+            b4.leadingAnchor.constraint(equalTo: b3.trailingAnchor, constant: Frame.padding),
+            b4.widthAnchor.constraint(equalToConstant: size.width),
+            b4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            b5.topAnchor.constraint(equalTo: a5.bottomAnchor, constant: Frame.padding),
+            b5.leadingAnchor.constraint(equalTo: b4.trailingAnchor, constant: Frame.padding),
+            b5.widthAnchor.constraint(equalToConstant: size.width),
+            b5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // THIRD ROW
+            c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            c1.widthAnchor.constraint(equalToConstant: size.width),
+            c1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c2.topAnchor.constraint(equalTo: b2.bottomAnchor, constant: Frame.padding),
+            c2.leadingAnchor.constraint(equalTo: c1.trailingAnchor, constant: Frame.padding),
+            c2.widthAnchor.constraint(equalToConstant: size.width),
+            c2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c3.topAnchor.constraint(equalTo: b3.bottomAnchor, constant: Frame.padding),
+            c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor, constant: Frame.padding),
+            c3.widthAnchor.constraint(equalToConstant: size.width),
+            c3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c4.topAnchor.constraint(equalTo: b4.bottomAnchor, constant: Frame.padding),
+            c4.leadingAnchor.constraint(equalTo: c3.trailingAnchor, constant: Frame.padding),
+            c4.widthAnchor.constraint(equalToConstant: size.width),
+            c4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            c5.topAnchor.constraint(equalTo: b5.bottomAnchor, constant: Frame.padding),
+            c5.leadingAnchor.constraint(equalTo: c4.trailingAnchor, constant: Frame.padding),
+            c5.widthAnchor.constraint(equalToConstant: size.width),
+            c5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // FOURTH ROW
+            d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            d1.widthAnchor.constraint(equalToConstant: size.width),
+            d1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d2.topAnchor.constraint(equalTo: c2.bottomAnchor, constant: Frame.padding),
+            d2.leadingAnchor.constraint(equalTo: d1.trailingAnchor, constant: Frame.padding),
+            d2.widthAnchor.constraint(equalToConstant: size.width),
+            d2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d3.topAnchor.constraint(equalTo: c3.bottomAnchor, constant: Frame.padding),
+            d3.leadingAnchor.constraint(equalTo: d2.trailingAnchor, constant: Frame.padding),
+            d3.widthAnchor.constraint(equalToConstant: size.width),
+            d3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d4.topAnchor.constraint(equalTo: c4.bottomAnchor, constant: Frame.padding),
+            d4.leadingAnchor.constraint(equalTo: d3.trailingAnchor, constant: Frame.padding),
+            d4.widthAnchor.constraint(equalToConstant: size.width),
+            d4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            d5.topAnchor.constraint(equalTo: c5.bottomAnchor, constant: Frame.padding),
+            d5.leadingAnchor.constraint(equalTo: d4.trailingAnchor, constant: Frame.padding),
+            d5.widthAnchor.constraint(equalToConstant: size.width),
+            d5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // FIFTH ROW
+            e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            e1.widthAnchor.constraint(equalToConstant: size.width),
+            e1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e2.topAnchor.constraint(equalTo: d2.bottomAnchor, constant: Frame.padding),
+            e2.leadingAnchor.constraint(equalTo: e1.trailingAnchor, constant: Frame.padding),
+            e2.widthAnchor.constraint(equalToConstant: size.width),
+            e2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e3.topAnchor.constraint(equalTo: d3.bottomAnchor, constant: Frame.padding),
+            e3.leadingAnchor.constraint(equalTo: e2.trailingAnchor, constant: Frame.padding),
+            e3.widthAnchor.constraint(equalToConstant: size.width),
+            e3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e4.topAnchor.constraint(equalTo: d4.bottomAnchor, constant: Frame.padding),
+            e4.leadingAnchor.constraint(equalTo: e3.trailingAnchor, constant: Frame.padding),
+            e4.widthAnchor.constraint(equalToConstant: size.width),
+            e4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            e5.topAnchor.constraint(equalTo: d5.bottomAnchor, constant: Frame.padding),
+            e5.leadingAnchor.constraint(equalTo: e4.trailingAnchor, constant: Frame.padding),
+            e5.widthAnchor.constraint(equalToConstant: size.width),
+            e5.heightAnchor.constraint(equalToConstant: size.height),
+            
+            // SIXTH ROW
+            f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            f1.widthAnchor.constraint(equalToConstant: size.width),
+            f1.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f2.topAnchor.constraint(equalTo: e2.bottomAnchor, constant: Frame.padding),
+            f2.leadingAnchor.constraint(equalTo: f1.trailingAnchor, constant: Frame.padding),
+            f2.widthAnchor.constraint(equalToConstant: size.width),
+            f2.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f3.topAnchor.constraint(equalTo: e3.bottomAnchor, constant: Frame.padding),
+            f3.leadingAnchor.constraint(equalTo: f2.trailingAnchor, constant: Frame.padding),
+            f3.widthAnchor.constraint(equalToConstant: size.width),
+            f3.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f4.topAnchor.constraint(equalTo: e4.bottomAnchor, constant: Frame.padding),
+            f4.leadingAnchor.constraint(equalTo: f3.trailingAnchor, constant: Frame.padding),
+            f4.widthAnchor.constraint(equalToConstant: size.width),
+            f4.heightAnchor.constraint(equalToConstant: size.height),
+            
+            f5.topAnchor.constraint(equalTo: e5.bottomAnchor, constant: Frame.padding),
+            f5.leadingAnchor.constraint(equalTo: f4.trailingAnchor, constant: Frame.padding),
+            f5.widthAnchor.constraint(equalToConstant: size.width),
+            f5.heightAnchor.constraint(equalToConstant: size.height),
+        ]
+        NSLayoutConstraint.activate(letterLandscapeConstraints)
+    }
+    
+    // MARK: - ADD LETTERS
+    func addLetters() {
+
+        // first row
+        a1 = GridLetterView(frame: .zero)
+        a2 = GridLetterView(frame: .zero)
+        a3 = GridLetterView(frame: .zero)
+        a4 = GridLetterView(frame: .zero)
+        a5 = GridLetterView(frame: .zero)
+        
+        // second row
+        b1 = GridLetterView(frame: .zero)
+        b2 = GridLetterView(frame: .zero)
+        b3 = GridLetterView(frame: .zero)
+        b4 = GridLetterView(frame: .zero)
+        b5 = GridLetterView(frame: .zero)
+        
+        // third row
+        c1 = GridLetterView(frame: .zero)
+        c2 = GridLetterView(frame: .zero)
+        c3 = GridLetterView(frame: .zero)
+        c4 = GridLetterView(frame: .zero)
+        c5 = GridLetterView(frame: .zero)
+        
+        // fourth row
+        d1 = GridLetterView(frame: .zero)
+        d2 = GridLetterView(frame: .zero)
+        d3 = GridLetterView(frame: .zero)
+        d4 = GridLetterView(frame: .zero)
+        d5 = GridLetterView(frame: .zero)
+        
+        // fifth row
+        e1 = GridLetterView(frame: .zero)
+        e2 = GridLetterView(frame: .zero)
+        e3 = GridLetterView(frame: .zero)
+        e4 = GridLetterView(frame: .zero)
+        e5 = GridLetterView(frame: .zero)
+        
+        // sixth row
+        f1 = GridLetterView(frame: .zero)
+        f2 = GridLetterView(frame: .zero)
+        f3 = GridLetterView(frame: .zero)
+        f4 = GridLetterView(frame: .zero)
+        f5 = GridLetterView(frame: .zero)
+
+        // add all letter subviews to view
+        for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
+            addSubview(letter)
+        }
     }
     
     // MARK: - RESET ROWS
     func resetRows() {
         for gridLetter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
-            gridLetter?.updateLetter(with: "")
-            gridLetter?.updateLetter(to: .blank, animated: false, completion: {})
-            gridLetter?.setBorderInactive()
+            gridLetter.updateLetter(with: "")
+            gridLetter.updateLetter(to: .blank, animated: false, completion: {})
+            gridLetter.setBorderInactive()
         }
     }
 
@@ -455,7 +636,7 @@ class GridView: UIView {
     // MARK: - UPDATE FIRST ROW FROM ENTER
     private func updateFirstRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
             self.updateFirstRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -467,7 +648,7 @@ class GridView: UIView {
     // MARK: - UPDATE SECOND ROW FROM ENTER
     private func updateSecondRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSecondRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -479,7 +660,7 @@ class GridView: UIView {
     // MARK: - UPDATE THIRD ROW FROM ENTER
     private func updateThirdRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateThirdRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -491,7 +672,7 @@ class GridView: UIView {
     // MARK: - UPDATE FOURTH ROW FROM ENTER
     private func updateFourthRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFourthRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -503,7 +684,7 @@ class GridView: UIView {
     // MARK: - UPDATE FIFTH ROW FROM ENTER
     private func updateFifthRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateFifthRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -515,7 +696,7 @@ class GridView: UIView {
     // MARK: - UPDATE SIXTH ROW FROM ENTER
     private func updateSixthRowFromEnter(completion: @escaping () -> ()) {
         guard GameModel.shared.currentGame?.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
-        keyboardView?.isUserInteractionEnabled = false
+        gridDelegate?.disableKeyboard()
         GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess.lowercased()
         incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
             self.updateSixthRow(guess: GameModel.shared.currentGuess, animated: true) {
@@ -528,7 +709,7 @@ class GridView: UIView {
 
     
     // MARK: - UPDATE ROWS FROM ENTER
-    private func updateRowsFromEnter(completion: @escaping () -> ()) {
+    func updateRowsFromEnter(completion: @escaping () -> ()) {
         guard let currentGame = GameModel.shared.currentGame else { completion(); return }
         guard let guessNumber = currentGame.guessNumber else { completion(); return }
         switch guessNumber {
@@ -582,7 +763,7 @@ class GridView: UIView {
         // Handling Correct Guess Letters:
             // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
-            keyboardView?.setKeyToGreen(for: guessLetter)
+            gridDelegate?.setKeyToGreen(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "🟩"
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
@@ -591,7 +772,7 @@ class GridView: UIView {
         // Handling Incorrect Guess Letters:
             // if the guess letter is not in the answer, make it gray
         } else if !answer.contains(guessLetter) {
-            keyboardView?.setKeyToGray(for: guessLetter)
+            gridDelegate?.setKeyToGray(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
@@ -605,7 +786,7 @@ class GridView: UIView {
             // if there is already the same number of confirmed green guess letters as in the answer...
             // it must be gray
             if greenLetterCount == answerLetterCount {
-                keyboardView?.setKeyToGray(for: guessLetter)
+                gridDelegate?.setKeyToGray(for: guessLetter)
                 GameModel.shared.lastGuessInEmojis += "⬜️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
@@ -615,8 +796,7 @@ class GridView: UIView {
             // it must be yellow
             } else if yellowLetterCount < answerLetterCount  {
                 GameModel.shared.incrementYellowGuessLetter(guessLetter)
-                
-                keyboardView?.setKeyToYellow(for: guessLetter)
+                gridDelegate?.setKeyToYellow(for: guessLetter)
                 GameModel.shared.lastGuessInEmojis += "🟨"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
@@ -624,7 +804,7 @@ class GridView: UIView {
                 
             // else there are more or the same amount of the confirmed yellow guess letters than in the answer
             } else {
-                keyboardView?.setKeyToGray(for: guessLetter)
+                gridDelegate?.setKeyToGray(for: guessLetter)
                 GameModel.shared.lastGuessInEmojis += "⬜️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
@@ -635,14 +815,13 @@ class GridView: UIView {
             // if there are more of the guess letter in the answer than in the guess...
         } else if answerLetterCount > yellowLetterCount {
             GameModel.shared.incrementYellowGuessLetter(guessLetter)
-            
-            keyboardView?.setKeyToYellow(for: guessLetter)
+            gridDelegate?.setKeyToYellow(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "🟨"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
         } else if answerLetterCount == yellowLetterCount {
-            keyboardView?.setKeyToGray(for: guessLetter)
+            gridDelegate?.setKeyToGray(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
@@ -830,227 +1009,41 @@ class GridView: UIView {
             completion()
         }
     }
-}
-
-extension GridView: KeyboardDelegate {
-    
-    // MARK: - DID TAP LETTER
-    func didTapLetter(_ letter: String) {
-        guard let currentGame = GameModel.shared.currentGame else { return }
-        switch currentGame.currentLetter {
-        case .a0:
-            GameModel.shared.currentGame?.guessNumber = .first
-            a1?.updateLetter(with: letter)
-            a1?.setBorderActive()
-            a1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .a1
-        case .a1:
-            a2?.updateLetter(with: letter)
-            a2?.setBorderActive()
-            a2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .a2
-        case .a2:
-            a3?.updateLetter(with: letter)
-            a3?.setBorderActive()
-            a3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .a3
-        case .a3:
-            a4?.updateLetter(with: letter)
-            a4?.setBorderActive()
-            a4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .a4
-        case .a4:
-            a5?.updateLetter(with: letter)
-            a5?.setBorderActive()
-            a5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .a5
-        case .b0:
-            GameModel.shared.currentGame?.guessNumber = .second
-            b1?.updateLetter(with: letter)
-            b1?.setBorderActive()
-            b1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .b1
-        case .b1:
-            b2?.updateLetter(with: letter)
-            b2?.setBorderActive()
-            b2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .b2
-        case .b2:
-            b3?.updateLetter(with: letter)
-            b3?.setBorderActive()
-            b3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .b3
-        case .b3:
-            b4?.updateLetter(with: letter)
-            b4?.setBorderActive()
-            b4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .b4
-        case .b4:
-            b5?.updateLetter(with: letter)
-            b5?.setBorderActive()
-            b5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .b5
-        case .c0:
-            GameModel.shared.currentGame?.guessNumber = .third
-            c1?.updateLetter(with: letter)
-            c1?.setBorderActive()
-            c1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .c1
-        case .c1:
-            c2?.updateLetter(with: letter)
-            c2?.setBorderActive()
-            c2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .c2
-        case .c2:
-            c3?.updateLetter(with: letter)
-            c3?.setBorderActive()
-            c3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .c3
-        case .c3:
-            c4?.updateLetter(with: letter)
-            c4?.setBorderActive()
-            c4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .c4
-        case .c4:
-            c5?.updateLetter(with: letter)
-            c5?.setBorderActive()
-            c5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .c5
-        case .d0:
-            GameModel.shared.currentGame?.guessNumber = .fourth
-            d1?.updateLetter(with: letter)
-            d1?.setBorderActive()
-            d1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .d1
-        case .d1:
-            d2?.updateLetter(with: letter)
-            d2?.setBorderActive()
-            d2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .d2
-        case .d2:
-            d3?.updateLetter(with: letter)
-            d3?.setBorderActive()
-            d3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .d3
-        case .d3:
-            d4?.updateLetter(with: letter)
-            d4?.setBorderActive()
-            d4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .d4
-        case .d4:
-            d5?.updateLetter(with: letter)
-            d5?.setBorderActive()
-            d5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .d5
-        case .e0:
-            GameModel.shared.currentGame?.guessNumber = .fifth
-            e1?.updateLetter(with: letter)
-            e1?.setBorderActive()
-            e1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .e1
-        case .e1:
-            e2?.updateLetter(with: letter)
-            e2?.setBorderActive()
-            e2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .e2
-        case .e2:
-            e3?.updateLetter(with: letter)
-            e3?.setBorderActive()
-            e3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .e3
-        case .e3:
-            e4?.updateLetter(with: letter)
-            e4?.setBorderActive()
-            e4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .e4
-        case .e4:
-            e5?.updateLetter(with: letter)
-            e5?.setBorderActive()
-            e5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .e5
-        case .f0:
-            GameModel.shared.currentGame?.guessNumber = .sixth
-            f1?.updateLetter(with: letter)
-            f1?.setBorderActive()
-            f1?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .f1
-        case .f1:
-            f2?.updateLetter(with: letter)
-            f2?.setBorderActive()
-            f2?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .f2
-        case .f2:
-            f3?.updateLetter(with: letter)
-            f3?.setBorderActive()
-            f3?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .f3
-        case .f3:
-            f4?.updateLetter(with: letter)
-            f4?.setBorderActive()
-            f4?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .f4
-        case .f4:
-            f5?.updateLetter(with: letter)
-            f5?.setBorderActive()
-            f5?.growAndShrink()
-            GameModel.shared.currentGuess += letter
-            GameModel.shared.currentGame?.currentLetter = .f5
-        case .a5, .b5, .c5, .d5, .e5, .f5: ()
-        }
-    }
     
     private func shakeLetterView(_ letterView: GridLetterView?) {
         guard let letterView = letterView else { return }
-
-        UIView.animate(withDuration: 0.07, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-        } completion: { _ in
-            UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-                letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-            } completion: { _ in
-                UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-                    letterView.frame = CGRect(x: letterView.frame.minX - 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-                } completion: { _ in
-                    UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-                        letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-                    } completion: { _ in
-                        UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-                            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-                        } completion: { _ in
-                        }
-                    }
-                }
-            }
-        }
+        
+        let midX = letterView.center.x
+        let midY = letterView.center.y
+        
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.06
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = CGPoint(x: midX - 10, y: midY)
+        animation.toValue = CGPoint(x: midX + 10, y: midY)
+        layer.add(animation, forKey: "position")
+        
+//        UIView.animate(withDuration: 0.07, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+//            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
+//        } completion: { _ in
+//            UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+//                letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
+//            } completion: { _ in
+//                UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+//                    letterView.frame = CGRect(x: letterView.frame.minX - 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
+//                } completion: { _ in
+//                    UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+//                        letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
+//                    } completion: { _ in
+//                        UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+//                            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
+//                        } completion: { _ in
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
     
     // MARK: - SHAKE CURRENT ROW
@@ -1087,7 +1080,7 @@ extension GridView: KeyboardDelegate {
     }
     
     // MARK: - WORD IS IN LIST
-    private func wordIsInList() -> Bool {
+    func wordIsInList() -> Bool {
         let words: Words = GameModel.shared.load("words.json")
         guard words.list.contains(GameModel.shared.currentGuess.lowercased()) else {
             gridDelegate?.showNotInWordListView()
@@ -1098,225 +1091,5 @@ extension GridView: KeyboardDelegate {
             GameModel.shared.setAnswerRandomly()
         }
         return true
-    }
-    
-    // MARK: - SLIDE KEYBOARD TO LEFT
-    private func slideKeyboard(completion: @escaping () -> ()) {
-        keyboardView?.showing = false
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveEaseIn) {
-            self.keyboardView?.frame = Frame.Keyboard.hiddenFrame(self.frame)
-        } completion: { _ in
-            completion()
-        }
-    }
-    
-    // MARK: - DID TAP ENTER
-    func didTapEnter() {
-        guard let currentGame = GameModel.shared.currentGame else { return }
-        guard GameModel.shared.currentGuess.count == 5 else { return }
-        
-        guard wordIsInList() else { return }
-        
-        GameModel.shared.populateGuessLetterCountDictionary(with: GameModel.shared.currentGuess) {
-            self.updateRowsFromEnter {
-                if GameModel.shared.currentGuess.lowercased() != currentGame.answer {
-                    switch currentGame.currentLetter {
-                    case .a5:
-                        GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess
-                        GameModel.shared.currentGame?.currentLetter = .b0
-                    case .b5:
-                        GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess
-                        GameModel.shared.currentGame?.currentLetter = .c0
-                    case .c5:
-                        GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess
-                        GameModel.shared.currentGame?.currentLetter = .d0
-                    case .d5:
-                        GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess
-                        GameModel.shared.currentGame?.currentLetter = .e0
-                    case .e5:
-                        GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess
-                        GameModel.shared.currentGame?.currentLetter = .f0
-                    case .f5:
-                        GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess
-                        self.gridDelegate?.showAnswer()
-                        GameModel.shared.currentGame?.state = .lost
-                    default: ()
-                    }
-                }
-                
-                if GameModel.shared.currentGuess.lowercased() == GameModel.shared.currentGame?.answer {
-                    self.gridDelegate?.showSuccessView()
-                    GameModel.shared.currentGame?.state = .won
-                }
-                
-                if let updatedCurrentGame = GameModel.shared.currentGame,
-                    (updatedCurrentGame.state == .won || updatedCurrentGame.state == .lost) {
-                    GameModel.shared.updateGames(with: updatedCurrentGame)
-                }
-                
-                GameModel.shared.currentGuess = ""
-                
-                self.slideKeyboard {
-                    self.gridDelegate?.showSendButton {}
-                }
-            }
-        }
-    }
-    
-    // MARK: - DID TAP BACKSPACE
-    func didTapBackspace() {
-        guard let currentGame = GameModel.shared.currentGame else { return }
-        
-        if !GameModel.shared.currentGuess.isEmpty {
-            GameModel.shared.currentGuess.removeLast()
-        }
-        
-        switch currentGame.currentLetter {
-        case .a1:
-            a1?.updateLetter(with: "")
-            a1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .a0
-        case .a2:
-            a2?.updateLetter(with: "")
-            a2?.setBorderInactive()
-            a1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .a1
-        case .a3:
-            a3?.updateLetter(with: "")
-            a3?.setBorderInactive()
-            a2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .a2
-        case .a4:
-            a4?.updateLetter(with: "")
-            a4?.setBorderInactive()
-            a3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .a3
-        case .a5:
-            a5?.updateLetter(with: "")
-            a5?.setBorderInactive()
-            a4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .a4
-        case .b1:
-            b1?.updateLetter(with: "")
-            b1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .b0
-        case .b2:
-            b2?.updateLetter(with: "")
-            b2?.setBorderInactive()
-            b1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .b1
-        case .b3:
-            b3?.updateLetter(with: "")
-            b3?.setBorderInactive()
-            b2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .b2
-        case .b4:
-            b4?.updateLetter(with: "")
-            b4?.setBorderInactive()
-            b3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .b3
-        case .b5:
-            b5?.updateLetter(with: "")
-            b5?.setBorderInactive()
-            b4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .b4
-        case .c1:
-            c1?.updateLetter(with: "")
-            c1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .c0
-        case .c2:
-            c2?.updateLetter(with: "")
-            c2?.setBorderInactive()
-            c1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .c1
-        case .c3:
-            c3?.updateLetter(with: "")
-            c3?.setBorderInactive()
-            c2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .c2
-        case .c4:
-            c4?.updateLetter(with: "")
-            c4?.setBorderInactive()
-            c3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .c3
-        case .c5:
-            c5?.updateLetter(with: "")
-            c5?.setBorderInactive()
-            c4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .c4
-        case .d1:
-            d1?.updateLetter(with: "")
-            d1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .d0
-        case .d2:
-            d2?.updateLetter(with: "")
-            d2?.setBorderInactive()
-            d1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .d1
-        case .d3:
-            d3?.updateLetter(with: "")
-            d3?.setBorderInactive()
-            d2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .d2
-        case .d4:
-            d4?.updateLetter(with: "")
-            d4?.setBorderInactive()
-            d3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .d3
-        case .d5:
-            d5?.updateLetter(with: "")
-            d5?.setBorderInactive()
-            d4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .d4
-        case .e1:
-            e1?.updateLetter(with: "")
-            e1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .e0
-        case .e2:
-            e2?.updateLetter(with: "")
-            e2?.setBorderInactive()
-            e1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .e1
-        case .e3:
-            e3?.updateLetter(with: "")
-            e3?.setBorderInactive()
-            e2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .e2
-        case .e4:
-            e4?.updateLetter(with: "")
-            e4?.setBorderInactive()
-            e3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .e3
-        case .e5:
-            e5?.updateLetter(with: "")
-            e5?.setBorderInactive()
-            e4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .e4
-        case .f1:
-            f1?.updateLetter(with: "")
-            f1?.setBorderInactive()
-            GameModel.shared.currentGame?.currentLetter = .f0
-        case .f2:
-            f2?.updateLetter(with: "")
-            f2?.setBorderInactive()
-            f1?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .f1
-        case .f3:
-            f3?.updateLetter(with: "")
-            f3?.setBorderInactive()
-            f2?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .f2
-        case .f4:
-            f4?.updateLetter(with: "")
-            f4?.setBorderInactive()
-            f3?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .f3
-        case .f5:
-            f5?.updateLetter(with: "")
-            f5?.setBorderInactive()
-            f4?.setBorderActive()
-            GameModel.shared.currentGame?.currentLetter = .f4
-        default: ()
-        }
     }
 }
