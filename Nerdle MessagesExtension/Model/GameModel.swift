@@ -20,6 +20,7 @@ class GameModel: NSObject {
     var isLandscape: Bool = false
     var words: Words?
     var games = Games(value: [])
+    var customAnswer: String?
     var currentGame: Game?
     var currentGuess = ""
     var lastGuessInEmojis = ""
@@ -187,11 +188,15 @@ class GameModel: NSObject {
         }
     }
 
-    // MARK: - SET ANSWER RANDOMLY
+    // MARK: - SET ANSWER RANDOMLY 
     func setAnswerRandomly() {
         words = GameModel.shared.load("words.json")
         guard let randomWord = words?.list.randomElement() else { return }
-        currentGame?.answer = randomWord
+        if let customAnswer = customAnswer {
+            currentGame?.answer = customAnswer.lowercased()
+        } else {
+            currentGame?.answer = randomWord
+        }
         populateAnswerLetterCountDictionary {}
     }
     

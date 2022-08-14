@@ -10,4 +10,5 @@ import Foundation
 enum AppState {
     case grid
     case stats
+    case debug
 }

@@ -15,7 +15,7 @@ protocol GridDelegate {
     func setKeyToGreen(for guessLetter: String)
     func setKeyToGray(for guessLetter: String)
     func setKeyToYellow(for guessLetter: String)
-    func slideKeyboard()
+    func showSendButton()
 }
 
 class GridView: UIView {
@@ -714,17 +714,35 @@ class GridView: UIView {
         guard let guessNumber = currentGame.guessNumber else { completion(); return }
         switch guessNumber {
         case .first:
-            updateFirstRowFromEnter { completion() }
+            updateFirstRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         case .second:
-            updateSecondRowFromEnter { completion() }
+            updateSecondRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         case .third:
-            updateThirdRowFromEnter { completion() }
+            updateThirdRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         case .fourth:
-            updateFourthRowFromEnter { completion() }
+            updateFourthRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         case .fifth:
-            updateFifthRowFromEnter { completion() }
+            updateFifthRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         case .sixth:
-            updateSixthRowFromEnter { completion() }
+            updateSixthRowFromEnter {
+                self.gridDelegate?.showSendButton()
+                completion()
+            }
         }
     }
     

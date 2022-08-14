@@ -235,6 +235,15 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    override func becomeFirstResponder() -> Bool {
+        true
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard motion == .motionShake else { return }
+        playView.updateAppState()
+    }
+    
     // MARK: - WILL BECOME ACTIVE
     override func willBecomeActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the inactive to active state.
@@ -419,7 +428,6 @@ extension MessagesViewController: PlayDelegate {
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }
-            self.playView.keyboardView.showing = true
         })
     }
 }
