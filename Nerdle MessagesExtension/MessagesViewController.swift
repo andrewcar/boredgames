@@ -247,10 +247,10 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - SHAKE
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        guard motion == .motionShake else { return }
-        playView.updateAppState()
-    }
+//    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+//        guard motion == .motionShake else { return }
+//        playView.updateAppState()
+//    }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         playView.updateConstraints()

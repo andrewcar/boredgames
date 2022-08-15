@@ -34,11 +34,11 @@ class StatsView: UIView {
     
         if GameModel.shared.isLandscape {
             activateStatBarLandscapeConstraints()
-            activateResetButtonLandscapeConstraints()
+//            activateResetButtonLandscapeConstraints()
             statBarView.updateConstraints()
         } else {
             activateStatBarPortraitConstraints()
-            activateStatBarPortraitConstraints()
+//            activateResetButtonPortraitConstraints()
             statBarView.updateConstraints()
         }
     }
@@ -46,7 +46,7 @@ class StatsView: UIView {
     // MARK: - ADD SUBVIEWS
     private func addSubviews() {
         addStatBarView()
-        addResetButton()
+//        addResetButton()
     }
     
     // MARK: - STAT BAR VIEW
