@@ -1096,6 +1096,7 @@ extension PlayView: KeyboardDelegate {
                 
                 if GameModel.shared.currentGuess.lowercased() == GameModel.shared.currentGame?.answer {
                     self.showSuccessView()
+                    self.gridView.jumpForJoy()
                     GameModel.shared.currentGame?.state = .won
                 }
                 
