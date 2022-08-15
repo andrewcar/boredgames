@@ -10,7 +10,7 @@ import UIKit
 class GridLetterView: UIView {
     
     // MARK: - Properties
-    private var letterState: LetterState = .blank
+    var letterState: LetterState = .blank
     private var letterLabel = UILabel()
     private var letterConstraints: [NSLayoutConstraint] = []
     
@@ -42,7 +42,7 @@ class GridLetterView: UIView {
                 self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
             } completion: { _ in
                 
-                self.updateColors(for: state)
+                self.updateColors()
                 // grow
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
                     self.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -51,7 +51,7 @@ class GridLetterView: UIView {
                 }
             }
         } else {
-            updateColors(for: state)
+            updateColors()
             completion()
         }
     }
@@ -91,12 +91,11 @@ class GridLetterView: UIView {
         }
     }
     
-    private func updateColors(for state: LetterState) {
-        self.setBackgroundColor(for: state)
-        self.setFontColor(for: state)
-        self.setBorderColor(for: state)
+    func updateColors() {
+        setBackgroundColor()
+        setFontColor()
+        setBorderColor()
     }
-    
     
     // MARK: - Public Methods
     func setBorderActive() {
@@ -107,13 +106,14 @@ class GridLetterView: UIView {
         layer.borderColor = UIColor.gridLetterBorder?.cgColor
     }
     
-    func growAndShrink() {
+    func growAndShrink(completion: @escaping () -> ()) {
         UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
             self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         } completion: { _ in
             UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
                 self.transform = CGAffineTransform(scaleX: 1, y: 1)
             } completion: { _ in
+                completion()
             }
         }
     }
@@ -150,8 +150,8 @@ class GridLetterView: UIView {
         NSLayoutConstraint.activate(letterConstraints)
     }
     
-    private func setBackgroundColor(for state: LetterState) {
-        switch state {
+    private func setBackgroundColor() {
+        switch letterState {
         case .blank:
             backgroundColor = .gridLetterBackgroundBlank
         case .gray:
@@ -163,10 +163,10 @@ class GridLetterView: UIView {
         }
     }
     
-    private func setBorderColor(for state: LetterState) {
-        switch state {
+    private func setBorderColor() {
+        switch letterState {
         case .blank:
-            break
+            layer.borderColor = UIColor.gridLetterBorder?.cgColor
         case .gray:
             layer.borderColor = UIColor.gridLetterBackgroundGray?.cgColor
         case .yellow:
@@ -176,8 +176,8 @@ class GridLetterView: UIView {
         }
     }
     
-    private func setFontColor(for state: LetterState) {
-        switch state {
+    private func setFontColor() {
+        switch letterState {
         case .blank:
             if traitCollection.userInterfaceStyle == .dark {
                 letterLabel.textColor = .white

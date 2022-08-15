@@ -83,6 +83,7 @@ class PlayView: UIView {
             activateLogoLandscapeConstraints()
             activateGridViewLandscapeConstraints()
             gridView.activateLetterLandscapeConstraints()
+            gridView.updateGridLetterColors()
             activateNotInWordListLandscapeConstraints()
             activateKeyboardLandscapeConstraints()
             keyboardView.updateSubviews(isLandscape: true)
@@ -98,9 +99,10 @@ class PlayView: UIView {
             activateLogoPortraitConstraints()
             activateGridViewPortraitConstraints()
             gridView.activateLetterPortraitConstraints()
+            gridView.updateGridLetterColors()
             activateNotInWordListPortraitConstraints()
+            activateKeyboardPortraitConstraints()
             keyboardView.updateSubviews(isLandscape: false)
-            keyboardView.activatePortraitConstraints()
             activateSendButtonPortraitConstraints()
             updateStatsButton(isLandscape: false)
             activateStatsViewPortraitConstraints()
@@ -328,12 +330,13 @@ class PlayView: UIView {
 
         keyboardLandscapeConstraints = [
             keyboardView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: Frame.padding * 5),
-            keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4)),
-            keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2))
+            keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
         ]
         let offset: CGFloat = appState == .stats || appState == .debug || !keyboardView.showing ? UIScreen.main.bounds.width : 0
-        let constraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Frame.padding + offset)
-        keyboardLandscapeConstraints.append(constraint)
+        let leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+        let trailingConstraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.padding + offset)
+        keyboardLandscapeConstraints.append(leadingConstraint)
+        keyboardLandscapeConstraints.append(trailingConstraint)
         NSLayoutConstraint.activate(keyboardLandscapeConstraints)
     }
     
@@ -341,6 +344,8 @@ class PlayView: UIView {
     private func deactivateKeyboardConstraints() {
         NSLayoutConstraint.deactivate(keyboardPortraitConstraints)
         NSLayoutConstraint.deactivate(keyboardLandscapeConstraints)
+        keyboardPortraitConstraints.removeAll()
+        keyboardLandscapeConstraints.removeAll()
     }
     
     // MARK: - SEND BUTTON
@@ -838,187 +843,217 @@ extension PlayView: KeyboardDelegate {
         case .a0:
             GameModel.shared.currentGame?.guessNumber = .first
             gridView.a1.updateLetter(with: letter)
-            gridView.a1.setBorderActive()
-            gridView.a1.growAndShrink()
+            gridView.a1.growAndShrink {
+                self.gridView.a1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a1
         case .a1:
             gridView.a2.updateLetter(with: letter)
-            gridView.a2.setBorderActive()
-            gridView.a2.growAndShrink()
+            gridView.a2.growAndShrink {
+                self.gridView.a2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a2
         case .a2:
             gridView.a3.updateLetter(with: letter)
-            gridView.a3.setBorderActive()
-            gridView.a3.growAndShrink()
+            gridView.a3.growAndShrink {
+                self.gridView.a3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a3
         case .a3:
             gridView.a4.updateLetter(with: letter)
-            gridView.a4.setBorderActive()
-            gridView.a4.growAndShrink()
+            gridView.a4.growAndShrink {
+                self.gridView.a4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a4
         case .a4:
             gridView.a5.updateLetter(with: letter)
-            gridView.a5.setBorderActive()
-            gridView.a5.growAndShrink()
+            gridView.a5.growAndShrink {
+                self.gridView.a5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a5
         case .b0:
             GameModel.shared.currentGame?.guessNumber = .second
             gridView.b1.updateLetter(with: letter)
-            gridView.b1.setBorderActive()
-            gridView.b1.growAndShrink()
+            gridView.b1.growAndShrink {
+                self.gridView.b1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b1
         case .b1:
             gridView.b2.updateLetter(with: letter)
-            gridView.b2.setBorderActive()
-            gridView.b2.growAndShrink()
+            gridView.b2.growAndShrink {
+                self.gridView.b2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b2
         case .b2:
             gridView.b3.updateLetter(with: letter)
-            gridView.b3.setBorderActive()
-            gridView.b3.growAndShrink()
+            gridView.b3.growAndShrink {
+                self.gridView.b3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b3
         case .b3:
             gridView.b4.updateLetter(with: letter)
-            gridView.b4.setBorderActive()
-            gridView.b4.growAndShrink()
+            gridView.b4.growAndShrink {
+                self.gridView.b4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b4
         case .b4:
             gridView.b5.updateLetter(with: letter)
-            gridView.b5.setBorderActive()
-            gridView.b5.growAndShrink()
+            gridView.b5.growAndShrink {
+                self.gridView.b5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b5
         case .c0:
             GameModel.shared.currentGame?.guessNumber = .third
             gridView.c1.updateLetter(with: letter)
-            gridView.c1.setBorderActive()
-            gridView.c1.growAndShrink()
+            gridView.c1.growAndShrink {
+                self.gridView.c1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c1
         case .c1:
             gridView.c2.updateLetter(with: letter)
-            gridView.c2.setBorderActive()
-            gridView.c2.growAndShrink()
+            gridView.c2.growAndShrink {
+                self.gridView.c2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c2
         case .c2:
             gridView.c3.updateLetter(with: letter)
-            gridView.c3.setBorderActive()
-            gridView.c3.growAndShrink()
+            gridView.c3.growAndShrink {
+                self.gridView.c3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c3
         case .c3:
             gridView.c4.updateLetter(with: letter)
-            gridView.c4.setBorderActive()
-            gridView.c4.growAndShrink()
+            gridView.c4.growAndShrink {
+                self.gridView.c4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c4
         case .c4:
             gridView.c5.updateLetter(with: letter)
-            gridView.c5.setBorderActive()
-            gridView.c5.growAndShrink()
+            gridView.c5.growAndShrink {
+                self.gridView.c5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c5
         case .d0:
             GameModel.shared.currentGame?.guessNumber = .fourth
             gridView.d1.updateLetter(with: letter)
-            gridView.d1.setBorderActive()
-            gridView.d1.growAndShrink()
+            gridView.d1.growAndShrink {
+                self.gridView.d1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d1
         case .d1:
             gridView.d2.updateLetter(with: letter)
-            gridView.d2.setBorderActive()
-            gridView.d2.growAndShrink()
+            gridView.d2.growAndShrink {
+                self.gridView.d2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d2
         case .d2:
             gridView.d3.updateLetter(with: letter)
-            gridView.d3.setBorderActive()
-            gridView.d3.growAndShrink()
+            gridView.d3.growAndShrink {
+                self.gridView.d3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d3
         case .d3:
             gridView.d4.updateLetter(with: letter)
-            gridView.d4.setBorderActive()
-            gridView.d4.growAndShrink()
+            gridView.d4.growAndShrink {
+                self.gridView.d4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d4
         case .d4:
             gridView.d5.updateLetter(with: letter)
-            gridView.d5.setBorderActive()
-            gridView.d5.growAndShrink()
+            gridView.d5.growAndShrink {
+                self.gridView.d5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d5
         case .e0:
             GameModel.shared.currentGame?.guessNumber = .fifth
             gridView.e1.updateLetter(with: letter)
-            gridView.e1.setBorderActive()
-            gridView.e1.growAndShrink()
+            gridView.e1.growAndShrink {
+                self.gridView.e1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e1
         case .e1:
             gridView.e2.updateLetter(with: letter)
-            gridView.e2.setBorderActive()
-            gridView.e2.growAndShrink()
+            gridView.e2.growAndShrink {
+                self.gridView.e2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e2
         case .e2:
             gridView.e3.updateLetter(with: letter)
-            gridView.e3.setBorderActive()
-            gridView.e3.growAndShrink()
+            gridView.e3.growAndShrink {
+                self.gridView.e3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e3
         case .e3:
             gridView.e4.updateLetter(with: letter)
-            gridView.e4.setBorderActive()
-            gridView.e4.growAndShrink()
+            gridView.e4.growAndShrink {
+                self.gridView.e4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e4
         case .e4:
             gridView.e5.updateLetter(with: letter)
-            gridView.e5.setBorderActive()
-            gridView.e5.growAndShrink()
+            gridView.e5.growAndShrink {
+                self.gridView.e5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e5
         case .f0:
             GameModel.shared.currentGame?.guessNumber = .sixth
             gridView.f1.updateLetter(with: letter)
-            gridView.f1.setBorderActive()
-            gridView.f1.growAndShrink()
+            gridView.f1.growAndShrink {
+                self.gridView.f1.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f1
         case .f1:
             gridView.f2.updateLetter(with: letter)
-            gridView.f2.setBorderActive()
-            gridView.f2.growAndShrink()
+            gridView.f2.growAndShrink {
+                self.gridView.f2.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f2
         case .f2:
             gridView.f3.updateLetter(with: letter)
-            gridView.f3.setBorderActive()
-            gridView.f3.growAndShrink()
+            gridView.f3.growAndShrink {
+                self.gridView.f3.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f3
         case .f3:
             gridView.f4.updateLetter(with: letter)
-            gridView.f4.setBorderActive()
-            gridView.f4.growAndShrink()
+            gridView.f4.growAndShrink {
+                self.gridView.f4.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f4
         case .f4:
             gridView.f5.updateLetter(with: letter)
-            gridView.f5.setBorderActive()
-            gridView.f5.growAndShrink()
+            gridView.f5.growAndShrink {
+                self.gridView.f5.setBorderActive()
+            }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f5
         case .a5, .b5, .c5, .d5, .e5, .f5: ()
