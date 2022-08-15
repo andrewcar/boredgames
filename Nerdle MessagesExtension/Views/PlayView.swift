@@ -85,30 +85,30 @@ class PlayView: UIView {
             gridView.activateLetterLandscapeConstraints()
             activateNotInWordListLandscapeConstraints()
             activateKeyboardLandscapeConstraints()
-            keyboardView.activateLandscapeConstraints()
+            keyboardView.updateSubviews(isLandscape: true)
             activateSendButtonLandscapeConstraints()
-            activateStatsButtonLandscapeConstraints()
+            updateStatsButton(isLandscape: true)
             activateStatsViewLandscapeConstraints()
             statsView.updateConstraints()
-            activateNewGameButtonLandscapeConstraints()
+            updateNewGameButton(isLandscape: true)
             activateSuccessLandscapeConstraints()
             activateDebugLandscapeConstraints()
-            activateGridButtonLandscapeConstraints()
+            updateGridButton(isLandscape: true)
         } else {
             activateLogoPortraitConstraints()
             activateGridViewPortraitConstraints()
             gridView.activateLetterPortraitConstraints()
             activateNotInWordListPortraitConstraints()
-            activateKeyboardPortraitConstraints()
+            keyboardView.updateSubviews(isLandscape: false)
             keyboardView.activatePortraitConstraints()
             activateSendButtonPortraitConstraints()
-            activateStatsButtonPortraitConstraints()
+            updateStatsButton(isLandscape: false)
             activateStatsViewPortraitConstraints()
             statsView.updateConstraints()
-            activateNewGameButtonPortraitConstraints()
+            updateNewGameButton(isLandscape: false)
             activateSuccessPortraitConstraints()
             activateDebugPortraitConstraints()
-            activateGridButtonPortraitConstraints()
+            updateGridButton(isLandscape: false)
         }
         
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
@@ -405,15 +405,29 @@ class PlayView: UIView {
         newGameButton = UIButton(frame: .zero)
         newGameButton.translatesAutoresizingMaskIntoConstraints = false
         newGameButton.addTarget(self, action: #selector(didTapNewGameButton(sender:)), for: .touchUpInside)
-        let image = UIImage().scaledSystemImage(
-            named: "arrow.clockwise.circle.fill",
-            size: Frame.buttonSize,
-            weight: .bold,
-            color: .systemIconButton)
-        newGameButton.setImage(image, for: .normal)
+        newGameButton.setImage(newGameButtonImage(), for: .normal)
         newGameButton.setTitleColor(.clear, for: .normal)
         addSubview(newGameButton)
         activateNewGameButtonPortraitConstraints()
+    }
+    
+    // MARK: - UPDATE NEW GAME BUTTON
+    private func updateNewGameButton(isLandscape: Bool) {
+        if isLandscape {
+            activateNewGameButtonLandscapeConstraints()
+        } else {
+            activateNewGameButtonPortraitConstraints()
+        }
+        newGameButton.setImage(newGameButtonImage(), for: .normal)
+    }
+    
+    // MARK: - NEW GAME BUTTON IMAGE
+    private func newGameButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "arrow.clockwise.circle.fill",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .systemIconButton)
     }
     
     // MARK: - NEW GAME BUTTON PORTRAIT CONSTRAINTS
@@ -463,15 +477,29 @@ class PlayView: UIView {
         statsButton = UIButton(frame: .zero)
         statsButton.translatesAutoresizingMaskIntoConstraints = false
         statsButton.addTarget(self, action: #selector(didTapStatsButton(sender:)), for: .touchUpInside)
-        let image = UIImage().scaledSystemImage(
+        statsButton.setImage(statsButtonImage(), for: .normal)
+        statsButton.setTitleColor(.clear, for: .normal)
+        addSubview(statsButton)
+        activateStatsButtonPortraitConstraints()
+    }
+    
+    // MARK: - UPDATE STATS BUTTON
+    private func updateStatsButton(isLandscape: Bool) {
+        if isLandscape {
+            activateStatsButtonLandscapeConstraints()
+        } else {
+            activateStatsButtonPortraitConstraints()
+        }
+        statsButton.setImage(statsButtonImage(), for: .normal)
+    }
+    
+    // MARK: - STATS BUTTON IMAGE
+    private func statsButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
             named: "books.vertical.fill",
             size: Frame.buttonSize,
             weight: .regular,
             color: .systemIconButton)
-        statsButton.setImage(image, for: .normal)
-        statsButton.setTitleColor(.clear, for: .normal)
-        addSubview(statsButton)
-        activateStatsButtonPortraitConstraints()
     }
     
     // MARK: - STATS BUTTON PORTRAIT CONSTRAINTS
@@ -520,15 +548,29 @@ class PlayView: UIView {
         gridButton = UIButton(frame: .zero)
         gridButton.translatesAutoresizingMaskIntoConstraints = false
         gridButton.addTarget(self, action: #selector(didTapGridButton(sender:)), for: .touchUpInside)
-        let image = UIImage().scaledSystemImage(
+        gridButton.setImage(gridButtonImage(), for: .normal)
+        gridButton.setTitleColor(.clear, for: .normal)
+        addSubview(gridButton)
+        activateGridButtonPortraitConstraints()
+    }
+    
+    // MARK: - UPDATE GRID BUTTON
+    private func updateGridButton(isLandscape: Bool) {
+        if isLandscape {
+            activateGridButtonLandscapeConstraints()
+        } else {
+            activateGridButtonPortraitConstraints()
+        }
+        gridButton.setImage(gridButtonImage(), for: .normal)
+    }
+    
+    // MARK: - GRID BUTTON IMAGE
+    private func gridButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
             named: "gamecontroller.fill",
             size: Frame.buttonSize,
             weight: .regular,
             color: .systemIconButton)
-        gridButton.setImage(image, for: .normal)
-        gridButton.setTitleColor(.clear, for: .normal)
-        addSubview(gridButton)
-        activateGridButtonPortraitConstraints()
     }
     
     // MARK: - GRID BUTTON PORTRAIT CONSTRAINTS

@@ -253,9 +253,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard let previousTraitCollection = previousTraitCollection else { return }
-        let style = previousTraitCollection.userInterfaceStyle
-        print("style: \(style)")
+        playView.updateConstraints()
     }
     
     // MARK: - WILL BECOME ACTIVE
