@@ -374,7 +374,7 @@ extension MessagesViewController {
                 if let answer = currentGame.answer,
                    let guess1 = currentGame.guess1,
                    answer == guess1 {
-                    subcaptionString = "We got it in 1 💀"
+                    subcaptionString = "I got it in 1 💀"
                 } else {
                     subcaptionString = "Guess it in 2."
                 }
@@ -382,7 +382,7 @@ extension MessagesViewController {
                 if let answer = currentGame.answer,
                    let guess2 = currentGame.guess2,
                    answer == guess2 {
-                    subcaptionString = "We got it in 2!"
+                    subcaptionString = "We got it in 2 🥴"
                 } else {
                     subcaptionString = "Guess it in 3."
                 }
@@ -390,7 +390,7 @@ extension MessagesViewController {
                 if let answer = currentGame.answer,
                    let guess3 = currentGame.guess3,
                    answer == guess3 {
-                    subcaptionString = "We got it in 3 😎🥳"
+                    subcaptionString = "We got it in 3 😎"
                 } else {
                     subcaptionString = "Guess it in 4."
                 }
@@ -398,7 +398,7 @@ extension MessagesViewController {
                 if let answer = currentGame.answer,
                    let guess4 = currentGame.guess4,
                    answer == guess4 {
-                    subcaptionString = "We got it in 4 👍"
+                    subcaptionString = "We got it in 4 🤠"
                 } else {
                     subcaptionString = "Guess it in 5."
                 }
@@ -406,15 +406,15 @@ extension MessagesViewController {
                 if let answer = currentGame.answer,
                    let guess5 = currentGame.guess5,
                    answer == guess5 {
-                    subcaptionString = "We got it in 5."
+                    subcaptionString = "We got it in 5 😅"
                 } else {
-                    subcaptionString = "Guess it in 6."
+                    subcaptionString = "Guess it in 6 🫣"
                 }
             case .sixth:
                 if let answer = currentGame.answer,
                    let guess6 = currentGame.guess6,
                    answer == guess6 {
-                    subcaptionString = "🫣 Did we get it?"
+                    subcaptionString = "🫠 Did we get it?"
                 } else {
                     subcaptionString = "🫥"
                 }
