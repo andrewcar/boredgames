@@ -172,7 +172,11 @@ class GameModel: NSObject {
         
         if game.state == .won {
             games.winCount += 1
+            if games.streakCount == games.longestStreak {
+                games.longestStreak += 1
+            }
             games.streakCount += 1
+
         } else if game.state == .lost {
             games.lossCount += 1
             games.streakCount = 0

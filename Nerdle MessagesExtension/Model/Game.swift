@@ -13,6 +13,7 @@ struct Games: Hashable, Codable {
     var winCount: Int = 0
     var lossCount: Int = 0
     var streakCount: Int = 0
+    var longestStreak: Int = 0
 }
 
 struct Game: Hashable, Codable {
