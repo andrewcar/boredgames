@@ -40,7 +40,7 @@ class KeyboardLetterView: UIView {
         updateTextColor(for: state)
         updateBackgroundColor(for: state)
     }
-    
+
     
     // MARK: - Private Methods
     private func setupSubviews(_ letter: String) {
@@ -117,6 +117,7 @@ class KeyboardLetterView: UIView {
     
     @objc
     private func didTapButton(sender: UIButton) {
+        growAndShrink {}
         if let letter = sender.currentTitle {
             if letter == "ENTER" {
                 letterDelegate.didTapEnter()
@@ -124,6 +125,18 @@ class KeyboardLetterView: UIView {
                 letterDelegate.didTapBackspace()
             } else {
                 letterDelegate.didTapLetter(letter)
+            }
+        }
+    }
+    
+    private func growAndShrink(completion: @escaping () -> ()) {
+        UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+            self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+                self.transform = CGAffineTransform(scaleX: 1, y: 1)
+            } completion: { _ in
+                completion()
             }
         }
     }
