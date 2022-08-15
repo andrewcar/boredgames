@@ -742,7 +742,7 @@ class PlayView: UIView {
         }
         
         // make letters jump for joy
-        gridView.jumpForJoy {}
+        gridView.jumpForJoy()
     }
     
     // MARK: - SHOW THE LOSS
