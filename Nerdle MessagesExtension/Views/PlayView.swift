@@ -359,7 +359,7 @@ class PlayView: UIView {
             weight: .bold,
             color: .messagesBlue)
         sendButton.setImage(image, for: .normal)
-        sendButton.setTitleColor(.clear, for: .normal)
+        sendButton.setTitleColor(.white, for: .normal)
         addSubview(sendButton)
         activateSendButtonPortraitConstraints()
     }
