@@ -354,7 +354,7 @@ class PlayView: UIView {
             weight: .bold,
             color: .messagesBlue)
         sendButton.setImage(image, for: .normal)
-        sendButton.setTitleColor(.white, for: .normal)
+        sendButton.setTitleColor(.clear, for: .normal)
         addSubview(sendButton)
         activateSendButtonPortraitConstraints()
     }
@@ -408,9 +408,10 @@ class PlayView: UIView {
         let image = UIImage().scaledSystemImage(
             named: "arrow.clockwise.circle.fill",
             size: Frame.buttonSize,
-            weight: .bold)
+            weight: .bold,
+            color: .systemIconButton)
         newGameButton.setImage(image, for: .normal)
-        newGameButton.setTitleColor(.white, for: .normal)
+        newGameButton.setTitleColor(.clear, for: .normal)
         addSubview(newGameButton)
         activateNewGameButtonPortraitConstraints()
     }
@@ -465,9 +466,10 @@ class PlayView: UIView {
         let image = UIImage().scaledSystemImage(
             named: "books.vertical.fill",
             size: Frame.buttonSize,
-            weight: .regular)
+            weight: .regular,
+            color: .systemIconButton)
         statsButton.setImage(image, for: .normal)
-        statsButton.setTitleColor(.white, for: .normal)
+        statsButton.setTitleColor(.clear, for: .normal)
         addSubview(statsButton)
         activateStatsButtonPortraitConstraints()
     }
@@ -521,9 +523,10 @@ class PlayView: UIView {
         let image = UIImage().scaledSystemImage(
             named: "gamecontroller.fill",
             size: Frame.buttonSize,
-            weight: .regular)
+            weight: .regular,
+            color: .systemIconButton)
         gridButton.setImage(image, for: .normal)
-        gridButton.setTitleColor(.white, for: .normal)
+        gridButton.setTitleColor(.clear, for: .normal)
         addSubview(gridButton)
         activateGridButtonPortraitConstraints()
     }
@@ -668,11 +671,19 @@ class PlayView: UIView {
     
     // MARK: - SHOW THE WIN
     func showTheWin(currentGame: Game) {
+        
+        // disable keyboard
         keyboardView.isUserInteractionEnabled = false
+        
+        // show success view
         showSuccessView()
+        
+        // update stats
         if let currentGame = GameModel.shared.currentGame {
             GameModel.shared.updateGames(with: currentGame)
         }
+        
+        // show new game button
         if GameModel.shared.isLandscape {
             activateNewGameButtonLandscapeConstraints()
         } else {
@@ -682,6 +693,9 @@ class PlayView: UIView {
             self.layoutIfNeeded()
         } completion: { _ in
         }
+        
+        // make letters jump for joy
+        gridView.jumpForJoy {}
     }
     
     // MARK: - SHOW THE LOSS

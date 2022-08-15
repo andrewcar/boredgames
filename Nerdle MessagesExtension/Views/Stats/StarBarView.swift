@@ -84,7 +84,7 @@ class StatBarView: UIView {
     
     // MARK: - CONFIGURE
     private func configure() {
-        backgroundColor = .lightGrayBackground
+        backgroundColor = .statBubbleBackground
         layer.cornerCurve = .continuous
         layer.cornerRadius = 23
         GameModel.shared.gameDelegate = self
@@ -105,6 +105,7 @@ class StatBarView: UIView {
         playedNumberLabel.textAlignment = .center
         playedNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
         playedNumberLabel.text = "\(GameModel.shared.games.gameCount)"
+        playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
         
         playedTitleLabel = UILabel(frame: .zero)
@@ -112,7 +113,7 @@ class StatBarView: UIView {
         playedTitleLabel.text = "Played"
         playedTitleLabel.textAlignment = .center
         playedTitleLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        playedTitleLabel.textColor = .nerdleLetterLightModeGray
+        playedTitleLabel.textColor = .statBubbleTitleText
         addSubview(playedTitleLabel)
         
         activatePlayedNumberPortraitConstraints()
@@ -188,6 +189,7 @@ class StatBarView: UIView {
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
         wonNumberLabel.text = "\(GameModel.shared.games.winCount)"
+        wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
         wonTitleLabel = UILabel(frame: .zero)
@@ -195,7 +197,7 @@ class StatBarView: UIView {
         wonTitleLabel.text = "Won"
         wonTitleLabel.textAlignment = .center
         wonTitleLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        wonTitleLabel.textColor = .nerdleLetterLightModeGray
+        wonTitleLabel.textColor = .statBubbleTitleText
         addSubview(wonTitleLabel)
         
         activateWonNumberPortraitConstraints()
@@ -269,6 +271,7 @@ class StatBarView: UIView {
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
         lostNumberLabel.text = "\(GameModel.shared.games.lossCount)"
+        lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
         lostTitleLabel = UILabel(frame: .zero)
@@ -276,7 +279,7 @@ class StatBarView: UIView {
         lostTitleLabel.text = "Lost"
         lostTitleLabel.textAlignment = .center
         lostTitleLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        lostTitleLabel.textColor = .nerdleLetterLightModeGray
+        lostTitleLabel.textColor = .statBubbleTitleText
         addSubview(lostTitleLabel)
         
         activateLostNumberPortraitConstraints()
@@ -350,6 +353,7 @@ class StatBarView: UIView {
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
         streakNumberLabel.text = "\(GameModel.shared.games.streakCount)"
+        streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         
         streakTitleLabel = UILabel(frame: .zero)
@@ -357,7 +361,7 @@ class StatBarView: UIView {
         streakTitleLabel.text = "Streak"
         streakTitleLabel.textAlignment = .center
         streakTitleLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        streakTitleLabel.textColor = .nerdleLetterLightModeGray
+        streakTitleLabel.textColor = .statBubbleTitleText
         addSubview(streakTitleLabel)
         
         activateStreakNumberPortraitConstraints()

@@ -33,12 +33,12 @@ class SuccessView: UIView {
         if let answer = GameModel.shared.currentGame?.answer {
             titleLabel.text = answer.uppercased()
         }
-        backgroundColor = .nerdleRed
+        backgroundColor = .successBackgroundRed
     }
     
     func reset() {
         titleLabel.text = "SUCCESS"
-        backgroundColor = .nerdleGreen
+        backgroundColor = .successBackgroundGreen
         isHidden = true
     }
     

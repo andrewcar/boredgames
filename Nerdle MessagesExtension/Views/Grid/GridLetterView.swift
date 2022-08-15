@@ -56,6 +56,41 @@ class GridLetterView: UIView {
         }
     }
     
+    func shake() {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+            self.transform = CGAffineTransform(translationX: -20, y: 0)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+                self.transform = CGAffineTransform(translationX: 20, y: 0)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+                    self.transform = CGAffineTransform(translationX: -20, y: 0)
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveLinear) {
+                        self.transform = CGAffineTransform(translationX: 20, y: 0)
+                    } completion: { _ in
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut) {
+                            self.transform = CGAffineTransform(translationX: 0, y: 0)
+                        } completion: { _ in
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func jumpForJoy(completion: @escaping () -> ()) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {
+            self.transform = CGAffineTransform(translationX: 0, y: 10)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseOut) {
+                self.transform = CGAffineTransform(translationX: 0, y: 0)
+            } completion: { _ in
+                completion()
+            }
+        }
+    }
+    
     private func updateColors(for state: LetterState) {
         self.setBackgroundColor(for: state)
         self.setFontColor(for: state)
@@ -65,11 +100,11 @@ class GridLetterView: UIView {
     
     // MARK: - Public Methods
     func setBorderActive() {
-        layer.borderColor = UIColor.nerdleActiveBorderLightModeGray.cgColor
+        layer.borderColor = UIColor.gridLetterActiveBorder?.cgColor
     }
     
     func setBorderInactive() {
-        layer.borderColor = UIColor.nerdleBorderLightModeGray.cgColor
+        layer.borderColor = UIColor.gridLetterBorder?.cgColor
     }
     
     func growAndShrink() {
@@ -118,13 +153,13 @@ class GridLetterView: UIView {
     private func setBackgroundColor(for state: LetterState) {
         switch state {
         case .blank:
-            backgroundColor = .white
+            backgroundColor = .gridLetterBackgroundBlank
         case .gray:
-            backgroundColor = .nerdleLetterLightModeGray
+            backgroundColor = .gridLetterBackgroundGray
         case .yellow:
-            backgroundColor = .nerdleYellow
+            backgroundColor = .gridLetterBackgroundYellow
         case .green:
-            backgroundColor = .nerdleGreen
+            backgroundColor = .gridLetterBackgroundGreen
         }
     }
     
@@ -133,18 +168,22 @@ class GridLetterView: UIView {
         case .blank:
             break
         case .gray:
-            layer.borderColor = UIColor.nerdleLetterLightModeGray.cgColor
+            layer.borderColor = UIColor.gridLetterBackgroundGray?.cgColor
         case .yellow:
-            layer.borderColor = UIColor.nerdleYellow.cgColor
+            layer.borderColor = UIColor.gridLetterBackgroundYellow?.cgColor
         case .green:
-            layer.borderColor = UIColor.nerdleGreen.cgColor
+            layer.borderColor = UIColor.gridLetterBackgroundGreen?.cgColor
         }
     }
     
     private func setFontColor(for state: LetterState) {
         switch state {
         case .blank:
-            letterLabel.textColor = .black
+            if traitCollection.userInterfaceStyle == .dark {
+                letterLabel.textColor = .white
+            } else {
+                letterLabel.textColor = .black
+            }
         default:
             letterLabel.textColor = .white
         }

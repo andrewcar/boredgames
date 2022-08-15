@@ -17,7 +17,7 @@ struct Frame {
     // MARK: - LOGO
     struct Logo {
         static let size = CGSize(width: 117, height: 30)
-        static let upperPadding: CGFloat = 7
+        static let upperPadding: CGFloat = UIScreen.main.bounds.width / 20
         static let bottomPadding: CGFloat = 10
     }
     
@@ -43,7 +43,7 @@ struct Frame {
             return CGSize(width: width, height: width)
         }
         static var upperPadding: CGFloat {
-            UIScreen.main.bounds.width / 17
+            UIScreen.main.bounds.width / 20
         }
         static var outerPadding: CGFloat {
             UIScreen.main.bounds.width / 7

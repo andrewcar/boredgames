@@ -33,7 +33,7 @@ class NotInWordListView: UIView {
         addSubviews()
         layer.cornerCurve = .continuous
         layer.cornerRadius = 4
-        backgroundColor = .nerdleBorderDarkModeGray
+        backgroundColor = .notInWordListBackground
         isHidden = true
     }
     
@@ -47,7 +47,7 @@ class NotInWordListView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        titleLabel.textColor = .white
+        titleLabel.textColor = .notInWordListText
         titleLabel.text = "Try again"
         addSubview(titleLabel)
         activateTitleConstraints()
@@ -58,7 +58,7 @@ class NotInWordListView: UIView {
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.textAlignment = .center
         subtitleLabel.font = .systemFont(ofSize: 12, weight: .regular)
-        subtitleLabel.textColor = .white
+        subtitleLabel.textColor = .notInWordListText
         subtitleLabel.text = "Not in word list"
         addSubview(subtitleLabel)
         activateSubtitleConstraints()

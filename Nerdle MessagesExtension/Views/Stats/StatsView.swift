@@ -95,9 +95,10 @@ class StatsView: UIView {
         let image = UIImage().scaledSystemImage(
             named: "eject.circle.fill",
             size: Frame.buttonSize,
-            weight: .bold)
+            weight: .bold,
+            color: .systemIconButton)
         resetButton.setImage(image, for: .normal)
-        resetButton.setTitleColor(.white, for: .normal)
+        resetButton.setTitleColor(.clear, for: .normal)
         addSubview(resetButton)
         activateResetButtonPortraitConstraints()
     }

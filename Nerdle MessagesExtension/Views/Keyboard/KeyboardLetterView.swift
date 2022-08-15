@@ -44,7 +44,7 @@ class KeyboardLetterView: UIView {
     
     // MARK: - Private Methods
     private func setupSubviews(_ letter: String) {
-        backgroundColor = .nerdleKeyboardLightModeGray
+        backgroundColor = .keyboardLetterBackgroundBlank
         layer.cornerRadius = 4
         
         letterLabel = UILabel(frame: .zero)
@@ -52,14 +52,14 @@ class KeyboardLetterView: UIView {
         letterLabel.text = letter
         letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
         letterLabel.textAlignment = .center
-        letterLabel.textColor = .black
+        letterLabel.textColor = .keyboardLetter
         addSubview(letterLabel)
         
         button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         button.setTitle(letter, for: .normal)
-        button.setTitleColor(.clear, for: .normal)
+        button.setTitleColor(.keyboardLetter, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
         button.titleLabel?.textAlignment = .center
         addSubview(button)
@@ -86,25 +86,32 @@ class KeyboardLetterView: UIView {
     private func updateBackgroundColor(for state: LetterState) {
         switch state {
         case .blank:
-            backgroundColor = .nerdleKeyboardLightModeGray
+            backgroundColor = .keyboardLetterBackgroundBlank
             letterState = .blank
         case .gray:
-            backgroundColor = .nerdleLetterLightModeGray
+            backgroundColor = .keyboardLetterBackgroundGray
             letterState = .gray
         case .yellow:
-            backgroundColor = .nerdleYellow
+            backgroundColor = .keyboardLetterBackgroundYellow
             letterState = .yellow
         case .green:
-            backgroundColor = .nerdleGreen
+            backgroundColor = .keyboardLetterBackgroundGreen
             letterState = .green
         }
     }
     
     private func updateTextColor(for state: LetterState) {
         if state == .blank {
-            letterLabel.textColor = .black
+            if traitCollection.userInterfaceStyle == .dark {
+                letterLabel.textColor = .white
+                button.setTitleColor(.white, for: .normal)
+            } else {
+                letterLabel.textColor = .black
+                button.setTitleColor(.black, for: .normal)
+            }
         } else {
             letterLabel.textColor = .white
+            button.setTitleColor(.white, for: .normal)
         }
     }
     

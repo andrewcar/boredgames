@@ -21,6 +21,7 @@ class MessagesViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         GameModel.shared.updateGamesFromUserDefaults()
         addPlayView()
+        setBackgroundColor()
     }
     
     override func viewDidLayoutSubviews() {
@@ -36,6 +37,11 @@ class MessagesViewController: MSMessagesAppViewController {
             GameModel.shared.isLandscape = true
             playView.updateConstraints()
         }
+    }
+    
+    // MARK: - BACKGROUND COLOR
+    private func setBackgroundColor() {
+        view.backgroundColor = UIColor(named: "background")
     }
     
     // MARK: - PLAY VIEW
@@ -235,13 +241,21 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: - BECOME FIRST RESPONDER
     override func becomeFirstResponder() -> Bool {
         true
     }
     
+    // MARK: - SHAKE
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         guard motion == .motionShake else { return }
         playView.updateAppState()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        let style = previousTraitCollection.userInterfaceStyle
+        print("style: \(style)")
     }
     
     // MARK: - WILL BECOME ACTIVE

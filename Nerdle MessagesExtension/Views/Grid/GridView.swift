@@ -746,6 +746,71 @@ class GridView: UIView {
         }
     }
     
+    // MARK: - JUMP FOR JOY
+    func jumpForJoy(completion: @escaping () -> ()) {
+        a1.jumpForJoy {
+            self.a2.jumpForJoy {
+                self.a3.jumpForJoy {
+                    self.a4.jumpForJoy {
+                        self.a5.jumpForJoy {
+                            self.b1.jumpForJoy {
+                                self.b2.jumpForJoy {
+                                    self.b3.jumpForJoy {
+                                        self.b4.jumpForJoy {
+                                            self.b5.jumpForJoy {
+                                                self.c1.jumpForJoy {
+                                                    self.c2.jumpForJoy {
+                                                        self.c3.jumpForJoy {
+                                                            self.c4.jumpForJoy {
+                                                                self.c5.jumpForJoy {
+                                                                    self.d1.jumpForJoy {
+                                                                        self.d2.jumpForJoy {
+                                                                            self.d3.jumpForJoy {
+                                                                                self.d4.jumpForJoy {
+                                                                                    self.d5.jumpForJoy {
+                                                                                        self.e1.jumpForJoy {
+                                                                                            self.e2.jumpForJoy {
+                                                                                                self.e3.jumpForJoy {
+                                                                                                    self.e4.jumpForJoy {
+                                                                                                        self.e5.jumpForJoy {
+                                                                                                            self.f1.jumpForJoy {
+                                                                                                                self.f2.jumpForJoy {
+                                                                                                                    self.f3.jumpForJoy {
+                                                                                                                        self.f4.jumpForJoy {
+                                                                                                                            self.f5.jumpForJoy {
+                                                                                                                                completion()
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - INCREMENT LETTER COUNTS
     private func incrementLetterCounts(guess: String, completion: @escaping () -> ()) {
         guard let currentGame = GameModel.shared.currentGame else { completion(); return }
@@ -1028,42 +1093,6 @@ class GridView: UIView {
         }
     }
     
-    private func shakeLetterView(_ letterView: GridLetterView?) {
-        guard let letterView = letterView else { return }
-        
-        let midX = letterView.center.x
-        let midY = letterView.center.y
-        
-        let animation = CABasicAnimation(keyPath: "position")
-        animation.duration = 0.06
-        animation.repeatCount = 4
-        animation.autoreverses = true
-        animation.fromValue = CGPoint(x: midX - 10, y: midY)
-        animation.toValue = CGPoint(x: midX + 10, y: midY)
-        layer.add(animation, forKey: "position")
-        
-//        UIView.animate(withDuration: 0.07, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-//            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-//        } completion: { _ in
-//            UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-//                letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-//            } completion: { _ in
-//                UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-//                    letterView.frame = CGRect(x: letterView.frame.minX - 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-//                } completion: { _ in
-//                    UIView.animate(withDuration: 0.06, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-//                        letterView.frame = CGRect(x: letterView.frame.minX + 20, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-//                    } completion: { _ in
-//                        UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
-//                            letterView.frame = CGRect(x: letterView.frame.minX - 10, y: letterView.frame.minY, width: letterView.frame.width, height: letterView.frame.height)
-//                        } completion: { _ in
-//                        }
-//                    }
-//                }
-//            }
-//        }
-    }
-    
     // MARK: - SHAKE CURRENT ROW
     private func shakeCurrentRow() {
         guard let currentGame = GameModel.shared.currentGame else { return }
@@ -1072,27 +1101,27 @@ class GridView: UIView {
         switch guessNumber {
         case .first:
             for letterView in [a1, a2, a3, a4, a5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         case .second:
             for letterView in [b1, b2, b3, b4, b5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         case .third:
             for letterView in [c1, c2, c3, c4, c5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         case .fourth:
             for letterView in [d1, d2, d3, d4, d5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         case .fifth:
             for letterView in [e1, e2, e3, e4, e5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         case .sixth:
             for letterView in [f1, f2, f3, f4, f5] {
-                shakeLetterView(letterView)
+                letterView.shake()
             }
         }
     }
