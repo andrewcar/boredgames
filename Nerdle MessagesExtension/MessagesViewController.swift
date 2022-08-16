@@ -364,7 +364,7 @@ extension MessagesViewController {
         
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "nerdle_message_bubble.png")
-        layout.caption = "Nerdle"
+        layout.caption = "Werdle"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {
             GamesCache.remove()

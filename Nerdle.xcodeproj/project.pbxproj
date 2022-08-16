@@ -85,7 +85,7 @@
 		4993489C2890736A00BC6B0B /* Guess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guess.swift; sourceTree = "<group>"; };
 		4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProcotolExtensions.swift; sourceTree = "<group>"; };
 		49A007C628A1B9060016945B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
-		49A07DBE288DB769008270F9 /* Nerdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nerdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A07DBE288DB769008270F9 /* Werdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Werdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DC1288DB76A008270F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Nerdle MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DCC288DB76A008270F9 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
@@ -176,7 +176,7 @@
 		49A07DBF288DB769008270F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				49A07DBE288DB769008270F9 /* Nerdle.app */,
+				49A07DBE288DB769008270F9 /* Werdle.app */,
 				49A07DC7288DB76A008270F9 /* Nerdle MessagesExtension.appex */,
 			);
 			name = Products;
@@ -273,7 +273,7 @@
 			);
 			name = Nerdle;
 			productName = Nerdle;
-			productReference = 49A07DBE288DB769008270F9 /* Nerdle.app */;
+			productReference = 49A07DBE288DB769008270F9 /* Werdle.app */;
 			productType = "com.apple.product-type.application.messages";
 		};
 		49A07DC6288DB76A008270F9 /* Nerdle MessagesExtension */ = {
@@ -532,7 +532,7 @@
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Nerdle MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Nerdle;
+				INFOPLIST_KEY_CFBundleDisplayName = Werdle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -540,7 +540,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Nerdle.MessagesExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle.MessagesExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -558,7 +558,7 @@
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Nerdle MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Nerdle;
+				INFOPLIST_KEY_CFBundleDisplayName = Werdle;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -566,7 +566,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Nerdle.MessagesExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle.MessagesExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -588,8 +588,8 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Nerdle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle;
+				PRODUCT_NAME = Werdle;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -609,8 +609,8 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Nerdle;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle;
+				PRODUCT_NAME = Werdle;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
