@@ -107,10 +107,10 @@ class GridLetterView: UIView {
     }
     
     func growAndShrink(completion: @escaping () -> ()) {
-        UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+        UIView.animate(withDuration: 0.04, delay: 0, options: .curveLinear) {
             self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         } completion: { _ in
-            UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+            UIView.animate(withDuration: 0.04, delay: 0, options: .curveLinear) {
                 self.transform = CGAffineTransform(scaleX: 1, y: 1)
             } completion: { _ in
                 completion()
