@@ -402,7 +402,6 @@ extension MessagesViewController {
         layout.caption = "Werdle"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {
-            GamesCache.remove()
             var subcaptionString: String
             switch guessNumber {
             case .first:

@@ -512,7 +512,6 @@ class PlayView: UIView {
     @objc
     private func didTapNewGameButton(sender: UIButton) {
         resetGame()
-        GamesCache.remove()
     }
     
     // MARK: - STATS BUTTON

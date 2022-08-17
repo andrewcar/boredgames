@@ -150,6 +150,7 @@ class StatsView: UIView {
         statBarView.lostNumberLabel.text = "\(games.lossCount)"
         statBarView.streakNumberLabel.text = "\(games.streakCount)"
         GameModel.shared.games = games
+        GamesCache.remove()
     }
     
 }
