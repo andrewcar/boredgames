@@ -28,7 +28,7 @@ struct Frame {
     
     // MARK: - NOT IN WORD LIST
     struct NotInWordList {
-        static let size = CGSize(width: 126, height: 45)
+        static let size = CGSize(width: 140, height: 47)
     }
     
     // MARK: - GRID

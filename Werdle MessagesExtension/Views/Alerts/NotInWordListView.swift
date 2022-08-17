@@ -66,12 +66,10 @@ class NotInWordListView: UIView {
     
     private func activateTitleConstraints() {
         NSLayoutConstraint.deactivate(titleConstraints)
-        let padding = (frame.height / 3) / 2
         titleConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            titleLabel.heightAnchor.constraint(equalToConstant: frame.height / 3),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
+            titleLabel.heightAnchor.constraint(equalToConstant: Frame.NotInWordList.size.height / 3),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ]
         NSLayoutConstraint.activate(titleConstraints)
     }
@@ -79,8 +77,7 @@ class NotInWordListView: UIView {
     private func activateSubtitleConstraints() {
         NSLayoutConstraint.deactivate(subtitleConstraints)
         subtitleConstraints = [
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            subtitleLabel.heightAnchor.constraint(equalToConstant: frame.height / 3),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: -Frame.bigPadding),
             subtitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
