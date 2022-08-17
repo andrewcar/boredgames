@@ -79,14 +79,14 @@ class GridLetterView: UIView {
         }
     }
     
-    func jumpForJoy(delay: TimeInterval = 0) {
+    func jumpForJoy(delay: TimeInterval = 0, completion: @escaping () -> ()) {
         UIView.animate(withDuration: 0.1, delay: delay, options: .curveLinear) {
             self.transform = CGAffineTransform(translationX: 0, y: -10)
         } completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 1, options: .curveEaseOut) {
                 self.transform = CGAffineTransform(translationX: 0, y: 0)
             } completion: { _ in
-                //
+                completion()
             }
         }
     }

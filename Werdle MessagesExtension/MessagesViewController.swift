@@ -206,7 +206,7 @@ class MessagesViewController: MSMessagesAppViewController {
                         sixthGuess: currentGame.guess6,
                         guessToAnimate: guessNumber,
                         completion: { gameState in
-                            
+                                                        
                             // reset the emoji string
                             GameModel.shared.lastLastGuessInEmojis = GameModel.shared.lastGuessInEmojis
                             GameModel.shared.lastGuessInEmojis = ""
@@ -214,9 +214,14 @@ class MessagesViewController: MSMessagesAppViewController {
                             
                             switch gameState {
                             case .won:
-                                self.playView.showTheWin(currentGame: currentGame)
+                                self.playView.showTheWin(currentGame: currentGame) {
+                                    self.playView.showNewGameButton()
+                                }
                             case .lost:
-                                self.playView.showTheLoss(currentGame: currentGame)
+                                self.playView.showTheLoss(currentGame: currentGame) {
+                                    self.playView.showNewGameButton()
+                                }
+                                
                             default: ()
                             }
                         }

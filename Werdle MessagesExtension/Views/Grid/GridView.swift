@@ -756,42 +756,44 @@ class GridView: UIView {
     }
     
     // MARK: - JUMP FOR JOY
-    func jumpForJoy() {
-        a1.jumpForJoy()
-        a2.jumpForJoy(delay: 0.1)
-        a3.jumpForJoy(delay: 0.2)
-        a4.jumpForJoy(delay: 0.3)
-        a5.jumpForJoy(delay: 0.4)
+    func jumpForJoy(completion: @escaping () -> ()) {
+        a1.jumpForJoy() {}
+        a2.jumpForJoy(delay: 0.1) {}
+        a3.jumpForJoy(delay: 0.2) {}
+        a4.jumpForJoy(delay: 0.3) {}
+        a5.jumpForJoy(delay: 0.4) {}
         
-        b1.jumpForJoy()
-        b2.jumpForJoy(delay: 0.1)
-        b3.jumpForJoy(delay: 0.2)
-        b4.jumpForJoy(delay: 0.3)
-        b5.jumpForJoy(delay: 0.4)
+        b1.jumpForJoy() {}
+        b2.jumpForJoy(delay: 0.1) {}
+        b3.jumpForJoy(delay: 0.2) {}
+        b4.jumpForJoy(delay: 0.3) {}
+        b5.jumpForJoy(delay: 0.4) {}
         
-        c1.jumpForJoy()
-        c2.jumpForJoy(delay: 0.1)
-        c3.jumpForJoy(delay: 0.2)
-        c4.jumpForJoy(delay: 0.3)
-        c5.jumpForJoy(delay: 0.4)
+        c1.jumpForJoy() {}
+        c2.jumpForJoy(delay: 0.1) {}
+        c3.jumpForJoy(delay: 0.2) {}
+        c4.jumpForJoy(delay: 0.3) {}
+        c5.jumpForJoy(delay: 0.4) {}
         
-        d1.jumpForJoy()
-        d2.jumpForJoy(delay: 0.1)
-        d3.jumpForJoy(delay: 0.2)
-        d4.jumpForJoy(delay: 0.3)
-        d5.jumpForJoy(delay: 0.4)
+        d1.jumpForJoy() {}
+        d2.jumpForJoy(delay: 0.1) {}
+        d3.jumpForJoy(delay: 0.2) {}
+        d4.jumpForJoy(delay: 0.3) {}
+        d5.jumpForJoy(delay: 0.4) {}
         
-        e1.jumpForJoy()
-        e2.jumpForJoy(delay: 0.1)
-        e3.jumpForJoy(delay: 0.2)
-        e4.jumpForJoy(delay: 0.3)
-        e5.jumpForJoy(delay: 0.4)
+        e1.jumpForJoy() {}
+        e2.jumpForJoy(delay: 0.1) {}
+        e3.jumpForJoy(delay: 0.2) {}
+        e4.jumpForJoy(delay: 0.3) {}
+        e5.jumpForJoy(delay: 0.4) {}
         
-        f1.jumpForJoy()
-        f2.jumpForJoy(delay: 0.1)
-        f3.jumpForJoy(delay: 0.2)
-        f4.jumpForJoy(delay: 0.3)
-        f5.jumpForJoy(delay: 0.4)
+        f1.jumpForJoy() {}
+        f2.jumpForJoy(delay: 0.1) {}
+        f3.jumpForJoy(delay: 0.2) {}
+        f4.jumpForJoy(delay: 0.3) {}
+        f5.jumpForJoy(delay: 0.4) {
+            completion()
+        }
     }
     
     // MARK: - INCREMENT LETTER COUNTS

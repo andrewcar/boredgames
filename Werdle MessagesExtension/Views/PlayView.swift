@@ -45,6 +45,7 @@ class PlayView: UIView {
     private var newGameButton = UIButton()
     private var newGameButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var newGameButtonLandscapeConstraints: [NSLayoutConstraint] = []
+    var newGameButtonShowing = false
     
     private var statsButton = UIButton()
     private var statsButtonPortraitConstraints: [NSLayoutConstraint] = []
@@ -475,7 +476,7 @@ class PlayView: UIView {
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 13)),
         ]
-        let offset: CGFloat = appState == .stats || appState == .debug ? UIScreen.main.bounds.width : 0
+        let offset: CGFloat = appState == .stats || appState == .debug || !newGameButtonShowing ? UIScreen.main.bounds.width : 0
         let constraint = newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 2.5) - offset)
         newGameButtonPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
@@ -488,7 +489,7 @@ class PlayView: UIView {
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
         ]
-        let offset: CGFloat = appState == .stats || appState == .debug ? UIScreen.main.bounds.width : 0
+        let offset: CGFloat = appState == .stats || appState == .debug || !newGameButtonShowing ? UIScreen.main.bounds.width : 0
         let topConstraint = newGameButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
         newGameButtonLandscapeConstraints.append(topConstraint)
         var leadingConstraint: NSLayoutConstraint
@@ -760,7 +761,7 @@ class PlayView: UIView {
     }
     
     // MARK: - SHOW THE WIN
-    func showTheWin(currentGame: Game) {
+    func showTheWin(currentGame: Game, completion: @escaping () -> ()) {
         
         // disable keyboard
         keyboardView.isUserInteractionEnabled = false
@@ -785,11 +786,13 @@ class PlayView: UIView {
         }
         
         // make letters jump for joy
-        gridView.jumpForJoy()
+        gridView.jumpForJoy {
+            completion()
+        }
     }
     
     // MARK: - SHOW THE LOSS
-    func showTheLoss(currentGame: Game) {
+    func showTheLoss(currentGame: Game, completion: @escaping () -> ()) {
         keyboardView.isUserInteractionEnabled = false
         showAnswer()
         if let currentGame = GameModel.shared.currentGame {
@@ -803,6 +806,7 @@ class PlayView: UIView {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.5, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
+            completion()
         }
     }
     
@@ -1107,11 +1111,11 @@ extension PlayView: KeyboardDelegate {
     func didTapEnter() {
         guard let currentGame = GameModel.shared.currentGame else { return }
         guard GameModel.shared.currentGuess.count == 5 else { return }
-        
         guard gridView.wordIsInList() else { return }
         
         GameModel.shared.populateGuessLetterCountDictionary(with: GameModel.shared.currentGuess) {
             self.gridView.updateRowsFromEnter {
+                                
                 if GameModel.shared.currentGuess.lowercased() != currentGame.answer {
                     switch currentGame.currentLetter {
                     case .a5:
@@ -1139,7 +1143,9 @@ extension PlayView: KeyboardDelegate {
                 
                 if GameModel.shared.currentGuess.lowercased() == GameModel.shared.currentGame?.answer {
                     self.showSuccessView()
-                    self.gridView.jumpForJoy()
+                    self.gridView.jumpForJoy {
+                        self.showNewGameButton()
+                    }
                     GameModel.shared.currentGame?.state = .won
                 }
                 
@@ -1355,6 +1361,19 @@ extension PlayView: GridDelegate {
             activateSendButtonLandscapeConstraints()
         } else {
             activateSendButtonPortraitConstraints()
+        }
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+            self.layoutIfNeeded()
+        } completion: { _ in
+        }
+    }
+    
+    func showNewGameButton() {
+        newGameButtonShowing = true
+        if GameModel.shared.isLandscape {
+            activateNewGameButtonLandscapeConstraints()
+        } else {
+            activateNewGameButtonPortraitConstraints()
         }
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
