@@ -37,12 +37,13 @@ class GridLetterView: UIView {
         letterState = state
 
         if animated {
+            self.updateColors()
+
             // shrink
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
                 self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
             } completion: { _ in
                 
-                self.updateColors()
                 // grow
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
                     self.transform = CGAffineTransform(scaleX: 1, y: 1)
