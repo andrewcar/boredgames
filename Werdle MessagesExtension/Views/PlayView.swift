@@ -234,7 +234,12 @@ class PlayView: UIView {
         NSLayoutConstraint.deactivate(gridViewPortraitConstraints)
         NSLayoutConstraint.deactivate(gridViewLandscapeConstraints)
         
-        let gridWidth = frame.width * 0.7
+        var gridWidth: CGFloat
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            gridWidth = frame.width * 0.5
+        } else {
+            gridWidth = frame.width * 0.7
+        }
         let scaledPadding = (Frame.padding / 3) * 2
         let size = Frame.Grid.size(gridWidth, scaledPadding: scaledPadding)
         
@@ -330,12 +335,18 @@ class PlayView: UIView {
 
         keyboardPortraitConstraints = [
             keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
-            keyboardView.widthAnchor.constraint(equalTo: widthAnchor),
             keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.portraitLetterPadding * 4))
         ]
         let offset: CGFloat = appState == .stats || appState == .debug || !keyboardView.showing ? -UIScreen.main.bounds.width : 0
-        let constraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        keyboardPortraitConstraints.append(constraint)
+        let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
+        keyboardPortraitConstraints.append(centerXConstraint)
+        var widthConstraint: NSLayoutConstraint
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            widthConstraint = keyboardView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7)
+        } else {
+            widthConstraint = keyboardView.widthAnchor.constraint(equalTo: widthAnchor)
+        }
+        keyboardPortraitConstraints.append(widthConstraint)
         NSLayoutConstraint.activate(keyboardPortraitConstraints)
     }
     
@@ -349,7 +360,12 @@ class PlayView: UIView {
             keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
         ]
         let offset: CGFloat = appState == .stats || appState == .debug || !keyboardView.showing ? (UIScreen.main.bounds.width * 2) : 0
-        let leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+        var leadingConstraint: NSLayoutConstraint
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
+        } else {
+            leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+        }
         let trailingConstraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.padding + offset)
         keyboardLandscapeConstraints.append(leadingConstraint)
         keyboardLandscapeConstraints.append(trailingConstraint)
@@ -469,13 +485,19 @@ class PlayView: UIView {
     func activateNewGameButtonLandscapeConstraints() {
         deactivateNewGameButtonConstraints()
         newGameButtonLandscapeConstraints = [
-            newGameButton.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2.5)),
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
         ]
         let offset: CGFloat = appState == .stats || appState == .debug ? UIScreen.main.bounds.width : 0
-        let constraint = newGameButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
-        newGameButtonLandscapeConstraints.append(constraint)
+        let topConstraint = newGameButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
+        newGameButtonLandscapeConstraints.append(topConstraint)
+        var leadingConstraint: NSLayoutConstraint
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            leadingConstraint = newGameButton.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: Frame.padding * 12)
+        } else {
+            leadingConstraint = newGameButton.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: Frame.padding * 2.5)
+        }
+        newGameButtonLandscapeConstraints.append(leadingConstraint)
         NSLayoutConstraint.activate(newGameButtonLandscapeConstraints)
     }
     
@@ -546,8 +568,13 @@ class PlayView: UIView {
             statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
         ]
         let offset: CGFloat = appState == .stats || appState == .debug ? UIScreen.main.bounds.width : 0
-        let constraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 2) + offset)
-        statsButtonLandscapeConstraints.append(constraint)
+        var trailingConstraint: NSLayoutConstraint
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            trailingConstraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 12) + offset)
+        } else {
+            trailingConstraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 2) + offset)
+        }
+        statsButtonLandscapeConstraints.append(trailingConstraint)
         NSLayoutConstraint.activate(statsButtonLandscapeConstraints)
     }
     
@@ -695,7 +722,7 @@ class PlayView: UIView {
             debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
             debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
-        let offset: CGFloat = appState == .debug ? 0 : UIScreen.main.bounds.height
+        let offset: CGFloat = appState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
         let constraint = debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset)
         debugViewPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(debugViewPortraitConstraints)

@@ -70,7 +70,12 @@ class GridView: UIView {
     func activateLetterPortraitConstraints() {
         NSLayoutConstraint.deactivate(letterPortraitConstraints)
         NSLayoutConstraint.deactivate(letterLandscapeConstraints)
-        let twoThirdsWidth = (UIScreen.main.bounds.width / 3) * 2
+        var twoThirdsWidth: CGFloat
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            twoThirdsWidth = UIScreen.main.bounds.width * 0.5
+        } else {
+            twoThirdsWidth = (UIScreen.main.bounds.width / 3) * 2
+        }
         let scaledPadding = (Frame.padding / 3) * 2
         let oneFifthSansPadding: CGFloat = (twoThirdsWidth - (scaledPadding * 6)) / 5
         let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)

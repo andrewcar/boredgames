@@ -58,7 +58,12 @@ struct Frame {
     struct Keyboard {
         static let portraitLetterPadding: CGFloat = 5
         static var portraitLetterSize: CGSize {
-            let widthSansPadding = UIScreen.main.bounds.width - (portraitLetterPadding * 11)
+            var widthSansPadding: CGFloat
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                widthSansPadding = (UIScreen.main.bounds.width * 0.7) - (portraitLetterPadding * 11)
+            } else {
+                widthSansPadding = UIScreen.main.bounds.width - (portraitLetterPadding * 11)
+            }
             let letterWidth = widthSansPadding / 10
             let letterHeight = letterWidth * 1.25
             return CGSize(width: letterWidth, height: letterHeight)
