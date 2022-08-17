@@ -1302,6 +1302,10 @@ extension PlayView: GridDelegate {
         successView.isHidden = false
     }
     
+    func enableKeyboard() {
+        keyboardView.isUserInteractionEnabled = true
+    }
+    
     func disableKeyboard() {
         keyboardView.isUserInteractionEnabled = false
     }

@@ -102,6 +102,7 @@ class MessagesViewController: MSMessagesAppViewController {
             var sixthGuess: String?
             var guessNumber: String?
             var state: String?
+            var currentPlayer: String?
             
             for queryItem in queryItems {
                 if let value = queryItem.value {
@@ -146,6 +147,10 @@ class MessagesViewController: MSMessagesAppViewController {
                         if !value.isEmpty {
                             state = value
                         }
+                    case "currentPlayer":
+                        if !value.isEmpty {
+                            currentPlayer = value
+                        }
                     default: ()
                     }
                 }
@@ -164,7 +169,8 @@ class MessagesViewController: MSMessagesAppViewController {
                     guess5: fifthGuess,
                     guess6: sixthGuess,
                     guessNumber: Guess(rawValue: guessNumberValue),
-                    state: GameState(rawValue: stateValue) ?? .playing)
+                    state: GameState(rawValue: stateValue) ?? .playing,
+                    currentPlayer: currentPlayer)
                 GameModel.shared.currentGame = game
                 GameModel.shared.resetAnswerLetterCountDictionary {}
                 GameModel.shared.populateAnswerLetterCountDictionary {}
@@ -181,7 +187,7 @@ class MessagesViewController: MSMessagesAppViewController {
         if let selectedMessage = conversation.selectedMessage {
             playView.resetGame()
             decode(selectedMessage)
-            
+                                    
             // reset correct guess letter counts
             GameModel.shared.resetGuessLetterCountDictionary {
                 
@@ -216,28 +222,32 @@ class MessagesViewController: MSMessagesAppViewController {
                         }
                     )
                     
-                    switch GameModel.shared.currentGame?.guessNumber {
-                    case .first:
-                        GameModel.shared.currentGame?.guessNumber = .second
-                        GameModel.shared.currentGame?.currentLetter = .b0
-                    case .second:
-                        GameModel.shared.currentGame?.guessNumber = .third
-                        GameModel.shared.currentGame?.currentLetter = .c0
-                    case .third:
-                        GameModel.shared.currentGame?.guessNumber = .fourth
-                        GameModel.shared.currentGame?.currentLetter = .d0
-                    case .fourth:
-                        GameModel.shared.currentGame?.guessNumber = .fifth
-                        GameModel.shared.currentGame?.currentLetter = .e0
-                    case .fifth:
-                        GameModel.shared.currentGame?.guessNumber = .sixth
-                        GameModel.shared.currentGame?.currentLetter = .f0
-                    default: ()
-                    }
+                    self.advanceGuessNumberAndLetter()
                 }
             }
         } else {
             playView.resetGame()
+        }
+    }
+    
+    private func advanceGuessNumberAndLetter() {
+        switch GameModel.shared.currentGame?.guessNumber {
+        case .first:
+            GameModel.shared.currentGame?.guessNumber = .second
+            GameModel.shared.currentGame?.currentLetter = .b0
+        case .second:
+            GameModel.shared.currentGame?.guessNumber = .third
+            GameModel.shared.currentGame?.currentLetter = .c0
+        case .third:
+            GameModel.shared.currentGame?.guessNumber = .fourth
+            GameModel.shared.currentGame?.currentLetter = .d0
+        case .fourth:
+            GameModel.shared.currentGame?.guessNumber = .fifth
+            GameModel.shared.currentGame?.currentLetter = .e0
+        case .fifth:
+            GameModel.shared.currentGame?.guessNumber = .sixth
+            GameModel.shared.currentGame?.currentLetter = .f0
+        default: ()
         }
     }
     
@@ -252,17 +262,34 @@ class MessagesViewController: MSMessagesAppViewController {
         playView.hideDebugView()
     }
     
+    // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         playView.updateConstraints()
     }
     
     // MARK: - WILL BECOME ACTIVE
     override func willBecomeActive(with conversation: MSConversation) {
-        // Called when the extension is about to move from the inactive to active state.
-        // This will happen when the extension is about to present UI.
-        
-        // Use this method to configure the extension and restore previously stored state.
+        super.willBecomeActive(with: conversation)
         comeAlive(with: conversation)
+    }
+    
+    // MARK: - DID BECOME ACTIVE
+    override func didBecomeActive(with conversation: MSConversation) {
+        super.didBecomeActive(with: conversation)
+        hideKeyboardIfNotOurTurn()
+    }
+    
+    // MARK: - HIDE KEYBOARD IF NOT OUR TURN
+    /// Hide keyboard if currentPlayer UUID is the same as the sender UUID.
+    private func hideKeyboardIfNotOurTurn() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        guard let currentGame = GameModel.shared.currentGame else { return }
+        if remoteParticipantIdentifier.uuidString == currentGame.currentPlayer {
+            playView.disableKeyboard()
+        } else {
+            playView.enableKeyboard()
+        }
     }
     
     // MARK: - DID RESIGN ACTIVE
@@ -286,7 +313,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - DID START SENDING
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
-        // Called when the user taps the send button.
+        super.didStartSending(message, conversation: conversation)
         requestPresentationStyle(.compact)
     }
     
@@ -356,6 +383,9 @@ extension MessagesViewController {
             }
             if let guessNumber = currentGame.guessNumber {
                 queryItems.append(URLQueryItem(name: "guessNumber", value: "\(guessNumber)"))
+            }
+            if let currentPlayer = currentGame.currentPlayer {
+                queryItems.append(URLQueryItem(name: "currentPlayer", value: "\(currentPlayer)"))
             }
         }
         components.queryItems = queryItems
@@ -436,7 +466,18 @@ extension MessagesViewController {
 
 extension MessagesViewController: PlayDelegate {
     func didTapSendButton() {
-        activeConversation?.send(composeMessage(), completionHandler: { error in
+        guard let activeConversation = activeConversation else { return }
+        updateCurrentPlayer(from: activeConversation)
+        sendMessage(from: activeConversation)
+    }
+    
+    private func updateCurrentPlayer(from activeConversation: MSConversation) {
+        guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
+        GameModel.shared.currentGame?.currentPlayer = remoteParticipantUUID.uuidString
+    }
+    
+    private func sendMessage(from activeConversation: MSConversation) {
+        activeConversation.send(composeMessage(), completionHandler: { error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }
