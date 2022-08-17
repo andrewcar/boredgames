@@ -532,7 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
@@ -558,7 +558,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
