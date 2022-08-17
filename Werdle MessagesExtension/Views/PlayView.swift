@@ -709,7 +709,7 @@ class PlayView: UIView {
             debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
             debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
-        let offset: CGFloat = appState == .debug ? 0 : UIScreen.main.bounds.height
+        let offset: CGFloat = appState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
         let constraint = debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset)
         debugViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(debugViewLandscapeConstraints)
