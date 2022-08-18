@@ -7,15 +7,6 @@
 
 import UIKit
 
-enum PlayerColor: String, Hashable, Codable {
-    case red
-    case orange
-    case yellow
-    case green
-    case blue
-    case purple
-}
-
 protocol ColorViewDelegate {
     func didTapColor(playerColor: PlayerColor)
 }
