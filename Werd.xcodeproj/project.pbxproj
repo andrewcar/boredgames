@@ -169,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				49A07DC0288DB769008270F9 /* Werd */,
-				49A07DCE288DB76A008270F9 /* Werdle MessagesExtension */,
+				49A07DCE288DB76A008270F9 /* Werd MessagesExtension */,
 				49A07DCB288DB76A008270F9 /* Frameworks */,
 				49A07DBF288DB769008270F9 /* Products */,
 			);
@@ -200,7 +200,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		49A07DCE288DB76A008270F9 /* Werdle MessagesExtension */ = {
+		49A07DCE288DB76A008270F9 /* Werd MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
 				49A07DD1288DB76A008270F9 /* MainInterface.storyboard */,
@@ -212,7 +212,7 @@
 				49A07DD4288DB76B008270F9 /* Assets.xcassets */,
 				49A07DD6288DB76B008270F9 /* Info.plist */,
 			);
-			path = "Werdle MessagesExtension";
+			path = "Werd MessagesExtension";
 			sourceTree = "<group>";
 		};
 		49A07DEC288F05DF008270F9 /* Views */ = {
@@ -535,7 +535,7 @@
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
+				INFOPLIST_FILE = "Werd MessagesExtension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Werd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -561,7 +561,7 @@
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
+				INFOPLIST_FILE = "Werd MessagesExtension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Werd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
