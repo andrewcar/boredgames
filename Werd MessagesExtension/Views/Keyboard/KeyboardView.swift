@@ -45,7 +45,6 @@ class KeyboardView: UIView {
     var n = KeyboardLetterView("N", frame: .zero)
     var m = KeyboardLetterView("M", frame: .zero)
     var backspace = KeyboardLetterView("⌫", frame: .zero)
-    var showing: Bool = true
     var portraitConstraints: [NSLayoutConstraint] = []
     var landscapeConstraints: [NSLayoutConstraint] = []
     

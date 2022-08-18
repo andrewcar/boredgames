@@ -10,6 +10,7 @@ import UIKit
 struct Frame {
     
     // MARK: - GENERAL
+    static let smallPadding: CGFloat = 3
     static let bigPadding: CGFloat = 8
     static let padding: CGFloat = 5
     static let buttonSize = CGSize(width: 44, height: 44)
@@ -52,6 +53,12 @@ struct Frame {
         static func maxY(_ viewFrame: CGRect) -> CGFloat {
             Frame.Logo.bottomPadding + Frame.Logo.size.height + (padding * 6) + (letterSize(viewFrame).height * 6)
         }
+    }
+    
+    // MARK: - COLORS
+    struct Colors {
+        static let colorViewHeight: CGFloat = 50
+        static let colorSize = CGSize(width: 30, height: 30)
     }
     
     // MARK: - KEYBOARD

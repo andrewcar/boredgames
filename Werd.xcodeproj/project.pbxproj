@@ -12,6 +12,9 @@
 		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
 		49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BAB2895853C00C5EB5E /* SuccessView.swift */; };
 		49250181289B5B4D0037122E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49250180289B5B4D0037122E /* Game.swift */; };
+		492BEB3B28ADC05A00B8CFF6 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB3A28ADC05A00B8CFF6 /* ColorPickerView.swift */; };
+		492BEB3F28ADD07D00B8CFF6 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB3E28ADD07D00B8CFF6 /* ColorView.swift */; };
+		492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4028AEB08300B8CFF6 /* Player.swift */; };
 		49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
@@ -74,6 +77,9 @@
 		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
 		49231BAB2895853C00C5EB5E /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		49250180289B5B4D0037122E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		492BEB3A28ADC05A00B8CFF6 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		492BEB3E28ADD07D00B8CFF6 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		492BEB4028AEB08300B8CFF6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 			children = (
 				49231BAB2895853C00C5EB5E /* SuccessView.swift */,
 				49231BA82894B99000C5EB5E /* NotInWordListView.swift */,
+				492BEB3E28ADD07D00B8CFF6 /* ColorView.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -225,6 +232,7 @@
 				49231BAA2895852400C5EB5E /* Alerts */,
 				49C0616228A73D0A002D6EEA /* DebugView.swift */,
 				4997443D28AC12D30062DA57 /* LogoView.swift */,
+				492BEB3A28ADC05A00B8CFF6 /* ColorPickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				49A647B6289B9D12008A97A4 /* GameState.swift */,
 				49D9936028A2BFB900D863BB /* AppSection.swift */,
 				49D9936228A41FF300D863BB /* AppState.swift */,
+				492BEB4028AEB08300B8CFF6 /* Player.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -371,7 +380,9 @@
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				4950D938289B8184004BA711 /* StarBarView.swift in Sources */,
 				4993489D2890736A00BC6B0B /* Guess.swift in Sources */,
+				492BEB3B28ADC05A00B8CFF6 /* ColorPickerView.swift in Sources */,
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
+				492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */,
 				4913C0E5289913950039745B /* StatsView.swift in Sources */,
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
@@ -383,6 +394,7 @@
 				49D9935F28A2AAE600D863BB /* PlayView.swift in Sources */,
 				49C0616328A73D0A002D6EEA /* DebugView.swift in Sources */,
 				49250181289B5B4D0037122E /* Game.swift in Sources */,
+				492BEB3F28ADD07D00B8CFF6 /* ColorView.swift in Sources */,
 				4993489B28906E3600BC6B0B /* Words.swift in Sources */,
 				49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */,
 				4997443E28AC12D30062DA57 /* LogoView.swift in Sources */,

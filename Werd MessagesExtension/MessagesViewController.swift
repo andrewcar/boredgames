@@ -102,7 +102,11 @@ class MessagesViewController: MSMessagesAppViewController {
             var sixthGuess: String?
             var guessNumber: String?
             var state: String?
-            var currentPlayer: String?
+            var playerOneUUID: String?
+            var playerOneColor: String?
+            var playerTwoUUID: String?
+            var playerTwoColor: String?
+            var currentPlayerUUID: String?
             
             for queryItem in queryItems {
                 if let value = queryItem.value {
@@ -147,9 +151,25 @@ class MessagesViewController: MSMessagesAppViewController {
                         if !value.isEmpty {
                             state = value
                         }
-                    case "currentPlayer":
+                    case "playerOneUUID":
                         if !value.isEmpty {
-                            currentPlayer = value
+                            playerOneUUID = value
+                        }
+                    case "playerOneColor":
+                        if !value.isEmpty {
+                            playerOneColor = value
+                        }
+                    case "playerTwoUUID":
+                        if !value.isEmpty {
+                            playerTwoUUID = value
+                        }
+                    case "playerTwoColor":
+                        if !value.isEmpty {
+                            playerTwoColor = value
+                        }
+                    case "currentPlayerUUID":
+                        if !value.isEmpty {
+                            currentPlayerUUID = value
                         }
                     default: ()
                     }
@@ -158,6 +178,15 @@ class MessagesViewController: MSMessagesAppViewController {
             
             let guessNumberValue = guessNumber ?? "first"
             let stateValue = state ?? "playing"
+            var playerOneColorValue: PlayerColor? {
+                guard let playerOneColor = playerOneColor else { return nil }
+                return PlayerColor(rawValue: playerOneColor)
+            }
+            var playerTwoColorValue: PlayerColor? {
+                guard let playerTwoColor = playerTwoColor else { return nil }
+                return PlayerColor(rawValue: playerTwoColor)
+            }
+            
             if let id = id {
                 let game = Game(
                     id: id,
@@ -170,7 +199,9 @@ class MessagesViewController: MSMessagesAppViewController {
                     guess6: sixthGuess,
                     guessNumber: Guess(rawValue: guessNumberValue),
                     state: GameState(rawValue: stateValue) ?? .playing,
-                    currentPlayer: currentPlayer)
+                    playerOne: Player(uuidString: playerOneUUID, color: playerOneColorValue),
+                    playerTwo: Player(uuidString: playerTwoUUID, color: playerTwoColorValue),
+                    currentPlayerUUID: currentPlayerUUID)
                 GameModel.shared.currentGame = game
                 GameModel.shared.resetAnswerLetterCountDictionary {}
                 GameModel.shared.populateAnswerLetterCountDictionary {}
@@ -195,6 +226,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 if let currentGame = GameModel.shared.currentGame,
                    let answer = currentGame.answer,
                    let guessNumber = currentGame.guessNumber {
+                    
+                    
                     
                     self.playView.gridView.updateRowsFromMessage(
                         answer: answer,
@@ -281,16 +314,25 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - DID BECOME ACTIVE
     override func didBecomeActive(with conversation: MSConversation) {
         super.didBecomeActive(with: conversation)
-        hideKeyboardIfNotOurTurn()
+        disableKeyboardIfNotOurTurn()
+        updateOtherPlayerUUID()
     }
     
-    // MARK: - HIDE KEYBOARD IF NOT OUR TURN
-    /// Hide keyboard if currentPlayer UUID is the same as the sender UUID.
-    private func hideKeyboardIfNotOurTurn() {
+    // MARK: - UPDATE OTHER PLAYER UUID
+    private func updateOtherPlayerUUID() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        GameModel.shared.updatePlayerUUID(with: remoteParticipantIdentifier.uuidString)
+    }
+    
+    // MARK: - DISABLE KEYBOARD IF NOT OUR TURN
+    /// Disable keyboard if currentPlayer UUID is the same as the sender UUID.
+    private func disableKeyboardIfNotOurTurn() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
         guard let currentGame = GameModel.shared.currentGame else { return }
-        if remoteParticipantIdentifier.uuidString == currentGame.currentPlayer {
+        guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
+        if remoteParticipantIdentifier.uuidString == currentPlayerUUIDString {
             playView.disableKeyboard()
         } else {
             playView.enableKeyboard()
@@ -389,8 +431,20 @@ extension MessagesViewController {
             if let guessNumber = currentGame.guessNumber {
                 queryItems.append(URLQueryItem(name: "guessNumber", value: "\(guessNumber)"))
             }
-            if let currentPlayer = currentGame.currentPlayer {
-                queryItems.append(URLQueryItem(name: "currentPlayer", value: "\(currentPlayer)"))
+            if let playerOneUUID = currentGame.playerOne.uuidString {
+                queryItems.append(URLQueryItem(name: "playerOneUUID", value: "\(playerOneUUID)"))
+            }
+            if let playerOneColor = currentGame.playerOne.color?.rawValue {
+                queryItems.append(URLQueryItem(name: "playerOneColor", value: "\(playerOneColor)"))
+            }
+            if let playerTwoUUID = currentGame.playerTwo.uuidString {
+                queryItems.append(URLQueryItem(name: "playerTwoUUID", value: "\(playerTwoUUID)"))
+            }
+            if let playerTwoColor = currentGame.playerTwo.color?.rawValue {
+                queryItems.append(URLQueryItem(name: "playerTwoColor", value: "\(playerTwoColor)"))
+            }
+            if let currentPlayerUUID = currentGame.currentPlayerUUID {
+                queryItems.append(URLQueryItem(name: "currentPlayerUUID", value: "\(currentPlayerUUID)"))
             }
         }
         components.queryItems = queryItems
@@ -477,7 +531,7 @@ extension MessagesViewController: PlayDelegate {
     
     private func updateCurrentPlayer(from activeConversation: MSConversation) {
         guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
-        GameModel.shared.currentGame?.currentPlayer = remoteParticipantUUID.uuidString
+        GameModel.shared.currentGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
     private func sendMessage(from activeConversation: MSConversation) {

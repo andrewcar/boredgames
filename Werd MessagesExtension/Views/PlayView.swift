@@ -36,6 +36,12 @@ class PlayView: UIView {
     var keyboardView = KeyboardView()
     private var keyboardPortraitConstraints: [NSLayoutConstraint] = []
     private var keyboardLandscapeConstraints: [NSLayoutConstraint] = []
+    var keyboardViewShowing = false
+    
+    var colorPickerView = ColorPickerView()
+    private var colorPickerPortraitConstraints: [NSLayoutConstraint] = []
+    private var colorPickerLandscapeConstraints: [NSLayoutConstraint] = []
+    var colorPickerViewShowing = true
     
     private var sendButton = UIButton()
     private var sendButtonPortraitConstraints: [NSLayoutConstraint] = []
@@ -88,6 +94,7 @@ class PlayView: UIView {
             activateNotInWordListLandscapeConstraints()
             activateKeyboardLandscapeConstraints()
             keyboardView.updateSubviews(isLandscape: true)
+            activateColorPickerLandscapeConstraints()
             activateSendButtonLandscapeConstraints()
             updateStatsButton(isLandscape: true)
             activateStatsViewLandscapeConstraints()
@@ -104,6 +111,7 @@ class PlayView: UIView {
             activateNotInWordListPortraitConstraints()
             activateKeyboardPortraitConstraints()
             keyboardView.updateSubviews(isLandscape: false)
+            activateColorPickerPortraitConstraints()
             activateSendButtonPortraitConstraints()
             updateStatsButton(isLandscape: false)
             activateStatsViewPortraitConstraints()
@@ -126,6 +134,7 @@ class PlayView: UIView {
         addLogoView()
         addGridView()
         addKeyboardView()
+        addColorPickerView()
         addSuccessView()
         addNotInWordListView()
         addSendButton()
@@ -148,8 +157,6 @@ class PlayView: UIView {
     // MARK: - LOGO LONG PRESS
     private func addLongPressToLogoView() {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressLogo(sender:)))
-//        longPress.allowableMovement = 20
-//        longPress.delaysTouchesBegan = true
         longPress.delegate = self
         longPress.minimumPressDuration = 5
         logoView.addGestureRecognizer(longPress)
@@ -267,12 +274,12 @@ class PlayView: UIView {
         let gridHeight = gridWidth + oneFifthSansPadding + (scaledPadding * 2)
         
         gridViewLandscapeConstraints = [
-            gridView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
             gridView.widthAnchor.constraint(equalToConstant: gridWidth),
             gridView.heightAnchor.constraint(equalToConstant: gridHeight)
         ]
         let offset: CGFloat = appState == .stats || appState == .debug ? -UIScreen.main.bounds.width : 0
-        let constraint = gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 4) + offset)
+        let constraint = gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 6) + offset)
         gridViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(gridViewLandscapeConstraints)
     }
@@ -338,7 +345,7 @@ class PlayView: UIView {
             keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
             keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.portraitLetterPadding * 4))
         ]
-        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardView.showing ? -UIScreen.main.bounds.width : 0
+        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? -UIScreen.main.bounds.width : 0
         let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         keyboardPortraitConstraints.append(centerXConstraint)
         var widthConstraint: NSLayoutConstraint
@@ -360,7 +367,7 @@ class PlayView: UIView {
             keyboardView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.padding * 5),
             keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
         ]
-        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardView.showing ? (UIScreen.main.bounds.width * 2) : 0
+        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? (UIScreen.main.bounds.width * 2) : 0
         var leadingConstraint: NSLayoutConstraint
         if UIDevice.current.userInterfaceIdiom == .pad {
             leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
@@ -379,6 +386,56 @@ class PlayView: UIView {
         NSLayoutConstraint.deactivate(keyboardLandscapeConstraints)
         keyboardPortraitConstraints.removeAll()
         keyboardLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - COLOR PICKER
+    private func addColorPickerView() {
+        colorPickerView = ColorPickerView(frame: .zero)
+        colorPickerView.translatesAutoresizingMaskIntoConstraints = false
+        colorPickerView.colorPickerDelegate = self
+        addSubview(colorPickerView)
+        activateColorPickerPortraitConstraints()
+    }
+    
+    // MARK: - COLOR PICKER PORTRAIT CONSTRAINTS
+    private func activateColorPickerPortraitConstraints() {
+        deactivateColorPickerConstraints()
+        colorPickerPortraitConstraints = [
+            colorPickerView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
+            colorPickerView.widthAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight * 6),
+            colorPickerView.heightAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight + Frame.Colors.colorSize.height)
+        ]
+        let offset = appState == .stats || appState == .debug || !colorPickerViewShowing ? (UIScreen.main.bounds.width * 2) : 0
+        let centerXConstraint = colorPickerView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
+        colorPickerPortraitConstraints.append(centerXConstraint)
+        NSLayoutConstraint.activate(colorPickerPortraitConstraints)
+    }
+    
+    // MARK: - COLOR PICKER LANDSCAPE CONSTRAINTS
+    private func activateColorPickerLandscapeConstraints() {
+        deactivateColorPickerConstraints()
+        colorPickerLandscapeConstraints = [
+            colorPickerView.centerYAnchor.constraint(equalTo: gridView.centerYAnchor),
+            colorPickerView.widthAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight * 6),
+            colorPickerView.heightAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight + Frame.Colors.colorSize.height)
+        ]
+        let offset = appState == .stats || appState == .debug || !colorPickerViewShowing ? (UIScreen.main.bounds.width * 2) : 0
+        var leadingConstraint: NSLayoutConstraint
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            leadingConstraint = colorPickerView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
+        } else {
+            leadingConstraint = colorPickerView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+        }
+        let trailingConstraint = colorPickerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 2) + offset)
+        colorPickerLandscapeConstraints.append(leadingConstraint)
+        colorPickerLandscapeConstraints.append(trailingConstraint)
+        NSLayoutConstraint.activate(colorPickerLandscapeConstraints)
+    }
+    
+    // MARK: - DEACTIVATE COLOR PICKER CONSTRAINTS
+    private func deactivateColorPickerConstraints() {
+        NSLayoutConstraint.deactivate(colorPickerPortraitConstraints)
+        NSLayoutConstraint.deactivate(colorPickerLandscapeConstraints)
     }
     
     // MARK: - SEND BUTTON
@@ -1377,6 +1434,47 @@ extension PlayView: GridDelegate {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
+        }
+    }
+}
+
+// MARK: - COLOR PICKER DELEGATE
+extension PlayView: ColorPickerDelegate {
+    
+    // MARK: - DID TAP COLOR
+    func didTapColor(playerColor: PlayerColor) {
+        if let currentGame = GameModel.shared.currentGame {
+            
+            // if both UUIDs are nil, set playerOne color to this color
+            if currentGame.playerOne.uuidString == nil && currentGame.playerTwo.uuidString == nil {
+                GameModel.shared.currentGame?.playerOne.color = playerColor
+            }
+        }
+        showKeyboardView()
+        hideColorPickerView()
+    }
+    
+    // MARK: - SHOW KEYBOARD VIEW
+    private func showKeyboardView() {
+        keyboardViewShowing = true
+        if GameModel.shared.isLandscape {
+            activateKeyboardLandscapeConstraints()
+        } else {
+            activateKeyboardPortraitConstraints()
+        }
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+            self.layoutIfNeeded()
+        } completion: { _ in
+        }
+    }
+    
+    // MARK: - HIDE COLOR PICKER VIEW
+    private func hideColorPickerView() {
+        colorPickerViewShowing = false
+        if GameModel.shared.isLandscape {
+            activateColorPickerLandscapeConstraints()
+        } else {
+            activateColorPickerPortraitConstraints()
         }
     }
 }

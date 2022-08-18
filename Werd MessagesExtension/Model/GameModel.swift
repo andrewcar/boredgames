@@ -257,6 +257,20 @@ class GameModel: NSObject {
         guessYellowLetterCounts[letter.lowercased()]! += 1
     }
     
+    // MARK: - UPDATE GAME PLAYERS
+    func updatePlayerUUID(with uuidString: String) {
+        guard let currentGame = currentGame else { return }
+        
+        // if it's a fresh game, set playerTwo's UUIDString
+        if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString == nil {
+            self.currentGame?.playerTwo.uuidString = uuidString
+            
+        // else it's the second turn, so set playerOne's UUIDString
+        } else if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString != nil {
+            self.currentGame?.playerOne.uuidString = uuidString
+        }
+    }
+    
     // MARK: - RESET GAME
     func resetGame(completion: @escaping () -> ()) {
         currentGame = Game()

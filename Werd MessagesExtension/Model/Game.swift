@@ -28,5 +28,7 @@ struct Game: Hashable, Codable {
     var guessNumber: Guess? = Guess.first
     var currentLetter: CurrentLetter = .a0
     var state: GameState = .playing
-    var currentPlayer: String? = nil
+    var playerOne = Player(uuidString: nil, color: nil)
+    var playerTwo = Player(uuidString: nil, color: nil)
+    var currentPlayerUUID: String? = nil
 }
