@@ -84,6 +84,7 @@ class StatBarView: UIView {
     
     // MARK: - CONFIGURE
     private func configure() {
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .statBubbleBackground
         layer.cornerCurve = .continuous
         layer.cornerRadius = 23

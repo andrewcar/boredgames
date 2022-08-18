@@ -33,9 +33,9 @@ class ColorView: UIView {
     // MARK: - Initializers
     init(frame: CGRect, playerColor: PlayerColor) {
         super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
         self.playerColor = playerColor
         addSubviews()
-        translatesAutoresizingMaskIntoConstraints = false
     }
     
     override init(frame: CGRect) {

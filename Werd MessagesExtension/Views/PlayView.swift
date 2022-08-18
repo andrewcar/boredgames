@@ -29,6 +29,14 @@ class PlayView: UIView {
     private var gridViewPortraitConstraints: [NSLayoutConstraint] = []
     private var gridViewLandscapeConstraints: [NSLayoutConstraint] = []
         
+    var leftColorColumnView = ColorColumnView()
+    var leftColorColumnPortraitConstraints: [NSLayoutConstraint] = []
+    var leftColorColumnLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    var rightColorColumnView = ColorColumnView()
+    var rightColorColumnPortraitConstraints: [NSLayoutConstraint] = []
+    var rightColorColumnLandscapeConstraints: [NSLayoutConstraint] = []
+
     private var successView = SuccessView()
     private var successPortraitConstraints: [NSLayoutConstraint] = []
     private var successLandscapeConstraints: [NSLayoutConstraint] = []
@@ -148,7 +156,6 @@ class PlayView: UIView {
     // MARK: - LOGO VIEW
     private func addLogoView() {
         logoView = LogoView(frame: .zero)
-        logoView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logoView)
         activateLogoPortraitConstraints()
         addLongPressToLogoView()
@@ -197,7 +204,6 @@ class PlayView: UIView {
     // MARK: - NOT IN WORD LIST
     private func addNotInWordListView() {
         notInWordListView = NotInWordListView(frame: .zero)
-        notInWordListView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(notInWordListView)
         activateNotInWordListPortraitConstraints()
     }
@@ -231,7 +237,6 @@ class PlayView: UIView {
     // MARK: - GRID VIEW
     private func addGridView() {
         gridView = GridView(frame: .zero)
-        gridView.translatesAutoresizingMaskIntoConstraints = false
         gridView.gridDelegate = self
         addSubview(gridView)
         activateGridViewPortraitConstraints()
@@ -284,10 +289,15 @@ class PlayView: UIView {
         NSLayoutConstraint.activate(gridViewLandscapeConstraints)
     }
     
+    // MARK: - LEFT COLOR COLUMN
+    private func addLeftColorColumnView() {
+        leftColorColumnView = ColorColumnView(frame: .zero)
+        
+    }
+    
     // MARK: - SUCCESS VIEW
     private func addSuccessView() {
         successView = SuccessView(frame: .zero)
-        successView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(successView)
         activateSuccessPortraitConstraints()
     }
@@ -329,7 +339,6 @@ class PlayView: UIView {
     // MARK: - KEYBOARD VIEW
     private func addKeyboardView() {
         keyboardView = KeyboardView(frame: .zero)
-        keyboardView.translatesAutoresizingMaskIntoConstraints = false
         keyboardView.keyboardDelegate = self
         addSubview(keyboardView)
         activateKeyboardPortraitConstraints()
@@ -391,7 +400,6 @@ class PlayView: UIView {
     // MARK: - COLOR PICKER
     private func addColorPickerView() {
         colorPickerView = ColorPickerView(frame: .zero)
-        colorPickerView.translatesAutoresizingMaskIntoConstraints = false
         colorPickerView.colorPickerDelegate = self
         addSubview(colorPickerView)
         activateColorPickerPortraitConstraints()
@@ -572,7 +580,6 @@ class PlayView: UIView {
     }
     
     // MARK: - STATS BUTTON
-    /// chart.bar.xaxis, chart.xyaxis.line, chart.bar.doc.horizontal, waveform.and.magnifyingglass
     private func addStatsButton() {
         statsButton = UIButton(frame: .zero)
         statsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -648,7 +655,6 @@ class PlayView: UIView {
     }
     
     // MARK: - GRID BUTTON
-    /// square.grid.3x3.middleright.filled, circle.grid.3x3.circle.fill
     private func addGridButton() {
         gridButton = UIButton(frame: .zero)
         gridButton.translatesAutoresizingMaskIntoConstraints = false
@@ -724,7 +730,6 @@ class PlayView: UIView {
     // MARK: - STATS VIEW
     private func addStatsView() {
         statsView = StatsView(frame: .zero)
-        statsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(statsView)
         activateStatsViewPortraitConstraints()
     }
@@ -766,7 +771,6 @@ class PlayView: UIView {
     // MARK: - DEBUG VIEW
     private func addDebugView() {
         debugView = DebugView(frame: .zero)
-        debugView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(debugView)
         activateDebugPortraitConstraints()
     }

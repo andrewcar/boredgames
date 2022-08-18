@@ -51,6 +51,7 @@ class KeyboardView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
         addSubviews()
     }
     
@@ -318,7 +319,6 @@ class KeyboardView: UIView {
         let allLetters = firstRow + secondRow + thirdRow
         
         for letterView in allLetters {
-            letterView.translatesAutoresizingMaskIntoConstraints = false
             letterView.letterDelegate = self
             addSubview(letterView)
         }

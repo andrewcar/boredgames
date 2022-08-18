@@ -58,6 +58,7 @@ class GridView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
         addLetters()
     }
     

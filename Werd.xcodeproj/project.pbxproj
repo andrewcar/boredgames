@@ -17,6 +17,7 @@
 		492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4028AEB08300B8CFF6 /* Player.swift */; };
 		492BEB4328AED9E700B8CFF6 /* PublicSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */; };
 		492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */; };
+		492BEB4728AEDEFC00B8CFF6 /* ColorColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4628AEDEFC00B8CFF6 /* ColorColumnView.swift */; };
 		49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
@@ -84,6 +85,7 @@
 		492BEB4028AEB08300B8CFF6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Bold.ttf"; sourceTree = "<group>"; };
 		492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
+		492BEB4628AEDEFC00B8CFF6 /* ColorColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorColumnView.swift; sourceTree = "<group>"; };
 		49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			children = (
 				495EAD7628903C06004290AD /* GridView.swift */,
 				49A07DE4288DC163008270F9 /* GridLetterView.swift */,
+				492BEB4628AEDEFC00B8CFF6 /* ColorColumnView.swift */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				49A647B7289B9D12008A97A4 /* GameState.swift in Sources */,
 				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
+				492BEB4728AEDEFC00B8CFF6 /* ColorColumnView.swift in Sources */,
 				49D9936328A41FF300D863BB /* AppState.swift in Sources */,
 				495EAD75288F74CE004290AD /* GameModel.swift in Sources */,
 				49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */,

@@ -47,7 +47,6 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - PLAY VIEW
     private func addPlayView() {
         playView = PlayView(frame: .zero)
-        playView.translatesAutoresizingMaskIntoConstraints = false
         playView.playDelegate = self
         view.addSubview(playView)
         activatePlayViewPortraitConstraints()

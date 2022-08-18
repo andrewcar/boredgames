@@ -30,6 +30,7 @@ class NotInWordListView: UIView {
     
     // MARK: - Private Methods
     private func setup() {
+        translatesAutoresizingMaskIntoConstraints = false
         addSubviews()
         layer.cornerCurve = .continuous
         layer.cornerRadius = 4

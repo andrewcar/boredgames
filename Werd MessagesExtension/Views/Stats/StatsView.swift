@@ -21,6 +21,7 @@ class StatsView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
+        translatesAutoresizingMaskIntoConstraints = false
         addSubviews()
     }
     
@@ -54,7 +55,6 @@ class StatsView: UIView {
     // MARK: - STAT BAR VIEW
     private func addStatBarView() {
         statBarView = StatBarView(frame: .zero)
-        statBarView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(statBarView)
         activateStatBarPortraitConstraints()
     }
