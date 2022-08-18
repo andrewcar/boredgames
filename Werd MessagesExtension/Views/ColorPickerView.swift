@@ -42,7 +42,7 @@ class ColorPickerView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "Choose a color"
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = .customFont(named: .publicSansBold, size: 16, fallbackWeight: .bold)
         addSubview(titleLabel)
         
         redColorView = ColorView(frame: .zero, playerColor: .red)

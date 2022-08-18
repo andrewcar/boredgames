@@ -46,7 +46,7 @@ class DebugView: UIView {
         customAnswerTextField.delegate = self
         customAnswerTextField.textAlignment = .center
         customAnswerTextField.autocapitalizationType = .allCharacters
-        customAnswerTextField.font = UIFont(name: "RobotoSlab-Black", size: 31)
+        customAnswerTextField.font = .customFont(named: .robotoSlabBlack, size: 31, fallbackWeight: .black)
         customAnswerTextField.placeholder = "CUSTOM ANSWER"
         addSubview(customAnswerTextField)
         activateCustomAnswerConstraints()

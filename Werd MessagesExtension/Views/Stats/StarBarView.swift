@@ -103,7 +103,7 @@ class StatBarView: UIView {
         playedNumberLabel = UILabel(frame: .zero)
         playedNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         playedNumberLabel.textAlignment = .center
-        playedNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
+        playedNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
         playedNumberLabel.text = "\(GameModel.shared.games.gameCount)"
         playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
@@ -187,7 +187,7 @@ class StatBarView: UIView {
         wonNumberLabel = UILabel(frame: .zero)
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
-        wonNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
+        wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
         wonNumberLabel.text = "\(GameModel.shared.games.winCount)"
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
@@ -269,7 +269,7 @@ class StatBarView: UIView {
         lostNumberLabel = UILabel(frame: .zero)
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
-        lostNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
+        lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
         lostNumberLabel.text = "\(GameModel.shared.games.lossCount)"
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
@@ -351,7 +351,7 @@ class StatBarView: UIView {
         streakNumberLabel = UILabel(frame: .zero)
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
-        streakNumberLabel.font = UIFont(name: "RobotoSlab-Black", size: 34)
+        streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
         streakNumberLabel.text = "\(GameModel.shared.games.streakCount)"
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)

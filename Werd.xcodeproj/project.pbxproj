@@ -15,6 +15,8 @@
 		492BEB3B28ADC05A00B8CFF6 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB3A28ADC05A00B8CFF6 /* ColorPickerView.swift */; };
 		492BEB3F28ADD07D00B8CFF6 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB3E28ADD07D00B8CFF6 /* ColorView.swift */; };
 		492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4028AEB08300B8CFF6 /* Player.swift */; };
+		492BEB4328AED9E700B8CFF6 /* PublicSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */; };
+		492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */; };
 		49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
@@ -80,6 +82,8 @@
 		492BEB3A28ADC05A00B8CFF6 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		492BEB3E28ADD07D00B8CFF6 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		492BEB4028AEB08300B8CFF6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Bold.ttf"; sourceTree = "<group>"; };
+		492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
 		49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 			children = (
 				4993489828906BD100BC6B0B /* words.json */,
 				49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */,
+				492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				495EAD74288F74CE004290AD /* GameModel.swift */,
+				49A647BA289BA858008A97A4 /* GamesCache.swift */,
 				495EAD7A28903E19004290AD /* Frame.swift */,
 				49A07DE6288DC29C008270F9 /* LetterState.swift */,
 				495EAD70288F4ED1004290AD /* ButtonTag.swift */,
@@ -262,8 +268,8 @@
 				49A07DE8288DC459008270F9 /* UIColorExtensions.swift */,
 				4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */,
 				4913C0E0289905930039745B /* UIImageExtensions.swift */,
-				49A647BA289BA858008A97A4 /* GamesCache.swift */,
 				49A007C628A1B9060016945B /* UIViewExtensions.swift */,
+				492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				4993489928906BD100BC6B0B /* words.json in Resources */,
 				49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */,
 				49A07DD5288DB76B008270F9 /* Assets.xcassets in Resources */,
+				492BEB4328AED9E700B8CFF6 /* PublicSans-Bold.ttf in Resources */,
 				49A07DD3288DB76A008270F9 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +398,7 @@
 				495EAD7728903C06004290AD /* GridView.swift in Sources */,
 				49D9936128A2BFB900D863BB /* AppSection.swift in Sources */,
 				49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */,
+				492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */,
 				49D9935F28A2AAE600D863BB /* PlayView.swift in Sources */,
 				49C0616328A73D0A002D6EEA /* DebugView.swift in Sources */,
 				49250181289B5B4D0037122E /* Game.swift in Sources */,
