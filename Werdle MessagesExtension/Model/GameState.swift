@@ -1,6 +1,6 @@
 //
 //  GameState.swift
-//  Werdle MessagesExtension
+//  Werd MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/4/22.
 //

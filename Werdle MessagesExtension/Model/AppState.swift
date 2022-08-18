@@ -1,6 +1,6 @@
 //
 //  AppState.swift
-//  Werdle MessagesExtension
+//  Werd MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/10/22.
 //

@@ -1,6 +1,6 @@
 //
 //  MessagesViewController.swift
-//  Werdle MessagesExtension
+//  Werd MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/24/22.
 //
@@ -399,7 +399,7 @@ extension MessagesViewController {
         
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "werdle_message_bubble.png")
-        layout.caption = "Werdle"
+        layout.caption = "Werd"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String

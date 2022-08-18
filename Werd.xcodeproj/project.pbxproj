@@ -26,7 +26,7 @@
 		4997443E28AC12D30062DA57 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997443D28AC12D30062DA57 /* LogoView.swift */; };
 		49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A007C628A1B9060016945B /* UIViewExtensions.swift */; };
 		49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
-		49A07DC8288DB76A008270F9 /* Werdle MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* Werdle MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		49A07DC8288DB76A008270F9 /* Werd MessagesExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* Werd MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49A07DCD288DB76A008270F9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A07DCC288DB76A008270F9 /* Messages.framework */; };
 		49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DCF288DB76A008270F9 /* MessagesViewController.swift */; };
 		49A07DD3288DB76A008270F9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DD1288DB76A008270F9 /* MainInterface.storyboard */; };
@@ -55,15 +55,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		49A07DDC288DB76B008270F9 /* Embed App Extensions */ = {
+		49A07DDC288DB76B008270F9 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				49A07DC8288DB76A008270F9 /* Werdle MessagesExtension.appex in Embed App Extensions */,
+				49A07DC8288DB76A008270F9 /* Werd MessagesExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -87,9 +87,9 @@
 		4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProcotolExtensions.swift; sourceTree = "<group>"; };
 		4997443D28AC12D30062DA57 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		49A007C628A1B9060016945B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
-		49A07DBE288DB769008270F9 /* Werdle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Werdle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A07DBE288DB769008270F9 /* Werd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Werd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DC1288DB76A008270F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		49A07DC7288DB76A008270F9 /* Werdle MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Werdle MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49A07DC7288DB76A008270F9 /* Werd MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Werd MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A07DCC288DB76A008270F9 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
 		49A07DCF288DB76A008270F9 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		49A07DD2288DB76A008270F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		49A07DB7288DB769008270F9 = {
 			isa = PBXGroup;
 			children = (
-				49A07DC0288DB769008270F9 /* Werdle */,
+				49A07DC0288DB769008270F9 /* Werd */,
 				49A07DCE288DB76A008270F9 /* Werdle MessagesExtension */,
 				49A07DCB288DB76A008270F9 /* Frameworks */,
 				49A07DBF288DB769008270F9 /* Products */,
@@ -178,18 +178,18 @@
 		49A07DBF288DB769008270F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				49A07DBE288DB769008270F9 /* Werdle.app */,
-				49A07DC7288DB76A008270F9 /* Werdle MessagesExtension.appex */,
+				49A07DBE288DB769008270F9 /* Werd.app */,
+				49A07DC7288DB76A008270F9 /* Werd MessagesExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		49A07DC0288DB769008270F9 /* Werdle */ = {
+		49A07DC0288DB769008270F9 /* Werd */ = {
 			isa = PBXGroup;
 			children = (
 				49A07DC1288DB76A008270F9 /* Assets.xcassets */,
 			);
-			path = Werdle;
+			path = Werd;
 			sourceTree = "<group>";
 		};
 		49A07DCB288DB76A008270F9 /* Frameworks */ = {
@@ -262,26 +262,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		49A07DBD288DB769008270F9 /* Werdle */ = {
+		49A07DBD288DB769008270F9 /* Werd */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49A07DDD288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werdle" */;
+			buildConfigurationList = 49A07DDD288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werd" */;
 			buildPhases = (
 				49A07DBC288DB769008270F9 /* Resources */,
-				49A07DDC288DB76B008270F9 /* Embed App Extensions */,
+				49A07DDC288DB76B008270F9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				49A07DCA288DB76A008270F9 /* PBXTargetDependency */,
 			);
-			name = Werdle;
+			name = Werd;
 			productName = Nerdle;
-			productReference = 49A07DBE288DB769008270F9 /* Werdle.app */;
+			productReference = 49A07DBE288DB769008270F9 /* Werd.app */;
 			productType = "com.apple.product-type.application.messages";
 		};
-		49A07DC6288DB76A008270F9 /* Werdle MessagesExtension */ = {
+		49A07DC6288DB76A008270F9 /* Werd MessagesExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49A07DD9288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werdle MessagesExtension" */;
+			buildConfigurationList = 49A07DD9288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werd MessagesExtension" */;
 			buildPhases = (
 				49A07DC3288DB76A008270F9 /* Sources */,
 				49A07DC4288DB76A008270F9 /* Frameworks */,
@@ -291,9 +291,9 @@
 			);
 			dependencies = (
 			);
-			name = "Werdle MessagesExtension";
+			name = "Werd MessagesExtension";
 			productName = "Nerdle MessagesExtension";
-			productReference = 49A07DC7288DB76A008270F9 /* Werdle MessagesExtension.appex */;
+			productReference = 49A07DC7288DB76A008270F9 /* Werd MessagesExtension.appex */;
 			productType = "com.apple.product-type.app-extension.messages";
 		};
 /* End PBXNativeTarget section */
@@ -304,7 +304,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					49A07DBD288DB769008270F9 = {
 						CreatedOnToolsVersion = 13.3.1;
@@ -314,7 +314,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 49A07DBB288DB769008270F9 /* Build configuration list for PBXProject "Werdle" */;
+			buildConfigurationList = 49A07DBB288DB769008270F9 /* Build configuration list for PBXProject "Werd" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -327,8 +327,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				49A07DBD288DB769008270F9 /* Werdle */,
-				49A07DC6288DB76A008270F9 /* Werdle MessagesExtension */,
+				49A07DBD288DB769008270F9 /* Werd */,
+				49A07DC6288DB76A008270F9 /* Werd MessagesExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -396,7 +396,7 @@
 /* Begin PBXTargetDependency section */
 		49A07DCA288DB76A008270F9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 49A07DC6288DB76A008270F9 /* Werdle MessagesExtension */;
+			target = 49A07DC6288DB76A008270F9 /* Werd MessagesExtension */;
 			targetProxy = 49A07DC9288DB76A008270F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -532,11 +532,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Werdle;
+				INFOPLIST_KEY_CFBundleDisplayName = Werd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,7 +544,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle.MessagesExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werd.MessagesExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -558,11 +558,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Werdle MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Werdle;
+				INFOPLIST_KEY_CFBundleDisplayName = Werd;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -570,7 +570,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle.MessagesExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werd.MessagesExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -585,14 +585,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle;
-				PRODUCT_NAME = Werdle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werd;
+				PRODUCT_NAME = Werd;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -608,14 +608,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werdle;
-				PRODUCT_NAME = Werdle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andrewos.Werd;
+				PRODUCT_NAME = Werd;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -628,7 +628,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		49A07DBB288DB769008270F9 /* Build configuration list for PBXProject "Werdle" */ = {
+		49A07DBB288DB769008270F9 /* Build configuration list for PBXProject "Werd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49A07DD7288DB76B008270F9 /* Debug */,
@@ -637,7 +637,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		49A07DD9288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werdle MessagesExtension" */ = {
+		49A07DD9288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werd MessagesExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49A07DDA288DB76B008270F9 /* Debug */,
@@ -646,7 +646,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		49A07DDD288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werdle" */ = {
+		49A07DDD288DB76B008270F9 /* Build configuration list for PBXNativeTarget "Werd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				49A07DDE288DB76B008270F9 /* Debug */,

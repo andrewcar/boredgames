@@ -1,6 +1,6 @@
 //
 //  GridLetterView.swift
-//  Werdle MessagesExtension
+//  Werd MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/24/22.
 //
@@ -19,6 +19,8 @@ class GridLetterView: UIView {
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = 8
         addSubviews()
     }
     

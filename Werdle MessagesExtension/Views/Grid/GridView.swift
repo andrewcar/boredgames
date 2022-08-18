@@ -1,6 +1,6 @@
 //
 //  GridView.swift
-//  Werdle MessagesExtension
+//  Werd MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/26/22.
 //
