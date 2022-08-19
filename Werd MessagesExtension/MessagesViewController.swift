@@ -102,9 +102,7 @@ class MessagesViewController: MSMessagesAppViewController {
             var guessNumber: String?
             var state: String?
             var playerOneUUID: String?
-            var playerOneColor: String?
             var playerTwoUUID: String?
-            var playerTwoColor: String?
             var currentPlayerUUID: String?
             
             for queryItem in queryItems {
@@ -154,17 +152,9 @@ class MessagesViewController: MSMessagesAppViewController {
                         if !value.isEmpty {
                             playerOneUUID = value
                         }
-                    case "playerOneColor":
-                        if !value.isEmpty {
-                            playerOneColor = value
-                        }
                     case "playerTwoUUID":
                         if !value.isEmpty {
                             playerTwoUUID = value
-                        }
-                    case "playerTwoColor":
-                        if !value.isEmpty {
-                            playerTwoColor = value
                         }
                     case "currentPlayerUUID":
                         if !value.isEmpty {
@@ -177,14 +167,6 @@ class MessagesViewController: MSMessagesAppViewController {
             
             let guessNumberValue = guessNumber ?? "first"
             let stateValue = state ?? "playing"
-            var playerOneColorValue: PlayerColor? {
-                guard let playerOneColor = playerOneColor else { return nil }
-                return PlayerColor(rawValue: playerOneColor)
-            }
-            var playerTwoColorValue: PlayerColor? {
-                guard let playerTwoColor = playerTwoColor else { return nil }
-                return PlayerColor(rawValue: playerTwoColor)
-            }
             
             if let id = id {
                 let game = Game(
@@ -198,8 +180,8 @@ class MessagesViewController: MSMessagesAppViewController {
                     guess6: sixthGuess,
                     guessNumber: Guess(rawValue: guessNumberValue),
                     state: GameState(rawValue: stateValue) ?? .playing,
-                    playerOne: Player(uuidString: playerOneUUID, color: playerOneColorValue),
-                    playerTwo: Player(uuidString: playerTwoUUID, color: playerTwoColorValue),
+                    playerOne: Player(uuidString: playerOneUUID, color: .blue),
+                    playerTwo: Player(uuidString: playerTwoUUID, color: .red),
                     currentPlayerUUID: currentPlayerUUID)
                 GameModel.shared.currentGame = game
                 GameModel.shared.resetAnswerLetterCountDictionary {}
@@ -433,14 +415,8 @@ extension MessagesViewController {
             if let playerOneUUID = currentGame.playerOne.uuidString {
                 queryItems.append(URLQueryItem(name: "playerOneUUID", value: "\(playerOneUUID)"))
             }
-            if let playerOneColor = currentGame.playerOne.color?.rawValue {
-                queryItems.append(URLQueryItem(name: "playerOneColor", value: "\(playerOneColor)"))
-            }
             if let playerTwoUUID = currentGame.playerTwo.uuidString {
                 queryItems.append(URLQueryItem(name: "playerTwoUUID", value: "\(playerTwoUUID)"))
-            }
-            if let playerTwoColor = currentGame.playerTwo.color?.rawValue {
-                queryItems.append(URLQueryItem(name: "playerTwoColor", value: "\(playerTwoColor)"))
             }
             if let currentPlayerUUID = currentGame.currentPlayerUUID {
                 queryItems.append(URLQueryItem(name: "currentPlayerUUID", value: "\(currentPlayerUUID)"))
@@ -451,7 +427,7 @@ extension MessagesViewController {
         message.url = components.url!
         
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "werdle_message_bubble.png")
+        layout.image = UIImage(named: "werd_message_bubble.png")
         layout.caption = "Werd"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {

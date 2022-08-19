@@ -17,8 +17,8 @@ struct Frame {
 
     // MARK: - LOGO
     struct Logo {
-        static let size = CGSize(width: 117, height: 30)
-        static let upperPadding: CGFloat = UIScreen.main.bounds.width / 20
+        static let size = CGSize(width: 120, height: 33)
+        static let upperPadding: CGFloat = UIScreen.main.bounds.width / 16
         static let bottomPadding: CGFloat = 10
     }
     
@@ -34,6 +34,7 @@ struct Frame {
     
     // MARK: - GRID
     struct Grid {
+        static let dotGirth: CGFloat = 11
         static func size(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
             let oneFifthSansPadding: CGFloat = (containerWidth / 5) - (scaledPadding * 6)
             let gridHeight = containerWidth + oneFifthSansPadding + (scaledPadding * 5)
@@ -53,12 +54,6 @@ struct Frame {
         static func maxY(_ viewFrame: CGRect) -> CGFloat {
             Frame.Logo.bottomPadding + Frame.Logo.size.height + (padding * 6) + (letterSize(viewFrame).height * 6)
         }
-    }
-    
-    // MARK: - COLORS
-    struct Colors {
-        static let colorViewHeight: CGFloat = 50
-        static let colorSize = CGSize(width: 30, height: 30)
     }
     
     // MARK: - KEYBOARD

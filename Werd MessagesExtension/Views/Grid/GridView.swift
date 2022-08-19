@@ -21,6 +21,7 @@ protocol GridDelegate {
 class GridView: UIView {
     
     // MARK: - Properties
+    var gridDelegate: GridDelegate?
     var a1 = GridLetterView()
     var a2 = GridLetterView()
     var a3 = GridLetterView()
@@ -53,13 +54,20 @@ class GridView: UIView {
     var f5 = GridLetterView()
     private var letterPortraitConstraints: [NSLayoutConstraint] = []
     private var letterLandscapeConstraints: [NSLayoutConstraint] = []
-    var gridDelegate: GridDelegate?
+    var leftDotOne = UIView()
+    var leftDotTwo = UIView()
+    var leftDotThree = UIView()
+    var rightDotOne = UIView()
+    var rightDotTwo = UIView()
+    var rightDotThree = UIView()
+    var dotConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addLetters()
+        addDotViews()
     }
     
     required init?(coder: NSCoder) {
@@ -84,7 +92,7 @@ class GridView: UIView {
             
             // FIRST ROW
             a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -110,7 +118,7 @@ class GridView: UIView {
             
             // SECOND ROW
             b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
-            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             b1.widthAnchor.constraint(equalToConstant: size.width),
             b1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -136,7 +144,7 @@ class GridView: UIView {
             
             // THIRD ROW
             c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
-            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             c1.widthAnchor.constraint(equalToConstant: size.width),
             c1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -162,7 +170,7 @@ class GridView: UIView {
             
             // FOURTH ROW
             d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
-            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             d1.widthAnchor.constraint(equalToConstant: size.width),
             d1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -188,7 +196,7 @@ class GridView: UIView {
             
             // FIFTH ROW
             e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
-            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             e1.widthAnchor.constraint(equalToConstant: size.width),
             e1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -214,7 +222,7 @@ class GridView: UIView {
             
             // SIXTH ROW
             f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
-            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
             f1.widthAnchor.constraint(equalToConstant: size.width),
             f1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -252,7 +260,7 @@ class GridView: UIView {
             
             // FIRST ROW
             a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -278,7 +286,7 @@ class GridView: UIView {
             
             // SECOND ROW
             b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
-            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             b1.widthAnchor.constraint(equalToConstant: size.width),
             b1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -304,7 +312,7 @@ class GridView: UIView {
             
             // THIRD ROW
             c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
-            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             c1.widthAnchor.constraint(equalToConstant: size.width),
             c1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -330,7 +338,7 @@ class GridView: UIView {
             
             // FOURTH ROW
             d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
-            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            d1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             d1.widthAnchor.constraint(equalToConstant: size.width),
             d1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -356,7 +364,7 @@ class GridView: UIView {
             
             // FIFTH ROW
             e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
-            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            e1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             e1.widthAnchor.constraint(equalToConstant: size.width),
             e1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -382,7 +390,7 @@ class GridView: UIView {
             
             // SIXTH ROW
             f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
-            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            f1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
             f1.widthAnchor.constraint(equalToConstant: size.width),
             f1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -484,6 +492,7 @@ class GridView: UIView {
         if let firstGuess = firstGuess, let answer = answer {
             let guess = firstGuess.lowercased()
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+                self.leftDotOne.isHidden = false
                 self.updateFirstRow(guess: guess,
                                     animated: guessToAnimate == .first ? true : false) {
                     completion(guess == answer ? .won : .playing)
@@ -492,6 +501,7 @@ class GridView: UIView {
         }
         if let secondGuess = secondGuess, let answer = answer {
             let guess = secondGuess.lowercased()
+            self.rightDotOne.isHidden = false
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateSecondRow(guess: guess,
                                 animated: guessToAnimate == .second ? true : false) {
@@ -501,6 +511,7 @@ class GridView: UIView {
         }
         if let thirdGuess = thirdGuess, let answer = answer {
             let guess = thirdGuess.lowercased()
+            self.leftDotTwo.isHidden = false
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateThirdRow(guess: guess,
                                 animated: guessToAnimate == .third ? true : false) {
@@ -510,6 +521,7 @@ class GridView: UIView {
         }
         if let fourthGuess = fourthGuess, let answer = answer {
             let guess = fourthGuess.lowercased()
+            self.rightDotTwo.isHidden = false
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateFourthRow(guess: guess,
                                 animated: guessToAnimate == .fourth ? true : false) {
@@ -519,6 +531,7 @@ class GridView: UIView {
         }
         if let fifthGuess = fifthGuess, let answer = answer {
             let guess = fifthGuess.lowercased()
+            self.leftDotThree.isHidden = false
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateFifthRow(guess: guess,
                                 animated: guessToAnimate == .fifth ? true : false) {
@@ -528,6 +541,7 @@ class GridView: UIView {
         }
         if let sixthGuess = sixthGuess, let answer = answer {
             let guess = sixthGuess.lowercased()
+            self.rightDotThree.isHidden = false
             GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateSixthRow(guess: guess,
                                 animated: guessToAnimate == .sixth ? true : false) {
@@ -1124,5 +1138,65 @@ class GridView: UIView {
             GameModel.shared.setAnswerRandomly()
         }
         return true
+    }
+    
+    // MARK: - DOT VIEWS
+    private func addDotViews() {
+        leftDotOne = ColorDotView(frame: .zero, color: .systemRed)
+        addSubview(leftDotOne)
+        
+        leftDotTwo = ColorDotView(frame: .zero, color: .systemRed)
+        addSubview(leftDotTwo)
+
+        leftDotThree = ColorDotView(frame: .zero, color: .systemRed)
+        addSubview(leftDotThree)
+
+        rightDotOne = ColorDotView(frame: .zero, color: .systemBlue)
+        addSubview(rightDotOne)
+        
+        rightDotTwo = ColorDotView(frame: .zero, color: .systemBlue)
+        addSubview(rightDotTwo)
+
+        rightDotThree = ColorDotView(frame: .zero, color: .systemBlue)
+        addSubview(rightDotThree)
+
+        activateDotConstraints()
+    }
+    
+    // MARK: - ACTIVATE DOT CONSTRAINTS
+    func activateDotConstraints() {
+        NSLayoutConstraint.deactivate(dotConstraints)
+        dotConstraints = [
+            leftDotOne.centerYAnchor.constraint(equalTo: a1.centerYAnchor),
+            leftDotOne.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotOne.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotOne.trailingAnchor.constraint(equalTo: a1.leadingAnchor, constant: -(Frame.padding * 2)),
+            
+            rightDotOne.centerYAnchor.constraint(equalTo: b5.centerYAnchor),
+            rightDotOne.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotOne.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotOne.leadingAnchor.constraint(equalTo: b5.trailingAnchor, constant: Frame.padding * 2),
+
+            leftDotTwo.centerYAnchor.constraint(equalTo: c1.centerYAnchor),
+            leftDotTwo.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotTwo.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotTwo.trailingAnchor.constraint(equalTo: a1.leadingAnchor, constant: -(Frame.padding * 2)),
+
+            rightDotTwo.centerYAnchor.constraint(equalTo: d5.centerYAnchor),
+            rightDotTwo.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotTwo.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotTwo.leadingAnchor.constraint(equalTo: d5.trailingAnchor, constant: Frame.padding * 2),
+
+            leftDotThree.centerYAnchor.constraint(equalTo: e1.centerYAnchor),
+            leftDotThree.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotThree.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            leftDotThree.trailingAnchor.constraint(equalTo: a1.leadingAnchor, constant: -(Frame.padding * 2)),
+
+            rightDotThree.centerYAnchor.constraint(equalTo: f5.centerYAnchor),
+            rightDotThree.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotThree.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
+            rightDotThree.leadingAnchor.constraint(equalTo: f5.trailingAnchor, constant: Frame.padding * 2)
+        ]
+        NSLayoutConstraint.activate(dotConstraints)
     }
 }

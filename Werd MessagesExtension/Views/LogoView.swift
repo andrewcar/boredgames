@@ -29,7 +29,7 @@ class LogoView: UIView {
     private func addImageView() {
         imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "werdle.png")
+        imageView.image = UIImage(named: "werd")
         addSubview(imageView)
         activateImageConstraints()
     }
