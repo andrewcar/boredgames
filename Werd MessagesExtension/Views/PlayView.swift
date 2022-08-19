@@ -179,7 +179,7 @@ class PlayView: UIView {
         NSLayoutConstraint.deactivate(logoPortraitConstraints)
         NSLayoutConstraint.deactivate(logoLandscapeConstraints)
         logoLandscapeConstraints = [
-            logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
             logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.size.width),
             logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.size.height)
@@ -257,20 +257,18 @@ class PlayView: UIView {
     private func activateGridViewLandscapeConstraints() {
         NSLayoutConstraint.deactivate(gridViewPortraitConstraints)
         NSLayoutConstraint.deactivate(gridViewLandscapeConstraints)
-
-        let gridBoundsWidth = UIScreen.main.bounds.width / 3
-        let scaledPadding = Frame.padding / 3
-        let oneFifthSansPadding: CGFloat = (gridBoundsWidth / 5) - (scaledPadding * 6)
-        let gridWidth = (oneFifthSansPadding * 5) + (scaledPadding * 6)
-        let gridHeight = gridWidth + oneFifthSansPadding + (scaledPadding * 2)
         
+        let oneFifthSansPadding: CGFloat = ((UIScreen.main.bounds.size.width / 2.3) / 5) - (Frame.padding * 6)
+        let gridWidth = (oneFifthSansPadding * 5) + (Frame.padding * 6)
+        let gridHeight = gridWidth + oneFifthSansPadding + Frame.padding
+
         gridViewLandscapeConstraints = [
-            gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
+            gridView.heightAnchor.constraint(equalToConstant: gridHeight),
             gridView.widthAnchor.constraint(equalToConstant: gridWidth),
-            gridView.heightAnchor.constraint(equalToConstant: gridHeight)
+            gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
         ]
         let offset: CGFloat = appState == .stats || appState == .debug ? -UIScreen.main.bounds.width : 0
-        let constraint = gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 6) + offset)
+        let constraint = gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + Frame.Grid.dotGirth + offset)
         gridViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(gridViewLandscapeConstraints)
     }
@@ -333,14 +331,14 @@ class PlayView: UIView {
 
             keyboardLandscapeConstraints = [
                 keyboardView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.padding * 5),
-                keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
+                keyboardView.heightAnchor.constraint(greaterThanOrEqualToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
             let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? (UIScreen.main.bounds.width * 2) : 0
             var leadingConstraint: NSLayoutConstraint
             if UIDevice.current.userInterfaceIdiom == .pad {
                 leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
             } else {
-                leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+                leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 5) + offset)
             }
             let trailingConstraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.padding + offset)
             keyboardLandscapeConstraints.append(leadingConstraint)
@@ -352,7 +350,7 @@ class PlayView: UIView {
 
             keyboardPortraitConstraints = [
                 keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
-                keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.portraitLetterPadding * 4))
+                keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
             let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? -UIScreen.main.bounds.width : 0
             let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
@@ -1154,6 +1152,9 @@ extension PlayView: KeyboardDelegate {
                 }
                 
                 GameModel.shared.currentGuess = ""
+                
+                self.playDelegate.didTapSendButton()
+                self.disableKeyboard()
             }
         }
     }

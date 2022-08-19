@@ -58,29 +58,28 @@ struct Frame {
     
     // MARK: - KEYBOARD
     struct Keyboard {
-        static let portraitLetterPadding: CGFloat = 5
         static var portraitLetterSize: CGSize {
             var widthSansPadding: CGFloat
             if UIDevice.current.userInterfaceIdiom == .pad {
-                widthSansPadding = (UIScreen.main.bounds.width * 0.7) - (portraitLetterPadding * 11)
+                widthSansPadding = (UIScreen.main.bounds.width * 0.7) - (padding * 11)
             } else {
-                widthSansPadding = UIScreen.main.bounds.width - (portraitLetterPadding * 11)
+                widthSansPadding = UIScreen.main.bounds.width - (padding * 11)
             }
             let letterWidth = widthSansPadding / 10
             let letterHeight = letterWidth * 1.25
             return CGSize(width: letterWidth, height: letterHeight)
         }
         
-        static let landscapeLetterPadding: CGFloat = 5
         static var landscapeLetterSize: CGSize {
-            let twoThirdsWidth = (UIScreen.main.bounds.width / 3) * 2
-            let twoThirdsWidthSansPadding = twoThirdsWidth - (landscapeLetterPadding * 30)
-            let letterWidth = twoThirdsWidthSansPadding / 10
+            let estimatedGridWidth = UIScreen.main.bounds.width / 2.3
+            let remainingWidth = UIScreen.main.bounds.width - estimatedGridWidth
+            let remainingWidthSansPadding = remainingWidth - (padding * 17)
+            let letterWidth = remainingWidthSansPadding / 10
             let letterHeight = letterWidth * 1.25
             return CGSize(width: letterWidth, height: letterHeight)
         }
-        static let portraitEnterXOffset: CGFloat = portraitLetterPadding * 1.5
-        static let landscapeEnterXOffset: CGFloat = landscapeLetterPadding * 1.5
+        static let portraitEnterXOffset: CGFloat = padding * 1.5
+        static let landscapeEnterXOffset: CGFloat = padding * 1.5
     }
     
     struct Stats {

@@ -47,6 +47,11 @@ class KeyboardView: UIView {
     var backspace = KeyboardLetterView("⌫", frame: .zero)
     var portraitConstraints: [NSLayoutConstraint] = []
     var landscapeConstraints: [NSLayoutConstraint] = []
+    let mediumImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+    let rigidImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .rigid)
+    let heavyImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+    let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -329,151 +334,150 @@ class KeyboardView: UIView {
     func activatePortraitConstraints() {
         NSLayoutConstraint.deactivate(portraitConstraints)
         NSLayoutConstraint.deactivate(landscapeConstraints)
-        let padding = Frame.Keyboard.portraitLetterPadding
         let letterSize = Frame.Keyboard.portraitLetterSize
         let enterWidth = letterSize.width * 1.5
         portraitConstraints = [
             
             // first row
-            q.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            q.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             q.widthAnchor.constraint(equalToConstant: letterSize.width),
             q.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            w.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: padding),
+            w.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: Frame.padding),
             w.widthAnchor.constraint(equalToConstant: letterSize.width),
             w.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            e.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: padding),
+            e.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: Frame.padding),
             e.widthAnchor.constraint(equalToConstant: letterSize.width),
             e.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            r.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: padding),
+            r.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: Frame.padding),
             r.widthAnchor.constraint(equalToConstant: letterSize.width),
             r.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            t.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: padding),
+            t.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: Frame.padding),
             t.widthAnchor.constraint(equalToConstant: letterSize.width),
             t.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            y.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: padding),
+            y.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: Frame.padding),
             y.widthAnchor.constraint(equalToConstant: letterSize.width),
             y.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            u.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: padding),
+            u.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: Frame.padding),
             u.widthAnchor.constraint(equalToConstant: letterSize.width),
             u.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            i.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: padding),
+            i.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: Frame.padding),
             i.widthAnchor.constraint(equalToConstant: letterSize.width),
             i.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            o.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: padding),
+            o.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: Frame.padding),
             o.widthAnchor.constraint(equalToConstant: letterSize.width),
             o.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            p.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: padding),
+            p.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: Frame.padding),
             p.widthAnchor.constraint(equalToConstant: letterSize.width),
             p.heightAnchor.constraint(equalToConstant: letterSize.height),
             
             // second row
-            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: padding),
-            a.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding + letterSize.width / 2),
+            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: Frame.padding),
+            a.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + letterSize.width / 2),
             a.widthAnchor.constraint(equalToConstant: letterSize.width),
             a.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: padding),
-            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: padding),
+            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: Frame.padding),
+            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: Frame.padding),
             s.widthAnchor.constraint(equalToConstant: letterSize.width),
             s.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: padding),
-            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: padding),
+            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: Frame.padding),
+            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: Frame.padding),
             d.widthAnchor.constraint(equalToConstant: letterSize.width),
             d.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: padding),
-            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: padding),
+            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: Frame.padding),
+            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: Frame.padding),
             f.widthAnchor.constraint(equalToConstant: letterSize.width),
             f.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: padding),
-            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: padding),
+            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: Frame.padding),
+            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: Frame.padding),
             g.widthAnchor.constraint(equalToConstant: letterSize.width),
             g.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: padding),
-            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: padding),
+            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: Frame.padding),
+            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: Frame.padding),
             h.widthAnchor.constraint(equalToConstant: letterSize.width),
             h.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: padding),
-            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: padding),
+            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: Frame.padding),
+            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: Frame.padding),
             j.widthAnchor.constraint(equalToConstant: letterSize.width),
             j.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: padding),
-            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: padding),
+            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: Frame.padding),
+            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: Frame.padding),
             k.widthAnchor.constraint(equalToConstant: letterSize.width),
             k.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: padding),
-            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: padding),
+            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: Frame.padding),
+            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: Frame.padding),
             l.widthAnchor.constraint(equalToConstant: letterSize.width),
             l.heightAnchor.constraint(equalToConstant: letterSize.height),
             
             // third row
-            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: Frame.padding),
             enter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Keyboard.landscapeEnterXOffset),
             enter.widthAnchor.constraint(equalToConstant: enterWidth),
             enter.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
-            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: padding),
+            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: Frame.padding),
+            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: Frame.padding),
             z.widthAnchor.constraint(equalToConstant: letterSize.width),
             z.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: padding),
-            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: padding),
+            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: Frame.padding),
+            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: Frame.padding),
             x.widthAnchor.constraint(equalToConstant: letterSize.width),
             x.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: padding),
-            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: padding),
+            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: Frame.padding),
+            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: Frame.padding),
             c.widthAnchor.constraint(equalToConstant: letterSize.width),
             c.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: padding),
-            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: padding),
+            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: Frame.padding),
+            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: Frame.padding),
             v.widthAnchor.constraint(equalToConstant: letterSize.width),
             v.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: padding),
-            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: padding),
+            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: Frame.padding),
+            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: Frame.padding),
             b.widthAnchor.constraint(equalToConstant: letterSize.width),
             b.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: padding),
-            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: padding),
+            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: Frame.padding),
+            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: Frame.padding),
             n.widthAnchor.constraint(equalToConstant: letterSize.width),
             n.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: padding),
-            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: padding),
+            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: Frame.padding),
+            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: Frame.padding),
             m.widthAnchor.constraint(equalToConstant: letterSize.width),
             m.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: padding),
-            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: padding),
+            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: Frame.padding),
+            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: Frame.padding),
             backspace.widthAnchor.constraint(equalToConstant: enterWidth),
             backspace.heightAnchor.constraint(equalToConstant: letterSize.height)
         ]
@@ -484,151 +488,150 @@ class KeyboardView: UIView {
     func activateLandscapeConstraints() {
         NSLayoutConstraint.deactivate(portraitConstraints)
         NSLayoutConstraint.deactivate(landscapeConstraints)
-        let padding = Frame.Keyboard.landscapeLetterPadding
         let letterSize = Frame.Keyboard.landscapeLetterSize
         let enterWidth = letterSize.width * 1.5
         landscapeConstraints = [
             
             // first row
-            q.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            q.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            q.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             q.widthAnchor.constraint(equalToConstant: letterSize.width),
             q.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            w.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: padding),
+            w.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            w.leadingAnchor.constraint(equalTo: q.trailingAnchor, constant: Frame.padding),
             w.widthAnchor.constraint(equalToConstant: letterSize.width),
             w.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            e.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: padding),
+            e.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            e.leadingAnchor.constraint(equalTo: w.trailingAnchor, constant: Frame.padding),
             e.widthAnchor.constraint(equalToConstant: letterSize.width),
             e.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            r.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: padding),
+            r.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            r.leadingAnchor.constraint(equalTo: e.trailingAnchor, constant: Frame.padding),
             r.widthAnchor.constraint(equalToConstant: letterSize.width),
             r.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            t.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: padding),
+            t.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            t.leadingAnchor.constraint(equalTo: r.trailingAnchor, constant: Frame.padding),
             t.widthAnchor.constraint(equalToConstant: letterSize.width),
             t.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            y.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: padding),
+            y.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            y.leadingAnchor.constraint(equalTo: t.trailingAnchor, constant: Frame.padding),
             y.widthAnchor.constraint(equalToConstant: letterSize.width),
             y.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            u.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: padding),
+            u.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            u.leadingAnchor.constraint(equalTo: y.trailingAnchor, constant: Frame.padding),
             u.widthAnchor.constraint(equalToConstant: letterSize.width),
             u.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            i.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: padding),
+            i.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            i.leadingAnchor.constraint(equalTo: u.trailingAnchor, constant: Frame.padding),
             i.widthAnchor.constraint(equalToConstant: letterSize.width),
             i.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            o.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: padding),
+            o.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            o.leadingAnchor.constraint(equalTo: i.trailingAnchor, constant: Frame.padding),
             o.widthAnchor.constraint(equalToConstant: letterSize.width),
             o.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            p.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: padding),
+            p.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            p.leadingAnchor.constraint(equalTo: o.trailingAnchor, constant: Frame.padding),
             p.widthAnchor.constraint(equalToConstant: letterSize.width),
             p.heightAnchor.constraint(equalToConstant: letterSize.height),
             
             // second row
-            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: padding),
+            a.topAnchor.constraint(equalTo: q.bottomAnchor, constant: Frame.padding),
             a.leadingAnchor.constraint(equalTo: leadingAnchor, constant: letterSize.width / 2),
             a.widthAnchor.constraint(equalToConstant: letterSize.width),
             a.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: padding),
-            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: padding),
+            s.topAnchor.constraint(equalTo: w.bottomAnchor, constant: Frame.padding),
+            s.leadingAnchor.constraint(equalTo: a.trailingAnchor, constant: Frame.padding),
             s.widthAnchor.constraint(equalToConstant: letterSize.width),
             s.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: padding),
-            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: padding),
+            d.topAnchor.constraint(equalTo: e.bottomAnchor, constant: Frame.padding),
+            d.leadingAnchor.constraint(equalTo: s.trailingAnchor, constant: Frame.padding),
             d.widthAnchor.constraint(equalToConstant: letterSize.width),
             d.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: padding),
-            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: padding),
+            f.topAnchor.constraint(equalTo: r.bottomAnchor, constant: Frame.padding),
+            f.leadingAnchor.constraint(equalTo: d.trailingAnchor, constant: Frame.padding),
             f.widthAnchor.constraint(equalToConstant: letterSize.width),
             f.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: padding),
-            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: padding),
+            g.topAnchor.constraint(equalTo: t.bottomAnchor, constant: Frame.padding),
+            g.leadingAnchor.constraint(equalTo: f.trailingAnchor, constant: Frame.padding),
             g.widthAnchor.constraint(equalToConstant: letterSize.width),
             g.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: padding),
-            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: padding),
+            h.topAnchor.constraint(equalTo: y.bottomAnchor, constant: Frame.padding),
+            h.leadingAnchor.constraint(equalTo: g.trailingAnchor, constant: Frame.padding),
             h.widthAnchor.constraint(equalToConstant: letterSize.width),
             h.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: padding),
-            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: padding),
+            j.topAnchor.constraint(equalTo: u.bottomAnchor, constant: Frame.padding),
+            j.leadingAnchor.constraint(equalTo: h.trailingAnchor, constant: Frame.padding),
             j.widthAnchor.constraint(equalToConstant: letterSize.width),
             j.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: padding),
-            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: padding),
+            k.topAnchor.constraint(equalTo: i.bottomAnchor, constant: Frame.padding),
+            k.leadingAnchor.constraint(equalTo: j.trailingAnchor, constant: Frame.padding),
             k.widthAnchor.constraint(equalToConstant: letterSize.width),
             k.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: padding),
-            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: padding),
+            l.topAnchor.constraint(equalTo: o.bottomAnchor, constant: Frame.padding),
+            l.leadingAnchor.constraint(equalTo: k.trailingAnchor, constant: Frame.padding),
             l.widthAnchor.constraint(equalToConstant: letterSize.width),
             l.heightAnchor.constraint(equalToConstant: letterSize.height),
             
             // third row
-            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
+            enter.topAnchor.constraint(equalTo: a.bottomAnchor, constant: Frame.padding),
             enter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Keyboard.landscapeEnterXOffset),
             enter.widthAnchor.constraint(equalToConstant: enterWidth),
             enter.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: padding),
-            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: padding),
+            z.topAnchor.constraint(equalTo: a.bottomAnchor, constant: Frame.padding),
+            z.leadingAnchor.constraint(equalTo: enter.trailingAnchor, constant: Frame.padding),
             z.widthAnchor.constraint(equalToConstant: letterSize.width),
             z.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: padding),
-            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: padding),
+            x.topAnchor.constraint(equalTo: s.bottomAnchor, constant: Frame.padding),
+            x.leadingAnchor.constraint(equalTo: z.trailingAnchor, constant: Frame.padding),
             x.widthAnchor.constraint(equalToConstant: letterSize.width),
             x.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: padding),
-            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: padding),
+            c.topAnchor.constraint(equalTo: d.bottomAnchor, constant: Frame.padding),
+            c.leadingAnchor.constraint(equalTo: x.trailingAnchor, constant: Frame.padding),
             c.widthAnchor.constraint(equalToConstant: letterSize.width),
             c.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: padding),
-            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: padding),
+            v.topAnchor.constraint(equalTo: f.bottomAnchor, constant: Frame.padding),
+            v.leadingAnchor.constraint(equalTo: c.trailingAnchor, constant: Frame.padding),
             v.widthAnchor.constraint(equalToConstant: letterSize.width),
             v.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: padding),
-            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: padding),
+            b.topAnchor.constraint(equalTo: g.bottomAnchor, constant: Frame.padding),
+            b.leadingAnchor.constraint(equalTo: v.trailingAnchor, constant: Frame.padding),
             b.widthAnchor.constraint(equalToConstant: letterSize.width),
             b.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: padding),
-            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: padding),
+            n.topAnchor.constraint(equalTo: h.bottomAnchor, constant: Frame.padding),
+            n.leadingAnchor.constraint(equalTo: b.trailingAnchor, constant: Frame.padding),
             n.widthAnchor.constraint(equalToConstant: letterSize.width),
             n.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: padding),
-            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: padding),
+            m.topAnchor.constraint(equalTo: j.bottomAnchor, constant: Frame.padding),
+            m.leadingAnchor.constraint(equalTo: n.trailingAnchor, constant: Frame.padding),
             m.widthAnchor.constraint(equalToConstant: letterSize.width),
             m.heightAnchor.constraint(equalToConstant: letterSize.height),
             
-            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: padding),
-            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: padding),
+            backspace.topAnchor.constraint(equalTo: l.bottomAnchor, constant: Frame.padding),
+            backspace.leadingAnchor.constraint(equalTo: m.trailingAnchor, constant: Frame.padding),
             backspace.widthAnchor.constraint(equalToConstant: enterWidth),
             backspace.heightAnchor.constraint(equalToConstant: letterSize.height)
         ]
@@ -640,6 +643,7 @@ class KeyboardView: UIView {
 extension KeyboardView: LetterDelegate {
     func didTapLetter(_ letter: String) {
         keyboardDelegate.didTapLetter(letter)
+        mediumImpactFeedbackGenerator.impactOccurred()
     }
     
     func didTapEnter() {
@@ -648,5 +652,6 @@ extension KeyboardView: LetterDelegate {
     
     func didTapBackspace() {
         keyboardDelegate.didTapBackspace()
+        selectionFeedbackGenerator.selectionChanged()
     }
 }

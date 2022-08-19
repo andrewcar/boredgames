@@ -61,7 +61,11 @@ class GridView: UIView {
     var rightDotTwo = UIView()
     var rightDotThree = UIView()
     var dotConstraints: [NSLayoutConstraint] = []
-    
+    let lightImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    let heavyImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+    let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -260,7 +264,7 @@ class GridView: UIView {
             
             // FIRST ROW
             a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-            a1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -286,7 +290,7 @@ class GridView: UIView {
             
             // SECOND ROW
             b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
-            b1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             b1.widthAnchor.constraint(equalToConstant: size.width),
             b1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -312,7 +316,7 @@ class GridView: UIView {
             
             // THIRD ROW
             c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
-            c1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             c1.widthAnchor.constraint(equalToConstant: size.width),
             c1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -338,7 +342,7 @@ class GridView: UIView {
             
             // FOURTH ROW
             d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
-            d1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             d1.widthAnchor.constraint(equalToConstant: size.width),
             d1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -364,7 +368,7 @@ class GridView: UIView {
             
             // FIFTH ROW
             e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
-            e1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             e1.widthAnchor.constraint(equalToConstant: size.width),
             e1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -390,7 +394,7 @@ class GridView: UIView {
             
             // SIXTH ROW
             f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
-            f1.leadingAnchor.constraint(equalTo: leftDotOne.trailingAnchor, constant: Frame.padding),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             f1.widthAnchor.constraint(equalToConstant: size.width),
             f1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -739,32 +743,32 @@ class GridView: UIView {
         switch guessNumber {
         case .first:
             updateFirstRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         case .second:
             updateSecondRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         case .third:
             updateThirdRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         case .fourth:
             updateFourthRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         case .fifth:
             updateFifthRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         case .sixth:
             updateSixthRowFromEnter {
-                self.gridDelegate?.showSendButton()
+//                self.gridDelegate?.showSendButton()
                 completion()
             }
         }
@@ -772,11 +776,21 @@ class GridView: UIView {
     
     // MARK: - JUMP FOR JOY
     func jumpForJoy(completion: @escaping () -> ()) {
-        a1.jumpForJoy() {}
-        a2.jumpForJoy(delay: 0.1) {}
-        a3.jumpForJoy(delay: 0.2) {}
-        a4.jumpForJoy(delay: 0.3) {}
-        a5.jumpForJoy(delay: 0.4) {}
+        a1.jumpForJoy() {
+            self.selectionFeedbackGenerator.selectionChanged()
+        }
+        a2.jumpForJoy(delay: 0.1) {
+            self.selectionFeedbackGenerator.selectionChanged()
+        }
+        a3.jumpForJoy(delay: 0.2) {
+            self.selectionFeedbackGenerator.selectionChanged()
+        }
+        a4.jumpForJoy(delay: 0.3) {
+            self.selectionFeedbackGenerator.selectionChanged()
+        }
+        a5.jumpForJoy(delay: 0.4) {
+            self.selectionFeedbackGenerator.selectionChanged()
+        }
         
         b1.jumpForJoy() {}
         b2.jumpForJoy(delay: 0.1) {}
@@ -848,6 +862,7 @@ class GridView: UIView {
         if guess[guessIndex] == answer[guessIndex] {
             gridDelegate?.setKeyToGreen(for: guessLetter)
             GameModel.shared.lastGuessInEmojis += "🟩"
+            heavyImpactFeedbackGenerator.impactOccurred()
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
             })
@@ -856,6 +871,7 @@ class GridView: UIView {
             // if the guess letter is not in the answer, make it gray
         } else if !answer.contains(guessLetter) {
             gridDelegate?.setKeyToGray(for: guessLetter)
+            selectionFeedbackGenerator.selectionChanged()
             GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
@@ -870,6 +886,7 @@ class GridView: UIView {
             // it must be gray
             if greenLetterCount == answerLetterCount {
                 gridDelegate?.setKeyToGray(for: guessLetter)
+                selectionFeedbackGenerator.selectionChanged()
                 GameModel.shared.lastGuessInEmojis += "⬜️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
@@ -880,6 +897,7 @@ class GridView: UIView {
             } else if yellowLetterCount < answerLetterCount  {
                 GameModel.shared.incrementYellowGuessLetter(guessLetter)
                 gridDelegate?.setKeyToYellow(for: guessLetter)
+                lightImpactFeedbackGenerator.impactOccurred()
                 GameModel.shared.lastGuessInEmojis += "🟨"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
@@ -888,6 +906,7 @@ class GridView: UIView {
             // else there are more or the same amount of the confirmed yellow guess letters than in the answer
             } else {
                 gridDelegate?.setKeyToGray(for: guessLetter)
+                selectionFeedbackGenerator.selectionChanged()
                 GameModel.shared.lastGuessInEmojis += "⬜️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
@@ -899,12 +918,14 @@ class GridView: UIView {
         } else if answerLetterCount > yellowLetterCount {
             GameModel.shared.incrementYellowGuessLetter(guessLetter)
             gridDelegate?.setKeyToYellow(for: guessLetter)
+            lightImpactFeedbackGenerator.impactOccurred()
             GameModel.shared.lastGuessInEmojis += "🟨"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
         } else if answerLetterCount == yellowLetterCount {
             gridDelegate?.setKeyToGray(for: guessLetter)
+            selectionFeedbackGenerator.selectionChanged()
             GameModel.shared.lastGuessInEmojis += "⬜️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
@@ -1180,7 +1201,7 @@ class GridView: UIView {
             leftDotTwo.centerYAnchor.constraint(equalTo: c1.centerYAnchor),
             leftDotTwo.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
             leftDotTwo.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
-            leftDotTwo.trailingAnchor.constraint(equalTo: a1.leadingAnchor, constant: -(Frame.padding * 2)),
+            leftDotTwo.trailingAnchor.constraint(equalTo: c1.leadingAnchor, constant: -(Frame.padding * 2)),
 
             rightDotTwo.centerYAnchor.constraint(equalTo: d5.centerYAnchor),
             rightDotTwo.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
@@ -1190,7 +1211,7 @@ class GridView: UIView {
             leftDotThree.centerYAnchor.constraint(equalTo: e1.centerYAnchor),
             leftDotThree.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
             leftDotThree.heightAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
-            leftDotThree.trailingAnchor.constraint(equalTo: a1.leadingAnchor, constant: -(Frame.padding * 2)),
+            leftDotThree.trailingAnchor.constraint(equalTo: e1.leadingAnchor, constant: -(Frame.padding * 2)),
 
             rightDotThree.centerYAnchor.constraint(equalTo: f5.centerYAnchor),
             rightDotThree.widthAnchor.constraint(equalToConstant: Frame.Grid.dotGirth),
