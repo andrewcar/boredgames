@@ -29,14 +29,6 @@ class PlayView: UIView {
     private var gridViewPortraitConstraints: [NSLayoutConstraint] = []
     private var gridViewLandscapeConstraints: [NSLayoutConstraint] = []
         
-    var leftColorColumnView = ColorColumnView()
-    var leftColorColumnPortraitConstraints: [NSLayoutConstraint] = []
-    var leftColorColumnLandscapeConstraints: [NSLayoutConstraint] = []
-    
-    var rightColorColumnView = ColorColumnView()
-    var rightColorColumnPortraitConstraints: [NSLayoutConstraint] = []
-    var rightColorColumnLandscapeConstraints: [NSLayoutConstraint] = []
-
     private var successView = SuccessView()
     private var successPortraitConstraints: [NSLayoutConstraint] = []
     private var successLandscapeConstraints: [NSLayoutConstraint] = []
@@ -44,13 +36,8 @@ class PlayView: UIView {
     var keyboardView = KeyboardView()
     private var keyboardPortraitConstraints: [NSLayoutConstraint] = []
     private var keyboardLandscapeConstraints: [NSLayoutConstraint] = []
-    var keyboardViewShowing = false
-    
-    var colorPickerView = ColorPickerView()
-    private var colorPickerPortraitConstraints: [NSLayoutConstraint] = []
-    private var colorPickerLandscapeConstraints: [NSLayoutConstraint] = []
-    var colorPickerViewShowing = true
-    
+    var keyboardViewShowing = true
+        
     private var sendButton = UIButton()
     private var sendButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var sendButtonLandscapeConstraints: [NSLayoutConstraint] = []
@@ -99,10 +86,10 @@ class PlayView: UIView {
             activateGridViewLandscapeConstraints()
             gridView.activateLetterLandscapeConstraints()
             gridView.updateGridLetterColors()
+            gridView.activateDotConstraints()
             activateNotInWordListLandscapeConstraints()
-            activateKeyboardLandscapeConstraints()
+            activateKeyboardConstraints(isLandscape: true)
             keyboardView.updateSubviews(isLandscape: true)
-            activateColorPickerLandscapeConstraints()
             activateSendButtonLandscapeConstraints()
             updateStatsButton(isLandscape: true)
             activateStatsViewLandscapeConstraints()
@@ -116,10 +103,10 @@ class PlayView: UIView {
             activateGridViewPortraitConstraints()
             gridView.activateLetterPortraitConstraints()
             gridView.updateGridLetterColors()
+            gridView.activateDotConstraints()
             activateNotInWordListPortraitConstraints()
-            activateKeyboardPortraitConstraints()
+            activateKeyboardConstraints(isLandscape: false)
             keyboardView.updateSubviews(isLandscape: false)
-            activateColorPickerPortraitConstraints()
             activateSendButtonPortraitConstraints()
             updateStatsButton(isLandscape: false)
             activateStatsViewPortraitConstraints()
@@ -142,7 +129,6 @@ class PlayView: UIView {
         addLogoView()
         addGridView()
         addKeyboardView()
-        addColorPickerView()
         addSuccessView()
         addNotInWordListView()
         addSendButton()
@@ -193,7 +179,7 @@ class PlayView: UIView {
         NSLayoutConstraint.deactivate(logoPortraitConstraints)
         NSLayoutConstraint.deactivate(logoLandscapeConstraints)
         logoLandscapeConstraints = [
-            logoView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.size.width),
             logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.size.height)
@@ -289,12 +275,6 @@ class PlayView: UIView {
         NSLayoutConstraint.activate(gridViewLandscapeConstraints)
     }
     
-    // MARK: - LEFT COLOR COLUMN
-    private func addLeftColorColumnView() {
-        leftColorColumnView = ColorColumnView(frame: .zero)
-        
-    }
-    
     // MARK: - SUCCESS VIEW
     private func addSuccessView() {
         successView = SuccessView(frame: .zero)
@@ -341,52 +321,51 @@ class PlayView: UIView {
         keyboardView = KeyboardView(frame: .zero)
         keyboardView.keyboardDelegate = self
         addSubview(keyboardView)
-        activateKeyboardPortraitConstraints()
+        activateKeyboardConstraints(isLandscape: false)
         keyboardView.activatePortraitConstraints()
     }
     
-    // MARK: - KEYBOARD PORTRAIT CONSTRAINTS
-    private func activateKeyboardPortraitConstraints() {
-        deactivateKeyboardConstraints()
-        let letterSize = Frame.Keyboard.portraitLetterSize
+    // MARK: - KEYBOARD CONSTRAINTS
+    private func activateKeyboardConstraints(isLandscape: Bool) {
+        if isLandscape {
+            deactivateKeyboardConstraints()
+            let letterSize = Frame.Keyboard.landscapeLetterSize
 
-        keyboardPortraitConstraints = [
-            keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
-            keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.portraitLetterPadding * 4))
-        ]
-        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? -UIScreen.main.bounds.width : 0
-        let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        keyboardPortraitConstraints.append(centerXConstraint)
-        var widthConstraint: NSLayoutConstraint
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            widthConstraint = keyboardView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7)
+            keyboardLandscapeConstraints = [
+                keyboardView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.padding * 5),
+                keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
+            ]
+            let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? (UIScreen.main.bounds.width * 2) : 0
+            var leadingConstraint: NSLayoutConstraint
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
+            } else {
+                leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+            }
+            let trailingConstraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.padding + offset)
+            keyboardLandscapeConstraints.append(leadingConstraint)
+            keyboardLandscapeConstraints.append(trailingConstraint)
+            NSLayoutConstraint.activate(keyboardLandscapeConstraints)
         } else {
-            widthConstraint = keyboardView.widthAnchor.constraint(equalTo: widthAnchor)
-        }
-        keyboardPortraitConstraints.append(widthConstraint)
-        NSLayoutConstraint.activate(keyboardPortraitConstraints)
-    }
-    
-    // MARK: - KEYBOARD LANDSCAPE CONSTRAINTS
-    private func activateKeyboardLandscapeConstraints() {
-        deactivateKeyboardConstraints()
-        let letterSize = Frame.Keyboard.landscapeLetterSize
+            deactivateKeyboardConstraints()
+            let letterSize = Frame.Keyboard.portraitLetterSize
 
-        keyboardLandscapeConstraints = [
-            keyboardView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.padding * 5),
-            keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.landscapeLetterPadding * 4))
-        ]
-        let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? (UIScreen.main.bounds.width * 2) : 0
-        var leadingConstraint: NSLayoutConstraint
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
-        } else {
-            leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
+            keyboardPortraitConstraints = [
+                keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
+                keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.Keyboard.portraitLetterPadding * 4))
+            ]
+            let offset: CGFloat = appState == .stats || appState == .debug || !keyboardViewShowing ? -UIScreen.main.bounds.width : 0
+            let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
+            keyboardPortraitConstraints.append(centerXConstraint)
+            var widthConstraint: NSLayoutConstraint
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                widthConstraint = keyboardView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7)
+            } else {
+                widthConstraint = keyboardView.widthAnchor.constraint(equalTo: widthAnchor)
+            }
+            keyboardPortraitConstraints.append(widthConstraint)
+            NSLayoutConstraint.activate(keyboardPortraitConstraints)
         }
-        let trailingConstraint = keyboardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.padding + offset)
-        keyboardLandscapeConstraints.append(leadingConstraint)
-        keyboardLandscapeConstraints.append(trailingConstraint)
-        NSLayoutConstraint.activate(keyboardLandscapeConstraints)
     }
     
     // MARK: - DEACTIVATE KEYBOARD CONSTRAINTS
@@ -396,56 +375,7 @@ class PlayView: UIView {
         keyboardPortraitConstraints.removeAll()
         keyboardLandscapeConstraints.removeAll()
     }
-    
-    // MARK: - COLOR PICKER
-    private func addColorPickerView() {
-        colorPickerView = ColorPickerView(frame: .zero)
-        colorPickerView.colorPickerDelegate = self
-        addSubview(colorPickerView)
-        activateColorPickerPortraitConstraints()
-    }
-    
-    // MARK: - COLOR PICKER PORTRAIT CONSTRAINTS
-    private func activateColorPickerPortraitConstraints() {
-        deactivateColorPickerConstraints()
-        colorPickerPortraitConstraints = [
-            colorPickerView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
-            colorPickerView.widthAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight * 6),
-            colorPickerView.heightAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight + Frame.Colors.colorSize.height)
-        ]
-        let offset = appState == .stats || appState == .debug || !colorPickerViewShowing ? (UIScreen.main.bounds.width * 2) : 0
-        let centerXConstraint = colorPickerView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        colorPickerPortraitConstraints.append(centerXConstraint)
-        NSLayoutConstraint.activate(colorPickerPortraitConstraints)
-    }
-    
-    // MARK: - COLOR PICKER LANDSCAPE CONSTRAINTS
-    private func activateColorPickerLandscapeConstraints() {
-        deactivateColorPickerConstraints()
-        colorPickerLandscapeConstraints = [
-            colorPickerView.centerYAnchor.constraint(equalTo: gridView.centerYAnchor),
-            colorPickerView.widthAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight * 6),
-            colorPickerView.heightAnchor.constraint(equalToConstant: Frame.Colors.colorViewHeight + Frame.Colors.colorSize.height)
-        ]
-        let offset = appState == .stats || appState == .debug || !colorPickerViewShowing ? (UIScreen.main.bounds.width * 2) : 0
-        var leadingConstraint: NSLayoutConstraint
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            leadingConstraint = colorPickerView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
-        } else {
-            leadingConstraint = colorPickerView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 2) + offset)
-        }
-        let trailingConstraint = colorPickerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 2) + offset)
-        colorPickerLandscapeConstraints.append(leadingConstraint)
-        colorPickerLandscapeConstraints.append(trailingConstraint)
-        NSLayoutConstraint.activate(colorPickerLandscapeConstraints)
-    }
-    
-    // MARK: - DEACTIVATE COLOR PICKER CONSTRAINTS
-    private func deactivateColorPickerConstraints() {
-        NSLayoutConstraint.deactivate(colorPickerPortraitConstraints)
-        NSLayoutConstraint.deactivate(colorPickerLandscapeConstraints)
-    }
-    
+        
     // MARK: - SEND BUTTON
     private func addSendButton() {
         sendButton = UIButton(frame: .zero)
@@ -455,7 +385,7 @@ class PlayView: UIView {
             named: "arrow.up.circle.fill",
             size: Frame.buttonSize,
             weight: .bold,
-            color: .messagesBlue)
+            color: .systemBlue)
         sendButton.setImage(image, for: .normal)
         sendButton.setTitleColor(.white, for: .normal)
         addSubview(sendButton)
@@ -876,6 +806,9 @@ class PlayView: UIView {
             self.gridView.resetRows()
             self.keyboardView.resetKeyboard()
             self.successView.isHidden = true
+            for colorDotView in [self.gridView.leftDotOne, self.gridView.rightDotOne, self.gridView.leftDotTwo, self.gridView.rightDotTwo, self.gridView.leftDotThree, self.gridView.rightDotThree] {
+                colorDotView.isHidden = true
+            }
         }
     }
     
@@ -952,6 +885,7 @@ extension PlayView: KeyboardDelegate {
             gridView.a1.updateLetter(with: letter)
             gridView.a1.growAndShrink {
                 self.gridView.a1.setBorderActive()
+                self.gridView.leftDotOne.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .a1
@@ -988,6 +922,7 @@ extension PlayView: KeyboardDelegate {
             gridView.b1.updateLetter(with: letter)
             gridView.b1.growAndShrink {
                 self.gridView.b1.setBorderActive()
+                self.gridView.rightDotOne.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .b1
@@ -1024,6 +959,7 @@ extension PlayView: KeyboardDelegate {
             gridView.c1.updateLetter(with: letter)
             gridView.c1.growAndShrink {
                 self.gridView.c1.setBorderActive()
+                self.gridView.leftDotTwo.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .c1
@@ -1060,6 +996,7 @@ extension PlayView: KeyboardDelegate {
             gridView.d1.updateLetter(with: letter)
             gridView.d1.growAndShrink {
                 self.gridView.d1.setBorderActive()
+                self.gridView.rightDotTwo.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .d1
@@ -1096,6 +1033,7 @@ extension PlayView: KeyboardDelegate {
             gridView.e1.updateLetter(with: letter)
             gridView.e1.growAndShrink {
                 self.gridView.e1.setBorderActive()
+                self.gridView.leftDotThree.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .e1
@@ -1132,6 +1070,7 @@ extension PlayView: KeyboardDelegate {
             gridView.f1.updateLetter(with: letter)
             gridView.f1.growAndShrink {
                 self.gridView.f1.setBorderActive()
+                self.gridView.rightDotThree.isHidden = false
             }
             GameModel.shared.currentGuess += letter
             GameModel.shared.currentGame?.currentLetter = .f1
@@ -1438,47 +1377,6 @@ extension PlayView: GridDelegate {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
-        }
-    }
-}
-
-// MARK: - COLOR PICKER DELEGATE
-extension PlayView: ColorPickerDelegate {
-    
-    // MARK: - DID TAP COLOR
-    func didTapColor(playerColor: PlayerColor) {
-        if let currentGame = GameModel.shared.currentGame {
-            
-            // if both UUIDs are nil, set playerOne color to this color
-            if currentGame.playerOne.uuidString == nil && currentGame.playerTwo.uuidString == nil {
-                GameModel.shared.currentGame?.playerOne.color = playerColor
-            }
-        }
-        showKeyboardView()
-        hideColorPickerView()
-    }
-    
-    // MARK: - SHOW KEYBOARD VIEW
-    private func showKeyboardView() {
-        keyboardViewShowing = true
-        if GameModel.shared.isLandscape {
-            activateKeyboardLandscapeConstraints()
-        } else {
-            activateKeyboardPortraitConstraints()
-        }
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
-            self.layoutIfNeeded()
-        } completion: { _ in
-        }
-    }
-    
-    // MARK: - HIDE COLOR PICKER VIEW
-    private func hideColorPickerView() {
-        colorPickerViewShowing = false
-        if GameModel.shared.isLandscape {
-            activateColorPickerLandscapeConstraints()
-        } else {
-            activateColorPickerPortraitConstraints()
         }
     }
 }

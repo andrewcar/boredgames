@@ -34,4 +34,30 @@ extension UIColor {
     static let statBubbleBackground = UIColor(named: "statBubbleBackground")
     static let statBubbleValueText = UIColor(named: "statBubbleValueText")
     static let statBubbleTitleText = UIColor(named: "statBubbleTitleText")
+    
+    static let werdRed = UIColor(named: "werdRed")!
+    static let werdOrange = UIColor(named: "werdOrange")!
+    static let werdYellow = UIColor(named: "werdYellow")!
+    static let werdGreen = UIColor(named: "werdGreen")!
+    static let werdBlue = UIColor(named: "werdBlue")!
+    static let werdPurple = UIColor(named: "werdPurple")!
+    
+    static func color(for playerColor: PlayerColor?) -> UIColor {
+        switch playerColor {
+        case .red:
+            return .werdRed
+        case .orange:
+            return .werdOrange
+        case .yellow:
+            return .werdYellow
+        case .green:
+            return .werdGreen
+        case .blue:
+            return .werdBlue
+        case .purple:
+            return .werdPurple
+        default:
+            return .clear
+        }
+    }
 }
