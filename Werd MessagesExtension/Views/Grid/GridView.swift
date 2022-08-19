@@ -92,7 +92,7 @@ class GridView: UIView {
             
             // FIRST ROW
             a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -118,7 +118,7 @@ class GridView: UIView {
             
             // SECOND ROW
             b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
-            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             b1.widthAnchor.constraint(equalToConstant: size.width),
             b1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -144,7 +144,7 @@ class GridView: UIView {
             
             // THIRD ROW
             c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
-            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             c1.widthAnchor.constraint(equalToConstant: size.width),
             c1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -170,7 +170,7 @@ class GridView: UIView {
             
             // FOURTH ROW
             d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
-            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             d1.widthAnchor.constraint(equalToConstant: size.width),
             d1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -196,7 +196,7 @@ class GridView: UIView {
             
             // FIFTH ROW
             e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
-            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             e1.widthAnchor.constraint(equalToConstant: size.width),
             e1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -222,7 +222,7 @@ class GridView: UIView {
             
             // SIXTH ROW
             f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
-            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Grid.dotGirth),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             f1.widthAnchor.constraint(equalToConstant: size.width),
             f1.heightAnchor.constraint(equalToConstant: size.height),
             
