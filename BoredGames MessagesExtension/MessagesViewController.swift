@@ -12,15 +12,17 @@ import MessageUI
 class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Properties
-    private var playView = PlayView()
-    private var playViewPortraitConstraints: [NSLayoutConstraint] = []
-    private var playViewLandscapeConstraints: [NSLayoutConstraint] = []
+    private var fiveLetterGuessView = FiveLetterGuessView()
+    private var fiveLetterGuessViewPortraitConstraints: [NSLayoutConstraint] = []
+    private var fiveLetterGuessViewLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    
         
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         GameModel.shared.updateGamesFromUserDefaults()
-        addPlayView()
+        addFiveLetterGuessView()
         setBackgroundColor()
     }
     
@@ -30,12 +32,12 @@ class MessagesViewController: MSMessagesAppViewController {
         // portrait
         if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
             GameModel.shared.isLandscape = false
-            playView.updateConstraints()
+            fiveLetterGuessView.updateConstraints()
             
         // landscape
         } else {
             GameModel.shared.isLandscape = true
-            playView.updateConstraints()
+            fiveLetterGuessView.updateConstraints()
         }
     }
     
@@ -44,38 +46,38 @@ class MessagesViewController: MSMessagesAppViewController {
         view.backgroundColor = UIColor(named: "background")
     }
     
-    // MARK: - PLAY VIEW
-    private func addPlayView() {
-        playView = PlayView(frame: .zero)
-        playView.playDelegate = self
-        view.addSubview(playView)
+    // MARK: - FIVE LETTER GUESS VIEW
+    private func addFiveLetterGuessView() {
+        fiveLetterGuessView = FiveLetterGuessView(frame: .zero)
+        fiveLetterGuessView.fiveLetterGuessDelegate = self
+        view.addSubview(fiveLetterGuessView)
         activatePlayViewPortraitConstraints()
     }
     
     // MARK: - PLAY VIEW PORTRAIT CONSTRAINTS
     private func activatePlayViewPortraitConstraints() {
-        NSLayoutConstraint.deactivate(playViewPortraitConstraints)
-        NSLayoutConstraint.deactivate(playViewLandscapeConstraints)
-        playViewPortraitConstraints = [
-            playView.topAnchor.constraint(equalTo: view.topAnchor),
-            playView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            playView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            playView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        NSLayoutConstraint.deactivate(fiveLetterGuessViewPortraitConstraints)
+        NSLayoutConstraint.deactivate(fiveLetterGuessViewLandscapeConstraints)
+        fiveLetterGuessViewPortraitConstraints = [
+            fiveLetterGuessView.topAnchor.constraint(equalTo: view.topAnchor),
+            fiveLetterGuessView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            fiveLetterGuessView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            fiveLetterGuessView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ]
-        NSLayoutConstraint.activate(playViewPortraitConstraints)
+        NSLayoutConstraint.activate(fiveLetterGuessViewPortraitConstraints)
     }
     
     // MARK: - PLAY VIEW LANDSCAPE CONSTRAINTS
     private func activatePlayViewLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(playViewPortraitConstraints)
-        NSLayoutConstraint.deactivate(playViewLandscapeConstraints)
-        playViewLandscapeConstraints = [
-            playView.topAnchor.constraint(equalTo: view.topAnchor),
-            playView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            playView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            playView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        NSLayoutConstraint.deactivate(fiveLetterGuessViewPortraitConstraints)
+        NSLayoutConstraint.deactivate(fiveLetterGuessViewLandscapeConstraints)
+        fiveLetterGuessViewLandscapeConstraints = [
+            fiveLetterGuessView.topAnchor.constraint(equalTo: view.topAnchor),
+            fiveLetterGuessView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            fiveLetterGuessView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            fiveLetterGuessView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ]
-        NSLayoutConstraint.activate(playViewPortraitConstraints)
+        NSLayoutConstraint.activate(fiveLetterGuessViewLandscapeConstraints)
     }
 
     // MARK: - DECODE
@@ -189,7 +191,7 @@ class MessagesViewController: MSMessagesAppViewController {
             }
         }
         
-        playView.keyboardView.isUserInteractionEnabled = true
+        fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
     }
     
     // MARK: - COME ALIVE
@@ -197,7 +199,7 @@ class MessagesViewController: MSMessagesAppViewController {
         requestPresentationStyle(.expanded)
         
         if let selectedMessage = conversation.selectedMessage {
-            playView.resetGame()
+            fiveLetterGuessView.resetGame()
             decode(selectedMessage)
                                     
             // reset correct guess letter counts
@@ -210,7 +212,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     
                     
                     
-                    self.playView.gridView.updateRowsFromMessage(
+                    self.fiveLetterGuessView.gridView.updateRowsFromMessage(
                         answer: answer,
                         firstGuess: currentGame.guess1,
                         secondGuess: currentGame.guess2,
@@ -228,12 +230,12 @@ class MessagesViewController: MSMessagesAppViewController {
                             
                             switch gameState {
                             case .won:
-                                self.playView.showTheWin(currentGame: currentGame) {
-                                    self.playView.showNewGameButton()
+                                self.fiveLetterGuessView.showTheWin(currentGame: currentGame) {
+                                    self.fiveLetterGuessView.showNewGameButton()
                                 }
                             case .lost:
-                                self.playView.showTheLoss(currentGame: currentGame) {
-                                    self.playView.showNewGameButton()
+                                self.fiveLetterGuessView.showTheLoss(currentGame: currentGame) {
+                                    self.fiveLetterGuessView.showNewGameButton()
                                 }
                                 
                             default: ()
@@ -245,7 +247,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 }
             }
         } else {
-            playView.resetGame()
+            fiveLetterGuessView.resetGame()
         }
     }
     
@@ -278,12 +280,12 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - SHAKE
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         guard motion == .motionShake else { return }
-        playView.hideDebugView()
+        fiveLetterGuessView.hideDebugView()
     }
     
     // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        playView.updateConstraints()
+        fiveLetterGuessView.updateConstraints()
     }
     
     // MARK: - WILL BECOME ACTIVE
@@ -314,9 +316,9 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let currentGame = GameModel.shared.currentGame else { return }
         guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
         if remoteParticipantIdentifier.uuidString == currentPlayerUUIDString {
-            playView.disableKeyboard()
+            fiveLetterGuessView.disableKeyboard()
         } else {
-            playView.enableKeyboard()
+            fiveLetterGuessView.enableKeyboard()
         }
     }
     
@@ -428,7 +430,7 @@ extension MessagesViewController {
         
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "werd_message_bubble.png")
-        layout.caption = "BoredGames - Secret Word"
+        layout.caption = "WeGuess"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String
@@ -497,7 +499,7 @@ extension MessagesViewController {
     }
 }
 
-extension MessagesViewController: PlayDelegate {
+extension MessagesViewController: FiveLetterGuessDelegate {
     func didTapSendButton() {
         guard let activeConversation = activeConversation else { return }
         updateCurrentPlayer(from: activeConversation)

@@ -1,5 +1,5 @@
 //
-//  PlayView.swift
+//  FiveLetterGuessView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/9/22.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol PlayDelegate {
+protocol FiveLetterGuessDelegate {
     func didTapSendButton()
 }
 
-class PlayView: UIView {
+class FiveLetterGuessView: UIView {
     
     // MARK: - Properties
     private var appState: AppState = .grid
-    var playDelegate: PlayDelegate!
+    var fiveLetterGuessDelegate: FiveLetterGuessDelegate!
     
     private var logoView = LogoView()
     private var logoPortraitConstraints: [NSLayoutConstraint] = []
@@ -427,7 +427,7 @@ class PlayView: UIView {
     // MARK: - DID TAP SEND BUTTON
     @objc
     private func didTapSendButton(sender: UIButton) {
-        playDelegate.didTapSendButton()
+        fiveLetterGuessDelegate.didTapSendButton()
         disableKeyboard()
     }
     
@@ -872,7 +872,7 @@ class PlayView: UIView {
     }
 }
 
-extension PlayView: KeyboardDelegate {
+extension FiveLetterGuessView: KeyboardDelegate {
     
     // MARK: - DID TAP LETTER
     func didTapLetter(_ letter: String) {
@@ -1153,7 +1153,7 @@ extension PlayView: KeyboardDelegate {
                 
                 GameModel.shared.currentGuess = ""
                 
-                self.playDelegate.didTapSendButton()
+                self.fiveLetterGuessDelegate.didTapSendButton()
                 self.disableKeyboard()
             }
         }
@@ -1318,7 +1318,7 @@ extension PlayView: KeyboardDelegate {
 }
 
 // MARK: - GRID DELEGATE
-extension PlayView: GridDelegate {
+extension FiveLetterGuessView: GridDelegate {
     func showNotInWordListView() {
         notInWordListView.isHidden = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -1383,5 +1383,5 @@ extension PlayView: GridDelegate {
 }
 
 // MARK: - LONG PRESS DELEGATE
-extension PlayView: UIGestureRecognizerDelegate {}
+extension FiveLetterGuessView: UIGestureRecognizerDelegate {}
 
