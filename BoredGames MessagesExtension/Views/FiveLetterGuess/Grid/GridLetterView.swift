@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GridLetterView: UIView {
+class FiveLetterGridLetterView: UIView {
     
     // MARK: - Properties
     var letterState: LetterState = .blank

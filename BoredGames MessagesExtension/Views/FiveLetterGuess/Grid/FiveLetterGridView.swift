@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol GridDelegate {
+protocol FiveLetterGridDelegate {
     func showNotInWordListView()
     func showSuccessView()
     func showAnswer()
@@ -18,40 +18,40 @@ protocol GridDelegate {
     func showSendButton()
 }
 
-class GridView: UIView {
+class FiveLetterGridView: UIView {
     
     // MARK: - Properties
-    var gridDelegate: GridDelegate?
-    var a1 = GridLetterView()
-    var a2 = GridLetterView()
-    var a3 = GridLetterView()
-    var a4 = GridLetterView()
-    var a5 = GridLetterView()
-    var b1 = GridLetterView()
-    var b2 = GridLetterView()
-    var b3 = GridLetterView()
-    var b4 = GridLetterView()
-    var b5 = GridLetterView()
-    var c1 = GridLetterView()
-    var c2 = GridLetterView()
-    var c3 = GridLetterView()
-    var c4 = GridLetterView()
-    var c5 = GridLetterView()
-    var d1 = GridLetterView()
-    var d2 = GridLetterView()
-    var d3 = GridLetterView()
-    var d4 = GridLetterView()
-    var d5 = GridLetterView()
-    var e1 = GridLetterView()
-    var e2 = GridLetterView()
-    var e3 = GridLetterView()
-    var e4 = GridLetterView()
-    var e5 = GridLetterView()
-    var f1 = GridLetterView()
-    var f2 = GridLetterView()
-    var f3 = GridLetterView()
-    var f4 = GridLetterView()
-    var f5 = GridLetterView()
+    var gridDelegate: FiveLetterGridDelegate?
+    var a1 = FiveLetterGridLetterView()
+    var a2 = FiveLetterGridLetterView()
+    var a3 = FiveLetterGridLetterView()
+    var a4 = FiveLetterGridLetterView()
+    var a5 = FiveLetterGridLetterView()
+    var b1 = FiveLetterGridLetterView()
+    var b2 = FiveLetterGridLetterView()
+    var b3 = FiveLetterGridLetterView()
+    var b4 = FiveLetterGridLetterView()
+    var b5 = FiveLetterGridLetterView()
+    var c1 = FiveLetterGridLetterView()
+    var c2 = FiveLetterGridLetterView()
+    var c3 = FiveLetterGridLetterView()
+    var c4 = FiveLetterGridLetterView()
+    var c5 = FiveLetterGridLetterView()
+    var d1 = FiveLetterGridLetterView()
+    var d2 = FiveLetterGridLetterView()
+    var d3 = FiveLetterGridLetterView()
+    var d4 = FiveLetterGridLetterView()
+    var d5 = FiveLetterGridLetterView()
+    var e1 = FiveLetterGridLetterView()
+    var e2 = FiveLetterGridLetterView()
+    var e3 = FiveLetterGridLetterView()
+    var e4 = FiveLetterGridLetterView()
+    var e5 = FiveLetterGridLetterView()
+    var f1 = FiveLetterGridLetterView()
+    var f2 = FiveLetterGridLetterView()
+    var f3 = FiveLetterGridLetterView()
+    var f4 = FiveLetterGridLetterView()
+    var f5 = FiveLetterGridLetterView()
     private var letterPortraitConstraints: [NSLayoutConstraint] = []
     private var letterLandscapeConstraints: [NSLayoutConstraint] = []
     var leftDotOne = UIView()
@@ -425,46 +425,46 @@ class GridView: UIView {
     func addLetters() {
 
         // first row
-        a1 = GridLetterView(frame: .zero)
-        a2 = GridLetterView(frame: .zero)
-        a3 = GridLetterView(frame: .zero)
-        a4 = GridLetterView(frame: .zero)
-        a5 = GridLetterView(frame: .zero)
+        a1 = FiveLetterGridLetterView(frame: .zero)
+        a2 = FiveLetterGridLetterView(frame: .zero)
+        a3 = FiveLetterGridLetterView(frame: .zero)
+        a4 = FiveLetterGridLetterView(frame: .zero)
+        a5 = FiveLetterGridLetterView(frame: .zero)
         
         // second row
-        b1 = GridLetterView(frame: .zero)
-        b2 = GridLetterView(frame: .zero)
-        b3 = GridLetterView(frame: .zero)
-        b4 = GridLetterView(frame: .zero)
-        b5 = GridLetterView(frame: .zero)
+        b1 = FiveLetterGridLetterView(frame: .zero)
+        b2 = FiveLetterGridLetterView(frame: .zero)
+        b3 = FiveLetterGridLetterView(frame: .zero)
+        b4 = FiveLetterGridLetterView(frame: .zero)
+        b5 = FiveLetterGridLetterView(frame: .zero)
         
         // third row
-        c1 = GridLetterView(frame: .zero)
-        c2 = GridLetterView(frame: .zero)
-        c3 = GridLetterView(frame: .zero)
-        c4 = GridLetterView(frame: .zero)
-        c5 = GridLetterView(frame: .zero)
+        c1 = FiveLetterGridLetterView(frame: .zero)
+        c2 = FiveLetterGridLetterView(frame: .zero)
+        c3 = FiveLetterGridLetterView(frame: .zero)
+        c4 = FiveLetterGridLetterView(frame: .zero)
+        c5 = FiveLetterGridLetterView(frame: .zero)
         
         // fourth row
-        d1 = GridLetterView(frame: .zero)
-        d2 = GridLetterView(frame: .zero)
-        d3 = GridLetterView(frame: .zero)
-        d4 = GridLetterView(frame: .zero)
-        d5 = GridLetterView(frame: .zero)
+        d1 = FiveLetterGridLetterView(frame: .zero)
+        d2 = FiveLetterGridLetterView(frame: .zero)
+        d3 = FiveLetterGridLetterView(frame: .zero)
+        d4 = FiveLetterGridLetterView(frame: .zero)
+        d5 = FiveLetterGridLetterView(frame: .zero)
         
         // fifth row
-        e1 = GridLetterView(frame: .zero)
-        e2 = GridLetterView(frame: .zero)
-        e3 = GridLetterView(frame: .zero)
-        e4 = GridLetterView(frame: .zero)
-        e5 = GridLetterView(frame: .zero)
+        e1 = FiveLetterGridLetterView(frame: .zero)
+        e2 = FiveLetterGridLetterView(frame: .zero)
+        e3 = FiveLetterGridLetterView(frame: .zero)
+        e4 = FiveLetterGridLetterView(frame: .zero)
+        e5 = FiveLetterGridLetterView(frame: .zero)
         
         // sixth row
-        f1 = GridLetterView(frame: .zero)
-        f2 = GridLetterView(frame: .zero)
-        f3 = GridLetterView(frame: .zero)
-        f4 = GridLetterView(frame: .zero)
-        f5 = GridLetterView(frame: .zero)
+        f1 = FiveLetterGridLetterView(frame: .zero)
+        f2 = FiveLetterGridLetterView(frame: .zero)
+        f3 = FiveLetterGridLetterView(frame: .zero)
+        f4 = FiveLetterGridLetterView(frame: .zero)
+        f5 = FiveLetterGridLetterView(frame: .zero)
 
         // add all letter subviews to view
         for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
@@ -843,7 +843,7 @@ class GridView: UIView {
     }
     
     // MARK: - UPDATE LETTER VIEW
-    private func updateHint(letterView: GridLetterView?, with guess: String?, at guessIndex: Int, animated: Bool, completion: @escaping () -> ()) {
+    private func updateHint(letterView: FiveLetterGridLetterView?, with guess: String?, at guessIndex: Int, animated: Bool, completion: @escaping () -> ()) {
         guard let currentGame = GameModel.shared.currentGame else { completion(); return }
         guard let answer = currentGame.answer else { completion(); return }
         if let guess = guess {
