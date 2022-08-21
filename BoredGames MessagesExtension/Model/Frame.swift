@@ -14,6 +14,13 @@ struct Frame {
     static let bigPadding: CGFloat = 8
     static let padding: CGFloat = 5
     static let buttonSize = CGSize(width: 44, height: 44)
+    
+    // MARK: - CONTAINER
+    struct Container {
+        static var buttonCenterYOffset: CGFloat {
+            UIScreen.main.bounds.width / 18
+        }
+    }
 
     // MARK: - LOGO
     struct Logo {

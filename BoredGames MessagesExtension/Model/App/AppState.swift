@@ -10,8 +10,5 @@ import Foundation
 enum AppState {
     case container
     case fiveLetterGuess
-    case fiveLetterGuessStats
     case ticTacToe
-    case ticTacToeStats
-    case debug
 }

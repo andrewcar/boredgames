@@ -265,6 +265,8 @@ class MessagesViewController: MSMessagesAppViewController {
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         guard motion == .motionShake else { return }
         containerView.fiveLetterGuessView.hideDebugView()
+        GameModel.shared.appState = .container
+        containerView.updateConstraints()
     }
     
     // MARK: - TRAIT COLLECTION DID CHANGE

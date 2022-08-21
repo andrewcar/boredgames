@@ -20,6 +20,8 @@
 		494D914528B1E392003E14D9 /* ThreeRowGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914428B1E392003E14D9 /* ThreeRowGridView.swift */; };
 		494D914728B1E552003E14D9 /* ThreeRowGridLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914628B1E552003E14D9 /* ThreeRowGridLetterView.swift */; };
 		494D914928B1F057003E14D9 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914828B1F057003E14D9 /* ContainerView.swift */; };
+		494D914B28B29C2A003E14D9 /* FiveLetterGuessState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914A28B29C2A003E14D9 /* FiveLetterGuessState.swift */; };
+		494D914D28B29CC9003E14D9 /* TicTacToeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914C28B29CC9003E14D9 /* TicTacToeState.swift */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
@@ -49,7 +51,6 @@
 		49C3197328AEE8350064AE94 /* PlayerColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C3197228AEE8350064AE94 /* PlayerColor.swift */; };
 		49C3197A28AF03BF0064AE94 /* ColorDotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C3197928AF03BF0064AE94 /* ColorDotView.swift */; };
 		49D9935F28A2AAE600D863BB /* FiveLetterGuessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D9935E28A2AAE600D863BB /* FiveLetterGuessView.swift */; };
-		49D9936128A2BFB900D863BB /* AppSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D9936028A2BFB900D863BB /* AppSection.swift */; };
 		49D9936328A41FF300D863BB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D9936228A41FF300D863BB /* AppState.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +92,8 @@
 		494D914428B1E392003E14D9 /* ThreeRowGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeRowGridView.swift; sourceTree = "<group>"; };
 		494D914628B1E552003E14D9 /* ThreeRowGridLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeRowGridLetterView.swift; sourceTree = "<group>"; };
 		494D914828B1F057003E14D9 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		494D914A28B29C2A003E14D9 /* FiveLetterGuessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessState.swift; sourceTree = "<group>"; };
+		494D914C28B29CC9003E14D9 /* TicTacToeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeState.swift; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
@@ -122,7 +125,6 @@
 		49C3197228AEE8350064AE94 /* PlayerColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerColor.swift; sourceTree = "<group>"; };
 		49C3197928AF03BF0064AE94 /* ColorDotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDotView.swift; sourceTree = "<group>"; };
 		49D9935E28A2AAE600D863BB /* FiveLetterGuessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessView.swift; sourceTree = "<group>"; };
-		49D9936028A2BFB900D863BB /* AppSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSection.swift; sourceTree = "<group>"; };
 		49D9936228A41FF300D863BB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -307,8 +309,9 @@
 		49C3197528AEE8450064AE94 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				49D9936028A2BFB900D863BB /* AppSection.swift */,
 				49D9936228A41FF300D863BB /* AppState.swift */,
+				494D914A28B29C2A003E14D9 /* FiveLetterGuessState.swift */,
+				494D914C28B29CC9003E14D9 /* TicTacToeState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */,
 				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
 				49C3197328AEE8350064AE94 /* PlayerColor.swift in Sources */,
+				494D914D28B29CC9003E14D9 /* TicTacToeState.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				4950D938289B8184004BA711 /* StarBarView.swift in Sources */,
@@ -457,10 +461,10 @@
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
 				494D914928B1F057003E14D9 /* ContainerView.swift in Sources */,
+				494D914B28B29C2A003E14D9 /* FiveLetterGuessState.swift in Sources */,
 				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
 				49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */,
 				495EAD7728903C06004290AD /* FiveLetterGridView.swift in Sources */,
-				49D9936128A2BFB900D863BB /* AppSection.swift in Sources */,
 				49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */,
 				492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */,
 				49D9935F28A2AAE600D863BB /* FiveLetterGuessView.swift in Sources */,

@@ -60,7 +60,7 @@ class TicTacToeView: UIView {
             threeRowGridView.widthAnchor.constraint(equalToConstant: size.width),
             threeRowGridView.heightAnchor.constraint(equalToConstant: size.height)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .fiveLetterGuessStats || GameModel.shared.appState == .ticTacToeStats || GameModel.shared.appState == .debug ? UIScreen.main.bounds.width : 0
+        let offset = GameModel.shared.appState == .ticTacToe && GameModel.shared.ticTacToeState == .grid ? 0 : UIScreen.main.bounds.width
         let centerXConstraint = threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         threeRowGridConstraints.append(centerXConstraint)
         NSLayoutConstraint.activate(threeRowGridConstraints)

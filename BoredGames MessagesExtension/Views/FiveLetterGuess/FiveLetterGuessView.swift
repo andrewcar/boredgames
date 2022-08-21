@@ -83,9 +83,6 @@ class FiveLetterGuessView: UIView {
         if GameModel.shared.isLandscape {
             activateLogoLandscapeConstraints()
             activateGridViewLandscapeConstraints()
-            gridView.activateLetterLandscapeConstraints()
-            gridView.updateGridLetterColors()
-            gridView.activateDotConstraints()
             activateNotInWordListLandscapeConstraints()
             activateKeyboardConstraints(isLandscape: true)
             keyboardView.updateSubviews(isLandscape: true)
@@ -100,9 +97,6 @@ class FiveLetterGuessView: UIView {
         } else {
             activateLogoPortraitConstraints()
             activateGridViewPortraitConstraints()
-            gridView.activateLetterPortraitConstraints()
-            gridView.updateGridLetterColors()
-            gridView.activateDotConstraints()
             activateNotInWordListPortraitConstraints()
             activateKeyboardConstraints(isLandscape: false)
             keyboardView.updateSubviews(isLandscape: false)
@@ -154,40 +148,46 @@ class FiveLetterGuessView: UIView {
         logoView.addGestureRecognizer(longPress)
     }
     
-    // MARK: - DID LONG PRESS LOGO
-    @objc func didLongPressLogo(sender: UILongPressGestureRecognizer) {
-        guard GameModel.shared.currentGuess == "ACSVP" else { return }
-        showDebugView()
-    }
-    
     // MARK: - LOGO PORTRAIT CONSTRAINTS
     private func activateLogoPortraitConstraints() {
-        NSLayoutConstraint.deactivate(logoPortraitConstraints)
-        NSLayoutConstraint.deactivate(logoLandscapeConstraints)
+        deactivateLogoConstraints()
+        let offset = GameModel.shared.fiveLetterGuessState == .grid || GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width
         logoPortraitConstraints = [
             logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+            logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
             logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.size.width),
             logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.size.height)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .fiveLetterGuessStats ? 0 : UIScreen.main.bounds.width
-        let centerXConstraint = logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        logoPortraitConstraints.append(centerXConstraint)
         NSLayoutConstraint.activate(logoPortraitConstraints)
+        logoView.updateConstraints()
     }
     
     // MARK: - LOGO LANDSCAPE CONSTRAINTS
     private func activateLogoLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(logoPortraitConstraints)
-        NSLayoutConstraint.deactivate(logoLandscapeConstraints)
+        deactivateLogoConstraints()
+        let offset = GameModel.shared.fiveLetterGuessState == .grid || GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width
         logoLandscapeConstraints = [
             logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+            logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
             logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.size.width),
             logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.size.height)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .fiveLetterGuessStats ? 0 : UIScreen.main.bounds.width
-        let centerXConstraint = logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        logoLandscapeConstraints.append(centerXConstraint)
         NSLayoutConstraint.activate(logoLandscapeConstraints)
+        logoView.updateConstraints()
+    }
+    
+    // MARK: - DEACTIVATE LOGO CONSTRAINTS
+    private func deactivateLogoConstraints() {
+        NSLayoutConstraint.deactivate(logoPortraitConstraints)
+        NSLayoutConstraint.deactivate(logoLandscapeConstraints)
+        logoPortraitConstraints.removeAll()
+        logoLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - DID LONG PRESS LOGO
+    @objc func didLongPressLogo(sender: UILongPressGestureRecognizer) {
+        guard GameModel.shared.currentGuess == "ACSVP" else { return }
+        showDebugView()
     }
     
     // MARK: - NOT IN WORD LIST
@@ -233,8 +233,7 @@ class FiveLetterGuessView: UIView {
         
     // MARK: - GRID VIEW PORTRAIT CONSTRAINTS
     private func activateGridViewPortraitConstraints() {
-        NSLayoutConstraint.deactivate(gridViewPortraitConstraints)
-        NSLayoutConstraint.deactivate(gridViewLandscapeConstraints)
+        deactivateGridViewConstraints()
         
         var gridWidth: CGFloat
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -244,36 +243,49 @@ class FiveLetterGuessView: UIView {
         }
         let scaledPadding = (Frame.padding / 3) * 2
         let size = Frame.Grid.size(gridWidth, scaledPadding: scaledPadding)
-        
+        let offset = /*GameModel.shared.appState == .fiveLetterGuess && */GameModel.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
+
         gridViewPortraitConstraints = [
             gridView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.Grid.upperPadding),
+            gridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
             gridView.widthAnchor.constraint(equalToConstant: size.width),
             gridView.heightAnchor.constraint(equalToConstant: size.height)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
-        let constraint = gridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        gridViewPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(gridViewPortraitConstraints)
+        
+        gridView.activateLetterPortraitConstraints()
+        gridView.updateGridLetterColors()
+        gridView.activateDotConstraints()
     }
     
     // MARK: - GRID VIEW LANDSCAPE CONSTRAINTS
     private func activateGridViewLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(gridViewPortraitConstraints)
-        NSLayoutConstraint.deactivate(gridViewLandscapeConstraints)
+        deactivateGridViewConstraints()
         
         let oneFifthSansPadding: CGFloat = ((UIScreen.main.bounds.size.width / 2.3) / 5) - (Frame.padding * 6)
         let gridWidth = (oneFifthSansPadding * 5) + (Frame.padding * 6)
         let gridHeight = gridWidth + oneFifthSansPadding + Frame.padding
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
 
         gridViewLandscapeConstraints = [
-            gridView.heightAnchor.constraint(equalToConstant: gridHeight),
-            gridView.widthAnchor.constraint(equalToConstant: gridWidth),
             gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
+            gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + Frame.Grid.dotGirth + offset),
+            gridView.widthAnchor.constraint(equalToConstant: gridWidth),
+            gridView.heightAnchor.constraint(equalToConstant: gridHeight)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
-        let constraint = gridView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + Frame.Grid.dotGirth + offset)
-        gridViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(gridViewLandscapeConstraints)
+        
+        gridView.activateLetterLandscapeConstraints()
+        gridView.updateGridLetterColors()
+        gridView.activateDotConstraints()
+    }
+    
+    // MARK: - DEACTIVATE GRID VIEW CONSTRAINTS
+    private func deactivateGridViewConstraints() {
+        NSLayoutConstraint.deactivate(gridViewPortraitConstraints)
+        NSLayoutConstraint.deactivate(gridViewLandscapeConstraints)
+        gridViewPortraitConstraints.removeAll()
+        gridViewLandscapeConstraints.removeAll()
     }
     
     // MARK: - SUCCESS VIEW
@@ -291,7 +303,7 @@ class FiveLetterGuessView: UIView {
             successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
             successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
         let constraint = successView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         successPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(successPortraitConstraints)
@@ -305,7 +317,7 @@ class FiveLetterGuessView: UIView {
             successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
             successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
         let constraint = successView.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
         successPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(successPortraitConstraints)
@@ -336,7 +348,7 @@ class FiveLetterGuessView: UIView {
                 keyboardView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: Frame.padding * 5),
                 keyboardView.heightAnchor.constraint(greaterThanOrEqualToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
-            let offset = GameModel.shared.appState == .fiveLetterGuess && keyboardViewShowing ? 0 : (UIScreen.main.bounds.width * 2)
+            let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid && keyboardViewShowing ? 0 : (UIScreen.main.bounds.width * 2)
             var leadingConstraint: NSLayoutConstraint
             if UIDevice.current.userInterfaceIdiom == .pad {
                 leadingConstraint =  keyboardView.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: (Frame.padding * 14) + offset)
@@ -355,7 +367,7 @@ class FiveLetterGuessView: UIView {
                 keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Grid.outerPadding),
                 keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
-            let offset = GameModel.shared.appState == .fiveLetterGuess && keyboardViewShowing ? 0 : (UIScreen.main.bounds.width * 2)
+            let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid && keyboardViewShowing ? 0 : (UIScreen.main.bounds.width * 2)
             let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
             keyboardPortraitConstraints.append(centerXConstraint)
             var widthConstraint: NSLayoutConstraint
@@ -401,7 +413,7 @@ class FiveLetterGuessView: UIView {
             sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
         let constraint = sendButton.centerXAnchor.constraint(equalTo: keyboardView.centerXAnchor, constant: offset)
         sendButtonPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(sendButtonPortraitConstraints)
@@ -415,7 +427,7 @@ class FiveLetterGuessView: UIView {
             sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -Frame.padding)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
         let constraint = sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 4) + offset)
         sendButtonLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(sendButtonLandscapeConstraints)
@@ -472,7 +484,7 @@ class FiveLetterGuessView: UIView {
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 13)),
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         let constraint = newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 2.5) - offset)
         newGameButtonPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
@@ -485,7 +497,7 @@ class FiveLetterGuessView: UIView {
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         let topConstraint = newGameButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
         newGameButtonLandscapeConstraints.append(topConstraint)
         var leadingConstraint: NSLayoutConstraint
@@ -548,7 +560,7 @@ class FiveLetterGuessView: UIView {
             statsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             statsButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.padding * 13),
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         let constraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 2.5) + offset)
         statsButtonPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(statsButtonPortraitConstraints)
@@ -562,7 +574,7 @@ class FiveLetterGuessView: UIView {
             statsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         var trailingConstraint: NSLayoutConstraint
         if UIDevice.current.userInterfaceIdiom == .pad {
             trailingConstraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 12) + offset)
@@ -576,7 +588,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP STATS BUTTON
     @objc
     private func didTapStatsButton(sender: UIButton) {
-        GameModel.shared.appState = .fiveLetterGuessStats
+        GameModel.shared.fiveLetterGuessState = .stats
         updateConstraints()
     }
     
@@ -623,7 +635,7 @@ class FiveLetterGuessView: UIView {
             gridButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             gridButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.padding * 13),
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuessStats ? 0 : -UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : -(UIScreen.main.bounds.width * 2)
         let constraint = gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + offset)
         gridButtonPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(gridButtonPortraitConstraints)
@@ -637,7 +649,7 @@ class FiveLetterGuessView: UIView {
             gridButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             gridButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.padding)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuessStats ? 0 : -UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : -(UIScreen.main.bounds.width * 2)
         let constraint = gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + offset)
         gridButtonLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(gridButtonLandscapeConstraints)
@@ -652,7 +664,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP GRID BUTTON
     @objc
     private func didTapGridButton(sender: UIButton) {
-        GameModel.shared.appState = .fiveLetterGuess
+        GameModel.shared.fiveLetterGuessState = .grid
         updateConstraints()
     }
     
@@ -673,7 +685,7 @@ class FiveLetterGuessView: UIView {
             statsView.widthAnchor.constraint(equalTo: widthAnchor),
             statsView.heightAnchor.constraint(equalTo: heightAnchor)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuessStats ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width
         let constraint = statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         statsViewPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(statsViewPortraitConstraints)
@@ -687,7 +699,7 @@ class FiveLetterGuessView: UIView {
             statsView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             statsView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .fiveLetterGuessStats ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width
         let constraint = statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         statsViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(statsViewLandscapeConstraints)
@@ -714,7 +726,7 @@ class FiveLetterGuessView: UIView {
             debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
             debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
         let constraint = debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset)
         debugViewPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(debugViewPortraitConstraints)
@@ -728,7 +740,7 @@ class FiveLetterGuessView: UIView {
             debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
             debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
-        let offset: CGFloat = GameModel.shared.appState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .debug ? 0 : (UIScreen.main.bounds.height * 2)
         let constraint = debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset)
         debugViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(debugViewLandscapeConstraints)
@@ -742,12 +754,12 @@ class FiveLetterGuessView: UIView {
     }
     
     func hideDebugView() {
-        GameModel.shared.appState = .fiveLetterGuess
+        GameModel.shared.fiveLetterGuessState = .grid
         updateConstraints()
     }
     
     func showDebugView() {
-        GameModel.shared.appState = .debug
+        GameModel.shared.fiveLetterGuessState = .debug
         updateConstraints()
     }
     
@@ -811,68 +823,7 @@ class FiveLetterGuessView: UIView {
                 colorDotView.isHidden = true
             }
         }
-    }
-    
-    // MARK: - DEACTIVATE CONSTRAINTS
-    func deactivateConstraints(for appSection: AppSection) {
-        var deactivationConstraints: [[NSLayoutConstraint]] = []
-        
-        switch appSection {
-        case .logoImageView:
-            deactivationConstraints.append(logoPortraitConstraints)
-            deactivationConstraints.append(logoLandscapeConstraints)
-        case .notInWordListView:
-            deactivationConstraints.append(notInWordListPortraitConstraints)
-            deactivationConstraints.append(notInWordListLandscapeConstraints)
-        case .gridView:
-            deactivationConstraints.append(gridViewPortraitConstraints)
-            deactivationConstraints.append(gridViewLandscapeConstraints)
-        case .successView:
-            deactivationConstraints.append(successPortraitConstraints)
-        case .keyboardView:
-            deactivationConstraints.append(keyboardPortraitConstraints)
-            deactivationConstraints.append(keyboardLandscapeConstraints)
-        case .sendButton:
-            deactivationConstraints.append(sendButtonPortraitConstraints)
-            deactivationConstraints.append(sendButtonLandscapeConstraints)
-        case .statsButton:
-            deactivationConstraints.append(statsButtonPortraitConstraints)
-            deactivationConstraints.append(statsButtonLandscapeConstraints)
-        case .statsView:
-            deactivationConstraints.append(statsViewPortraitConstraints)
-            deactivationConstraints.append(statsViewLandscapeConstraints)
-        case .gridButton:
-            deactivationConstraints.append(gridButtonPortraitConstraints)
-            deactivationConstraints.append(gridButtonLandscapeConstraints)
-        case .newGameButton:
-            deactivationConstraints.append(newGameButtonPortraitConstraints)
-            deactivationConstraints.append(newGameButtonLandscapeConstraints)
-        case .all:
-            deactivationConstraints.append(logoPortraitConstraints)
-            deactivationConstraints.append(logoLandscapeConstraints)
-            deactivationConstraints.append(notInWordListPortraitConstraints)
-            deactivationConstraints.append(notInWordListLandscapeConstraints)
-            deactivationConstraints.append(gridViewPortraitConstraints)
-            deactivationConstraints.append(gridViewLandscapeConstraints)
-            deactivationConstraints.append(successPortraitConstraints)
-            deactivationConstraints.append(keyboardPortraitConstraints)
-            deactivationConstraints.append(keyboardLandscapeConstraints)
-            deactivationConstraints.append(sendButtonPortraitConstraints)
-            deactivationConstraints.append(sendButtonLandscapeConstraints)
-            deactivationConstraints.append(statsButtonPortraitConstraints)
-            deactivationConstraints.append(statsButtonLandscapeConstraints)
-            deactivationConstraints.append(statsViewPortraitConstraints)
-            deactivationConstraints.append(statsViewLandscapeConstraints)
-            deactivationConstraints.append(gridButtonPortraitConstraints)
-            deactivationConstraints.append(gridButtonLandscapeConstraints)
-            deactivationConstraints.append(newGameButtonPortraitConstraints)
-            deactivationConstraints.append(newGameButtonLandscapeConstraints)
-        }
-        
-        for constraints in deactivationConstraints {
-            NSLayoutConstraint.deactivate(constraints)
-        }
-    }
+    }    
 }
 
 extension FiveLetterGuessView: KeyboardDelegate {

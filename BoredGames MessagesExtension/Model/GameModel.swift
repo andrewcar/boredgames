@@ -15,8 +15,9 @@ class GameModel: NSObject {
     
     // MARK: - Properties
     static let shared = GameModel()
-    
     var appState: AppState = .container
+    var fiveLetterGuessState: FiveLetterGuessState = .grid
+    var ticTacToeState: TicTacToeState = .grid
     var gameDelegate: GameDelegate!
     var isLandscape: Bool = false
     var words: Words?
