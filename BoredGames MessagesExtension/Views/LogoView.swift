@@ -9,7 +9,7 @@ import UIKit
 
 class LogoView: UIView {
     
-    // MARK: - Properties
+    // MARK: - Properties    
     private var imageView = UIImageView()
     private var imageConstraints: [NSLayoutConstraint] = []
     
@@ -35,7 +35,7 @@ class LogoView: UIView {
     private func addImageView() {
         imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "werd")
+        imageView.image = .boredGamesLogoTall
         addSubview(imageView)
         activateImageConstraints()
     }
@@ -43,12 +43,11 @@ class LogoView: UIView {
     // MARK: - IMAGE CONSTRAINTS
     private func activateImageConstraints() {
         NSLayoutConstraint.deactivate(imageConstraints)
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
         imageConstraints = [
             imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.size.width),
-            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.size.height)
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.tallSize.width),
+            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.tallSize.height)
         ]
         NSLayoutConstraint.activate(imageConstraints)
     }

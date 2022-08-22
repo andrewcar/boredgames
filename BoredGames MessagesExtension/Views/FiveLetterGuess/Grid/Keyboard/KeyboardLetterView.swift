@@ -37,7 +37,7 @@ class KeyboardLetterView: UIView {
     
     // MARK: - Public Methods
     func updateColors(for state: LetterState) {
-        updateTextColor(for: state)
+//        updateTextColor(for: state)
         updateBackgroundColor(for: state)
     }
 
@@ -50,7 +50,7 @@ class KeyboardLetterView: UIView {
         letterLabel = UILabel(frame: .zero)
         letterLabel.translatesAutoresizingMaskIntoConstraints = false
         letterLabel.text = letter
-        letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
+        letterLabel.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 13, weight: .bold)
         letterLabel.textAlignment = .center
         letterLabel.textColor = .keyboardLetter
         addSubview(letterLabel)
@@ -60,7 +60,7 @@ class KeyboardLetterView: UIView {
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         button.setTitle(letter, for: .normal)
         button.setTitleColor(.keyboardLetter, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 10, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: letter == "⌫" ? 20 : letter == "ENTER" ? 11 : 13, weight: .bold)
         button.titleLabel?.textAlignment = .center
         addSubview(button)
         

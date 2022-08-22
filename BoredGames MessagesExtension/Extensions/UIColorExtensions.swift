@@ -8,6 +8,13 @@
 import UIKit
 
 extension UIColor {
+    static let containerBackground = UIColor(named: "containerBackground")
+    static let fiveLetterGuessBackground = UIColor(named: "fiveLetterGuessBackground")
+    static let ticTacToeBackground = UIColor(named: "ticTacToeBackground")
+    
+    static let fiveLetterGuessButton = UIColor(named: "fiveLetterGuessButton")
+    static let messagesBlue = UIColor(named: "messagesBlue")
+
     static let notInWordListBackground = UIColor(named: "notInWordListBackground")
     static let notInWordListText = UIColor(named: "notInWordListText")
 
@@ -17,6 +24,9 @@ extension UIColor {
     static let gridLetterBackgroundGreen = UIColor(named: "gridLetterBackgroundGreen")
     static let gridLetterBorder = UIColor(named: "gridLetterBorder")
     static let gridLetterActiveBorder = UIColor(named: "gridLetterActiveBorder")
+    
+    static let leftDots = UIColor(named: "leftDots")
+    static let rightDots = UIColor(named: "rightDots")
 
     static let keyboardLetterBackgroundBlank = UIColor(named: "keyboardLetterBackgroundBlank")
     static let keyboardLetterBackgroundGray = UIColor(named: "keyboardLetterBackgroundGray")
@@ -27,37 +37,7 @@ extension UIColor {
     static let successBackgroundGreen = UIColor(named: "successBackgroundGreen")
     static let successBackgroundRed = UIColor(named: "successBackgroundRed")
 
-    static let messagesBlue = UIColor(named: "messagesBlue")
-
-    static let systemIconButton = UIColor(named: "systemIconButton")
-    
     static let statBubbleBackground = UIColor(named: "statBubbleBackground")
     static let statBubbleValueText = UIColor(named: "statBubbleValueText")
     static let statBubbleTitleText = UIColor(named: "statBubbleTitleText")
-    
-    static let boredRed = UIColor(named: "boredRed")!
-    static let boredOrange = UIColor(named: "boredOrange")!
-    static let boredYellow = UIColor(named: "boredYellow")!
-    static let boredGreen = UIColor(named: "boredGreen")!
-    static let boredBlue = UIColor(named: "boredBlue")!
-    static let boredPurple = UIColor(named: "boredPurple")!
-    
-    static func color(for playerColor: PlayerColor?) -> UIColor {
-        switch playerColor {
-        case .red:
-            return .boredRed
-        case .orange:
-            return .boredOrange
-        case .yellow:
-            return .boredYellow
-        case .green:
-            return .boredGreen
-        case .blue:
-            return .boredBlue
-        case .purple:
-            return .boredPurple
-        default:
-            return .clear
-        }
-    }
 }

@@ -11,4 +11,5 @@ enum AppState {
     case container
     case fiveLetterGuess
     case ticTacToe
+    case dots
 }

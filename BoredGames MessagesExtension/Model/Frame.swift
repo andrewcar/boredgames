@@ -14,17 +14,24 @@ struct Frame {
     static let bigPadding: CGFloat = 8
     static let padding: CGFloat = 5
     static let buttonSize = CGSize(width: 44, height: 44)
+    static let bigButtonSize = CGSize(width: 64, height: 64)
     
     // MARK: - CONTAINER
     struct Container {
         static var buttonCenterYOffset: CGFloat {
-            UIScreen.main.bounds.width / 18
+            UIScreen.main.bounds.width / 20
+        }
+        static var gamePadding: CGFloat {
+            let remainderWidth = UIScreen.main.bounds.width - Logo.tallSize.width - Logo.upperPadding
+            return (remainderWidth - (Logo.tallSize.width * 3)) / 4
         }
     }
 
     // MARK: - LOGO
     struct Logo {
-        static let size = CGSize(width: 120, height: 33)
+        static let tallSize = CGSize(width: 100, height: 69)
+        static let wideSize = CGSize(width: 230, height: 60)
+        static let smallSize = CGSize(width: 69, height: 69)
         static let upperPadding: CGFloat = UIScreen.main.bounds.width / 16
         static let bottomPadding: CGFloat = 10
     }
@@ -59,7 +66,7 @@ struct Frame {
         }
         static let bottomPadding: CGFloat = 20
         static func maxY(_ viewFrame: CGRect) -> CGFloat {
-            Frame.Logo.bottomPadding + Frame.Logo.size.height + (padding * 6) + (letterSize(viewFrame).height * 6)
+            Frame.Logo.bottomPadding + Frame.Logo.tallSize.height + (padding * 6) + (letterSize(viewFrame).height * 6)
         }
     }
     

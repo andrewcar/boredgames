@@ -10,12 +10,14 @@ import UIKit
 class ColorDotView: UIView {
             
     // MARK: - Initializers
-    init(frame: CGRect, color: UIColor) {
+    init(frame: CGRect, color: UIColor?) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerCurve = .continuous
         layer.cornerRadius = Frame.Grid.dotGirth / 2
-        backgroundColor = color
+        if let color = color {
+            backgroundColor = color
+        }
         isHidden = true
     }
     

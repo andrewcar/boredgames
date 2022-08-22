@@ -63,7 +63,7 @@ class StatsView: UIView {
     func activateStatBarPortraitConstraints() {
         deactivateStatBarViewConstraints()
         statBarPortraitConstraints = [
-            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
+            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.buttonSize.height + (Frame.Logo.upperPadding * 3)),
             statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
             statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.barSize.width),
             statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.barSize.height)
@@ -75,10 +75,10 @@ class StatsView: UIView {
     func activateStatBarLandscapeConstraints() {
         deactivateStatBarViewConstraints()
         statBarLandscapeConstraints = [
-            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 2),
+            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.buttonSize.height + Frame.Logo.upperPadding),
             statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.width),
             statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.height),
-            statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            statBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 3)),
         ]
         NSLayoutConstraint.activate(statBarLandscapeConstraints)
     }
@@ -98,7 +98,7 @@ class StatsView: UIView {
             named: "eject.circle.fill",
             size: Frame.buttonSize,
             weight: .bold,
-            color: .systemIconButton)
+            color: .fiveLetterGuessButton)
         resetButton.setImage(image, for: .normal)
         resetButton.setTitleColor(.clear, for: .normal)
         addSubview(resetButton)

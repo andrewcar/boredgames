@@ -41,6 +41,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - CONTAINER VIEW
     private func addContainerView() {
+        containerView.containerDelegate = self
         view.addSubview(containerView)
         activateContainerConstraints(isLandscape: false)
     }
@@ -62,6 +63,26 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: - BECOME FIRST RESPONDER
+    override func becomeFirstResponder() -> Bool {
+        true
+    }
+    
+    // MARK: - SHAKE
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        guard motion == .motionShake else { return }
+        if GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .debug {
+            containerView.fiveLetterGuessView.hideDebugView()
+        }
+        showContainer()
+    }
+    
+    // MARK: - SHOW CONTAINER
+    private func showContainer() {
+        guard GameModel.shared.appState != .container else { return }
+        GameModel.shared.appState = .container
+        containerView.updateConstraints()
+    }
     
 
     // MARK: - DECODE
@@ -185,6 +206,7 @@ class MessagesViewController: MSMessagesAppViewController {
         if let selectedMessage = conversation.selectedMessage {
             containerView.fiveLetterGuessView.resetGame()
             decode(selectedMessage)
+            GameModel.shared.appState = .fiveLetterGuess
                                     
             // reset correct guess letter counts
             GameModel.shared.resetGuessLetterCountDictionary {
@@ -254,19 +276,6 @@ class MessagesViewController: MSMessagesAppViewController {
             GameModel.shared.currentGame?.currentLetter = .f0
         default: ()
         }
-    }
-    
-    // MARK: - BECOME FIRST RESPONDER
-    override func becomeFirstResponder() -> Bool {
-        true
-    }
-    
-    // MARK: - SHAKE
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        guard motion == .motionShake else { return }
-        containerView.fiveLetterGuessView.hideDebugView()
-        GameModel.shared.appState = .container
-        containerView.updateConstraints()
     }
     
     // MARK: - TRAIT COLLECTION DID CHANGE
@@ -415,8 +424,10 @@ extension MessagesViewController {
         message.url = components.url!
         
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "werd_message_bubble.png")
-        layout.caption = "WeGuess"
+        if let image = UIImage.werdMessageBubble {
+            layout.image = image
+        }
+        layout.caption = "FIVE LETTER GUESS"
         if let currentGame = GameModel.shared.currentGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String
@@ -486,6 +497,10 @@ extension MessagesViewController {
 }
 
 extension MessagesViewController: ContainerDelegate {
+    func didTapLogoButton() {
+        showContainer()
+    }
+    
     func didTapSendButton() {
         guard let activeConversation = activeConversation else { return }
         updateCurrentPlayer(from: activeConversation)

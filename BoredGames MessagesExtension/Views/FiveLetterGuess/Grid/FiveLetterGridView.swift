@@ -863,7 +863,7 @@ class FiveLetterGridView: UIView {
             // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
             gridDelegate?.setKeyToGreen(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟩"
+            GameModel.shared.lastGuessInEmojis += "🟦"
             heavyImpactFeedbackGenerator.impactOccurred()
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
@@ -874,7 +874,7 @@ class FiveLetterGridView: UIView {
         } else if !answer.contains(guessLetter) {
             gridDelegate?.setKeyToGray(for: guessLetter)
             selectionFeedbackGenerator.selectionChanged()
-            GameModel.shared.lastGuessInEmojis += "⬜️"
+            GameModel.shared.lastGuessInEmojis += "⬛️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
@@ -889,7 +889,7 @@ class FiveLetterGridView: UIView {
             if greenLetterCount == answerLetterCount {
                 gridDelegate?.setKeyToGray(for: guessLetter)
                 selectionFeedbackGenerator.selectionChanged()
-                GameModel.shared.lastGuessInEmojis += "⬜️"
+                GameModel.shared.lastGuessInEmojis += "⬛️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
                 })
@@ -900,7 +900,7 @@ class FiveLetterGridView: UIView {
                 GameModel.shared.incrementYellowGuessLetter(guessLetter)
                 gridDelegate?.setKeyToYellow(for: guessLetter)
                 lightImpactFeedbackGenerator.impactOccurred()
-                GameModel.shared.lastGuessInEmojis += "🟨"
+                GameModel.shared.lastGuessInEmojis += "🟪"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
                 })
@@ -909,7 +909,7 @@ class FiveLetterGridView: UIView {
             } else {
                 gridDelegate?.setKeyToGray(for: guessLetter)
                 selectionFeedbackGenerator.selectionChanged()
-                GameModel.shared.lastGuessInEmojis += "⬜️"
+                GameModel.shared.lastGuessInEmojis += "⬛️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
                 })
@@ -921,14 +921,14 @@ class FiveLetterGridView: UIView {
             GameModel.shared.incrementYellowGuessLetter(guessLetter)
             gridDelegate?.setKeyToYellow(for: guessLetter)
             lightImpactFeedbackGenerator.impactOccurred()
-            GameModel.shared.lastGuessInEmojis += "🟨"
+            GameModel.shared.lastGuessInEmojis += "🟪"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
         } else if answerLetterCount == yellowLetterCount {
             gridDelegate?.setKeyToGray(for: guessLetter)
             selectionFeedbackGenerator.selectionChanged()
-            GameModel.shared.lastGuessInEmojis += "⬜️"
+            GameModel.shared.lastGuessInEmojis += "⬛️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
@@ -1165,22 +1165,22 @@ class FiveLetterGridView: UIView {
     
     // MARK: - DOT VIEWS
     private func addDotViews() {
-        leftDotOne = ColorDotView(frame: .zero, color: .systemRed)
+        leftDotOne = ColorDotView(frame: .zero, color: .leftDots)
         addSubview(leftDotOne)
         
-        leftDotTwo = ColorDotView(frame: .zero, color: .systemRed)
+        leftDotTwo = ColorDotView(frame: .zero, color: .leftDots)
         addSubview(leftDotTwo)
 
-        leftDotThree = ColorDotView(frame: .zero, color: .systemRed)
+        leftDotThree = ColorDotView(frame: .zero, color: .leftDots)
         addSubview(leftDotThree)
 
-        rightDotOne = ColorDotView(frame: .zero, color: .systemBlue)
+        rightDotOne = ColorDotView(frame: .zero, color: .rightDots)
         addSubview(rightDotOne)
         
-        rightDotTwo = ColorDotView(frame: .zero, color: .systemBlue)
+        rightDotTwo = ColorDotView(frame: .zero, color: .rightDots)
         addSubview(rightDotTwo)
 
-        rightDotThree = ColorDotView(frame: .zero, color: .systemBlue)
+        rightDotThree = ColorDotView(frame: .zero, color: .rightDots)
         addSubview(rightDotThree)
 
         activateDotConstraints()
