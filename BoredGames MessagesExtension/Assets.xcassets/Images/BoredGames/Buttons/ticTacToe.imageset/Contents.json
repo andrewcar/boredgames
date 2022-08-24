@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "ticTacToe_grayer.png",
+      "filename" : "ticTacToe_dark.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "ticTacToe_grayer-1.png",
+      "filename" : "ticTacToe_dark-1.png",
       "idiom" : "universal"
     },
     {
@@ -21,7 +21,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ticTacToe_grayer-2.png",
+      "filename" : "ticTacToe_dark-2.png",
       "idiom" : "universal"
     }
   ],

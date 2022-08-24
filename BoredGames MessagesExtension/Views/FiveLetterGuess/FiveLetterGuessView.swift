@@ -532,10 +532,12 @@ class FiveLetterGuessView: UIView {
     @objc
     private func didTapStatsButton(sender: UIButton) {
         GameModel.shared.fiveLetterGuessState = .stats
+        statsView.isHidden = false
         fiveLetterGuessDelegate.didTapStatsButton()
         updateConstraints()
     }
     
+    // MARK: - DEACTIVATE STATS BUTTON CONSTRAINTS
     private func deactivateStatsButtonConstraints() {
         NSLayoutConstraint.deactivate(statsButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(statsButtonLandscapeConstraints)
@@ -609,15 +611,15 @@ class FiveLetterGuessView: UIView {
     @objc
     private func didTapGridButton(sender: UIButton) {
         GameModel.shared.fiveLetterGuessState = .grid
+        statsView.isHidden = true
         fiveLetterGuessDelegate.didTapGridButton()
         updateConstraints()
     }
-    
-    // MARK: - UPDATE
-    
+        
     // MARK: - STATS VIEW
     private func addStatsView() {
         statsView = StatsView(frame: .zero)
+        statsView.isHidden = true
         addSubview(statsView)
         activateStatsViewPortraitConstraints()
     }
@@ -625,28 +627,26 @@ class FiveLetterGuessView: UIView {
     // MARK: - STATS VIEW PORTRAIT CONSTRAINTS
     private func activateStatsViewPortraitConstraints() {
         deactivateStatsViewConstraints()
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : GameModel.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
         statsViewPortraitConstraints = [
             statsView.topAnchor.constraint(equalTo: topAnchor),
+            statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
             statsView.widthAnchor.constraint(equalTo: widthAnchor),
             statsView.heightAnchor.constraint(equalTo: heightAnchor)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width * 2
-        let constraint = statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        statsViewPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(statsViewPortraitConstraints)
     }
     
     // MARK: - STATS VIEW LANDSCAPE CONSTRAINTS
     private func activateStatsViewLandscapeConstraints() {
         deactivateStatsViewConstraints()
+        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : GameModel.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
         statsViewLandscapeConstraints = [
             statsView.topAnchor.constraint(equalTo: topAnchor),
+            statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
             statsView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             statsView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
         ]
-        let offset = GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width * 2
-        let constraint = statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
-        statsViewLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(statsViewLandscapeConstraints)
     }
     

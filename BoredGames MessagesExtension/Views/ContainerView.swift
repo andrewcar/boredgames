@@ -70,13 +70,12 @@ class ContainerView: UIView {
         
         let isLandscape = UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height ? false : true
 
-        updateBackgroundColor()
         updateLogoView(isLandscape: isLandscape)
         updateFiveLetterGuessButton(isLandscape: isLandscape)
         updateTicTacToeButton(isLandscape: isLandscape)
         updateDotsButton(isLandscape: isLandscape)
-        activateFiveLetterGuessViewConstraints(isLandscape: isLandscape)
-        activateTicTacToeViewConstraints(isLandscape: isLandscape)
+        updateFiveLetterGuessView(isLandscape: isLandscape)
+        updateTicTacToeView(isLandscape: isLandscape)
         activateSmallLogoViewConstraints(isLandscape: isLandscape)
 
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
@@ -84,27 +83,7 @@ class ContainerView: UIView {
         } completion: { _ in
         }
     }
-    
-    // MARK: - 🪟 🟩 🔄
-    private func updateBackgroundColor() {
-        var newColor: UIColor?
-        switch GameModel.shared.appState {
-        case .container:
-            newColor = .containerBackground
-        case .fiveLetterGuess:
-            newColor = .fiveLetterGuessBackground
-        case .ticTacToe:
-            newColor = .ticTacToeBackground
-        case .dots:
-            newColor = .dotsBackground
-        }
-        guard let newColor = newColor else { return }
-        UIView.animate(withDuration: 0.426, delay: 0, options: .curveEaseOut) {
-            self.backgroundColor = newColor
-        } completion: { _ in
-        }
-    }
-    
+
     // MARK: - 🅱️ 🪟
     private func addLogoView() {
         addSubview(logoView)
@@ -162,18 +141,36 @@ class ContainerView: UIView {
         if isLandscape {
             smallLogoLandscapeConstraints = [
                 smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-                smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - offset),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
+            var leadingConstraint: NSLayoutConstraint {
+                if GameModel.shared.appState == .fiveLetterGuess {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - offset)
+                } else if GameModel.shared.appState == .ticTacToe {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
+                } else {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
+                }
+            }
+            smallLogoLandscapeConstraints.append(leadingConstraint)
             NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
         } else {
             smallLogoPortraitConstraints = [
                 smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-                smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
+            var leadingConstraint: NSLayoutConstraint {
+                if GameModel.shared.appState == .fiveLetterGuess {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
+                } else if GameModel.shared.appState == .ticTacToe {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
+                } else {
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
+                }
+            }
+            smallLogoPortraitConstraints.append(leadingConstraint)
             NSLayoutConstraint.activate(smallLogoPortraitConstraints)
         }
         smallLogoView.updateConstraints()
@@ -292,7 +289,6 @@ class ContainerView: UIView {
     
     // MARK: - ❌ ▶️
     private func addTicTacToeButton() {
-        ticTacToeButton.isUserInteractionEnabled = false
         ticTacToeButton.translatesAutoresizingMaskIntoConstraints = false
         ticTacToeButton.addTarget(self, action: #selector(didTapTicTacToeButton(sender:)), for: .touchUpInside)
         if let image = UIImage.ticTacToe {
@@ -314,7 +310,7 @@ class ContainerView: UIView {
     // MARK: - ❌ ▶️ 📜
     private func activateTicTacToeButtonConstraints(isLandscape: Bool) {
         deactivateTicTacToeButtonConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 3
         if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
                 ticTacToeButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),

@@ -37,6 +37,27 @@ class MessagesViewController: MSMessagesAppViewController {
             activateContainerConstraints(isLandscape: true)
         }
         containerView.updateConstraints()
+        updateBackgroundColor()
+    }
+    
+    // MARK: - 🪟 🟩 🔄
+    private func updateBackgroundColor() {
+        var newColor: UIColor?
+        switch GameModel.shared.appState {
+        case .container:
+            newColor = .containerBackground
+        case .fiveLetterGuess:
+            newColor = .fiveLetterGuessBackground
+        case .ticTacToe:
+            newColor = .ticTacToeBackground
+        case .dots:
+            newColor = .dotsBackground
+        }
+        guard let newColor = newColor else { return }
+        UIView.animate(withDuration: 0.426, delay: 0, options: .curveEaseOut) {
+            self.view.backgroundColor = newColor
+        } completion: { _ in
+        }
     }
     
     // MARK: - CONTAINER VIEW

@@ -17,7 +17,7 @@ class TicTacToeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-//        addThreeRowGridView()
+        addThreeRowGridView()
     }
     
     required init?(coder: NSCoder) {
@@ -29,12 +29,12 @@ class TicTacToeView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         
-//        activateThreeRowGridConstraints()
-//        
-//        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
-//            self.layoutIfNeeded()
-//        } completion: { _ in
-//        }
+        activateThreeRowGridConstraints()
+
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+            self.layoutIfNeeded()
+        } completion: { _ in
+        }
     }
     
     // MARK: - THREE ROW GRID
@@ -60,7 +60,7 @@ class TicTacToeView: UIView {
             threeRowGridView.widthAnchor.constraint(equalToConstant: size.width),
             threeRowGridView.heightAnchor.constraint(equalToConstant: size.height)
         ]
-        let offset = GameModel.shared.appState == .ticTacToe && GameModel.shared.ticTacToeState == .grid ? 0 : UIScreen.main.bounds.width
+        let offset = GameModel.shared.appState == .ticTacToe && GameModel.shared.ticTacToeState == .grid ? 0 : -UIScreen.main.bounds.width
         let centerXConstraint = threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         threeRowGridConstraints.append(centerXConstraint)
         NSLayoutConstraint.activate(threeRowGridConstraints)
