@@ -15,25 +15,19 @@ struct Frame {
     static let padding: CGFloat = 5
     static let buttonSize = CGSize(width: 44, height: 44)
     static let bigButtonSize = CGSize(width: 64, height: 64)
-    
-    // MARK: - CONTAINER
-    struct Container {
-        static var buttonCenterYOffset: CGFloat {
-            UIScreen.main.bounds.width / 20
-        }
-        static var gamePadding: CGFloat {
-            let remainderWidth = UIScreen.main.bounds.width - Logo.tallSize.width - Logo.upperPadding
-            return (remainderWidth - (Logo.tallSize.width * 3)) / 4
-        }
+    static var sliderTopPadding: CGFloat {
+        UIScreen.main.bounds.height / 3
+    }
+    static var gamePadding: CGFloat {
+        return (UIScreen.main.bounds.width - (buttonSize.width * 3)) / 4
     }
 
     // MARK: - LOGO
     struct Logo {
-        static let tallSize = CGSize(width: 100, height: 69)
-        static let wideSize = CGSize(width: 230, height: 60)
+        static let targetTallSize = CGSize(width: 100, height: 54)
+        static let targetTallSizeBigger = CGSize(width: 150, height: 81)
         static let smallSize = CGSize(width: 69, height: 69)
         static let upperPadding: CGFloat = UIScreen.main.bounds.width / 16
-        static let bottomPadding: CGFloat = 10
     }
     
     // MARK: - SUCCESS
@@ -63,10 +57,6 @@ struct Frame {
         }
         static var outerPadding: CGFloat {
             UIScreen.main.bounds.width / 7
-        }
-        static let bottomPadding: CGFloat = 20
-        static func maxY(_ viewFrame: CGRect) -> CGFloat {
-            Frame.Logo.bottomPadding + Frame.Logo.tallSize.height + (padding * 6) + (letterSize(viewFrame).height * 6)
         }
     }
     

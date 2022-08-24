@@ -184,7 +184,7 @@ class FiveLetterGridLetterView: UIView {
             if traitCollection.userInterfaceStyle == .dark {
                 letterLabel.textColor = .white
             } else {
-                letterLabel.textColor = .black
+                letterLabel.textColor = .white
             }
         default:
             letterLabel.textColor = .white

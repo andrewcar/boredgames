@@ -35,8 +35,15 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - ADD SUBVIEWS
     private func addSubviews() {
+        addBorder()
         addLetterLabel()
         addButton()
+    }
+    
+    // MARK: - BORDER
+    private func addBorder() {
+        layer.borderColor = UIColor.red.cgColor
+        layer.borderWidth = 2
     }
     
     // MARK: - LETTER LABEL

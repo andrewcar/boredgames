@@ -92,7 +92,7 @@ class FiveLetterGridView: UIView {
         let scaledPadding = (Frame.padding / 3) * 2
         let oneFifthSansPadding: CGFloat = (twoThirdsWidth - (scaledPadding * 6)) / 5
         let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.height
+        let offset: CGFloat = 0//GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.height
         letterPortraitConstraints = [
             
             // FIRST ROW
@@ -863,7 +863,7 @@ class FiveLetterGridView: UIView {
             // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
             gridDelegate?.setKeyToGreen(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟦"
+            GameModel.shared.lastGuessInEmojis += "🟥"
             heavyImpactFeedbackGenerator.impactOccurred()
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
@@ -900,7 +900,7 @@ class FiveLetterGridView: UIView {
                 GameModel.shared.incrementYellowGuessLetter(guessLetter)
                 gridDelegate?.setKeyToYellow(for: guessLetter)
                 lightImpactFeedbackGenerator.impactOccurred()
-                GameModel.shared.lastGuessInEmojis += "🟪"
+                GameModel.shared.lastGuessInEmojis += "🟨"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
                 })
@@ -921,7 +921,7 @@ class FiveLetterGridView: UIView {
             GameModel.shared.incrementYellowGuessLetter(guessLetter)
             gridDelegate?.setKeyToYellow(for: guessLetter)
             lightImpactFeedbackGenerator.impactOccurred()
-            GameModel.shared.lastGuessInEmojis += "🟪"
+            GameModel.shared.lastGuessInEmojis += "🟨"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })

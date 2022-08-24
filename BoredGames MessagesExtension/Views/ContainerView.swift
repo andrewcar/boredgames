@@ -14,7 +14,7 @@ protocol ContainerDelegate {
 
 class ContainerView: UIView {
     
-    // MARK: - Properties
+    // MARK: - ❇️
     var containerDelegate: ContainerDelegate!
     
     private var logoView = LogoView(frame: .zero)
@@ -45,7 +45,7 @@ class ContainerView: UIView {
     private var smallLogoPortraitConstraints: [NSLayoutConstraint] = []
     private var smallLogoLandscapeConstraints: [NSLayoutConstraint] = []
 
-    // MARK: - Initializers
+    // MARK: - 1️⃣
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -64,71 +64,39 @@ class ContainerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - UPDATE CONSTRAINTS
+    // MARK: - 📜 🔄
     override func updateConstraints() {
         super.updateConstraints()
         
+        let isLandscape = UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height ? false : true
+
         updateBackgroundColor()
-        
-        // portrait
-        if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
-            activateLogoPortraitConstraints()
-            
-            updateFiveLetterGuessButton(isLandscape: false)
-            updateTicTacToeButton(isLandscape: false)
-            updateDotsButton(isLandscape: false)
-            
-            activateFiveLetterGuessViewPortraitConstraints()
-            fiveLetterGuessView.updateConstraints()
-            
-            activateTicTacToeViewPortraitConstraints()
-            ticTacToeView.updateConstraints()
-            
-            activateSmallLogoPortraitConstraints()
+        updateLogoView(isLandscape: isLandscape)
+        updateFiveLetterGuessButton(isLandscape: isLandscape)
+        updateTicTacToeButton(isLandscape: isLandscape)
+        updateDotsButton(isLandscape: isLandscape)
+        activateFiveLetterGuessViewConstraints(isLandscape: isLandscape)
+        activateTicTacToeViewConstraints(isLandscape: isLandscape)
+        activateSmallLogoViewConstraints(isLandscape: isLandscape)
 
-        // landscape
-        } else {
-            activateLogoLandscapeConstraints()
-                        
-            updateFiveLetterGuessButton(isLandscape: true)
-            updateTicTacToeButton(isLandscape: true)
-            updateDotsButton(isLandscape: true)
-
-            activateFiveLetterGuessViewLandscapeConstraints()
-            fiveLetterGuessView.updateConstraints()
-            
-            activateTicTacToeViewLandscapeConstraints()
-            ticTacToeView.updateConstraints()
-            
-            activateSmallLogoLandscapeConstraints()
-        }
-        
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
         }
     }
     
-    // MARK: - UPDATE BACKGROUND COLOR
+    // MARK: - 🪟 🟩 🔄
     private func updateBackgroundColor() {
         var newColor: UIColor?
         switch GameModel.shared.appState {
         case .container:
-            if let color = UIColor(named: "containerBackground") {
-                newColor = color
-            }
+            newColor = .containerBackground
         case .fiveLetterGuess:
-            if let color = UIColor(named: "fiveLetterGuessBackground") {
-                newColor = color
-            }
+            newColor = .fiveLetterGuessBackground
         case .ticTacToe:
-            if let color = UIColor(named: "ticTacToe") {
-                newColor = color
-            }
+            newColor = .ticTacToeBackground
         case .dots:
-            if let color = UIColor(named: "dots") {
-                newColor = color
-            }
+            newColor = .dotsBackground
         }
         guard let newColor = newColor else { return }
         UIView.animate(withDuration: 0.426, delay: 0, options: .curveEaseOut) {
@@ -137,41 +105,42 @@ class ContainerView: UIView {
         }
     }
     
-    // MARK: - LOGO VIEW
+    // MARK: - 🅱️ 🪟
     private func addLogoView() {
         addSubview(logoView)
-        activateLogoPortraitConstraints()
+        activateLogoConstraints(isLandscape: false)
     }
     
-    // MARK: - LOGO PORTRAIT CONSTRAINTS
-    private func activateLogoPortraitConstraints() {
-        deactivateLogoConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : -UIScreen.main.bounds.width
-        logoPortraitConstraints = [
-            logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-            logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-            logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.tallSize.width),
-            logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.tallSize.height)
-        ]
-        NSLayoutConstraint.activate(logoPortraitConstraints)
+    // MARK: - 🅱️ 🔄
+    private func updateLogoView(isLandscape: Bool) {
+        activateLogoConstraints(isLandscape: isLandscape)
         logoView.updateConstraints()
     }
     
-    // MARK: - LOGO LANDSCAPE CONSTRAINTS
-    private func activateLogoLandscapeConstraints() {
+    // MARK: - 🅱️ 📜
+    private func activateLogoConstraints(isLandscape: Bool) {
         deactivateLogoConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : -UIScreen.main.bounds.width
-        logoLandscapeConstraints = [
-            logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-            logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding + offset),
-            logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.tallSize.width),
-            logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.tallSize.height)
-        ]
-        NSLayoutConstraint.activate(logoLandscapeConstraints)
-        logoView.updateConstraints()
+        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width
+        if isLandscape {
+            logoLandscapeConstraints = [
+                logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.Logo.upperPadding * 3) + offset),
+                logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
+                logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
+            ]
+            NSLayoutConstraint.activate(logoLandscapeConstraints)
+        } else {
+            logoPortraitConstraints = [
+                logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                logoView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
+                logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.width),
+                logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.height)
+            ]
+            NSLayoutConstraint.activate(logoPortraitConstraints)
+        }
     }
     
-    // MARK: - DEACTIVATE LOGO CONSTRAINTS
+    // MARK: - 🅱️ 📜 🙅🏻‍♂️
     private func deactivateLogoConstraints() {
         NSLayoutConstraint.deactivate(logoPortraitConstraints)
         NSLayoutConstraint.deactivate(logoLandscapeConstraints)
@@ -179,50 +148,46 @@ class ContainerView: UIView {
         logoLandscapeConstraints.removeAll()
     }
     
-    // MARK: - SMALL LOGO VIEW
+    // MARK: - 👌🅱️ 🪟
     private func addSmallLogoView() {
         smallLogoView.smallLogoDelegate = self
         addSubview(smallLogoView)
-        activateSmallLogoPortraitConstraints()
+        activateSmallLogoViewConstraints(isLandscape: false)
     }
     
-    // MARK: - SMALL LOGO PORTRAIT CONSTRAINTS
-    private func activateSmallLogoPortraitConstraints() {
-        deactivateSmallLogoConstraints()
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .ticTacToe ? 0 : -UIScreen.main.bounds.width
-        smallLogoPortraitConstraints = [
-            smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-            smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
-            smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
-            smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
-        ]
-        NSLayoutConstraint.activate(smallLogoPortraitConstraints)
+    // MARK: - 👌🅱️ 🪟 📜
+    private func activateSmallLogoViewConstraints(isLandscape: Bool) {
+        deactivateSmallLogoViewConstraints()
+        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width * 2
+        if isLandscape {
+            smallLogoLandscapeConstraints = [
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+                smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - offset),
+                smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
+                smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
+            ]
+            NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
+        } else {
+            smallLogoPortraitConstraints = [
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+                smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset),
+                smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
+                smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
+            ]
+            NSLayoutConstraint.activate(smallLogoPortraitConstraints)
+        }
         smallLogoView.updateConstraints()
     }
     
-    // MARK: - SMALL LOGO LANDSCAPE CONSTRAINTS
-    private func activateSmallLogoLandscapeConstraints() {
-        deactivateSmallLogoConstraints()
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
-        smallLogoLandscapeConstraints = [
-            smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
-            smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: (Frame.padding * 2) + offset),
-            smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
-            smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
-        ]
-        NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
-        smallLogoView.updateConstraints()
-    }
-    
-    // MARK: - DEACTIVATE SMALL LOGO CONSTRAINTS
-    private func deactivateSmallLogoConstraints() {
+    // MARK: - 👌🅱️ 🪟 📜 🙅🏻‍♂️
+    private func deactivateSmallLogoViewConstraints() {
         NSLayoutConstraint.deactivate(smallLogoPortraitConstraints)
         NSLayoutConstraint.deactivate(smallLogoLandscapeConstraints)
         smallLogoPortraitConstraints.removeAll()
         smallLogoLandscapeConstraints.removeAll()
     }
     
-    // MARK: - FIVE LETTER GUESS BUTTON
+    // MARK: - 🅰️ ▶️
     private func addFiveLetterGuessButton() {
         fiveLetterGuessButton.translatesAutoresizingMaskIntoConstraints = false
         fiveLetterGuessButton.addTarget(self, action: #selector(didTapFiveLetterGuessButton(sender:)), for: .touchUpInside)
@@ -231,66 +196,42 @@ class ContainerView: UIView {
         }
         fiveLetterGuessButton.setTitleColor(.clear, for: .normal)
         addSubview(fiveLetterGuessButton)
-        activateFiveLetterGuessButtonPortraitConstraints()
+        activateFiveLetterGuessButtonConstraints(isLandscape: false)
     }
     
-    // MARK: - UPDATE FIVE LETTER GUESS BUTTON
+    // MARK: - 🅰️ ▶️ 🔄
     private func updateFiveLetterGuessButton(isLandscape: Bool) {
-        if isLandscape {
-            activateFiveLetterGuessButtonLandscapeConstraints()
-        } else {
-            activateFiveLetterGuessButtonPortraitConstraints()
-        }
+        activateFiveLetterGuessButtonConstraints(isLandscape: isLandscape)
         if let image = UIImage.fiveLetterGuess {
             fiveLetterGuessButton.setImage(image, for: .normal)
         }
+        fiveLetterGuessView.updateConstraints()
     }
     
-    // MARK: - FIVE LETTER GUESS BUTTON PORTRAIT CONSTRAINTS
-    private func activateFiveLetterGuessButtonPortraitConstraints() {
+    // MARK: - 🅰️ ▶️ 📜
+    private func activateFiveLetterGuessButtonConstraints(isLandscape: Bool) {
         deactivateFiveLetterGuessButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
-            fiveLetterGuessButtonPortraitConstraints = [
-                fiveLetterGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                fiveLetterGuessButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(Frame.buttonSize.width * 2)),
-                fiveLetterGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                fiveLetterGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        default:
-            fiveLetterGuessButtonPortraitConstraints = [
-                fiveLetterGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                fiveLetterGuessButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - Frame.Container.gamePadding - (UIScreen.main.bounds.width * 2)),
-                fiveLetterGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                fiveLetterGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        }
-        NSLayoutConstraint.activate(fiveLetterGuessButtonPortraitConstraints)
-    }
-
-    // MARK: - FIVE LETTER GUESS BUTTON LANDSCAPE CONSTRAINTS
-    func activateFiveLetterGuessButtonLandscapeConstraints() {
-        deactivateFiveLetterGuessButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
+        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        if isLandscape {
             fiveLetterGuessButtonLandscapeConstraints = [
-                fiveLetterGuessButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding * 2),
-                fiveLetterGuessButton.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: Frame.Logo.upperPadding + Frame.Container.gamePadding),
+                fiveLetterGuessButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
+                fiveLetterGuessButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.gamePadding + offset),
                 fiveLetterGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 fiveLetterGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
-        default:
-            fiveLetterGuessButtonLandscapeConstraints = [
-                fiveLetterGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                fiveLetterGuessButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - UIScreen.main.bounds.width * 2),
+            NSLayoutConstraint.activate(fiveLetterGuessButtonLandscapeConstraints)
+        } else {
+            fiveLetterGuessButtonPortraitConstraints = [
+                fiveLetterGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                fiveLetterGuessButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.gamePadding - offset),
                 fiveLetterGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 fiveLetterGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
+            NSLayoutConstraint.activate(fiveLetterGuessButtonPortraitConstraints)
         }
-        NSLayoutConstraint.activate(fiveLetterGuessButtonLandscapeConstraints)
     }
     
-    // MARK: - DEACTIVATE FIVE LETTER GUESS BUTTON CONSTRAINTS
+    // MARK: - 🅰️ ▶️ 📜 🙅🏻‍♂️
     private func deactivateFiveLetterGuessButtonConstraints() {
         NSLayoutConstraint.deactivate(fiveLetterGuessButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(fiveLetterGuessButtonLandscapeConstraints)
@@ -298,51 +239,60 @@ class ContainerView: UIView {
         fiveLetterGuessButtonLandscapeConstraints.removeAll()
     }
     
-    // MARK: - DID TAP FIVE LETTER GUESS BUTTON
+    // MARK: - 🅰️ ▶️ 👇
     @objc private func didTapFiveLetterGuessButton(sender: UIButton) {
         GameModel.shared.appState = .fiveLetterGuess
-        
         updateConstraints()
     }
     
-    // MARK: - FIVE LETTER GUESS VIEW
+    // MARK: - 🅰️ 🪟
     private func addFiveLetterGuessView() {
         fiveLetterGuessView = FiveLetterGuessView(frame: .zero)
         fiveLetterGuessView.fiveLetterGuessDelegate = self
         addSubview(fiveLetterGuessView)
-        activateFiveLetterGuessViewPortraitConstraints()
+        activateFiveLetterGuessViewConstraints(isLandscape: false)
     }
     
-    // MARK: - FIVE LETTER GUESS VIEW PORTRAIT CONSTRAINTS
-    private func activateFiveLetterGuessViewPortraitConstraints() {
+    // MARK: - 🅰️ 🪟 🔄
+    private func updateFiveLetterGuessView(isLandscape: Bool) {
+        activateFiveLetterGuessViewConstraints(isLandscape: isLandscape)
+        fiveLetterGuessView.updateConstraints()
+    }
+    
+    // MARK: - 🅰️ 🪟 📜
+    private func activateFiveLetterGuessViewConstraints(isLandscape: Bool) {
+        deactivateFiveLetterGuessViewConstraints()
+        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
+        if isLandscape {
+            fiveLetterGuessLandscapeConstraints = [
+                fiveLetterGuessView.topAnchor.constraint(equalTo: topAnchor),
+                fiveLetterGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                fiveLetterGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                fiveLetterGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
+            ]
+            NSLayoutConstraint.activate(fiveLetterGuessLandscapeConstraints)
+        } else {
+            fiveLetterGuessPortraitConstraints = [
+                fiveLetterGuessView.topAnchor.constraint(equalTo: topAnchor),
+                fiveLetterGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                fiveLetterGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                fiveLetterGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
+            ]
+            NSLayoutConstraint.activate(fiveLetterGuessPortraitConstraints)
+        }
+    }
+    
+    // MARK: - 🅰️ 🪟 📜 🙅🏻‍♂️
+    private func deactivateFiveLetterGuessViewConstraints() {
         NSLayoutConstraint.deactivate(fiveLetterGuessPortraitConstraints)
         NSLayoutConstraint.deactivate(fiveLetterGuessLandscapeConstraints)
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
-        fiveLetterGuessPortraitConstraints = [
-            fiveLetterGuessView.topAnchor.constraint(equalTo: topAnchor),
-            fiveLetterGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            fiveLetterGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            fiveLetterGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
-        ]
-        NSLayoutConstraint.activate(fiveLetterGuessPortraitConstraints)
+        fiveLetterGuessPortraitConstraints.removeAll()
+        fiveLetterGuessLandscapeConstraints.removeAll()
     }
     
-    // MARK: - FIVE LETTER GUESS VIEW LANDSCAPE CONSTRAINTS
-    private func activateFiveLetterGuessViewLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(fiveLetterGuessPortraitConstraints)
-        NSLayoutConstraint.deactivate(fiveLetterGuessLandscapeConstraints)
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
-        fiveLetterGuessLandscapeConstraints = [
-            fiveLetterGuessView.topAnchor.constraint(equalTo: topAnchor),
-            fiveLetterGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            fiveLetterGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            fiveLetterGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
-        ]
-        NSLayoutConstraint.activate(fiveLetterGuessLandscapeConstraints)
-    }
-    
-    // MARK: - TIC TAC TOE BUTTON
+    // MARK: - ❌ ▶️
     private func addTicTacToeButton() {
+        ticTacToeButton.isUserInteractionEnabled = false
         ticTacToeButton.translatesAutoresizingMaskIntoConstraints = false
         ticTacToeButton.addTarget(self, action: #selector(didTapTicTacToeButton(sender:)), for: .touchUpInside)
         if let image = UIImage.ticTacToe {
@@ -350,66 +300,41 @@ class ContainerView: UIView {
         }
         ticTacToeButton.setTitleColor(.clear, for: .normal)
         addSubview(ticTacToeButton)
-        activateTicTacToeButtonPortraitConstraints()
+        activateTicTacToeButtonConstraints(isLandscape: false)
     }
     
-    // MARK: - UPDATE TIC TAC TOE BUTTON
+    // MARK: - ❌ ▶️ 🔄
     private func updateTicTacToeButton(isLandscape: Bool) {
-        if isLandscape {
-            activateTicTacToeButtonLandscapeConstraints()
-        } else {
-            activateTicTacToeButtonPortraitConstraints()
-        }
+        activateTicTacToeButtonConstraints(isLandscape: isLandscape)
         if let image = UIImage.ticTacToe {
             ticTacToeButton.setImage(image, for: .normal)
         }
     }
     
-    // MARK: - TIC TAC TOE BUTTON PORTRAIT CONSTRAINTS
-    private func activateTicTacToeButtonPortraitConstraints() {
+    // MARK: - ❌ ▶️ 📜
+    private func activateTicTacToeButtonConstraints(isLandscape: Bool) {
         deactivateTicTacToeButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
-            ticTacToeButtonPortraitConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        default:
-            ticTacToeButtonPortraitConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: UIScreen.main.bounds.width * 2),
-                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        }
-        NSLayoutConstraint.activate(ticTacToeButtonPortraitConstraints)
-    }
-
-    // MARK: - TIC TAC TOE BUTTON LANDSCAPE CONSTRAINTS
-    func activateTicTacToeButtonLandscapeConstraints() {
-        deactivateTicTacToeButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
+        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
-                ticTacToeButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding * 2),
-                ticTacToeButton.leadingAnchor.constraint(equalTo: fiveLetterGuessButton.trailingAnchor, constant: Frame.Container.gamePadding),
+                ticTacToeButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
+                ticTacToeButton.leadingAnchor.constraint(equalTo: fiveLetterGuessButton.trailingAnchor, constant: Frame.gamePadding + offset),
                 ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
-        default:
-            ticTacToeButtonLandscapeConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width + (UIScreen.main.bounds.width * 2)),
+            NSLayoutConstraint.activate(ticTacToeButtonLandscapeConstraints)
+        } else {
+            ticTacToeButtonPortraitConstraints = [
+                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                ticTacToeButton.leadingAnchor.constraint(equalTo: fiveLetterGuessButton.trailingAnchor, constant: Frame.gamePadding + offset),
                 ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
+            NSLayoutConstraint.activate(ticTacToeButtonPortraitConstraints)
         }
-        NSLayoutConstraint.activate(ticTacToeButtonLandscapeConstraints)
     }
     
-    // MARK: - DEACTIVATE TIC TAC TOE BUTTON CONSTRAINTS
+    // MARK: - ❌ ▶️ 📜 🙅🏻‍♂️
     private func deactivateTicTacToeButtonConstraints() {
         NSLayoutConstraint.deactivate(ticTacToeButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(ticTacToeButtonLandscapeConstraints)
@@ -417,49 +342,59 @@ class ContainerView: UIView {
         ticTacToeButtonLandscapeConstraints.removeAll()
     }
 
-    // MARK: - DID TAP TIC TAC TOE BUTTON
+    // MARK: - ❌ ▶️ 👇
     @objc private func didTapTicTacToeButton(sender: UIButton) {
         GameModel.shared.appState = .ticTacToe
         updateConstraints()
     }
     
-    // MARK: - TIC TAC TOE VIEW
+    // MARK: - ❌ 🪟
     private func addTicTacToeView() {
         ticTacToeView = TicTacToeView(frame: .zero)
         addSubview(ticTacToeView)
-        activateTicTacToeViewPortraitConstraints()
+        activateTicTacToeViewConstraints(isLandscape: false)
     }
     
-    // MARK: - TIC TAC TOE VIEW PORTRAIT CONSTRAINTS
-    private func activateTicTacToeViewPortraitConstraints() {
+    // MARK: - ❌ 🪟 🔄
+    private func updateTicTacToeView(isLandscape: Bool) {
+        activateTicTacToeViewConstraints(isLandscape: isLandscape)
+        ticTacToeView.updateConstraints()
+    }
+    
+    // MARK: - ❌ 🪟 📜
+    private func activateTicTacToeViewConstraints(isLandscape: Bool) {
+        deactivateTicTacToeViewConstraints()
+        let offset = GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
+        if isLandscape {
+            ticTacToeLandscapeConstraints = [
+                ticTacToeView.topAnchor.constraint(equalTo: topAnchor),
+                ticTacToeView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                ticTacToeView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                ticTacToeView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ]
+            NSLayoutConstraint.activate(ticTacToeLandscapeConstraints)
+        } else {
+            ticTacToePortraitConstraints = [
+                ticTacToeView.topAnchor.constraint(equalTo: topAnchor),
+                ticTacToeView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                ticTacToeView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                ticTacToeView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ]
+            NSLayoutConstraint.activate(ticTacToePortraitConstraints)
+        }
+    }
+    
+    // MARK: - ❌ 🪟 📜 🙅🏻‍♂️
+    private func deactivateTicTacToeViewConstraints() {
         NSLayoutConstraint.deactivate(ticTacToePortraitConstraints)
         NSLayoutConstraint.deactivate(ticTacToeLandscapeConstraints)
-        let offset = GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
-        ticTacToePortraitConstraints = [
-            ticTacToeView.topAnchor.constraint(equalTo: topAnchor),
-            ticTacToeView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            ticTacToeView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            ticTacToeView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ]
-        NSLayoutConstraint.activate(ticTacToePortraitConstraints)
+        ticTacToePortraitConstraints.removeAll()
+        ticTacToeLandscapeConstraints.removeAll()
     }
     
-    // MARK: - TIC TAC TOE VIEW LANDSCAPE CONSTRAINTS
-    private func activateTicTacToeViewLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(ticTacToePortraitConstraints)
-        NSLayoutConstraint.deactivate(ticTacToeLandscapeConstraints)
-        let offset = GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
-        ticTacToeLandscapeConstraints = [
-            ticTacToeView.topAnchor.constraint(equalTo: topAnchor),
-            ticTacToeView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
-            ticTacToeView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            ticTacToeView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ]
-        NSLayoutConstraint.activate(ticTacToeLandscapeConstraints)
-    }
-    
-    // MARK: - DOTS BUTTON
+    // MARK: - 🔴 ▶️
     private func addDotsButton() {
+        dotsButton.isUserInteractionEnabled = false
         dotsButton.translatesAutoresizingMaskIntoConstraints = false
         dotsButton.addTarget(self, action: #selector(didTapDotsButton(sender:)), for: .touchUpInside)
         if let image = UIImage.fiveLetterGuess {
@@ -467,66 +402,42 @@ class ContainerView: UIView {
         }
         dotsButton.setTitleColor(.clear, for: .normal)
         addSubview(dotsButton)
-        activateDotsButtonPortraitConstraints()
+        activateDotsButtonConstraints(isLandscape: false)
     }
     
-    // MARK: - UPDATE DOTS BUTTON
+    // MARK: - 🔴 ▶️ 🔄
     private func updateDotsButton(isLandscape: Bool) {
-        if isLandscape {
-            activateDotsButtonLandscapeConstraints()
-        } else {
-            activateDotsButtonPortraitConstraints()
-        }
+        activateDotsButtonConstraints(isLandscape: isLandscape)
         if let image = UIImage.dots {
             dotsButton.setImage(image, for: .normal)
         }
     }
     
-    // MARK: - DOTS BUTTON PORTRAIT CONSTRAINTS
-    private func activateDotsButtonPortraitConstraints() {
+    // MARK: - 🔴 ▶️ 📜
+    private func activateDotsButtonConstraints(isLandscape: Bool) {
         deactivateDotsButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
-            dotsButtonPortraitConstraints = [
-                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width * 2),
+        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        if isLandscape {
+            dotsButtonLandscapeConstraints = [
+                dotsButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
+                dotsButton.leadingAnchor.constraint(equalTo: ticTacToeButton.trailingAnchor, constant: Frame.gamePadding + offset),
                 dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
-        default:
+            NSLayoutConstraint.activate(dotsButtonLandscapeConstraints)
+        } else {
             dotsButtonPortraitConstraints = [
-                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - (UIScreen.main.bounds.width * 2)),
+                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                dotsButton.leadingAnchor.constraint(equalTo: ticTacToeButton.trailingAnchor, constant: Frame.gamePadding + offset),
                 dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
+            NSLayoutConstraint.activate(dotsButtonPortraitConstraints)
         }
         NSLayoutConstraint.activate(dotsButtonPortraitConstraints)
     }
-
-    // MARK: - DOTS BUTTON LANDSCAPE CONSTRAINTS
-    func activateDotsButtonLandscapeConstraints() {
-        deactivateDotsButtonConstraints()
-        switch GameModel.shared.appState {
-        case .container:
-            dotsButtonLandscapeConstraints = [
-                dotsButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding * 2),
-                dotsButton.leadingAnchor.constraint(equalTo: ticTacToeButton.trailingAnchor, constant: Frame.Container.gamePadding),
-                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        default:
-            dotsButtonLandscapeConstraints = [
-                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -Frame.Container.buttonCenterYOffset),
-                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - UIScreen.main.bounds.width * 2),
-                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
-            ]
-        }
-        NSLayoutConstraint.activate(dotsButtonLandscapeConstraints)
-    }
     
-    // MARK: - DEACTIVATE DOTS BUTTON CONSTRAINTS
+    // MARK: - 🔴 ▶️ 📜 🙅🏻‍♂️
     private func deactivateDotsButtonConstraints() {
         NSLayoutConstraint.deactivate(dotsButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(dotsButtonLandscapeConstraints)
@@ -534,29 +445,34 @@ class ContainerView: UIView {
         dotsButtonLandscapeConstraints.removeAll()
     }
     
-    // MARK: - DID TAP DOTS BUTTON
+    // MARK: - 🔴 ▶️ 👇
     @objc private func didTapDotsButton(sender: UIButton) {
         GameModel.shared.appState = .dots
-        
         updateConstraints()
     }
 }
 
 extension ContainerView: SmallLogoViewDelegate {
-    func didTapLogo() {
+    
+    // MARK: - 🅱️ ▶️ 👇
+    func didTapLogoButton() {
         containerDelegate.didTapLogoButton()
     }
 }
 
 extension ContainerView: FiveLetterGuessDelegate {
+    
+    // MARK: - ⤴️ ▶️ 👇
     func didTapSendButton() {
         containerDelegate.didTapSendButton()
     }
     
+    // MARK: - 📈 ▶️ 👇
     func didTapStatsButton() {
         updateConstraints()
     }
     
+    // MARK: - 🔢 ▶️ 👇
     func didTapGridButton() {
         updateConstraints()
     }

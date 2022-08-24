@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SmallLogoViewDelegate {
-    func didTapLogo()
+    func didTapLogoButton()
 }
 
 class SmallLogoView: UIView {
@@ -45,6 +45,7 @@ class SmallLogoView: UIView {
     // MARK: - IMAGE VIEW
     private func addImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         imageView.image = .boredGamesSmall
         addSubview(imageView)
         activateImageConstraints()
@@ -85,6 +86,6 @@ class SmallLogoView: UIView {
     
     // MARK: - DID TAP LOGO
     @objc private func didTapLogo(sender: UIButton) {
-        smallLogoDelegate.didTapLogo()
+        smallLogoDelegate.didTapLogoButton()
     }
 }

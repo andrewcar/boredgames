@@ -10,7 +10,7 @@ import UIKit
 class LogoView: UIView {
     
     // MARK: - Properties    
-    private var imageView = UIImageView()
+    private var imageView = UIImageView(frame: .zero)
     private var imageConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Initializers
@@ -33,9 +33,9 @@ class LogoView: UIView {
     
     // MARK: - IMAGE VIEW
     private func addImageView() {
-        imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = .boredGamesLogoTall
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = .boredGamesTall
         addSubview(imageView)
         activateImageConstraints()
     }
@@ -46,8 +46,8 @@ class LogoView: UIView {
         imageConstraints = [
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.tallSize.width),
-            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.tallSize.height)
+            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.width),
+            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.height)
         ]
         NSLayoutConstraint.activate(imageConstraints)
     }
