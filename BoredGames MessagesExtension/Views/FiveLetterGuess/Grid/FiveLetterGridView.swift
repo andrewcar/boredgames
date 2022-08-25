@@ -261,7 +261,7 @@ class FiveLetterGridView: UIView {
         NSLayoutConstraint.deactivate(letterLandscapeConstraints)
         let oneFifthSansPadding: CGFloat = ((UIScreen.main.bounds.size.width / 2.3) / 5) - (Frame.padding * 6)
         let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
         letterLandscapeConstraints = [
             
             // FIRST ROW
@@ -497,7 +497,7 @@ class FiveLetterGridView: UIView {
         
         if let firstGuess = firstGuess, let answer = answer {
             let guess = firstGuess.lowercased()
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.leftDotOne.isHidden = false
                 self.updateFirstRow(guess: guess,
                                     animated: guessToAnimate == .first ? true : false) {
@@ -508,7 +508,7 @@ class FiveLetterGridView: UIView {
         if let secondGuess = secondGuess, let answer = answer {
             let guess = secondGuess.lowercased()
             self.rightDotOne.isHidden = false
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateSecondRow(guess: guess,
                                 animated: guessToAnimate == .second ? true : false) {
                     completion(guess == answer ? .won : .playing)
@@ -518,7 +518,7 @@ class FiveLetterGridView: UIView {
         if let thirdGuess = thirdGuess, let answer = answer {
             let guess = thirdGuess.lowercased()
             self.leftDotTwo.isHidden = false
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateThirdRow(guess: guess,
                                 animated: guessToAnimate == .third ? true : false) {
                     completion(guess == answer ? .won : .playing)
@@ -528,7 +528,7 @@ class FiveLetterGridView: UIView {
         if let fourthGuess = fourthGuess, let answer = answer {
             let guess = fourthGuess.lowercased()
             self.rightDotTwo.isHidden = false
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateFourthRow(guess: guess,
                                 animated: guessToAnimate == .fourth ? true : false) {
                     completion(guess == answer ? .won : .playing)
@@ -538,7 +538,7 @@ class FiveLetterGridView: UIView {
         if let fifthGuess = fifthGuess, let answer = answer {
             let guess = fifthGuess.lowercased()
             self.leftDotThree.isHidden = false
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateFifthRow(guess: guess,
                                 animated: guessToAnimate == .fifth ? true : false) {
                     completion(guess == answer ? .won : .playing)
@@ -548,7 +548,7 @@ class FiveLetterGridView: UIView {
         if let sixthGuess = sixthGuess, let answer = answer {
             let guess = sixthGuess.lowercased()
             self.rightDotThree.isHidden = false
-            GameModel.shared.populateGuessLetterCountDictionary(with: guess) {
+            Model.shared.populateGuessLetterCountDictionary(with: guess) {
                 self.updateSixthRow(guess: guess,
                                 animated: guessToAnimate == .sixth ? true : false) {
                     completion(guess == answer ? .won : .lost)
@@ -661,11 +661,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE FIRST ROW FROM ENTER
     private func updateFirstRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .a5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .a5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess1 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased(), completion: {
-            self.updateFirstRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess1 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased(), completion: {
+            self.updateFirstRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         })
@@ -673,11 +673,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE SECOND ROW FROM ENTER
     private func updateSecondRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .b5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .b5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess2 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
-            self.updateSecondRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess2 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased()) {
+            self.updateSecondRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         }
@@ -685,11 +685,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE THIRD ROW FROM ENTER
     private func updateThirdRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .c5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .c5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess3 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
-            self.updateThirdRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess3 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased()) {
+            self.updateThirdRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         }
@@ -697,11 +697,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE FOURTH ROW FROM ENTER
     private func updateFourthRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .d5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .d5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess4 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
-            self.updateFourthRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess4 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased()) {
+            self.updateFourthRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         }
@@ -709,11 +709,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE FIFTH ROW FROM ENTER
     private func updateFifthRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .e5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .e5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess5 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
-            self.updateFifthRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess5 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased()) {
+            self.updateFifthRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         }
@@ -721,11 +721,11 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE SIXTH ROW FROM ENTER
     private func updateSixthRowFromEnter(completion: @escaping () -> ()) {
-        guard GameModel.shared.currentGame?.currentLetter == .f5 && GameModel.shared.currentGuess.count == 5 else { completion(); return }
+        guard Model.shared.currentFLGGame?.currentLetter == .f5 && Model.shared.currentGuess.count == 5 else { completion(); return }
         gridDelegate?.disableKeyboard()
-        GameModel.shared.currentGame?.guess6 = GameModel.shared.currentGuess.lowercased()
-        incrementLetterCounts(guess: GameModel.shared.currentGuess.lowercased()) {
-            self.updateSixthRow(guess: GameModel.shared.currentGuess, animated: true) {
+        Model.shared.currentFLGGame?.guess6 = Model.shared.currentGuess.lowercased()
+        incrementLetterCounts(guess: Model.shared.currentGuess.lowercased()) {
+            self.updateSixthRow(guess: Model.shared.currentGuess, animated: true) {
                 completion()
             }
         }
@@ -740,8 +740,8 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE ROWS FROM ENTER
     func updateRowsFromEnter(completion: @escaping () -> ()) {
-        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
-        guard let guessNumber = currentGame.guessNumber else { completion(); return }
+        guard let currentFLGGame = Model.shared.currentFLGGame else { completion(); return }
+        guard let guessNumber = currentFLGGame.guessNumber else { completion(); return }
         switch guessNumber {
         case .first:
             updateFirstRowFromEnter {
@@ -829,8 +829,8 @@ class FiveLetterGridView: UIView {
     
     // MARK: - INCREMENT LETTER COUNTS
     private func incrementLetterCounts(guess: String, completion: @escaping () -> ()) {
-        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
-        guard let answer = currentGame.answer else { completion(); return }
+        guard let currentFLGGame = Model.shared.currentFLGGame else { completion(); return }
+        guard let answer = currentFLGGame.answer else { completion(); return }
 
         for (letterIndex, letterCharacter) in guess.enumerated() {
             let letter = "\(letterCharacter)"
@@ -838,7 +838,7 @@ class FiveLetterGridView: UIView {
             // Handling Correct Guess Letters:
                 // if the guess letter is the same as the answer's letter in that slot, mark it green
             if guess[letterIndex] == answer[letterIndex] {
-                GameModel.shared.incrementGreenGuessLetter(letter)
+                Model.shared.incrementGreenGuessLetter(letter)
             }
         }
         completion()
@@ -846,24 +846,24 @@ class FiveLetterGridView: UIView {
     
     // MARK: - UPDATE LETTER VIEW
     private func updateHint(letterView: FiveLetterGridLetterView?, with guess: String?, at guessIndex: Int, animated: Bool, completion: @escaping () -> ()) {
-        guard let currentGame = GameModel.shared.currentGame else { completion(); return }
-        guard let answer = currentGame.answer else { completion(); return }
+        guard let currentFLGGame = Model.shared.currentFLGGame else { completion(); return }
+        guard let answer = currentFLGGame.answer else { completion(); return }
         if let guess = guess {
             letterView?.updateLetter(with: "\(guess.uppercased()[guessIndex])")
         }
         
-        let guess = guess?.lowercased() ?? GameModel.shared.currentGuess.lowercased()
+        let guess = guess?.lowercased() ?? Model.shared.currentGuess.lowercased()
         let guessLetter = "\(guess[guessIndex])".lowercased()
-        guard let answerLetterCount = GameModel.shared.answerLetterCounts[guessLetter] else { completion(); return }
-        guard let guessLetterCount = GameModel.shared.guessLetterCounts[guessLetter] else { completion(); return }
-        guard let yellowLetterCount = GameModel.shared.guessYellowLetterCounts[guessLetter] else { completion(); return }
-        guard let greenLetterCount = GameModel.shared.guessGreenLetterCounts[guessLetter] else { completion(); return }
+        guard let answerLetterCount = Model.shared.answerLetterCounts[guessLetter] else { completion(); return }
+        guard let guessLetterCount = Model.shared.guessLetterCounts[guessLetter] else { completion(); return }
+        guard let yellowLetterCount = Model.shared.guessYellowLetterCounts[guessLetter] else { completion(); return }
+        guard let greenLetterCount = Model.shared.guessGreenLetterCounts[guessLetter] else { completion(); return }
 
         // Handling Correct Guess Letters:
             // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
             gridDelegate?.setKeyToGreen(for: guessLetter)
-            GameModel.shared.lastGuessInEmojis += "🟥"
+            Model.shared.lastGuessInEmojis += "🟥"
             heavyImpactFeedbackGenerator.impactOccurred()
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
@@ -874,7 +874,7 @@ class FiveLetterGridView: UIView {
         } else if !answer.contains(guessLetter) {
             gridDelegate?.setKeyToGray(for: guessLetter)
             selectionFeedbackGenerator.selectionChanged()
-            GameModel.shared.lastGuessInEmojis += "⬛️"
+            Model.shared.lastGuessInEmojis += "⬛️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
@@ -889,7 +889,7 @@ class FiveLetterGridView: UIView {
             if greenLetterCount == answerLetterCount {
                 gridDelegate?.setKeyToGray(for: guessLetter)
                 selectionFeedbackGenerator.selectionChanged()
-                GameModel.shared.lastGuessInEmojis += "⬛️"
+                Model.shared.lastGuessInEmojis += "⬛️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
                 })
@@ -897,10 +897,10 @@ class FiveLetterGridView: UIView {
             // else if there are less of the confirmed yellow guess letters than in the answer...
             // it must be yellow
             } else if yellowLetterCount < answerLetterCount  {
-                GameModel.shared.incrementYellowGuessLetter(guessLetter)
+                Model.shared.incrementYellowGuessLetter(guessLetter)
                 gridDelegate?.setKeyToYellow(for: guessLetter)
                 lightImpactFeedbackGenerator.impactOccurred()
-                GameModel.shared.lastGuessInEmojis += "🟨"
+                Model.shared.lastGuessInEmojis += "🟨"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
                 })
@@ -909,7 +909,7 @@ class FiveLetterGridView: UIView {
             } else {
                 gridDelegate?.setKeyToGray(for: guessLetter)
                 selectionFeedbackGenerator.selectionChanged()
-                GameModel.shared.lastGuessInEmojis += "⬛️"
+                Model.shared.lastGuessInEmojis += "⬛️"
                 letterView?.updateLetter(to: .gray, animated: animated, completion: {
                     completion()
                 })
@@ -918,17 +918,17 @@ class FiveLetterGridView: UIView {
         // Handling Guess Letter Scarcity:
             // if there are more of the guess letter in the answer than in the guess...
         } else if answerLetterCount > yellowLetterCount {
-            GameModel.shared.incrementYellowGuessLetter(guessLetter)
+            Model.shared.incrementYellowGuessLetter(guessLetter)
             gridDelegate?.setKeyToYellow(for: guessLetter)
             lightImpactFeedbackGenerator.impactOccurred()
-            GameModel.shared.lastGuessInEmojis += "🟨"
+            Model.shared.lastGuessInEmojis += "🟨"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })
         } else if answerLetterCount == yellowLetterCount {
             gridDelegate?.setKeyToGray(for: guessLetter)
             selectionFeedbackGenerator.selectionChanged()
-            GameModel.shared.lastGuessInEmojis += "⬛️"
+            Model.shared.lastGuessInEmojis += "⬛️"
             letterView?.updateLetter(to: .gray, animated: animated, completion: {
                 completion()
             })
@@ -1118,8 +1118,8 @@ class FiveLetterGridView: UIView {
     
     // MARK: - SHAKE CURRENT ROW
     private func shakeCurrentRow() {
-        guard let currentGame = GameModel.shared.currentGame else { return }
-        guard let guessNumber = currentGame.guessNumber else { return }
+        guard let currentFLGGame = Model.shared.currentFLGGame else { return }
+        guard let guessNumber = currentFLGGame.guessNumber else { return }
         
         switch guessNumber {
         case .first:
@@ -1151,14 +1151,14 @@ class FiveLetterGridView: UIView {
     
     // MARK: - WORD IS IN LIST
     func wordIsInList() -> Bool {
-        let words: Words = GameModel.shared.load("words.json")
-        guard words.list.contains(GameModel.shared.currentGuess.lowercased()) else {
+        let words: Words = Model.shared.load("words.json")
+        guard words.list.contains(Model.shared.currentGuess.lowercased()) else {
             gridDelegate?.showNotInWordListView()
             shakeCurrentRow()
             return false
         }
-        if let guessNumber = GameModel.shared.currentGame?.guessNumber, guessNumber == .first {
-            GameModel.shared.setAnswerRandomly()
+        if let guessNumber = Model.shared.currentFLGGame?.guessNumber, guessNumber == .first {
+            Model.shared.setAnswerRandomly()
         }
         return true
     }

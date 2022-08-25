@@ -15,3 +15,15 @@ enum Guess: String, Hashable, Codable, CaseIterable {
     case fifth
     case sixth
 }
+
+enum Turn: String, Hashable, Codable, CaseIterable {
+    case first
+    case second
+    case third
+    case fourth
+    case fifth
+    case sixth
+    case seventh
+    case eighth
+    case ninth
+}

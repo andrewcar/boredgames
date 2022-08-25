@@ -33,7 +33,7 @@ class StatsView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
     
-        if GameModel.shared.isLandscape {
+        if Model.shared.isLandscape {
             activateStatBarLandscapeConstraints()
             activateResetButtonLandscapeConstraints()
             statBarView.updateConstraints()
@@ -43,7 +43,7 @@ class StatsView: UIView {
             statBarView.updateConstraints()
         }
         
-        resetButton.isHidden = !GameModel.shared.resetAvailable
+        resetButton.isHidden = !Model.shared.resetAvailable
     }
     
     // MARK: - ADD SUBVIEWS
@@ -138,19 +138,19 @@ class StatsView: UIView {
     // MARK: - DID TAP RESET BUTTON
     @objc
     private func didTapResetButton(sender: UIButton) {
-        var games = GameModel.shared.games
+        var games = Model.shared.flgGames
         games.value.removeAll()
         games.gameCount = 0
         games.winCount = 0
         games.lossCount = 0
         games.streakCount = 0
-        GamesCache.save(games)
+        GamesCache.saveFLGGames(games)
         statBarView.playedNumberLabel.text = "\(games.gameCount)"
         statBarView.wonNumberLabel.text = "\(games.winCount)"
         statBarView.lostNumberLabel.text = "\(games.lossCount)"
         statBarView.streakNumberLabel.text = "\(games.streakCount)"
-        GameModel.shared.games = games
-        GamesCache.remove()
+        Model.shared.flgGames = games
+        GamesCache.removeFLGGames()
     }
     
 }

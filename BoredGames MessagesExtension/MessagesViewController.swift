@@ -19,7 +19,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        GameModel.shared.updateGamesFromUserDefaults()
+        Model.shared.updateGamesFromUserDefaults()
         addContainerView()
     }
     
@@ -28,12 +28,12 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // portrait
         if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
-            GameModel.shared.isLandscape = false
+            Model.shared.isLandscape = false
             activateContainerConstraints(isLandscape: false)
             
         // landscape
         } else {
-            GameModel.shared.isLandscape = true
+            Model.shared.isLandscape = true
             activateContainerConstraints(isLandscape: true)
         }
         containerView.updateConstraints()
@@ -43,7 +43,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - 🪟 🟩 🔄
     private func updateBackgroundColor() {
         var newColor: UIColor?
-        switch GameModel.shared.appState {
+        switch Model.shared.appState {
         case .container:
             newColor = .containerBackground
         case .fiveLetterGuess:
@@ -92,7 +92,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - SHAKE
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         guard motion == .motionShake else { return }
-        if GameModel.shared.appState == .fiveLetterGuess && GameModel.shared.fiveLetterGuessState == .debug {
+        if Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .debug {
             containerView.fiveLetterGuessView.hideDebugView()
         }
         showContainer()
@@ -100,204 +100,389 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - SHOW CONTAINER
     private func showContainer() {
-        guard GameModel.shared.appState != .container else { return }
-        GameModel.shared.appState = .container
+        guard Model.shared.appState != .container else { return }
+        Model.shared.appState = .container
         containerView.updateConstraints()
     }
     
 
     // MARK: - DECODE
-    private func decode(_ message: MSMessage) {
+    private func appStateFromDecoding(_ message: MSMessage) -> AppState {
         guard let url = message.url else {
             print("Could not get URL from MSMessage.")
-            return
+            return .container
         }
         guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: false) else {
             print("Could not create NSURLComponents from MSMessage URL.")
-            return
+            return .container
         }
         
         if let queryItems = components.queryItems {
             
-            var id: UUID?
-            var answer: String?
-            var firstGuess: String?
-            var secondGuess: String?
-            var thirdGuess: String?
-            var fourthGuess: String?
-            var fifthGuess: String?
-            var sixthGuess: String?
-            var guessNumber: String?
-            var state: String?
-            var playerOneUUID: String?
-            var playerTwoUUID: String?
-            var currentPlayerUUID: String?
-            
+            var gameType: String?
             for queryItem in queryItems {
-                if let value = queryItem.value {
-                    switch queryItem.name {
-                    case "id":
-                        if !value.isEmpty {
-                            id = UUID(uuidString: value)
-                        }
-                    case "answer":
-                        if !value.isEmpty {
-                            answer = value
-                        }
-                    case "guess1":
-                        if !value.isEmpty {
-                            firstGuess = value
-                        }
-                    case "guess2":
-                        if !value.isEmpty {
-                            secondGuess = value
-                        }
-                    case "guess3":
-                        if !value.isEmpty {
-                            thirdGuess = value
-                        }
-                    case "guess4":
-                        if !value.isEmpty {
-                            fourthGuess = value
-                        }
-                    case "guess5":
-                        if !value.isEmpty {
-                            fifthGuess = value
-                        }
-                    case "guess6":
-                        if !value.isEmpty {
-                            sixthGuess = value
-                        }
-                    case "guessNumber":
-                        if !value.isEmpty {
-                            guessNumber = value
-                        }
-                    case "state":
-                        if !value.isEmpty {
-                            state = value
-                        }
-                    case "playerOneUUID":
-                        if !value.isEmpty {
-                            playerOneUUID = value
-                        }
-                    case "playerTwoUUID":
-                        if !value.isEmpty {
-                            playerTwoUUID = value
-                        }
-                    case "currentPlayerUUID":
-                        if !value.isEmpty {
-                            currentPlayerUUID = value
-                        }
-                    default: ()
-                    }
+                if queryItem.name == "gameType", let value = queryItem.value {
+                    gameType = value
                 }
             }
             
-            let guessNumberValue = guessNumber ?? "first"
-            let stateValue = state ?? "playing"
-            
-            if let id = id {
-                let game = Game(
-                    id: id,
-                    answer: answer,
-                    guess1: firstGuess,
-                    guess2: secondGuess,
-                    guess3: thirdGuess,
-                    guess4: fourthGuess,
-                    guess5: fifthGuess,
-                    guess6: sixthGuess,
-                    guessNumber: Guess(rawValue: guessNumberValue),
-                    state: GameState(rawValue: stateValue) ?? .playing,
-                    playerOne: Player(uuidString: playerOneUUID, color: .blue),
-                    playerTwo: Player(uuidString: playerTwoUUID, color: .red),
-                    currentPlayerUUID: currentPlayerUUID)
-                GameModel.shared.currentGame = game
-                GameModel.shared.resetAnswerLetterCountDictionary {}
-                GameModel.shared.populateAnswerLetterCountDictionary {}
+            if let gameType = gameType {
+                if gameType == GameType.fiveLetterGuess.rawValue {
+                    decodeFiveLetterGuessMessage(queryItems: queryItems)
+                    return .fiveLetterGuess
+                } else if gameType == GameType.ticTacToe.rawValue {
+                    decodeTicTacToeMessage(queryItems: queryItems)
+                    return .ticTacToe
+                }
+            }
+        }
+        return .container
+    }
+    
+    // MARK: - DECODE FIVE LETTER GUESS MESSAGE
+    private func decodeFiveLetterGuessMessage(queryItems: [URLQueryItem]) {
+        var id: UUID?
+        var answer: String?
+        var firstGuess: String?
+        var secondGuess: String?
+        var thirdGuess: String?
+        var fourthGuess: String?
+        var fifthGuess: String?
+        var sixthGuess: String?
+        var guessNumber: String?
+        var state: String?
+        var playerOneUUID: String?
+        var playerTwoUUID: String?
+        var currentPlayerUUID: String?
+        
+        for queryItem in queryItems {
+            if let value = queryItem.value {
+                switch queryItem.name {
+                case "id":
+                    if !value.isEmpty {
+                        id = UUID(uuidString: value)
+                    }
+                case "answer":
+                    if !value.isEmpty {
+                        answer = value
+                    }
+                case "guess1":
+                    if !value.isEmpty {
+                        firstGuess = value
+                    }
+                case "guess2":
+                    if !value.isEmpty {
+                        secondGuess = value
+                    }
+                case "guess3":
+                    if !value.isEmpty {
+                        thirdGuess = value
+                    }
+                case "guess4":
+                    if !value.isEmpty {
+                        fourthGuess = value
+                    }
+                case "guess5":
+                    if !value.isEmpty {
+                        fifthGuess = value
+                    }
+                case "guess6":
+                    if !value.isEmpty {
+                        sixthGuess = value
+                    }
+                case "guessNumber":
+                    if !value.isEmpty {
+                        guessNumber = value
+                    }
+                case "state":
+                    if !value.isEmpty {
+                        state = value
+                    }
+                case "playerOneUUID":
+                    if !value.isEmpty {
+                        playerOneUUID = value
+                    }
+                case "playerTwoUUID":
+                    if !value.isEmpty {
+                        playerTwoUUID = value
+                    }
+                case "currentPlayerUUID":
+                    if !value.isEmpty {
+                        currentPlayerUUID = value
+                    }
+                default: ()
+                }
             }
         }
         
-        containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
+        let guessNumberValue = guessNumber ?? "first"
+        let stateValue = state ?? "playing"
+        
+        if let id = id {
+            let game = FiveLetterGuessGame(
+                gameType: .fiveLetterGuess,
+                id: id,
+                answer: answer,
+                guess1: firstGuess,
+                guess2: secondGuess,
+                guess3: thirdGuess,
+                guess4: fourthGuess,
+                guess5: fifthGuess,
+                guess6: sixthGuess,
+                guessNumber: Guess(rawValue: guessNumberValue),
+                state: GameState(rawValue: stateValue) ?? .playing,
+                playerOne: Player(uuidString: playerOneUUID, color: .blue),
+                playerTwo: Player(uuidString: playerTwoUUID, color: .red),
+                currentPlayerUUID: currentPlayerUUID)
+            Model.shared.currentFLGGame = game
+            Model.shared.resetAnswerLetterCountDictionary {}
+            Model.shared.populateAnswerLetterCountDictionary {}
+        }
+    }
+    
+    // MARK: - DECODE TIC TAC TOE MESSAGE
+    private func decodeTicTacToeMessage(queryItems: [URLQueryItem]) {
+        var id: UUID?
+        var a1: String?
+        var a2: String?
+        var a3: String?
+        var b1: String?
+        var b2: String?
+        var b3: String?
+        var c1: String?
+        var c2: String?
+        var c3: String?
+        var turnNumber: String?
+        var state: String?
+        var playerOneUUID: String?
+        var playerTwoUUID: String?
+        var currentPlayerUUID: String?
+        var winnerUUID: String?
+        
+        for queryItem in queryItems {
+            if let value = queryItem.value {
+                switch queryItem.name {
+                case "id":
+                    if !value.isEmpty {
+                        id = UUID(uuidString: value)
+                    }
+                case "a1":
+                    if !value.isEmpty {
+                        a1 = value
+                    }
+                case "a2":
+                    if !value.isEmpty {
+                        a2 = value
+                    }
+                case "a3":
+                    if !value.isEmpty {
+                        a3 = value
+                    }
+                case "b1":
+                    if !value.isEmpty {
+                        b1 = value
+                    }
+                case "b2":
+                    if !value.isEmpty {
+                        b2 = value
+                    }
+                case "b3":
+                    if !value.isEmpty {
+                        b3 = value
+                    }
+                case "c1":
+                    if !value.isEmpty {
+                        c1 = value
+                    }
+                case "c2":
+                    if !value.isEmpty {
+                        c2 = value
+                    }
+                case "c3":
+                    if !value.isEmpty {
+                        c3 = value
+                    }
+                case "turnNumber":
+                    if !value.isEmpty {
+                        turnNumber = value
+                    }
+                case "state":
+                    if !value.isEmpty {
+                        state = value
+                    }
+                case "playerOneUUID":
+                    if !value.isEmpty {
+                        playerOneUUID = value
+                    }
+                case "playerTwoUUID":
+                    if !value.isEmpty {
+                        playerTwoUUID = value
+                    }
+                case "currentPlayerUUID":
+                    if !value.isEmpty {
+                        currentPlayerUUID = value
+                    }
+                case "winnerUUID":
+                    if !value.isEmpty {
+                        winnerUUID = value
+                    }
+                default: ()
+                }
+            }
+        }
+        
+        let turnNumberValue = turnNumber ?? "first"
+        let stateValue = state ?? "playing"
+        
+        if let id = id {
+            let game = TicTacToeGame(
+                gameType: .ticTacToe,
+                id: id,
+                a1: a1,
+                a2: a2,
+                a3: a3,
+                b1: b1,
+                b2: b2,
+                b3: b3,
+                c1: c1,
+                c2: c2,
+                c3: c3,
+                turnNumber: Turn(rawValue: turnNumberValue),
+                state: GameState(rawValue: stateValue) ?? .playing,
+                playerOne: Player(uuidString: playerOneUUID, color: .blue),
+                playerTwo: Player(uuidString: playerTwoUUID, color: .red),
+                currentPlayerUUID: currentPlayerUUID,
+                winnerUUID: winnerUUID)
+            TicTacToeModel.shared.currentTTTGame = game
+        }
     }
     
     // MARK: - COME ALIVE
     func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
         
-        if let selectedMessage = conversation.selectedMessage {
+        guard let selectedMessage = conversation.selectedMessage else {
             containerView.fiveLetterGuessView.resetGame()
-            decode(selectedMessage)
-            GameModel.shared.appState = .fiveLetterGuess
-                                    
-            // reset correct guess letter counts
-            GameModel.shared.resetGuessLetterCountDictionary {
-                
-                // update the grid view with any cached guesses
-                if let currentGame = GameModel.shared.currentGame,
-                   let answer = currentGame.answer,
-                   let guessNumber = currentGame.guessNumber {
-                    
-                    
-                    
-                    self.containerView.fiveLetterGuessView.gridView.updateRowsFromMessage(
-                        answer: answer,
-                        firstGuess: currentGame.guess1,
-                        secondGuess: currentGame.guess2,
-                        thirdGuess: currentGame.guess3,
-                        fourthGuess: currentGame.guess4,
-                        fifthGuess: currentGame.guess5,
-                        sixthGuess: currentGame.guess6,
-                        guessToAnimate: guessNumber,
-                        completion: { gameState in
-                                                        
-                            // reset the emoji string
-                            GameModel.shared.lastLastGuessInEmojis = GameModel.shared.lastGuessInEmojis
-                            GameModel.shared.lastGuessInEmojis = ""
-                            GameModel.shared.resetGuessLetterCountDictionary {}
-                            
-                            switch gameState {
-                            case .won:
-                                self.containerView.fiveLetterGuessView.showTheWin(currentGame: currentGame) {
-                                    self.containerView.fiveLetterGuessView.showNewGameButton()
-                                }
-                            case .lost:
-                                self.containerView.fiveLetterGuessView.showTheLoss(currentGame: currentGame) {
-                                    self.containerView.fiveLetterGuessView.showNewGameButton()
-                                }
-                                
-                            default: ()
-                            }
-                        }
-                    )
-                    
-                    self.advanceGuessNumberAndLetter()
-                }
-            }
-        } else {
-            containerView.fiveLetterGuessView.resetGame()
+            TicTacToeModel.shared.resetGame()
+            return
+        }
+        
+        let appState = appStateFromDecoding(selectedMessage)
+        switch appState {
+            
+        case .fiveLetterGuess:
+            containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
+            Model.shared.appState = .fiveLetterGuess
+            updateFiveLetterGuessGame()
+
+        case .ticTacToe:
+            Model.shared.appState = .ticTacToe
+            updateTicTacToeGame()
+            
+        default:
+            Model.shared.appState = .container
         }
     }
     
     private func advanceGuessNumberAndLetter() {
-        switch GameModel.shared.currentGame?.guessNumber {
+        switch Model.shared.currentFLGGame?.guessNumber {
         case .first:
-            GameModel.shared.currentGame?.guessNumber = .second
-            GameModel.shared.currentGame?.currentLetter = .b0
+            Model.shared.currentFLGGame?.guessNumber = .second
+            Model.shared.currentFLGGame?.currentLetter = .b0
         case .second:
-            GameModel.shared.currentGame?.guessNumber = .third
-            GameModel.shared.currentGame?.currentLetter = .c0
+            Model.shared.currentFLGGame?.guessNumber = .third
+            Model.shared.currentFLGGame?.currentLetter = .c0
         case .third:
-            GameModel.shared.currentGame?.guessNumber = .fourth
-            GameModel.shared.currentGame?.currentLetter = .d0
+            Model.shared.currentFLGGame?.guessNumber = .fourth
+            Model.shared.currentFLGGame?.currentLetter = .d0
         case .fourth:
-            GameModel.shared.currentGame?.guessNumber = .fifth
-            GameModel.shared.currentGame?.currentLetter = .e0
+            Model.shared.currentFLGGame?.guessNumber = .fifth
+            Model.shared.currentFLGGame?.currentLetter = .e0
         case .fifth:
-            GameModel.shared.currentGame?.guessNumber = .sixth
-            GameModel.shared.currentGame?.currentLetter = .f0
+            Model.shared.currentFLGGame?.guessNumber = .sixth
+            Model.shared.currentFLGGame?.currentLetter = .f0
         default: ()
         }
     }
+    
+    private func updateFiveLetterGuessGame() {
+        
+        // reset correct guess letter counts
+        Model.shared.resetGuessLetterCountDictionary {
+            
+            // update the grid view with any cached guesses
+            if let currentGame = Model.shared.currentFLGGame,
+               let answer = currentGame.answer,
+               let guessNumber = currentGame.guessNumber {
+                
+                self.containerView.fiveLetterGuessView.gridView.updateRowsFromMessage(
+                    answer: answer,
+                    firstGuess: currentGame.guess1,
+                    secondGuess: currentGame.guess2,
+                    thirdGuess: currentGame.guess3,
+                    fourthGuess: currentGame.guess4,
+                    fifthGuess: currentGame.guess5,
+                    sixthGuess: currentGame.guess6,
+                    guessToAnimate: guessNumber,
+                    completion: { gameState in
+                                                    
+                        // reset the emoji string
+                        Model.shared.lastLastGuessInEmojis = Model.shared.lastGuessInEmojis
+                        Model.shared.lastGuessInEmojis = ""
+                        Model.shared.resetGuessLetterCountDictionary {}
+                        
+                        switch gameState {
+                        case .won:
+                            self.containerView.fiveLetterGuessView.showTheWin(currentGame: currentGame) {
+                                self.containerView.fiveLetterGuessView.showNewGameButton()
+                            }
+                        case .lost:
+                            self.containerView.fiveLetterGuessView.showTheLoss(currentGame: currentGame) {
+                                self.containerView.fiveLetterGuessView.showNewGameButton()
+                            }
+                            
+                        default: ()
+                        }
+                    }
+                )
+                self.advanceGuessNumberAndLetter()
+            }
+        }
+
+    }
+    
+    private func updateTicTacToeGame() {
+        
+        // update the grid view with any cached guesses
+        if let currentGame = TicTacToeModel.shared.currentTTTGame {
+            
+            self.containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
+                a1: currentGame.a1,
+                a2: currentGame.a2,
+                a3: currentGame.a3,
+                b1: currentGame.b1,
+                b2: currentGame.b2,
+                b3: currentGame.b3,
+                c1: currentGame.c1,
+                c2: currentGame.c2,
+                c3: currentGame.c3,
+                completion: { gameState in
+                    switch gameState {
+                    case .won:
+                        self.containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
+                            self.containerView.ticTacToeView.showNewGameButton()
+                        }
+                    case .lost:
+                        self.containerView.ticTacToeView.showTheLoss(currentGame: currentGame) {
+                            self.containerView.ticTacToeView.showNewGameButton()
+                        }
+                    default: ()
+                    }
+                }
+            )
+        }
+    }
+
     
     // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -321,7 +506,7 @@ class MessagesViewController: MSMessagesAppViewController {
     private func updateOtherPlayerUUID() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-        GameModel.shared.updatePlayerUUID(with: remoteParticipantIdentifier.uuidString)
+        Model.shared.updatePlayerUUID(with: remoteParticipantIdentifier.uuidString)
     }
     
     // MARK: - DISABLE KEYBOARD IF NOT OUR TURN
@@ -329,7 +514,7 @@ class MessagesViewController: MSMessagesAppViewController {
     private func disableKeyboardIfNotOurTurn() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-        guard let currentGame = GameModel.shared.currentGame else { return }
+        guard let currentGame = Model.shared.currentFLGGame else { return }
         guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
         if remoteParticipantIdentifier.uuidString == currentPlayerUUIDString {
             containerView.fiveLetterGuessView.disableKeyboard()
@@ -394,18 +579,19 @@ extension MessagesViewController: MFMessageComposeViewControllerDelegate {
 
 extension MessagesViewController {
     
-    // MARK: - COMPOSE MESSAGE
-    private func composeMessage() -> MSMessage {
+    // MARK: - COMPOSE FLG MESSAGE
+    private func composeFLGMessage() -> MSMessage {
         let session = activeConversation?.selectedMessage?.session
         let message = MSMessage(session: session ?? MSSession())
         
         let components = NSURLComponents()
         var queryItems: [URLQueryItem] = []
-        if let currentGame = GameModel.shared.currentGame {
+        if let currentGame = Model.shared.currentFLGGame {
             
+            queryItems.append(URLQueryItem(name: "gameType", value: GameType.fiveLetterGuess.rawValue))
             queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
             queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
-            
+
             if let answer = currentGame.answer {
                 queryItems.append(URLQueryItem(name: "answer", value: "\(answer)"))
             }
@@ -445,11 +631,11 @@ extension MessagesViewController {
         message.url = components.url!
         
         let layout = MSMessageTemplateLayout()
-        if let image = UIImage.werdMessageBubble {
+        if let image = UIImage.logoMessageBubble {
             layout.image = image
         }
         layout.caption = "FIVE LETTER GUESS"
-        if let currentGame = GameModel.shared.currentGame,
+        if let currentGame = Model.shared.currentFLGGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String
             switch guessNumber {
@@ -506,11 +692,82 @@ extension MessagesViewController {
         }
         
         if #available(iOS 16.0, *) {
-            layout.trailingCaption = GameModel.shared.lastGuessInEmojis
+            layout.trailingCaption = Model.shared.lastGuessInEmojis
             //            layout.trailingSubcaption = GameModel.shared.lastGuessInEmojis
         } else {
-            layout.trailingCaption = GameModel.shared.lastGuessInEmojis
+            layout.trailingCaption = Model.shared.lastGuessInEmojis
         }
+        
+        message.layout = layout
+        return message
+    }
+    
+    // MARK: - COMPOSE TTT MESSAGE
+    private func composeTTTMessage() -> MSMessage {
+        let session = activeConversation?.selectedMessage?.session
+        let message = MSMessage(session: session ?? MSSession())
+        
+        let components = NSURLComponents()
+        var queryItems: [URLQueryItem] = []
+        if let currentGame = TicTacToeModel.shared.currentTTTGame {
+            
+            queryItems.append(URLQueryItem(name: "gameType", value: GameType.ticTacToe.rawValue))
+            queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
+            queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
+            
+            if let a1 = currentGame.a1 {
+                queryItems.append(URLQueryItem(name: "a1", value: "\(a1)"))
+            }
+            if let a2 = currentGame.a2 {
+                queryItems.append(URLQueryItem(name: "a2", value: "\(a2)"))
+            }
+            if let a3 = currentGame.a3 {
+                queryItems.append(URLQueryItem(name: "a3", value: "\(a3)"))
+            }
+            if let b1 = currentGame.b1 {
+                queryItems.append(URLQueryItem(name: "b1", value: "\(b1)"))
+            }
+            if let b2 = currentGame.b2 {
+                queryItems.append(URLQueryItem(name: "b2", value: "\(b2)"))
+            }
+            if let b3 = currentGame.b3 {
+                queryItems.append(URLQueryItem(name: "b3", value: "\(b3)"))
+            }
+            if let c1 = currentGame.c1 {
+                queryItems.append(URLQueryItem(name: "c1", value: "\(c1)"))
+            }
+            if let c2 = currentGame.c2 {
+                queryItems.append(URLQueryItem(name: "c2", value: "\(c2)"))
+            }
+            if let c3 = currentGame.c3 {
+                queryItems.append(URLQueryItem(name: "c3", value: "\(c3)"))
+            }
+            if let turnNumber = currentGame.turnNumber {
+                queryItems.append(URLQueryItem(name: "turnNumber", value: "\(turnNumber)"))
+            }
+            if let playerOneUUID = currentGame.playerOne.uuidString {
+                queryItems.append(URLQueryItem(name: "playerOneUUID", value: "\(playerOneUUID)"))
+            }
+            if let playerTwoUUID = currentGame.playerTwo.uuidString {
+                queryItems.append(URLQueryItem(name: "playerTwoUUID", value: "\(playerTwoUUID)"))
+            }
+            if let currentPlayerUUID = currentGame.currentPlayerUUID {
+                queryItems.append(URLQueryItem(name: "currentPlayerUUID", value: "\(currentPlayerUUID)"))
+            }
+            if let winnerUUID = currentGame.winnerUUID {
+                queryItems.append(URLQueryItem(name: "winnerUUID", value: "\(winnerUUID)"))
+            }
+        }
+        components.queryItems = queryItems
+        
+        message.url = components.url!
+        
+        let layout = MSMessageTemplateLayout()
+        if let image = UIImage.ticTacToeMessageBubble {
+            layout.image = image
+        }
+        layout.caption = "TIC TAC TOE"
+        layout.subcaption = "It is your turn."
         
         message.layout = layout
         return message
@@ -524,17 +781,28 @@ extension MessagesViewController: ContainerDelegate {
     
     func didTapSendButton() {
         guard let activeConversation = activeConversation else { return }
-        updateCurrentPlayer(from: activeConversation)
-        sendMessage(from: activeConversation)
+        updateCurrentFLGPlayer(from: activeConversation)
+        send(message: composeFLGMessage(), from: activeConversation)
     }
     
-    private func updateCurrentPlayer(from activeConversation: MSConversation) {
+    private func updateCurrentFLGPlayer(from activeConversation: MSConversation) {
         guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
-        GameModel.shared.currentGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
+        Model.shared.currentFLGGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
-    private func sendMessage(from activeConversation: MSConversation) {
-        activeConversation.send(composeMessage(), completionHandler: { error in
+    private func updateCurrentTTTPlayer(from activeConversation: MSConversation) {
+        guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
+        TicTacToeModel.shared.currentTTTGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
+    }
+    
+    func didTapTTTSquareButton() {
+        guard let activeConversation = activeConversation else { return }
+        updateCurrentTTTPlayer(from: activeConversation)
+        send(message: composeTTTMessage(), from: activeConversation)
+    }
+    
+    private func send(message: MSMessage, from activeConversation: MSConversation) {
+        activeConversation.send(message, completionHandler: { error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }

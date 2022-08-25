@@ -43,10 +43,14 @@ struct Frame {
     // MARK: - GRID
     struct Grid {
         static let dotGirth: CGFloat = 11
-        static func size(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
-            let oneFifthSansPadding: CGFloat = (containerWidth / 5) - (scaledPadding * 6)
+        static func fiveLetterGuessSize(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
+//            let oneFifthSansPadding: CGFloat = (containerWidth / 5) - (scaledPadding * 6)
+            let oneFifthSansPadding: CGFloat = (containerWidth - (scaledPadding * 6)) / 5
             let gridHeight = containerWidth + oneFifthSansPadding + (scaledPadding * 5)
             return CGSize(width: containerWidth, height: gridHeight)
+        }
+        static var ticTacToeGirth: CGFloat {
+            UIScreen.main.bounds.width - Frame.Logo.targetTallSize.width - (Frame.Logo.upperPadding * 2)
         }
         static func letterSize(_ viewFrame: CGRect) -> CGSize {
             let width = (viewFrame.width - (padding * 4) - (outerPadding * 2)) / 5
@@ -77,7 +81,7 @@ struct Frame {
         static var landscapeLetterSize: CGSize {
             let estimatedGridWidth = UIScreen.main.bounds.width / 2.3
             let remainingWidth = UIScreen.main.bounds.width - estimatedGridWidth
-            let remainingWidthSansPadding = remainingWidth - (padding * 17)
+            let remainingWidthSansPadding = remainingWidth - (padding * 18)
             let letterWidth = remainingWidthSansPadding / 10
             let letterHeight = letterWidth * 1.25
             return CGSize(width: letterWidth, height: letterHeight)

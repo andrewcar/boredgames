@@ -55,7 +55,7 @@ class StatBarView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         
-        if GameModel.shared.isLandscape {
+        if Model.shared.isLandscape {
             activatePlayedNumberLandscapeConstraints()
             activatePlayedTitleLandscapeConstraints()
             
@@ -88,7 +88,7 @@ class StatBarView: UIView {
         backgroundColor = .statBubbleBackground
         layer.cornerCurve = .continuous
         layer.cornerRadius = 23
-        GameModel.shared.gameDelegate = self
+        Model.shared.flgGameDelegate = self
     }
     
     // MARK: - ADD SUBVIEWS
@@ -105,7 +105,7 @@ class StatBarView: UIView {
         playedNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         playedNumberLabel.textAlignment = .center
         playedNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        playedNumberLabel.text = "\(GameModel.shared.games.gameCount)"
+        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
         playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
         
@@ -189,7 +189,7 @@ class StatBarView: UIView {
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        wonNumberLabel.text = "\(GameModel.shared.games.winCount)"
+        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
@@ -271,7 +271,7 @@ class StatBarView: UIView {
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        lostNumberLabel.text = "\(GameModel.shared.games.lossCount)"
+        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
@@ -353,7 +353,7 @@ class StatBarView: UIView {
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        streakNumberLabel.text = "\(GameModel.shared.games.streakCount)"
+        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         
@@ -430,11 +430,11 @@ class StatBarView: UIView {
     }
 }
 
-extension StatBarView: GameDelegate {
+extension StatBarView: FLGGameDelegate {
     func didUpdateGame() {
-        playedNumberLabel.text = "\(GameModel.shared.games.gameCount)"
-        wonNumberLabel.text = "\(GameModel.shared.games.winCount)"
-        lostNumberLabel.text = "\(GameModel.shared.games.lossCount)"
-        streakNumberLabel.text = "\(GameModel.shared.games.streakCount)"
+        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
+        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
+        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
+        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
     }
 }

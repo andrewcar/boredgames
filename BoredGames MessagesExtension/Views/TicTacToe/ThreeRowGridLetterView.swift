@@ -15,10 +15,10 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - Properties
     var letterViewDelegate: ThreeRowGridLetterViewDelegate!
-    private var letterLabel = UILabel(frame: .zero)
+    var letterLabel = UILabel(frame: .zero)
     private var letterLabelConstraints: [NSLayoutConstraint] = []
     
-    private var button = UIButton(frame: .zero)
+    var button = UIButton(frame: .zero)
     private var buttonConstraints: [NSLayoutConstraint] = []
     
     // MARK: - Initializers
@@ -33,24 +33,23 @@ class ThreeRowGridLetterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - ADD SUBVIEWS
-    private func addSubviews() {
-        addBorder()
-        addLetterLabel()
-        addButton()
+    // MARK: - UPDATE LETTER
+    func updateLetter(with letter: String) {
+        letterLabel.text = letter
     }
     
-    // MARK: - BORDER
-    private func addBorder() {
-        layer.borderColor = UIColor.red.cgColor
-        layer.borderWidth = 2
+    // MARK: - ADD SUBVIEWS
+    private func addSubviews() {
+        addLetterLabel()
+        addButton()
     }
     
     // MARK: - LETTER LABEL
     private func addLetterLabel() {
         letterLabel.translatesAutoresizingMaskIntoConstraints = false
         letterLabel.textAlignment = .center
-        letterLabel.font = .customFont(named: .publicSansBold, size: 30, fallbackWeight: .bold)
+        letterLabel.textColor = .white
+        letterLabel.font = .customFont(named: .publicSansBold, size: 40, fallbackWeight: .bold)
         addSubview(letterLabel)
         activateLetterLabelConstraints()
     }
@@ -67,7 +66,7 @@ class ThreeRowGridLetterView: UIView {
         NSLayoutConstraint.activate(letterLabelConstraints)
     }
     
-    // MARK: - BUTTO
+    // MARK: - BUTTON
     private func addButton() {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
@@ -90,5 +89,17 @@ class ThreeRowGridLetterView: UIView {
     // MARK: - DID TAP BUTTON
     @objc private func didTapButton(sender: UIButton) {
         letterViewDelegate.didTapButton(sender: sender)
+    }
+    
+    func jumpForJoy(delay: TimeInterval = 0, completion: @escaping () -> ()) {
+        UIView.animate(withDuration: 0.1, delay: delay, options: .curveLinear) {
+            self.transform = CGAffineTransform(translationX: 0, y: -10)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 1, options: .curveEaseOut) {
+                self.transform = CGAffineTransform(translationX: 0, y: 0)
+            } completion: { _ in
+                completion()
+            }
+        }
     }
 }

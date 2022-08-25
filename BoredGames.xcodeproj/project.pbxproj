@@ -11,7 +11,7 @@
 		4913C0E5289913950039745B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E4289913950039745B /* StatsView.swift */; };
 		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
 		49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BAB2895853C00C5EB5E /* SuccessView.swift */; };
-		49250181289B5B4D0037122E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49250180289B5B4D0037122E /* Game.swift */; };
+		49250181289B5B4D0037122E /* FiveLetterGuessGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49250180289B5B4D0037122E /* FiveLetterGuessGames.swift */; };
 		492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4028AEB08300B8CFF6 /* Player.swift */; };
 		492BEB4328AED9E700B8CFF6 /* PublicSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */; };
 		492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */; };
@@ -23,10 +23,15 @@
 		494D914B28B29C2A003E14D9 /* FiveLetterGuessState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914A28B29C2A003E14D9 /* FiveLetterGuessState.swift */; };
 		494D914D28B29CC9003E14D9 /* TicTacToeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914C28B29CC9003E14D9 /* TicTacToeState.swift */; };
 		494D914F28B2ED2D003E14D9 /* SmallLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914E28B2ED2D003E14D9 /* SmallLogoView.swift */; };
+		494D915328B6C946003E14D9 /* DottedLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915228B6C946003E14D9 /* DottedLineView.swift */; };
+		494D915528B6CC95003E14D9 /* TicTacToeGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915428B6CC95003E14D9 /* TicTacToeGames.swift */; };
+		494D915728B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */; };
+		494D915928B6CF28003E14D9 /* FiveLetterGuessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915828B6CF28003E14D9 /* FiveLetterGuessModel.swift */; };
+		494D915B28B6DE7B003E14D9 /* TicTacToeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */; };
 		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
-		495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* CurrentLetter.swift */; };
-		495EAD75288F74CE004290AD /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* GameModel.swift */; };
+		495EAD73288F7461004290AD /* FiveLetterGuessCurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* FiveLetterGuessCurrentLetter.swift */; };
+		495EAD75288F74CE004290AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* Model.swift */; };
 		495EAD7728903C06004290AD /* FiveLetterGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD7628903C06004290AD /* FiveLetterGridView.swift */; };
 		495EAD7B28903E19004290AD /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD7A28903E19004290AD /* Frame.swift */; };
 		4993489928906BD100BC6B0B /* words.json in Resources */ = {isa = PBXBuildFile; fileRef = 4993489828906BD100BC6B0B /* words.json */; };
@@ -84,7 +89,7 @@
 		4913C0E4289913950039745B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
 		49231BAB2895853C00C5EB5E /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
-		49250180289B5B4D0037122E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		49250180289B5B4D0037122E /* FiveLetterGuessGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessGames.swift; sourceTree = "<group>"; };
 		492BEB4028AEB08300B8CFF6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		492BEB4228AED9DE00B8CFF6 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Bold.ttf"; sourceTree = "<group>"; };
 		492BEB4428AEDB3A00B8CFF6 /* UIFontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtensions.swift; sourceTree = "<group>"; };
@@ -96,10 +101,15 @@
 		494D914A28B29C2A003E14D9 /* FiveLetterGuessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessState.swift; sourceTree = "<group>"; };
 		494D914C28B29CC9003E14D9 /* TicTacToeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeState.swift; sourceTree = "<group>"; };
 		494D914E28B2ED2D003E14D9 /* SmallLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallLogoView.swift; sourceTree = "<group>"; };
+		494D915228B6C946003E14D9 /* DottedLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DottedLineView.swift; sourceTree = "<group>"; };
+		494D915428B6CC95003E14D9 /* TicTacToeGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeGames.swift; sourceTree = "<group>"; };
+		494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeCurrentSquare.swift; sourceTree = "<group>"; };
+		494D915828B6CF28003E14D9 /* FiveLetterGuessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessModel.swift; sourceTree = "<group>"; };
+		494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeModel.swift; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
-		495EAD72288F7461004290AD /* CurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLetter.swift; sourceTree = "<group>"; };
-		495EAD74288F74CE004290AD /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		495EAD72288F7461004290AD /* FiveLetterGuessCurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessCurrentLetter.swift; sourceTree = "<group>"; };
+		495EAD74288F74CE004290AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		495EAD7628903C06004290AD /* FiveLetterGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGridView.swift; sourceTree = "<group>"; };
 		495EAD7A28903E19004290AD /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		4993489828906BD100BC6B0B /* words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
@@ -177,6 +187,7 @@
 				494D914128B1D996003E14D9 /* TicTacToeView.swift */,
 				494D914428B1E392003E14D9 /* ThreeRowGridView.swift */,
 				494D914628B1E552003E14D9 /* ThreeRowGridLetterView.swift */,
+				494D915228B6C946003E14D9 /* DottedLineView.swift */,
 			);
 			path = TicTacToe;
 			sourceTree = "<group>";
@@ -277,7 +288,9 @@
 		49A07DED288F05F3008270F9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				495EAD74288F74CE004290AD /* GameModel.swift */,
+				495EAD74288F74CE004290AD /* Model.swift */,
+				494D915828B6CF28003E14D9 /* FiveLetterGuessModel.swift */,
+				494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */,
 				49A647BA289BA858008A97A4 /* GamesCache.swift */,
 				495EAD7A28903E19004290AD /* Frame.swift */,
 				49C3197528AEE8450064AE94 /* App */,
@@ -322,10 +335,11 @@
 		49C3197628AEE84F0064AE94 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				49250180289B5B4D0037122E /* Game.swift */,
+				49250180289B5B4D0037122E /* FiveLetterGuessGames.swift */,
 				49A647B6289B9D12008A97A4 /* GameState.swift */,
 				4993489A28906E3600BC6B0B /* Words.swift */,
 				4993489C2890736A00BC6B0B /* Guess.swift */,
+				494D915428B6CC95003E14D9 /* TicTacToeGames.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -334,8 +348,9 @@
 			isa = PBXGroup;
 			children = (
 				49A07DE6288DC29C008270F9 /* LetterState.swift */,
-				495EAD72288F7461004290AD /* CurrentLetter.swift */,
 				495EAD70288F4ED1004290AD /* ButtonTag.swift */,
+				495EAD72288F7461004290AD /* FiveLetterGuessCurrentLetter.swift */,
+				494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
@@ -445,20 +460,24 @@
 				49A647B7289B9D12008A97A4 /* GameState.swift in Sources */,
 				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
+				494D915B28B6DE7B003E14D9 /* TicTacToeModel.swift in Sources */,
 				494D914F28B2ED2D003E14D9 /* SmallLogoView.swift in Sources */,
 				494D914228B1D996003E14D9 /* TicTacToeView.swift in Sources */,
 				49D9936328A41FF300D863BB /* AppState.swift in Sources */,
 				494D914728B1E552003E14D9 /* ThreeRowGridLetterView.swift in Sources */,
-				495EAD75288F74CE004290AD /* GameModel.swift in Sources */,
+				495EAD75288F74CE004290AD /* Model.swift in Sources */,
 				49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */,
-				495EAD73288F7461004290AD /* CurrentLetter.swift in Sources */,
+				495EAD73288F7461004290AD /* FiveLetterGuessCurrentLetter.swift in Sources */,
 				49C3197328AEE8350064AE94 /* PlayerColor.swift in Sources */,
 				494D914D28B29CC9003E14D9 /* TicTacToeState.swift in Sources */,
+				494D915528B6CC95003E14D9 /* TicTacToeGames.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
+				494D915928B6CF28003E14D9 /* FiveLetterGuessModel.swift in Sources */,
 				4950D938289B8184004BA711 /* StarBarView.swift in Sources */,
 				4993489D2890736A00BC6B0B /* Guess.swift in Sources */,
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
+				494D915728B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift in Sources */,
 				494D914528B1E392003E14D9 /* ThreeRowGridView.swift in Sources */,
 				492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */,
 				4913C0E5289913950039745B /* StatsView.swift in Sources */,
@@ -469,11 +488,12 @@
 				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
 				49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */,
 				495EAD7728903C06004290AD /* FiveLetterGridView.swift in Sources */,
+				494D915328B6C946003E14D9 /* DottedLineView.swift in Sources */,
 				49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */,
 				492BEB4528AEDB3A00B8CFF6 /* UIFontExtensions.swift in Sources */,
 				49D9935F28A2AAE600D863BB /* FiveLetterGuessView.swift in Sources */,
 				49C0616328A73D0A002D6EEA /* DebugView.swift in Sources */,
-				49250181289B5B4D0037122E /* Game.swift in Sources */,
+				49250181289B5B4D0037122E /* FiveLetterGuessGames.swift in Sources */,
 				49C3197A28AF03BF0064AE94 /* ColorDotView.swift in Sources */,
 				4993489B28906E3600BC6B0B /* Words.swift in Sources */,
 				49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */,

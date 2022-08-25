@@ -10,6 +10,7 @@ import UIKit
 protocol ContainerDelegate {
     func didTapSendButton()
     func didTapLogoButton()
+    func didTapTTTSquareButton()
 }
 
 class ContainerView: UIView {
@@ -99,7 +100,7 @@ class ContainerView: UIView {
     // MARK: - 🅱️ 📜
     private func activateLogoConstraints(isLandscape: Bool) {
         deactivateLogoConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width
         if isLandscape {
             logoLandscapeConstraints = [
                 logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
@@ -137,7 +138,7 @@ class ContainerView: UIView {
     // MARK: - 👌🅱️ 🪟 📜
     private func activateSmallLogoViewConstraints(isLandscape: Bool) {
         deactivateSmallLogoViewConstraints()
-        let offset = GameModel.shared.appState == .fiveLetterGuess || GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .fiveLetterGuess || Model.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             smallLogoLandscapeConstraints = [
                 smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
@@ -145,9 +146,9 @@ class ContainerView: UIView {
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
             var leadingConstraint: NSLayoutConstraint {
-                if GameModel.shared.appState == .fiveLetterGuess {
+                if Model.shared.appState == .fiveLetterGuess {
                     return smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - offset)
-                } else if GameModel.shared.appState == .ticTacToe {
+                } else if Model.shared.appState == .ticTacToe {
                     return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
                 } else {
                     return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
@@ -162,9 +163,9 @@ class ContainerView: UIView {
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
             var leadingConstraint: NSLayoutConstraint {
-                if GameModel.shared.appState == .fiveLetterGuess {
+                if Model.shared.appState == .fiveLetterGuess {
                     return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
-                } else if GameModel.shared.appState == .ticTacToe {
+                } else if Model.shared.appState == .ticTacToe {
                     return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
                 } else {
                     return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
@@ -208,7 +209,7 @@ class ContainerView: UIView {
     // MARK: - 🅰️ ▶️ 📜
     private func activateFiveLetterGuessButtonConstraints(isLandscape: Bool) {
         deactivateFiveLetterGuessButtonConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             fiveLetterGuessButtonLandscapeConstraints = [
                 fiveLetterGuessButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
@@ -238,7 +239,7 @@ class ContainerView: UIView {
     
     // MARK: - 🅰️ ▶️ 👇
     @objc private func didTapFiveLetterGuessButton(sender: UIButton) {
-        GameModel.shared.appState = .fiveLetterGuess
+        Model.shared.appState = .fiveLetterGuess
         updateConstraints()
     }
     
@@ -259,7 +260,7 @@ class ContainerView: UIView {
     // MARK: - 🅰️ 🪟 📜
     private func activateFiveLetterGuessViewConstraints(isLandscape: Bool) {
         deactivateFiveLetterGuessViewConstraints()
-        let offset = GameModel.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .fiveLetterGuess ? 0 : -UIScreen.main.bounds.width
         if isLandscape {
             fiveLetterGuessLandscapeConstraints = [
                 fiveLetterGuessView.topAnchor.constraint(equalTo: topAnchor),
@@ -310,7 +311,7 @@ class ContainerView: UIView {
     // MARK: - ❌ ▶️ 📜
     private func activateTicTacToeButtonConstraints(isLandscape: Bool) {
         deactivateTicTacToeButtonConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 3
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 3
         if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
                 ticTacToeButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
@@ -340,13 +341,14 @@ class ContainerView: UIView {
 
     // MARK: - ❌ ▶️ 👇
     @objc private func didTapTicTacToeButton(sender: UIButton) {
-        GameModel.shared.appState = .ticTacToe
+        Model.shared.appState = .ticTacToe
         updateConstraints()
     }
     
     // MARK: - ❌ 🪟
     private func addTicTacToeView() {
         ticTacToeView = TicTacToeView(frame: .zero)
+        ticTacToeView.ticTacToeViewDelegate = self
         addSubview(ticTacToeView)
         activateTicTacToeViewConstraints(isLandscape: false)
     }
@@ -360,7 +362,7 @@ class ContainerView: UIView {
     // MARK: - ❌ 🪟 📜
     private func activateTicTacToeViewConstraints(isLandscape: Bool) {
         deactivateTicTacToeViewConstraints()
-        let offset = GameModel.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width
         if isLandscape {
             ticTacToeLandscapeConstraints = [
                 ticTacToeView.topAnchor.constraint(equalTo: topAnchor),
@@ -412,7 +414,7 @@ class ContainerView: UIView {
     // MARK: - 🔴 ▶️ 📜
     private func activateDotsButtonConstraints(isLandscape: Bool) {
         deactivateDotsButtonConstraints()
-        let offset = GameModel.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             dotsButtonLandscapeConstraints = [
                 dotsButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.sliderTopPadding),
@@ -443,7 +445,7 @@ class ContainerView: UIView {
     
     // MARK: - 🔴 ▶️ 👇
     @objc private func didTapDotsButton(sender: UIButton) {
-        GameModel.shared.appState = .dots
+        Model.shared.appState = .dots
         updateConstraints()
     }
 }
@@ -471,5 +473,13 @@ extension ContainerView: FiveLetterGuessDelegate {
     // MARK: - 🔢 ▶️ 👇
     func didTapGridButton() {
         updateConstraints()
+    }
+}
+
+extension ContainerView: TicTacToeViewDelegate {
+    
+    // MARK: - 🔳 ▶️ 👇
+    func didTapSquareButton() {
+        containerDelegate.didTapTTTSquareButton()
     }
 }

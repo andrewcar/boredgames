@@ -7,23 +7,23 @@
 
 import UIKit
 
-protocol GameDelegate {
+protocol FLGGameDelegate {
     func didUpdateGame()
 }
 
-class GameModel: NSObject {
+class Model: NSObject {
     
     // MARK: - Properties
-    static let shared = GameModel()
+    static let shared = Model()
     var appState: AppState = .container
     var fiveLetterGuessState: FiveLetterGuessState = .grid
     var ticTacToeState: TicTacToeState = .grid
-    var gameDelegate: GameDelegate!
+    var flgGameDelegate: FLGGameDelegate!
     var isLandscape: Bool = false
     var words: Words?
-    var games = Games(value: [])
+    var flgGames = FiveLetterGuessGames(value: [])
     var customAnswer: String?
-    var currentGame: Game?
+    var currentFLGGame: FiveLetterGuessGame?
     var currentGuess = ""
     var lastGuessInEmojis = ""
     var lastLastGuessInEmojis = ""
@@ -164,52 +164,52 @@ class GameModel: NSObject {
     }
     
     // MARK: - UPDATE GAMES
-    func updateGames(with game: Game) {
-        guard !games.value.contains(where: { aGame in
+    func updateGames(with game: FiveLetterGuessGame) {
+        guard !flgGames.value.contains(where: { aGame in
             aGame.id == game.id
         }) else {
             return
         }
-        games.gameCount += 1
-        games.value.append(game)
+        flgGames.gameCount += 1
+        flgGames.value.append(game)
         
         if game.state == .won {
-            games.winCount += 1
-            if games.streakCount == games.longestStreak {
-                games.longestStreak += 1
+            flgGames.winCount += 1
+            if flgGames.streakCount == flgGames.longestStreak {
+                flgGames.longestStreak += 1
             }
-            games.streakCount += 1
+            flgGames.streakCount += 1
 
         } else if game.state == .lost {
-            games.lossCount += 1
-            games.streakCount = 0
+            flgGames.lossCount += 1
+            flgGames.streakCount = 0
         }
-        GamesCache.save(games)
-        gameDelegate?.didUpdateGame()
+        GamesCache.saveFLGGames(flgGames)
+        flgGameDelegate?.didUpdateGame()
     }
     
     // MARK: - UPDATE GAMES FROM USER DEFAULTS
     func updateGamesFromUserDefaults() {
-        if let cachedGames = GamesCache.get() {
-            games = cachedGames
+        if let cachedGames = GamesCache.getFLGGames() {
+            flgGames = cachedGames
         }
     }
 
     // MARK: - SET ANSWER RANDOMLY 
     func setAnswerRandomly() {
-        words = GameModel.shared.load("words.json")
+        words = Model.shared.load("words.json")
         guard let randomWord = words?.list.randomElement() else { return }
         if let customAnswer = customAnswer {
-            currentGame?.answer = customAnswer.lowercased()
+            currentFLGGame?.answer = customAnswer.lowercased()
         } else {
-            currentGame?.answer = randomWord
+            currentFLGGame?.answer = randomWord
         }
         populateAnswerLetterCountDictionary {}
     }
     
     // MARK: - POPULATE ANSWER LETTER COUNTS
     func populateAnswerLetterCountDictionary(completion: @escaping () -> ()) {
-        guard let answer = currentGame?.answer else { completion(); return }
+        guard let answer = currentFLGGame?.answer else { completion(); return }
         for letter in answer {
             let letterString = "\(letter)"
             answerLetterCounts[letterString]! += 1
@@ -261,21 +261,21 @@ class GameModel: NSObject {
     
     // MARK: - UPDATE GAME PLAYERS
     func updatePlayerUUID(with uuidString: String) {
-        guard let currentGame = currentGame else { return }
+        guard let currentGame = currentFLGGame else { return }
         
         // if it's a fresh game, set playerTwo's UUIDString
         if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString == nil {
-            self.currentGame?.playerTwo.uuidString = uuidString
+            self.currentFLGGame?.playerTwo.uuidString = uuidString
             
         // else it's the second turn, so set playerOne's UUIDString
         } else if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString != nil {
-            self.currentGame?.playerOne.uuidString = uuidString
+            self.currentFLGGame?.playerOne.uuidString = uuidString
         }
     }
     
     // MARK: - RESET GAME
     func resetGame(completion: @escaping () -> ()) {
-        currentGame = Game()
+        currentFLGGame = FiveLetterGuessGame()
         currentGuess = ""
         lastGuessInEmojis = ""
         resetAnswerLetterCountDictionary {

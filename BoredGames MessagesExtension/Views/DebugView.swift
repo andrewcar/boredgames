@@ -70,7 +70,7 @@ class DebugView: UIView {
         resetAvailabilitySwitch = UISwitch(frame: .zero)
         resetAvailabilitySwitch.translatesAutoresizingMaskIntoConstraints = false
         let action = UIAction(handler: { _ in
-            GameModel.shared.resetAvailable.toggle()
+            Model.shared.resetAvailable.toggle()
         })
         resetAvailabilitySwitch.addAction(action, for: .touchUpInside)
         addSubview(resetAvailabilitySwitch)
@@ -127,7 +127,7 @@ class DebugView: UIView {
 extension DebugView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
-        GameModel.shared.customAnswer = text
+        Model.shared.customAnswer = text
         customAnswerTextField.text = ""
         customAnswerTextField.placeholder = text
         customAnswerTextField.resignFirstResponder()
