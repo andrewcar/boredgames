@@ -8,7 +8,6 @@
 import Foundation
 
 enum TicTacToeSquare: Hashable, Codable, CaseIterable {
-    case a0
     case a1
     case a2
     case a3

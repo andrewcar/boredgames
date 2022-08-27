@@ -361,29 +361,29 @@ class MessagesViewController: MSMessagesAppViewController {
     func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
         
-        guard let selectedMessage = conversation.selectedMessage else {
-            containerView.fiveLetterGuessView.resetGame()
-            TicTacToeModel.shared.resetGame()
-            return
-        }
+        containerView.fiveLetterGuessView.resetGame()
+        containerView.ticTacToeView.resetGame()
         
-        let appState = appStateFromDecoding(selectedMessage)
-        switch appState {
-            
-        case .fiveLetterGuess:
-            containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
-            Model.shared.appState = .fiveLetterGuess
-            updateFiveLetterGuessGame()
+        if let selectedMessage = conversation.selectedMessage {
+            let appState = appStateFromDecoding(selectedMessage)
+            switch appState {
+                
+            case .fiveLetterGuess:
+                containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
+                Model.shared.appState = .fiveLetterGuess
+                updateFiveLetterGuessGame()
 
-        case .ticTacToe:
-            Model.shared.appState = .ticTacToe
-            updateTicTacToeGame()
-            
-        default:
-            Model.shared.appState = .container
+            case .ticTacToe:
+                Model.shared.appState = .ticTacToe
+                updateTicTacToeGame()
+                
+            default:
+                Model.shared.appState = .container
+            }
         }
     }
     
+    // MARK: - ADVANCE GUESS NUMBER AND LETTER
     private func advanceGuessNumberAndLetter() {
         switch Model.shared.currentFLGGame?.guessNumber {
         case .first:
@@ -405,6 +405,29 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: - ADVANCE TURN NUMBER
+    private func advanceTurnNumber() {
+        switch TicTacToeModel.shared.currentTTTGame?.turnNumber {
+        case .first:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "second")
+        case .second:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "third")
+        case .third:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fourth")
+        case .fourth:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fifth")
+        case .fifth:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "sixth")
+        case .sixth:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "seventh")
+        case .seventh:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "eighth")
+        case .eighth:
+            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "ninth")
+        default: ()
+        }
+    }
+    // MARK: - UPDATE FLG GAME
     private func updateFiveLetterGuessGame() {
         
         // reset correct guess letter counts
@@ -451,12 +474,13 @@ class MessagesViewController: MSMessagesAppViewController {
 
     }
     
+    // MARK: - UPDATE TTT GAME
     private func updateTicTacToeGame() {
         
         // update the grid view with any cached guesses
         if let currentGame = TicTacToeModel.shared.currentTTTGame {
             
-            self.containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
+            containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
                 a1: currentGame.a1,
                 a2: currentGame.a2,
                 a3: currentGame.a3,
@@ -480,6 +504,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     }
                 }
             )
+            self.advanceTurnNumber()
         }
     }
 
@@ -498,7 +523,11 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - DID BECOME ACTIVE
     override func didBecomeActive(with conversation: MSConversation) {
         super.didBecomeActive(with: conversation)
-        disableKeyboardIfNotOurTurn()
+        if Model.shared.appState == .fiveLetterGuess {
+            disableKeyboardIfNotOurTurn()
+        } else if Model.shared.appState == .ticTacToe {
+            disableGridIfNotOurTurn()
+        }
         updateOtherPlayerUUID()
     }
     
@@ -510,7 +539,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - DISABLE KEYBOARD IF NOT OUR TURN
-    /// Disable keyboard if currentPlayer UUID is the same as the sender UUID.
+    /// Disable keyboard if current player UUID is the same as the sender UUID.
     private func disableKeyboardIfNotOurTurn() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
@@ -520,6 +549,20 @@ class MessagesViewController: MSMessagesAppViewController {
             containerView.fiveLetterGuessView.disableKeyboard()
         } else {
             containerView.fiveLetterGuessView.enableKeyboard()
+        }
+    }
+    
+    // MARK: - DISABLE GRID IF NOT OUR TURN
+    /// Disable three rwo grid view if current player UUID is the same as the sender UUID.
+    private func disableGridIfNotOurTurn() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
+        if remoteParticipantIdentifier.uuidString == currentPlayerUUIDString {
+            containerView.ticTacToeView.disableGrid()
+        } else {
+            containerView.ticTacToeView.enableGrid()
         }
     }
     
@@ -797,6 +840,7 @@ extension MessagesViewController: ContainerDelegate {
     
     func didTapTTTSquareButton() {
         guard let activeConversation = activeConversation else { return }
+        
         updateCurrentTTTPlayer(from: activeConversation)
         send(message: composeTTTMessage(), from: activeConversation)
     }

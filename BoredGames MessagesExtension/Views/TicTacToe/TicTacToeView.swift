@@ -18,6 +18,10 @@ class TicTacToeView: UIView {
     var threeRowGridView = ThreeRowGridView(frame: .zero)
     private var threeRowGridConstraints: [NSLayoutConstraint] = []
     
+    private var successView = SuccessView(frame: .zero)
+    private var successPortraitConstraints: [NSLayoutConstraint] = []
+    private var successLandscapeConstraints: [NSLayoutConstraint] = []
+    
     private var newGameButton = UIButton()
     private var newGameButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var newGameButtonLandscapeConstraints: [NSLayoutConstraint] = []
@@ -28,6 +32,7 @@ class TicTacToeView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addThreeRowGridView()
+        addSuccessView()
     }
     
     required init?(coder: NSCoder) {
@@ -74,7 +79,7 @@ class TicTacToeView: UIView {
         } else {
             threeRowGridConstraints = [
                 threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-                threeRowGridView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding + offset),
+                threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
                 threeRowGridView.widthAnchor.constraint(equalToConstant: size.width),
                 threeRowGridView.heightAnchor.constraint(equalToConstant: size.width)
             ]
@@ -95,6 +100,46 @@ class TicTacToeView: UIView {
 //        }
     }
     
+    // MARK: - SUCCESS VIEW
+    private func addSuccessView() {
+        addSubview(successView)
+        activateSuccessPortraitConstraints()
+    }
+    
+    // MARK: - SUCCESS PORTRAIT CONSTRAINTS
+    private func activateSuccessPortraitConstraints() {
+        deactivateSuccessConstraints()
+        successPortraitConstraints = [
+            successView.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: Frame.padding * 3),
+            successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
+            successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
+        ]
+        let offset = Model.shared.ticTacToeState == .grid ? 0 : -UIScreen.main.bounds.width
+        let constraint = successView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
+        successPortraitConstraints.append(constraint)
+        NSLayoutConstraint.activate(successPortraitConstraints)
+    }
+    
+    // MARK: - SUCCESS LANDSCAPE CONSTRAINTS
+    private func activateSuccessLandscapeConstraints() {
+        deactivateSuccessConstraints()
+        successPortraitConstraints = [
+            successView.centerXAnchor.constraint(equalTo: threeRowGridView.centerXAnchor),
+            successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
+            successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
+        ]
+        let offset = Model.shared.ticTacToeState == .grid ? 0 : -UIScreen.main.bounds.width
+        let constraint = successView.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: (Frame.padding * 2) + offset)
+        successPortraitConstraints.append(constraint)
+        NSLayoutConstraint.activate(successPortraitConstraints)
+    }
+    
+    // MARK: - DEACTIVATE SUCCESS CONSTRAINTS
+    private func deactivateSuccessConstraints() {
+        NSLayoutConstraint.deactivate(successPortraitConstraints)
+        NSLayoutConstraint.deactivate(successLandscapeConstraints)
+    }
+    
     // MARK: - SHOW THE WIN
     func showTheWin(currentGame: TicTacToeGame, completion: @escaping () -> ()) {
                 
@@ -103,6 +148,7 @@ class TicTacToeView: UIView {
             TicTacToeModel.shared.updateGames(with: currentGame)
         }
         
+        showSuccessView()
 //        showNewGameButton()
 
         threeRowGridView.jumpForJoy {
@@ -118,11 +164,47 @@ class TicTacToeView: UIView {
             TicTacToeModel.shared.updateGames(with: currentGame)
         }
         
+        showSuccessView()
+        successView.showCatsGame()
+        
 //        showNewGameButton()
+    }
+    
+    func enableGrid() {
+        threeRowGridView.isUserInteractionEnabled = true
+    }
+    
+    func disableGrid() {
+        threeRowGridView.isUserInteractionEnabled = false
+    }
+    
+    // MARK: - RESET GAME
+    func resetGame() {
+        TicTacToeModel.shared.resetGame {
+            self.threeRowGridView.resetRows()
+            self.successView.isHidden = true
+        }
     }
 }
 
 extension TicTacToeView: ThreeRowGridViewDelegate {
+    
+    func gameWon() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        showTheWin(currentGame: currentGame) {}
+    }
+    
+    private func showSuccessView() {
+        successView.isHidden = false
+    }
+    
+    func catsGame() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        showTheLoss(currentGame: currentGame) {
+            print("tic tac toe cats game!")
+        }
+    }
+    
     func didTapLetterView(sender: UIButton) {
         threeRowGridView.isUserInteractionEnabled = false
         
@@ -161,37 +243,11 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
         case .c3:
             TicTacToeModel.shared.currentTTTGame?.c3 = emojiString
             threeRowGridView.c3.letterLabel.text = emojiString
-        default:
-            break
         }
         
-        advanceTurnNumber(turnNumber)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.ticTacToeViewDelegate.didTapSquareButton()
-        }
-    }
-    
-    // MARK: - ADVANCE TURN NUMBER
-    private func advanceTurnNumber(_ turnNumber: Turn) {
-        switch turnNumber {
-        case .first:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "second")
-        case .second:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "third")
-        case .third:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fourth")
-        case .fourth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fifth")
-        case .fifth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "sixth")
-        case .sixth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "seventh")
-        case .seventh:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "eighth")
-        case .eighth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "ninth")
-        default: ()
         }
     }
 }

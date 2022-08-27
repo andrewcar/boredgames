@@ -15,7 +15,11 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - Properties
     var letterViewDelegate: ThreeRowGridLetterViewDelegate!
+    
+    var square: TicTacToeSquare?
+    
     var letterLabel = UILabel(frame: .zero)
+    var letterState: LetterState = .blank
     private var letterLabelConstraints: [NSLayoutConstraint] = []
     
     var button = UIButton(frame: .zero)
@@ -36,6 +40,62 @@ class ThreeRowGridLetterView: UIView {
     // MARK: - UPDATE LETTER
     func updateLetter(with letter: String) {
         letterLabel.text = letter
+    }
+    
+    // MARK: - UPDATE LETTER STATE
+    func updateLetter(to state: LetterState, animated: Bool = true, completion: @escaping () -> ()) {
+        letterState = state
+
+        if animated {
+            self.updateColors()
+
+            // shrink
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                self.transform = CGAffineTransform(scaleX: 1, y: 0.1)
+            } completion: { _ in
+                
+                // grow
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear) {
+                    self.transform = CGAffineTransform(scaleX: 1, y: 1)
+                } completion: { _ in
+                    completion()
+                }
+            }
+        } else {
+            updateColors()
+            completion()
+        }
+    }
+    
+    func updateColors() {
+        setBackgroundColor()
+        setBorderColor()
+    }
+    
+    private func setBackgroundColor() {
+        switch letterState {
+        case .blank:
+            backgroundColor = .gridLetterBackgroundBlank
+        case .gray:
+            backgroundColor = .gridLetterBackgroundGray
+        case .yellow:
+            backgroundColor = .gridLetterBackgroundYellow
+        case .green:
+            backgroundColor = .gridLetterBackgroundGreen
+        }
+    }
+    
+    private func setBorderColor() {
+        switch letterState {
+        case .blank:
+            layer.borderColor = UIColor.gridLetterBorder?.cgColor
+        case .gray:
+            layer.borderColor = UIColor.gridLetterBackgroundGray?.cgColor
+        case .yellow:
+            layer.borderColor = UIColor.gridLetterBackgroundYellow?.cgColor
+        case .green:
+            layer.borderColor = UIColor.gridLetterBackgroundGreen?.cgColor
+        }
     }
     
     // MARK: - ADD SUBVIEWS

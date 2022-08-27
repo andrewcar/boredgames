@@ -20,8 +20,6 @@ class TicTacToeModel: NSObject {
     // MARK: - TAG FOR SQUARE
     func tag(for square: TicTacToeSquare) -> Int {
         switch square {
-        case .a0:
-            return 0
         case .a1:
             return 1
         case .a2:
@@ -65,14 +63,14 @@ class TicTacToeModel: NSObject {
         case 9:
             return .c3
         default:
-            return .a0
+            return .a1
         }
     }
     
     // MARK: - SYMBOL FOR TURN
     func emojiString(for turn: Turn) -> String {
-        let x = "❌"
-        let o = "⭕️"
+        let x = "X"
+        let o = "O"
         switch turn {
         case .first:
             return x
@@ -121,7 +119,8 @@ class TicTacToeModel: NSObject {
     }
     
     // MARK: - RESET GAME
-    func resetGame() {
+    func resetGame(completion: @escaping () -> ()) {
         currentTTTGame = TicTacToeGame()
+        completion()
     }
 }

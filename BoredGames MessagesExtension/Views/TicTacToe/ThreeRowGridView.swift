@@ -9,6 +9,8 @@ import UIKit
 
 protocol ThreeRowGridViewDelegate {
     func didTapLetterView(sender: UIButton)
+    func gameWon()
+    func catsGame()
 }
 
 class ThreeRowGridView: UIView {
@@ -66,59 +68,410 @@ class ThreeRowGridView: UIView {
         c2: String?,
         c3: String?,
         completion: @escaping (GameState) -> ()) {
-            
-            if let move = a1 {
-                updateLetterView(self.a1, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = a2 {
-                updateLetterView(self.a2, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = a3 {
-                updateLetterView(self.a3, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = b1 {
-                updateLetterView(self.b1, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = b2 {
-                updateLetterView(self.b2, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = b3 {
-                updateLetterView(self.b3, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = c1 {
-                updateLetterView(self.c1, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = c2 {
-                updateLetterView(self.c2, with: move, animated: true) {
-                    //
-                }
-            }
-            if let move = c3 {
-                updateLetterView(self.c3, with: move, animated: true) {
-                    //
-                }
+        
+        if let move = a1 {
+            updateLetterView(self.a1, with: move, animated: false) { gameState in
+                completion(gameState)
             }
         }
+        if let move = a2 {
+            updateLetterView(self.a2, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = a3 {
+            updateLetterView(self.a3, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = b1 {
+            updateLetterView(self.b1, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = b2 {
+            updateLetterView(self.b2, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = b3 {
+            updateLetterView(self.b3, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = c1 {
+            updateLetterView(self.c1, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = c2 {
+            updateLetterView(self.c2, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+        if let move = c3 {
+            updateLetterView(self.c3, with: move, animated: false) { gameState in
+                completion(gameState)
+            }
+        }
+    }
+    
+    // MARK: - CATS GAME
+    private func catsGame() -> Bool {
+        // if any letter view letter label texts are empty, the game isn't over, so no cats game
+        for letterView in [a1, a2, a3, b1, b2, b3, c1, c2, c3] {
+            guard let text = letterView.letterLabel.text else { return false }
+            if text.isEmpty {
+                return false
+            }
+        }
+        
+        // if none of the label texts were empty, cats game
+        // because this is used after all path checks
+        return true
+    }
     
     // MARK: - UPDATE LETTER VIEW
-    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, animated: Bool, completion: @escaping () -> ()) {
-        if let move = move {
-            letterView?.updateLetter(with: move)
+    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, animated: Bool, completion: @escaping (GameState) -> ()) {
+        guard let ticTacToeMove = move else { completion(.playing); return }
+        guard let move = TTTMove(rawValue: ticTacToeMove) else { completion(.playing); return }
+        
+        letterView?.updateLetter(with: ticTacToeMove)
+        
+        guard let square = letterView?.square else { completion(.playing); return }
+        
+        switch square {
+        case .a1:
+            topHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            leftVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            backslashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .a2:
+            topHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            middleVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .a3:
+            topHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            rightVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            forwardSlashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .b1:
+            leftVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            middleHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .b2:
+            middleHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            middleVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            backslashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            forwardSlashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .b3:
+            middleHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            rightVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .c1:
+            bottomHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            leftVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            forwardSlashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .c2:
+            bottomHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            middleVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+        case .c3:
+            bottomHorizontalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            rightVerticalWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
+            backslashWin(square: square, move: move) { win in
+                if win {
+                    completion(.won)
+                }
+            }
         }
+        
+        // at this point, we know we don't have a win in any path, so either
+        // the game isn't over or it's a cats game
+        if catsGame() {
+            threeRowGridViewDelegate.catsGame()
+            completion(.lost)
+        } else {
+            completion(.playing)
+        }
+    }
+    
+    // a1, a2, a3
+    private func topHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a1:
+            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
+                let a3Move = a3.letterLabel.text, move.rawValue == a3Move {
+                completion(true)
+            }
+        case .a2:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let a3Move = a3.letterLabel.text, move.rawValue == a3Move {
+                completion(true)
+            }
+        case .a3:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let a2Move = a2.letterLabel.text, move.rawValue == a2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // b1, b2, b3
+    private func middleHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .b1:
+            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
+                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+                completion(true)
+            }
+        case .b2:
+            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
+                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+                completion(true)
+            }
+        case .b3:
+            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
+                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // c1, c2, c3
+    private func bottomHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .c1:
+            if let c2Move = c2.letterLabel.text, move.rawValue == c2Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .c2:
+            if let c1Move = c1.letterLabel.text, move.rawValue == c1Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .c3:
+            if let c1Move = c1.letterLabel.text, move.rawValue == c1Move,
+                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // a1, b1, c1
+    private func leftVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a1:
+            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
+                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+                completion(true)
+            }
+        case .b1:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+                completion(true)
+            }
+        case .c1:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let b1Move = b1.letterLabel.text, move.rawValue == b1Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // a2, b2, c2
+    private func middleVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a2:
+            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
+                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+                completion(true)
+            }
+        case .b2:
+            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
+                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+                completion(true)
+            }
+        case .c2:
+            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
+                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // a3, b3, c3
+    private func rightVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a3:
+            if let b3Move = b3.letterLabel.text, move.rawValue == b3Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .b3:
+            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .c3:
+            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
+                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // a1, b2, c3
+    private func backslashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a1:
+            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .b2:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+                completion(true)
+            }
+        case .c3:
+            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
+                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
+    }
+    
+    // a3, b2, c1
+    private func forwardSlashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        switch square {
+        case .a3:
+            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
+                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+                completion(true)
+            }
+        case .b2:
+            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
+                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+                completion(true)
+            }
+        case .c1:
+            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
+                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+                completion(true)
+            }
+        default:
+            completion(false)
+        }
+        completion(false)
     }
     
     // MARK: - JUMP FOR JOY
@@ -156,14 +509,31 @@ class ThreeRowGridView: UIView {
     // MARK: - LETTER VIEW BUTTON TAGS
     private func setLetterViewButtonTags() {
         a1.button.tag = TicTacToeModel.shared.tag(for: .a1)
+        a1.square = .a1
+        
         a2.button.tag = TicTacToeModel.shared.tag(for: .a2)
+        a2.square = .a2
+        
         a3.button.tag = TicTacToeModel.shared.tag(for: .a3)
+        a3.square = .a3
+
         b1.button.tag = TicTacToeModel.shared.tag(for: .b1)
+        b1.square = .b1
+
         b2.button.tag = TicTacToeModel.shared.tag(for: .b2)
+        b2.square = .b2
+
         b3.button.tag = TicTacToeModel.shared.tag(for: .b3)
+        b3.square = .b3
+
         c1.button.tag = TicTacToeModel.shared.tag(for: .c1)
+        c1.square = .c1
+
         c2.button.tag = TicTacToeModel.shared.tag(for: .c2)
+        c2.square = .c2
+
         c3.button.tag = TicTacToeModel.shared.tag(for: .c3)
+        c3.square = .c3
     }
     
     // MARK: - DOTTED LINES
@@ -261,10 +631,50 @@ class ThreeRowGridView: UIView {
         ]
         NSLayoutConstraint.activate(letterViewConstraints)
     }
+    
+    // MARK: - RESET ROWS
+    func resetRows() {
+        for gridLetter in [a1, a2, a3, b1, b2, b3, c1, c2, c3] {
+            gridLetter.updateLetter(with: "")
+//            gridLetter.setBorderInactive()
+        }
+    }
 }
 
 extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
     func didTapButton(sender: UIButton) {
-        threeRowGridViewDelegate.didTapLetterView(sender: sender)
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        guard let turnNumber = currentGame.turnNumber else { return }
+        let letterView = letterView(for: TicTacToeModel.shared.square(for: sender.tag))
+        let emojiString = TicTacToeModel.shared.emojiString(for: turnNumber)
+        updateLetterView(letterView, with: emojiString, animated: false) { gameState in
+            self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
+            if gameState == .won {
+                self.threeRowGridViewDelegate.gameWon()
+            }
+        }
+    }
+    
+    private func letterView(for square: TicTacToeSquare) -> ThreeRowGridLetterView {
+        switch square {
+        case .a1:
+            return a1
+        case .a2:
+            return a2
+        case .a3:
+            return a3
+        case .b1:
+            return b1
+        case .b2:
+            return b2
+        case .b3:
+            return b3
+        case .c1:
+            return c1
+        case .c2:
+            return c2
+        case .c3:
+            return c3
+        }
     }
 }

@@ -36,6 +36,11 @@ class SuccessView: UIView {
         backgroundColor = .successBackgroundRed
     }
     
+    func showCatsGame() {
+        titleLabel.text = "CAT'S GAME"
+        backgroundColor = .successBackgroundRed
+    }
+    
     func reset() {
         titleLabel.text = "SUCCESS"
         backgroundColor = .successBackgroundGreen
