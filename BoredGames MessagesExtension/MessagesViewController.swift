@@ -19,7 +19,6 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        Model.shared.updateGamesFromUserDefaults()
         addContainerView()
     }
     
@@ -364,6 +363,8 @@ class MessagesViewController: MSMessagesAppViewController {
         containerView.fiveLetterGuessView.resetGame()
         containerView.ticTacToeView.resetGame()
         
+        Model.shared.updateGamesFromUserDefaults()
+        
         if let selectedMessage = conversation.selectedMessage {
             let appState = appStateFromDecoding(selectedMessage)
             switch appState {
@@ -371,10 +372,13 @@ class MessagesViewController: MSMessagesAppViewController {
             case .fiveLetterGuess:
                 containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
                 Model.shared.appState = .fiveLetterGuess
+                Model.shared.fiveLetterGuessState = .grid
                 updateFiveLetterGuessGame()
 
             case .ticTacToe:
+                containerView.ticTacToeView.isUserInteractionEnabled = true
                 Model.shared.appState = .ticTacToe
+                TicTacToeModel.shared.ticTacToeState = .grid
                 updateTicTacToeGame()
                 
             default:

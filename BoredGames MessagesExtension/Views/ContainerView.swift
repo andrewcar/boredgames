@@ -461,17 +461,17 @@ extension ContainerView: SmallLogoViewDelegate {
 extension ContainerView: FiveLetterGuessDelegate {
     
     // MARK: - ⤴️ ▶️ 👇
-    func didTapSendButton() {
+    func didTapFLGSendButton() {
         containerDelegate.didTapSendButton()
     }
     
     // MARK: - 📈 ▶️ 👇
-    func didTapStatsButton() {
+    func didTapFLGStatsButton() {
         updateConstraints()
     }
     
     // MARK: - 🔢 ▶️ 👇
-    func didTapGridButton() {
+    func didTapFLGGridButton() {
         updateConstraints()
     }
 }
@@ -479,7 +479,17 @@ extension ContainerView: FiveLetterGuessDelegate {
 extension ContainerView: TicTacToeViewDelegate {
     
     // MARK: - 🔳 ▶️ 👇
-    func didTapSquareButton() {
+    func didTapTTTSquareButton() {
         containerDelegate.didTapTTTSquareButton()
+    }
+    
+    // MARK: - 📈 ▶️ 👇
+    func didTapTTTStatsButton() {
+        updateConstraints()
+    }
+    
+    // MARK: - 🔢 ▶️ 👇
+    func didTapTTTGridButton() {
+        updateConstraints()
     }
 }

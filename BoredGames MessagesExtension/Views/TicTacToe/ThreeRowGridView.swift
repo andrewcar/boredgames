@@ -119,16 +119,17 @@ class ThreeRowGridView: UIView {
     // MARK: - CATS GAME
     private func catsGame() -> Bool {
         // if any letter view letter label texts are empty, the game isn't over, so no cats game
-        for letterView in [a1, a2, a3, b1, b2, b3, c1, c2, c3] {
-            guard let text = letterView.letterLabel.text else { return false }
-            if text.isEmpty {
-                return false
-            }
+        
+        let allLetterViews = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
+        let blankLetterViews = allLetterViews.filter {
+            guard let text = $0.letterLabel.text else { return false }
+            guard text.isEmpty else { return false }
+            return true
         }
         
         // if none of the label texts were empty, cats game
         // because this is used after all path checks
-        return true
+        return blankLetterViews.isEmpty
     }
     
     // MARK: - UPDATE LETTER VIEW
@@ -139,146 +140,115 @@ class ThreeRowGridView: UIView {
         letterView?.updateLetter(with: ticTacToeMove)
         
         guard let square = letterView?.square else { completion(.playing); return }
-        
+                
         switch square {
         case .a1:
             topHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            leftVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            backslashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.leftVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
+
+                    self.backslashWin(square: square, move: move) { win in
+                        decideFate(from: win)
+                    }
                 }
             }
         case .a2:
             topHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            middleVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.middleVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
                 }
             }
         case .a3:
             topHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            rightVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            forwardSlashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.rightVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
+
+                    self.forwardSlashWin(square: square, move: move) { win in
+                        decideFate(from: win)
+                    }
                 }
             }
         case .b1:
             leftVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            middleHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.middleHorizontalWin(square: square, move: move) { win in
+                    decideFate(from: win)
                 }
             }
         case .b2:
             middleHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            middleVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            backslashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            forwardSlashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.middleVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
+
+                    self.backslashWin(square: square, move: move) { win in
+                        decideFate(from: win)
+
+                        self.forwardSlashWin(square: square, move: move) { win in
+                            decideFate(from: win)
+                        }
+                    }
                 }
             }
         case .b3:
             middleHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            rightVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.rightVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
                 }
             }
         case .c1:
             bottomHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            leftVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            forwardSlashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.leftVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
+
+                    self.forwardSlashWin(square: square, move: move) { win in
+                        decideFate(from: win)
+                    }
                 }
             }
         case .c2:
             bottomHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            middleVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.middleVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
                 }
             }
         case .c3:
             bottomHorizontalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            rightVerticalWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
-                }
-            }
-            backslashWin(square: square, move: move) { win in
-                if win {
-                    completion(.won)
+                decideFate(from: win)
+
+                self.rightVerticalWin(square: square, move: move) { win in
+                    decideFate(from: win)
+
+                    self.backslashWin(square: square, move: move) { win in
+                        decideFate(from: win)
+                    }
                 }
             }
         }
         
-        // at this point, we know we don't have a win in any path, so either
-        // the game isn't over or it's a cats game
-        if catsGame() {
-            threeRowGridViewDelegate.catsGame()
-            completion(.lost)
-        } else {
-            completion(.playing)
+        func decideFate(from win: Bool) {
+            if win {
+                completion(.won)
+            } else if self.catsGame() {
+                self.threeRowGridViewDelegate.catsGame()
+                completion(.lost)
+            } else {
+                completion(.playing)
+            }
         }
     }
     

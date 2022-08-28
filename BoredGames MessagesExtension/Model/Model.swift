@@ -17,7 +17,6 @@ class Model: NSObject {
     static let shared = Model()
     var appState: AppState = .container
     var fiveLetterGuessState: FiveLetterGuessState = .grid
-    var ticTacToeState: TicTacToeState = .grid
     var flgGameDelegate: FLGGameDelegate!
     var isLandscape: Bool = false
     var words: Words?
@@ -192,6 +191,9 @@ class Model: NSObject {
     func updateGamesFromUserDefaults() {
         if let cachedGames = GamesCache.getFLGGames() {
             flgGames = cachedGames
+        }
+        if let cachedGames = GamesCache.getTTTGames() {
+            TicTacToeModel.shared.games = cachedGames
         }
     }
 

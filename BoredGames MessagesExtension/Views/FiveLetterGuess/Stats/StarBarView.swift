@@ -105,7 +105,13 @@ class StatBarView: UIView {
         playedNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         playedNumberLabel.textAlignment = .center
         playedNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
+        if Model.shared.appState == .fiveLetterGuess {
+            playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
+        } else if Model.shared.appState == .ticTacToe {
+            playedNumberLabel.text = "\(TicTacToeModel.shared.games.gameCount)"
+        } else {
+            playedNumberLabel.text = "0"
+        }
         playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
         
@@ -189,7 +195,13 @@ class StatBarView: UIView {
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
+        if Model.shared.appState == .fiveLetterGuess {
+            wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
+        } else if Model.shared.appState == .ticTacToe {
+            wonNumberLabel.text = "\(TicTacToeModel.shared.games.winCount)"
+        } else {
+            wonNumberLabel.text = "0"
+        }
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
@@ -271,7 +283,13 @@ class StatBarView: UIView {
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
+        if Model.shared.appState == .fiveLetterGuess {
+            lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
+        } else if Model.shared.appState == .ticTacToe {
+            lostNumberLabel.text = "\(TicTacToeModel.shared.games.lossCount)"
+        } else {
+            lostNumberLabel.text = "0"
+        }
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
@@ -353,7 +371,13 @@ class StatBarView: UIView {
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
+        if Model.shared.appState == .fiveLetterGuess {
+            streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
+        } else if Model.shared.appState == .ticTacToe {
+            streakNumberLabel.text = "\(TicTacToeModel.shared.games.streakCount)"
+        } else {
+            streakNumberLabel.text = "0"
+        }
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         

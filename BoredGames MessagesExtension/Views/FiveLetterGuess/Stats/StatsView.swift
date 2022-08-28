@@ -43,7 +43,11 @@ class StatsView: UIView {
             statBarView.updateConstraints()
         }
         
-        resetButton.isHidden = !Model.shared.resetAvailable
+        if Model.shared.appState == .fiveLetterGuess {
+            resetButton.isHidden = !Model.shared.resetAvailable
+        } else if Model.shared.appState == .ticTacToe {
+            resetButton.isHidden = !TicTacToeModel.shared.resetAvailable
+        }
     }
     
     // MARK: - ADD SUBVIEWS
@@ -138,19 +142,37 @@ class StatsView: UIView {
     // MARK: - DID TAP RESET BUTTON
     @objc
     private func didTapResetButton(sender: UIButton) {
-        var games = Model.shared.flgGames
-        games.value.removeAll()
-        games.gameCount = 0
-        games.winCount = 0
-        games.lossCount = 0
-        games.streakCount = 0
-        GamesCache.saveFLGGames(games)
-        statBarView.playedNumberLabel.text = "\(games.gameCount)"
-        statBarView.wonNumberLabel.text = "\(games.winCount)"
-        statBarView.lostNumberLabel.text = "\(games.lossCount)"
-        statBarView.streakNumberLabel.text = "\(games.streakCount)"
-        Model.shared.flgGames = games
-        GamesCache.removeFLGGames()
+        switch Model.shared.appState {
+        case .fiveLetterGuess:
+            var games = Model.shared.flgGames
+            games.value.removeAll()
+            games.gameCount = 0
+            games.winCount = 0
+            games.lossCount = 0
+            games.streakCount = 0
+            GamesCache.saveFLGGames(games)
+            statBarView.playedNumberLabel.text = "\(games.gameCount)"
+            statBarView.wonNumberLabel.text = "\(games.winCount)"
+            statBarView.lostNumberLabel.text = "\(games.lossCount)"
+            statBarView.streakNumberLabel.text = "\(games.streakCount)"
+            Model.shared.flgGames = games
+            GamesCache.removeFLGGames()
+        case .ticTacToe:
+            var games = TicTacToeModel.shared.games
+            games.value.removeAll()
+            games.gameCount = 0
+            games.winCount = 0
+            games.lossCount = 0
+            games.streakCount = 0
+            GamesCache.saveTTTGames(games)
+            statBarView.playedNumberLabel.text = "\(games.gameCount)"
+            statBarView.wonNumberLabel.text = "\(games.winCount)"
+            statBarView.lostNumberLabel.text = "\(games.lossCount)"
+            statBarView.streakNumberLabel.text = "\(games.streakCount)"
+            TicTacToeModel.shared.games = games
+            GamesCache.removeTTTGames()
+        default: ()
+        }
     }
     
 }

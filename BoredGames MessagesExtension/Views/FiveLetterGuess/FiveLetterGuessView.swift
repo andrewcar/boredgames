@@ -8,9 +8,9 @@
 import UIKit
 
 protocol FiveLetterGuessDelegate {
-    func didTapSendButton()
-    func didTapStatsButton()
-    func didTapGridButton()
+    func didTapFLGSendButton()
+    func didTapFLGStatsButton()
+    func didTapFLGGridButton()
 }
 
 class FiveLetterGuessView: UIView {
@@ -255,15 +255,15 @@ class FiveLetterGuessView: UIView {
     // MARK: - SUCCESS LANDSCAPE CONSTRAINTS
     private func activateSuccessLandscapeConstraints() {
         deactivateSuccessConstraints()
-        successPortraitConstraints = [
+        successLandscapeConstraints = [
             successView.centerXAnchor.constraint(equalTo: keyboardView.centerXAnchor),
             successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
             successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
         ]
         let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
         let constraint = successView.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset)
-        successPortraitConstraints.append(constraint)
-        NSLayoutConstraint.activate(successPortraitConstraints)
+        successLandscapeConstraints.append(constraint)
+        NSLayoutConstraint.activate(successLandscapeConstraints)
     }
     
     // MARK: - DEACTIVATE SUCCESS CONSTRAINTS
@@ -385,7 +385,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP SEND BUTTON
     @objc
     private func didTapSendButton(sender: UIButton) {
-        fiveLetterGuessDelegate.didTapSendButton()
+        fiveLetterGuessDelegate.didTapFLGSendButton()
         disableKeyboard()
     }
     
@@ -533,7 +533,7 @@ class FiveLetterGuessView: UIView {
     private func didTapStatsButton(sender: UIButton) {
         Model.shared.fiveLetterGuessState = .stats
         statsView.isHidden = false
-        fiveLetterGuessDelegate.didTapStatsButton()
+        fiveLetterGuessDelegate.didTapFLGStatsButton()
         updateConstraints()
     }
     
@@ -612,7 +612,7 @@ class FiveLetterGuessView: UIView {
     private func didTapGridButton(sender: UIButton) {
         Model.shared.fiveLetterGuessState = .grid
         statsView.isHidden = true
-        fiveLetterGuessDelegate.didTapGridButton()
+        fiveLetterGuessDelegate.didTapFLGGridButton()
         updateConstraints()
     }
         
@@ -1064,7 +1064,7 @@ extension FiveLetterGuessView: KeyboardDelegate {
                 
                 Model.shared.currentGuess = ""
                 
-                self.fiveLetterGuessDelegate.didTapSendButton()
+                self.fiveLetterGuessDelegate.didTapFLGSendButton()
                 self.disableKeyboard()
             }
         }
