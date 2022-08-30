@@ -9,10 +9,10 @@ import UIKit
 
 @IBDesignable
 class DottedLineView : UIView {
+    
     @IBInspectable var perDashLength: CGFloat = 6.0
     @IBInspectable var spaceBetweenDash: CGFloat = 5.0
     @IBInspectable var dashColor: UIColor = UIColor.white
-
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)

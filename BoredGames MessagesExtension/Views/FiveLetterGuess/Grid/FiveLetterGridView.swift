@@ -863,7 +863,7 @@ class FiveLetterGridView: UIView {
             // if the guess letter is the same as the answer's letter in that slot, mark it green
         if guess[guessIndex] == answer[guessIndex] {
             gridDelegate?.setKeyToGreen(for: guessLetter)
-            Model.shared.lastGuessInEmojis += "🟥"
+            Model.shared.lastGuessInEmojis += "🟩"
             heavyImpactFeedbackGenerator.impactOccurred()
             letterView?.updateLetter(to: .green, animated: animated, completion: {
                 completion()
@@ -900,7 +900,7 @@ class FiveLetterGridView: UIView {
                 Model.shared.incrementYellowGuessLetter(guessLetter)
                 gridDelegate?.setKeyToYellow(for: guessLetter)
                 lightImpactFeedbackGenerator.impactOccurred()
-                Model.shared.lastGuessInEmojis += "🟨"
+                Model.shared.lastGuessInEmojis += "🟪"
                 letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                     completion()
                 })
@@ -921,7 +921,7 @@ class FiveLetterGridView: UIView {
             Model.shared.incrementYellowGuessLetter(guessLetter)
             gridDelegate?.setKeyToYellow(for: guessLetter)
             lightImpactFeedbackGenerator.impactOccurred()
-            Model.shared.lastGuessInEmojis += "🟨"
+            Model.shared.lastGuessInEmojis += "🟪"
             letterView?.updateLetter(to: .yellow, animated: animated, completion: {
                 completion()
             })

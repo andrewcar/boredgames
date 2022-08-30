@@ -78,8 +78,6 @@ class TicTacToeView: UIView {
     
     // MARK: - THREE ROW GRID
     private func addThreeRowGridView() {
-        threeRowGridView.layer.borderColor = UIColor.red.cgColor
-        threeRowGridView.layer.borderWidth = 2
         threeRowGridView.threeRowGridViewDelegate = self
         addSubview(threeRowGridView)
         activateThreeRowGridConstraints(isLandscape: false)

@@ -71,6 +71,7 @@ class ContainerView: UIView {
         
         let isLandscape = UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height ? false : true
 
+        updateBackgroundColor()
         updateLogoView(isLandscape: isLandscape)
         updateFiveLetterGuessButton(isLandscape: isLandscape)
         updateTicTacToeButton(isLandscape: isLandscape)
@@ -81,6 +82,26 @@ class ContainerView: UIView {
 
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
+        } completion: { _ in
+        }
+    }
+    
+    // MARK: - 🪟 🟩 🔄
+    private func updateBackgroundColor() {
+        var newColor: UIColor?
+        switch Model.shared.appState {
+        case .container:
+            newColor = .containerBackground
+        case .fiveLetterGuess:
+            newColor = .fiveLetterGuessBackground
+        case .ticTacToe:
+            newColor = .ticTacToeBackground
+        case .dots:
+            newColor = .dotsBackground
+        }
+        guard let newColor = newColor else { return }
+        UIView.animate(withDuration: 0.426, delay: 0, options: .curveEaseOut) {
+            self.backgroundColor = newColor
         } completion: { _ in
         }
     }
