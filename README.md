@@ -1,1 +1,1 @@
-# nerdle
+# BoredGames
