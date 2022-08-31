@@ -10,7 +10,7 @@ import UIKit
 class StatsView: UIView {
     
     // MARK: - Properties
-    var statBarView = StatBarView()
+    var statBarView = HorizontalStatBarView()
     var statBarPortraitConstraints: [NSLayoutConstraint] = []
     var statBarLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -58,7 +58,7 @@ class StatsView: UIView {
     
     // MARK: - STAT BAR VIEW
     private func addStatBarView() {
-        statBarView = StatBarView(frame: .zero)
+        statBarView = HorizontalStatBarView(frame: .zero)
         addSubview(statBarView)
         activateStatBarPortraitConstraints()
     }

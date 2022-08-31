@@ -28,7 +28,7 @@
 		494D915728B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */; };
 		494D915928B6CF28003E14D9 /* FiveLetterGuessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915828B6CF28003E14D9 /* FiveLetterGuessModel.swift */; };
 		494D915B28B6DE7B003E14D9 /* TicTacToeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */; };
-		4950D938289B8184004BA711 /* StarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* StarBarView.swift */; };
+		4950D938289B8184004BA711 /* HorizontalStarBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* HorizontalStarBarView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* FiveLetterGuessCurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* FiveLetterGuessCurrentLetter.swift */; };
 		495EAD75288F74CE004290AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* Model.swift */; };
@@ -108,7 +108,7 @@
 		494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeCurrentSquare.swift; sourceTree = "<group>"; };
 		494D915828B6CF28003E14D9 /* FiveLetterGuessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessModel.swift; sourceTree = "<group>"; };
 		494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeModel.swift; sourceTree = "<group>"; };
-		4950D937289B8184004BA711 /* StarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarBarView.swift; sourceTree = "<group>"; };
+		4950D937289B8184004BA711 /* HorizontalStarBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalStarBarView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* FiveLetterGuessCurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveLetterGuessCurrentLetter.swift; sourceTree = "<group>"; };
 		495EAD74288F74CE004290AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				4913C0E4289913950039745B /* StatsView.swift */,
-				4950D937289B8184004BA711 /* StarBarView.swift */,
+				4950D937289B8184004BA711 /* HorizontalStarBarView.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -481,7 +481,7 @@
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				494D915928B6CF28003E14D9 /* FiveLetterGuessModel.swift in Sources */,
-				4950D938289B8184004BA711 /* StarBarView.swift in Sources */,
+				4950D938289B8184004BA711 /* HorizontalStarBarView.swift in Sources */,
 				4993489D2890736A00BC6B0B /* Guess.swift in Sources */,
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
 				49AADB1F28B83A5800737F8D /* TTTLetterState.swift in Sources */,

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "dots_grayer.png",
+      "filename" : "dots_light_1024-1.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "dots_grayer-1.png",
+      "filename" : "dots_light_1024.png",
       "idiom" : "universal"
     },
     {
@@ -21,7 +21,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "dots_grayer-2.png",
+      "filename" : "dots_dark_1024x1024.png",
       "idiom" : "universal"
     }
   ],

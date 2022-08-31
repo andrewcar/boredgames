@@ -1,5 +1,5 @@
 //
-//  StarBarView.swift
+//  HorizontalStarBarView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/4/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StatBarView: UIView {
+class HorizontalStatBarView: UIView {
     
     // MARK: - Properties
     var playedNumberLabel = UILabel()
@@ -454,7 +454,7 @@ class StatBarView: UIView {
     }
 }
 
-extension StatBarView: FLGGameDelegate {
+extension HorizontalStatBarView: FLGGameDelegate {
     func didUpdateGame() {
         playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
         wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
