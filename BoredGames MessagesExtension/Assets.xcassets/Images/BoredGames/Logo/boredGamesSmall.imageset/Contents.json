@@ -1,17 +1,28 @@
 {
   "images" : [
     {
-      "filename" : "boredGamesTall.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "boredGamesSmall_light.png",
+      "idiom" : "universal"
     },
     {
-      "idiom" : "universal",
-      "scale" : "2x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "boredGamesSmall_light-1.png",
+      "idiom" : "universal"
     },
     {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "boredGamesSmall_dark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

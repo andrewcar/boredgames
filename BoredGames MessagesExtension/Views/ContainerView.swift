@@ -179,7 +179,7 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
         } else {
             smallLogoPortraitConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
