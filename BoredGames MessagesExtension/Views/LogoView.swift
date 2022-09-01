@@ -46,8 +46,8 @@ class LogoView: UIView {
         imageConstraints = [
             imageView.topAnchor.constraint(equalTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.width),
-            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSizeBigger.height)
+            imageView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
+            imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
         ]
         NSLayoutConstraint.activate(imageConstraints)
     }

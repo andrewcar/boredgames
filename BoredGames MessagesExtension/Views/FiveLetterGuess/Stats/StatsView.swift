@@ -34,14 +34,13 @@ class StatsView: UIView {
         super.updateConstraints()
     
         if Model.shared.isLandscape {
-            activateStatBarLandscapeConstraints()
+            activateStatBarConstraints(isLandscape: true)
             activateResetButtonLandscapeConstraints()
-            statBarView.updateConstraints()
         } else {
-            activateStatBarPortraitConstraints()
+            activateStatBarConstraints(isLandscape: false)
             activateResetButtonPortraitConstraints()
-            statBarView.updateConstraints()
         }
+        statBarView.updateConstraints()
         
         if Model.shared.appState == .fiveLetterGuess {
             resetButton.isHidden = !Model.shared.resetAvailable
@@ -60,37 +59,37 @@ class StatsView: UIView {
     private func addStatBarView() {
         statBarView = HorizontalStatBarView(frame: .zero)
         addSubview(statBarView)
-        activateStatBarPortraitConstraints()
+        activateStatBarConstraints(isLandscape: false)
     }
     
-    // MARK: - ACTIVATE STAT BAR PORTRAIT CONSTRAINTS
-    func activateStatBarPortraitConstraints() {
+    // MARK: - ACTIVATE STAT BAR CONSTRAINTS
+    func activateStatBarConstraints(isLandscape: Bool) {
         deactivateStatBarViewConstraints()
-        statBarPortraitConstraints = [
-            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.buttonSize.height + (Frame.Logo.upperPadding * 3)),
-            statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.barSize.width),
-            statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.barSize.height)
-        ]
-        NSLayoutConstraint.activate(statBarPortraitConstraints)
-    }
-    
-    // MARK: - ACTIVATE STAT BAR LANDSCAPE CONSTRAINTS
-    func activateStatBarLandscapeConstraints() {
-        deactivateStatBarViewConstraints()
-        statBarLandscapeConstraints = [
-            statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.buttonSize.height + Frame.Logo.upperPadding),
-            statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.width),
-            statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.height),
-            statBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 3)),
-        ]
-        NSLayoutConstraint.activate(statBarLandscapeConstraints)
+        if isLandscape {
+            statBarLandscapeConstraints = [
+                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.width),
+                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.height)
+            ]
+            NSLayoutConstraint.activate(statBarLandscapeConstraints)
+        } else {
+            statBarPortraitConstraints = [
+                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.barSize.width),
+                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.barSize.height)
+            ]
+            NSLayoutConstraint.activate(statBarPortraitConstraints)
+        }
     }
     
     // MARK: - DEACTIVATE STAT BAR VIEW CONSTRAINTS
     private func deactivateStatBarViewConstraints() {
         NSLayoutConstraint.deactivate(statBarPortraitConstraints)
         NSLayoutConstraint.deactivate(statBarLandscapeConstraints)
+        statBarPortraitConstraints.removeAll()
+        statBarLandscapeConstraints.removeAll()
     }
     
     // MARK: - RESET BUTTON

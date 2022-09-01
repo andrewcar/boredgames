@@ -518,26 +518,29 @@ class ThreeRowGridView: UIView {
     // MARK: - ACTIVATE DOTTED LINES CONSTRAINTS
     private func activateDottedLinesConstraints() {
         deactivateDottedLinesConstraints()
+        let lineGirth: CGFloat = 2
         let squareGirth = Frame.Grid.ticTacToeGirth / 3
         dottedLineConstraints = [
             leftVerticalDottedLine.topAnchor.constraint(equalTo: topAnchor),
             leftVerticalDottedLine.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(squareGirth / 2)),
-            leftVerticalDottedLine.widthAnchor.constraint(equalToConstant: 2),
+            leftVerticalDottedLine.widthAnchor.constraint(equalToConstant: lineGirth),
             leftVerticalDottedLine.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             rightVerticalDottedLine.topAnchor.constraint(equalTo: topAnchor),
             rightVerticalDottedLine.centerXAnchor.constraint(equalTo: centerXAnchor, constant: squareGirth / 2),
-            rightVerticalDottedLine.widthAnchor.constraint(equalToConstant: 2),
+            rightVerticalDottedLine.widthAnchor.constraint(equalToConstant: lineGirth),
             rightVerticalDottedLine.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             topHorizontalDottedLine.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(squareGirth / 2)),
-            topHorizontalDottedLine.heightAnchor.constraint(equalToConstant: 2),
+            topHorizontalDottedLine.topAnchor.constraint(equalTo: topAnchor, constant: squareGirth),
+//            topHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(squareGirth / 2)),
+            topHorizontalDottedLine.heightAnchor.constraint(equalToConstant: lineGirth),
             topHorizontalDottedLine.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             bottomHorizontalDottedLine.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: squareGirth / 2),
-            bottomHorizontalDottedLine.heightAnchor.constraint(equalToConstant: 2),
+            bottomHorizontalDottedLine.topAnchor.constraint(equalTo: topAnchor, constant: squareGirth * 2),
+//            bottomHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: squareGirth / 2),
+            bottomHorizontalDottedLine.heightAnchor.constraint(equalToConstant: lineGirth),
             bottomHorizontalDottedLine.trailingAnchor.constraint(equalTo: trailingAnchor),
         ]
         NSLayoutConstraint.activate(dottedLineConstraints)

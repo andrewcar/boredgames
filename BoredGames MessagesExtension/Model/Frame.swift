@@ -18,8 +18,8 @@ struct Frame {
     static var sliderTopPadding: CGFloat {
         UIScreen.main.bounds.height / 3
     }
-    static var gamePadding: CGFloat {
-        return (UIScreen.main.bounds.width - (buttonSize.width * 3)) / 4
+    static var gameButtonPadding: CGFloat {
+        return (UIScreen.main.bounds.width - (buttonSize.width * 4)) / 5
     }
 
     // MARK: - LOGO
@@ -44,13 +44,13 @@ struct Frame {
     struct Grid {
         static let dotGirth: CGFloat = 11
         static func fiveLetterGuessSize(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
-//            let oneFifthSansPadding: CGFloat = (containerWidth / 5) - (scaledPadding * 6)
             let oneFifthSansPadding: CGFloat = (containerWidth - (scaledPadding * 6)) / 5
             let gridHeight = containerWidth + oneFifthSansPadding + (scaledPadding * 5)
             return CGSize(width: containerWidth, height: gridHeight)
         }
         static var ticTacToeGirth: CGFloat {
-            UIScreen.main.bounds.width - Frame.Logo.targetTallSize.width - (Frame.Logo.upperPadding * 2)
+            UIScreen.main.bounds.width / 3
+//            UIScreen.main.bounds.width - Frame.Logo.targetTallSize.width - (Frame.Logo.upperPadding * 3)
         }
         static func letterSize(_ viewFrame: CGRect) -> CGSize {
             let width = (viewFrame.width - (padding * 4) - (outerPadding * 2)) / 5

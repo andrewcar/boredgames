@@ -13,8 +13,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Properties
     private var containerView = ContainerView(frame: .zero)
-    private var containerPortraitConstraints: [NSLayoutConstraint] = []
-    private var containerLandscapeConstraints: [NSLayoutConstraint] = []
+    private var containerConstraints: [NSLayoutConstraint] = []
         
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -28,13 +27,13 @@ class MessagesViewController: MSMessagesAppViewController {
         // portrait
         if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
             Model.shared.isLandscape = false
-            activateContainerConstraints(isLandscape: false)
-            
+
         // landscape
         } else {
             Model.shared.isLandscape = true
-            activateContainerConstraints(isLandscape: true)
         }
+        
+        activateContainerConstraints()
         containerView.updateConstraints()
     }
     
@@ -42,24 +41,18 @@ class MessagesViewController: MSMessagesAppViewController {
     private func addContainerView() {
         containerView.containerDelegate = self
         view.addSubview(containerView)
-        activateContainerConstraints(isLandscape: false)
     }
     
     // MARK: - CONTAINER CONSTRAINTS
-    private func activateContainerConstraints(isLandscape: Bool) {
-        NSLayoutConstraint.deactivate(containerPortraitConstraints)
-        NSLayoutConstraint.deactivate(containerLandscapeConstraints)
-        containerPortraitConstraints = [
+    private func activateContainerConstraints() {
+        NSLayoutConstraint.deactivate(containerConstraints)
+        containerConstraints = [
             containerView.topAnchor.constraint(equalTo: view.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ]
-        if isLandscape {
-            NSLayoutConstraint.activate(containerLandscapeConstraints)
-        } else {
-            NSLayoutConstraint.activate(containerPortraitConstraints)
-        }
+        NSLayoutConstraint.activate(containerConstraints)
     }
     
     // MARK: - BECOME FIRST RESPONDER
@@ -495,6 +488,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         containerView.fiveLetterGuessView.updateConstraints()
+        containerView.ticTacToeView.updateConstraints()
     }
     
     // MARK: - WILL BECOME ACTIVE
