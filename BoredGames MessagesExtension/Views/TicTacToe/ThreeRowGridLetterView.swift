@@ -15,7 +15,7 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - Properties
     var letterViewDelegate: ThreeRowGridLetterViewDelegate!
-    
+
     var square: TicTacToeSquare?
     
     var letterLabel = UILabel(frame: .zero)
@@ -30,11 +30,20 @@ class ThreeRowGridLetterView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews()
+        addBorder()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - ADD BORDER
+    private func addBorder() {
+        layer.borderColor = UIColor.gridLetterBorder?.cgColor
+        layer.borderWidth = 2
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = 8
     }
     
     // MARK: - UPDATE LETTER

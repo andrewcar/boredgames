@@ -92,15 +92,15 @@ class TicTacToeView: UIView {
             threeRowGridConstraints = [
                 threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
                 threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth),
-                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth)
+                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: true)),
+                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: true))
             ]
         } else {
             threeRowGridConstraints = [
                 threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Grid.upperPadding * 2)),
                 threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth),
-                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth)
+                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: false)),
+                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: false))
             ]
         }
         NSLayoutConstraint.activate(threeRowGridConstraints)

@@ -48,9 +48,13 @@ struct Frame {
             let gridHeight = containerWidth + oneFifthSansPadding + (scaledPadding * 5)
             return CGSize(width: containerWidth, height: gridHeight)
         }
-        static var ticTacToeGirth: CGFloat {
-            UIScreen.main.bounds.width / 3
-//            UIScreen.main.bounds.width - Frame.Logo.targetTallSize.width - (Frame.Logo.upperPadding * 3)
+        static func ticTacToeGirth(isLandscape: Bool) -> CGFloat {
+            if isLandscape {
+                return UIScreen.main.bounds.width / 2.5
+            } else {
+                return UIScreen.main.bounds.width * 0.7
+//                return UIScreen.main.bounds.width - Logo.targetTallSize.width - (Logo.upperPadding * 3)
+            }
         }
         static func letterSize(_ viewFrame: CGRect) -> CGSize {
             let width = (viewFrame.width - (padding * 4) - (outerPadding * 2)) / 5

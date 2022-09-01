@@ -27,13 +27,6 @@ class ThreeRowGridView: UIView {
     var c2 = ThreeRowGridLetterView(frame: .zero)
     var c3 = ThreeRowGridLetterView(frame: .zero)
     private var letterViewConstraints: [NSLayoutConstraint] = []
-    
-    private var leftVerticalDottedLine = DottedLineView(frame: .zero)
-    private var rightVerticalDottedLine = DottedLineView(frame: .zero)
-    private var topHorizontalDottedLine = DottedLineView(frame: .zero)
-    private var bottomHorizontalDottedLine = DottedLineView(frame: .zero)
-    private var dottedLineConstraints: [NSLayoutConstraint] = []
-    
     let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 
     // MARK: - Initializers
@@ -53,7 +46,6 @@ class ThreeRowGridView: UIView {
     private func addSubviews() {
         addLetterViews()
         activateGridConstraints()
-        addDottedLines()
     }
     
     // MARK: - UPDATE SQUARES FROM MESSAGE
@@ -505,102 +497,56 @@ class ThreeRowGridView: UIView {
         c3.button.tag = TicTacToeModel.shared.tag(for: .c3)
         c3.square = .c3
     }
-    
-    // MARK: - DOTTED LINES
-    private func addDottedLines() {
-        for dottedLine in [leftVerticalDottedLine, rightVerticalDottedLine, topHorizontalDottedLine, bottomHorizontalDottedLine] {
-            dottedLine.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(dottedLine)
-        }
-        activateDottedLinesConstraints()
-    }
-    
-    // MARK: - ACTIVATE DOTTED LINES CONSTRAINTS
-    private func activateDottedLinesConstraints() {
-        deactivateDottedLinesConstraints()
-        let lineGirth: CGFloat = 2
-        let squareGirth = Frame.Grid.ticTacToeGirth / 3
-        dottedLineConstraints = [
-            leftVerticalDottedLine.topAnchor.constraint(equalTo: topAnchor),
-            leftVerticalDottedLine.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(squareGirth / 2)),
-            leftVerticalDottedLine.widthAnchor.constraint(equalToConstant: lineGirth),
-            leftVerticalDottedLine.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            rightVerticalDottedLine.topAnchor.constraint(equalTo: topAnchor),
-            rightVerticalDottedLine.centerXAnchor.constraint(equalTo: centerXAnchor, constant: squareGirth / 2),
-            rightVerticalDottedLine.widthAnchor.constraint(equalToConstant: lineGirth),
-            rightVerticalDottedLine.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            topHorizontalDottedLine.leadingAnchor.constraint(equalTo: leadingAnchor),
-            topHorizontalDottedLine.topAnchor.constraint(equalTo: topAnchor, constant: squareGirth),
-//            topHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(squareGirth / 2)),
-            topHorizontalDottedLine.heightAnchor.constraint(equalToConstant: lineGirth),
-            topHorizontalDottedLine.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            bottomHorizontalDottedLine.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bottomHorizontalDottedLine.topAnchor.constraint(equalTo: topAnchor, constant: squareGirth * 2),
-//            bottomHorizontalDottedLine.centerYAnchor.constraint(equalTo: centerYAnchor, constant: squareGirth / 2),
-            bottomHorizontalDottedLine.heightAnchor.constraint(equalToConstant: lineGirth),
-            bottomHorizontalDottedLine.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ]
-        NSLayoutConstraint.activate(dottedLineConstraints)
-    }
-    
-    // MARK: - DEACTIVATE DOTTED LINES CONSTRAINTS
-    private func deactivateDottedLinesConstraints() {
-        NSLayoutConstraint.deactivate(dottedLineConstraints)
-        dottedLineConstraints.removeAll()
-    }
-    
+        
     // MARK: - GRID CONSTRAINTS
     private func activateGridConstraints() {
-        let size = CGSize(width: Frame.Grid.ticTacToeGirth / 3, height: Frame.Grid.ticTacToeGirth / 3)
+        let girth = (Frame.Grid.ticTacToeGirth(isLandscape: Model.shared.isLandscape) - (Frame.padding * 4)) / 3
         NSLayoutConstraint.deactivate(letterViewConstraints)
         letterViewConstraints = [
-            a1.topAnchor.constraint(equalTo: topAnchor),
-            a1.leadingAnchor.constraint(equalTo: leadingAnchor),
-            a1.widthAnchor.constraint(equalToConstant: size.width),
-            a1.heightAnchor.constraint(equalToConstant: size.height),
+            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            a1.widthAnchor.constraint(equalToConstant: girth),
+            a1.heightAnchor.constraint(equalToConstant: girth),
             
-            a2.topAnchor.constraint(equalTo: topAnchor),
-            a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor),
-            a2.widthAnchor.constraint(equalToConstant: size.width),
-            a2.heightAnchor.constraint(equalToConstant: size.height),
+            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor, constant: Frame.padding),
+            a2.widthAnchor.constraint(equalToConstant: girth),
+            a2.heightAnchor.constraint(equalToConstant: girth),
             
-            a3.topAnchor.constraint(equalTo: topAnchor),
-            a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor),
-            a3.widthAnchor.constraint(equalToConstant: size.width),
-            a3.heightAnchor.constraint(equalToConstant: size.height),
+            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor, constant: Frame.padding),
+            a3.widthAnchor.constraint(equalToConstant: girth),
+            a3.heightAnchor.constraint(equalToConstant: girth),
             
-            b1.topAnchor.constraint(equalTo: a1.bottomAnchor),
-            b1.leadingAnchor.constraint(equalTo: leadingAnchor),
-            b1.widthAnchor.constraint(equalToConstant: size.width),
-            b1.heightAnchor.constraint(equalToConstant: size.height),
+            b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            b1.widthAnchor.constraint(equalToConstant: girth),
+            b1.heightAnchor.constraint(equalToConstant: girth),
             
-            b2.topAnchor.constraint(equalTo: a2.bottomAnchor),
-            b2.leadingAnchor.constraint(equalTo: b1.trailingAnchor),
-            b2.widthAnchor.constraint(equalToConstant: size.width),
-            b2.heightAnchor.constraint(equalToConstant: size.height),
+            b2.topAnchor.constraint(equalTo: a2.bottomAnchor, constant: Frame.padding),
+            b2.leadingAnchor.constraint(equalTo: b1.trailingAnchor, constant: Frame.padding),
+            b2.widthAnchor.constraint(equalToConstant: girth),
+            b2.heightAnchor.constraint(equalToConstant: girth),
             
-            b3.topAnchor.constraint(equalTo: a3.bottomAnchor),
-            b3.leadingAnchor.constraint(equalTo: b2.trailingAnchor),
-            b3.widthAnchor.constraint(equalToConstant: size.width),
-            b3.heightAnchor.constraint(equalToConstant: size.height),
+            b3.topAnchor.constraint(equalTo: a3.bottomAnchor, constant: Frame.padding),
+            b3.leadingAnchor.constraint(equalTo: b2.trailingAnchor, constant: Frame.padding),
+            b3.widthAnchor.constraint(equalToConstant: girth),
+            b3.heightAnchor.constraint(equalToConstant: girth),
             
-            c1.topAnchor.constraint(equalTo: b1.bottomAnchor),
-            c1.leadingAnchor.constraint(equalTo: leadingAnchor),
-            c1.widthAnchor.constraint(equalToConstant: size.width),
-            c1.heightAnchor.constraint(equalToConstant: size.height),
+            c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
+            c1.widthAnchor.constraint(equalToConstant: girth),
+            c1.heightAnchor.constraint(equalToConstant: girth),
             
-            c2.topAnchor.constraint(equalTo: b2.bottomAnchor),
-            c2.leadingAnchor.constraint(equalTo: c1.trailingAnchor),
-            c2.widthAnchor.constraint(equalToConstant: size.width),
-            c2.heightAnchor.constraint(equalToConstant: size.height),
+            c2.topAnchor.constraint(equalTo: b2.bottomAnchor, constant: Frame.padding),
+            c2.leadingAnchor.constraint(equalTo: c1.trailingAnchor, constant: Frame.padding),
+            c2.widthAnchor.constraint(equalToConstant: girth),
+            c2.heightAnchor.constraint(equalToConstant: girth),
             
-            c3.topAnchor.constraint(equalTo: b3.bottomAnchor),
-            c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor),
-            c3.widthAnchor.constraint(equalToConstant: size.width),
-            c3.heightAnchor.constraint(equalToConstant: size.height)
+            c3.topAnchor.constraint(equalTo: b3.bottomAnchor, constant: Frame.padding),
+            c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor, constant: Frame.padding),
+            c3.widthAnchor.constraint(equalToConstant: girth),
+            c3.heightAnchor.constraint(equalToConstant: girth)
         ]
         NSLayoutConstraint.activate(letterViewConstraints)
     }
