@@ -92,18 +92,20 @@ class TicTacToeView: UIView {
             threeRowGridConstraints = [
                 threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
                 threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: true)),
-                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: true))
+                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: true)),
+                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: true))
             ]
         } else {
             threeRowGridConstraints = [
                 threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Grid.upperPadding * 2)),
                 threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: false)),
-                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGirth(isLandscape: false))
+                threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: false)),
+                threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: false))
             ]
         }
         NSLayoutConstraint.activate(threeRowGridConstraints)
+        
+        threeRowGridView.activateGridConstraints(isLandscape: isLandscape)
     }
     
     // MARK: - DEACTIVATE GRID CONSTRAINTS
@@ -152,17 +154,11 @@ class TicTacToeView: UIView {
         let offset = Model.shared.appState == .ticTacToe && TicTacToeModel.shared.ticTacToeState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         if isLandscape {
             statsButtonLandscapeConstraints = [
-                statsButton.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: -(Frame.padding * 3)),
                 statsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
+                statsButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
+                statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 3) + offset)
             ]
-            var trailingConstraint: NSLayoutConstraint
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                trailingConstraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 5) + offset)
-            } else {
-                trailingConstraint = statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 5) + offset)
-            }
-            statsButtonLandscapeConstraints.append(trailingConstraint)
             NSLayoutConstraint.activate(statsButtonLandscapeConstraints)
         } else {
             statsButtonPortraitConstraints = [
@@ -188,6 +184,8 @@ class TicTacToeView: UIView {
     private func deactivateStatsButtonConstraints() {
         NSLayoutConstraint.deactivate(statsButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(statsButtonLandscapeConstraints)
+        statsButtonPortraitConstraints.removeAll()
+        statsButtonLandscapeConstraints.removeAll()
     }
     
     // MARK: - GRID BUTTON
@@ -218,21 +216,21 @@ class TicTacToeView: UIView {
     // MARK: - GRID BUTTON CONSTRAINTS
     private func activateGridButtonConstraints(isLandscape: Bool) {
         deactivateGridButtonConstraints()
-        let offset = TicTacToeModel.shared.ticTacToeState == .stats ? 0 : -(UIScreen.main.bounds.width * 2)
+        let offset = TicTacToeModel.shared.ticTacToeState == .stats ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             gridButtonLandscapeConstraints = [
-                gridButton.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: -(Frame.padding * 3)),
-                gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + offset),
                 gridButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
-                gridButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
+                gridButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                gridButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
+                gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) - offset)
             ]
             NSLayoutConstraint.activate(gridButtonLandscapeConstraints)
         } else {
             gridButtonPortraitConstraints = [
-                gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) + offset),
                 gridButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 gridButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                gridButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.padding * 15),
+                gridButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
+                gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) - offset)
             ]
             NSLayoutConstraint.activate(gridButtonPortraitConstraints)
         }
@@ -285,24 +283,17 @@ class TicTacToeView: UIView {
         if isLandscape {
             newGameButtonLandscapeConstraints = [
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
-                newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
+                newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
+                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 3) - offset)
             ]
-            let topConstraint = newGameButton.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: (Frame.padding * 2) + offset)
-            newGameButtonLandscapeConstraints.append(topConstraint)
-            var leadingConstraint: NSLayoutConstraint
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                leadingConstraint = newGameButton.leadingAnchor.constraint(equalTo: threeRowGridView.trailingAnchor, constant: Frame.padding * 12)
-            } else {
-                leadingConstraint = newGameButton.leadingAnchor.constraint(equalTo: threeRowGridView.trailingAnchor, constant: Frame.padding * 3)
-            }
-            newGameButtonLandscapeConstraints.append(leadingConstraint)
             NSLayoutConstraint.activate(newGameButtonLandscapeConstraints)
         } else {
             newGameButtonPortraitConstraints = [
-                newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 3) - offset),
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 15)),
+                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
+                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 3) - offset)
             ]
             NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
         }
@@ -312,12 +303,15 @@ class TicTacToeView: UIView {
     private func deactivateNewGameButtonConstraints() {
         NSLayoutConstraint.deactivate(newGameButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(newGameButtonLandscapeConstraints)
+        newGameButtonPortraitConstraints.removeAll()
+        newGameButtonLandscapeConstraints.removeAll()
     }
     
     // MARK: - DID TAP NEW GAME BUTTON
     @objc
     private func didTapNewGameButton(sender: UIButton) {
         resetGame()
+        updateConstraints()
     }
     
     // MARK: - SUCCESS VIEW

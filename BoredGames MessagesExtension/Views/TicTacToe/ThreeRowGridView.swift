@@ -45,7 +45,6 @@ class ThreeRowGridView: UIView {
     // MARK: - ADD SUBVIEWS
     private func addSubviews() {
         addLetterViews()
-        activateGridConstraints()
     }
     
     // MARK: - UPDATE SQUARES FROM MESSAGE
@@ -499,8 +498,8 @@ class ThreeRowGridView: UIView {
     }
         
     // MARK: - GRID CONSTRAINTS
-    private func activateGridConstraints() {
-        let girth = (Frame.Grid.ticTacToeGirth(isLandscape: Model.shared.isLandscape) - (Frame.padding * 4)) / 3
+    func activateGridConstraints(isLandscape: Bool) {
+        let girth = Frame.Grid.ticTacToeSquareGirth(isLandscape: isLandscape)
         NSLayoutConstraint.deactivate(letterViewConstraints)
         letterViewConstraints = [
             a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
