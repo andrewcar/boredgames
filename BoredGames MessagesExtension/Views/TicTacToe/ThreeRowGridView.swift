@@ -10,6 +10,7 @@ import UIKit
 protocol ThreeRowGridViewDelegate {
     func didTapLetterView(sender: UIButton)
     func gameWon()
+    func gameLost()
     func catsGame()
 }
 
@@ -58,7 +59,7 @@ class ThreeRowGridView: UIView {
         c1: String?,
         c2: String?,
         c3: String?,
-        completion: @escaping (GameState) -> ()) {
+        completion: @escaping (TTTGameState) -> ()) {
         
         if let move = a1 {
             updateLetterView(self.a1, with: move, animated: false) { gameState in
@@ -108,7 +109,7 @@ class ThreeRowGridView: UIView {
     }
     
     // MARK: - CATS GAME
-    private func catsGame() -> Bool {
+    private func wasCatsGame() -> Bool {
         // if any letter view letter label texts are empty, the game isn't over, so no cats game
         
         let allLetterViews = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
@@ -124,7 +125,7 @@ class ThreeRowGridView: UIView {
     }
     
     // MARK: - UPDATE LETTER VIEW
-    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, animated: Bool, completion: @escaping (GameState) -> ()) {
+    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, animated: Bool, completion: @escaping (TTTGameState) -> ()) {
         guard let ticTacToeMove = move else { completion(.playing); return }
         guard let move = TTTMove(rawValue: ticTacToeMove) else { completion(.playing); return }
         
@@ -233,10 +234,10 @@ class ThreeRowGridView: UIView {
         
         func decideFate(from win: Bool) {
             if win {
-                completion(.won)
-            } else if self.catsGame() {
+                completion(.ended)
+            } else if self.wasCatsGame() {
                 self.threeRowGridViewDelegate.catsGame()
-                completion(.lost)
+                completion(.ended)
             } else {
                 completion(.playing)
             }
@@ -567,9 +568,6 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         let emojiString = TicTacToeModel.shared.emojiString(for: turnNumber)
         updateLetterView(letterView, with: emojiString, animated: false) { gameState in
             self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
-            if gameState == .won {
-                self.threeRowGridViewDelegate.gameWon()
-            }
         }
     }
     

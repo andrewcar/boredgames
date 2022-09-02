@@ -201,7 +201,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 guess5: fifthGuess,
                 guess6: sixthGuess,
                 guessNumber: Guess(rawValue: guessNumberValue),
-                state: GameState(rawValue: stateValue) ?? .playing,
+                state: FLGGameState(rawValue: stateValue) ?? .playing,
                 playerOne: Player(uuidString: playerOneUUID, color: .blue),
                 playerTwo: Player(uuidString: playerTwoUUID, color: .red),
                 currentPlayerUUID: currentPlayerUUID)
@@ -319,7 +319,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 c2: c2,
                 c3: c3,
                 turnNumber: Turn(rawValue: turnNumberValue),
-                state: GameState(rawValue: stateValue) ?? .playing,
+                state: TTTGameState(rawValue: stateValue) ?? .playing,
                 playerOne: Player(uuidString: playerOneUUID, color: .blue),
                 playerTwo: Player(uuidString: playerTwoUUID, color: .red),
                 currentPlayerUUID: currentPlayerUUID,
@@ -358,51 +358,7 @@ class MessagesViewController: MSMessagesAppViewController {
             }
         }
     }
-    
-    // MARK: - ADVANCE GUESS NUMBER AND LETTER
-    private func advanceGuessNumberAndLetter() {
-        switch Model.shared.currentFLGGame?.guessNumber {
-        case .first:
-            Model.shared.currentFLGGame?.guessNumber = .second
-            Model.shared.currentFLGGame?.currentLetter = .b0
-        case .second:
-            Model.shared.currentFLGGame?.guessNumber = .third
-            Model.shared.currentFLGGame?.currentLetter = .c0
-        case .third:
-            Model.shared.currentFLGGame?.guessNumber = .fourth
-            Model.shared.currentFLGGame?.currentLetter = .d0
-        case .fourth:
-            Model.shared.currentFLGGame?.guessNumber = .fifth
-            Model.shared.currentFLGGame?.currentLetter = .e0
-        case .fifth:
-            Model.shared.currentFLGGame?.guessNumber = .sixth
-            Model.shared.currentFLGGame?.currentLetter = .f0
-        default: ()
-        }
-    }
-    
-    // MARK: - ADVANCE TURN NUMBER
-    private func advanceTurnNumber() {
-        switch TicTacToeModel.shared.currentTTTGame?.turnNumber {
-        case .first:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "second")
-        case .second:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "third")
-        case .third:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fourth")
-        case .fourth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "fifth")
-        case .fifth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "sixth")
-        case .sixth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "seventh")
-        case .seventh:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "eighth")
-        case .eighth:
-            TicTacToeModel.shared.currentTTTGame?.turnNumber = Turn(rawValue: "ninth")
-        default: ()
-        }
-    }
+
     // MARK: - UPDATE FLG GAME
     private func updateFiveLetterGuessGame() {
         
@@ -444,7 +400,7 @@ class MessagesViewController: MSMessagesAppViewController {
                         }
                     }
                 )
-                self.advanceGuessNumberAndLetter()
+                Model.shared.advanceGuessNumberAndLetter()
             }
         }
 
@@ -452,36 +408,39 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - UPDATE TTT GAME
     private func updateTicTacToeGame() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
         
-        // update the grid view with any cached guesses
-        if let currentGame = TicTacToeModel.shared.currentTTTGame {
-            
-            containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
-                a1: currentGame.a1,
-                a2: currentGame.a2,
-                a3: currentGame.a3,
-                b1: currentGame.b1,
-                b2: currentGame.b2,
-                b3: currentGame.b3,
-                c1: currentGame.c1,
-                c2: currentGame.c2,
-                c3: currentGame.c3,
-                completion: { gameState in
-                    switch gameState {
-                    case .won:
-                        self.containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
-                            self.containerView.ticTacToeView.showNewGameButton()
-                        }
-                    case .lost:
-                        self.containerView.ticTacToeView.showTheLoss(currentGame: currentGame) {
-                            self.containerView.ticTacToeView.showNewGameButton()
-                        }
-                    default: ()
+        containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
+            a1: currentGame.a1,
+            a2: currentGame.a2,
+            a3: currentGame.a3,
+            b1: currentGame.b1,
+            b2: currentGame.b2,
+            b3: currentGame.b3,
+            c1: currentGame.c1,
+            c2: currentGame.c2,
+            c3: currentGame.c3,
+            completion: { gameState in
+                guard gameState == .ended else { return }
+                guard let activeConversation = self.activeConversation else { return }
+                guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+                guard let winnerUUIDString = currentGame.winnerUUID else { return }
+                
+                // loss
+                if remoteParticipantIdentifier.uuidString == winnerUUIDString {
+                    self.containerView.ticTacToeView.showTheLoss(currentGame: currentGame) {
+                        self.containerView.ticTacToeView.showNewGameButton()
+                    }
+                    
+                // win
+                } else {
+                    self.containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
+                        self.containerView.ticTacToeView.showNewGameButton()
                     }
                 }
-            )
-            self.advanceTurnNumber()
-        }
+            }
+        )
+        TicTacToeModel.shared.advanceTurnNumber()
     }
 
     
@@ -828,5 +787,13 @@ extension MessagesViewController: ContainerDelegate {
                 print("Error: \(error.localizedDescription)")
             }
         })
+    }
+    
+    func updateWinnerUUID() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+
+        TicTacToeModel.shared.currentTTTGame?.winnerUUID = remoteParticipantIdentifier.uuidString
+        TicTacToeModel.shared.updateGames()
     }
 }

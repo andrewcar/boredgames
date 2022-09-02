@@ -275,6 +275,28 @@ class Model: NSObject {
         }
     }
     
+    // MARK: - ADVANCE GUESS NUMBER AND LETTER
+    func advanceGuessNumberAndLetter() {
+        switch currentFLGGame?.guessNumber {
+        case .first:
+            currentFLGGame?.guessNumber = .second
+            currentFLGGame?.currentLetter = .b0
+        case .second:
+            currentFLGGame?.guessNumber = .third
+            currentFLGGame?.currentLetter = .c0
+        case .third:
+            currentFLGGame?.guessNumber = .fourth
+            currentFLGGame?.currentLetter = .d0
+        case .fourth:
+            currentFLGGame?.guessNumber = .fifth
+            currentFLGGame?.currentLetter = .e0
+        case .fifth:
+            currentFLGGame?.guessNumber = .sixth
+            currentFLGGame?.currentLetter = .f0
+        default: ()
+        }
+    }
+    
     // MARK: - RESET GAME
     func resetGame(completion: @escaping () -> ()) {
         currentFLGGame = FiveLetterGuessGame()

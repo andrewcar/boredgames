@@ -11,6 +11,7 @@ protocol TicTacToeViewDelegate {
     func didTapTTTSquareButton()
     func didTapTTTStatsButton()
     func didTapTTTGridButton()
+    func updateWinnerUUID()
 }
 
 class TicTacToeView: UIView {
@@ -37,7 +38,7 @@ class TicTacToeView: UIView {
     private var gridButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var gridButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var statsView = StatsView(frame: .zero)
+    private var statsView = TTTStatsView(frame: .zero)
     private var statsViewPortraitConstraints: [NSLayoutConstraint] = []
     private var statsViewLandscapeConstraints: [NSLayoutConstraint] = []
 
@@ -67,6 +68,7 @@ class TicTacToeView: UIView {
         activateSuccessConstraints(isLandscape: Model.shared.isLandscape)
         activateNewGameButtonConstraints(isLandscape: Model.shared.isLandscape)
         activateStatsButtonConstraints(isLandscape: Model.shared.isLandscape)
+        statsView.updateConstraints()
         activateStatsViewConstraints(isLandscape: Model.shared.isLandscape)
         activateGridButtonConstraints(isLandscape: Model.shared.isLandscape)
 
@@ -360,15 +362,6 @@ class TicTacToeView: UIView {
     private func activateStatsViewConstraints(isLandscape: Bool) {
         deactivateStatsViewConstraints()
         if isLandscape {
-            
-            //        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
-            //        statsViewLandscapeConstraints = [
-            //            statsView.topAnchor.constraint(equalTo: topAnchor),
-            //            statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-            //            statsView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            //            statsView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height)
-            //        ]
-
             let offset = Model.shared.appState == .ticTacToe && TicTacToeModel.shared.ticTacToeState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
             statsViewLandscapeConstraints = [
                 statsView.topAnchor.constraint(equalTo: topAnchor),
@@ -378,15 +371,6 @@ class TicTacToeView: UIView {
             ]
             NSLayoutConstraint.activate(statsViewLandscapeConstraints)
         } else {
-            
-            //        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
-            //        statsViewPortraitConstraints = [
-            //            statsView.topAnchor.constraint(equalTo: topAnchor),
-            //            statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
-            //            statsView.widthAnchor.constraint(equalTo: widthAnchor),
-            //            statsView.heightAnchor.constraint(equalTo: heightAnchor)
-            //        ]
-
             let offset = Model.shared.appState == .ticTacToe && TicTacToeModel.shared.ticTacToeState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
             statsViewPortraitConstraints = [
                 statsView.topAnchor.constraint(equalTo: topAnchor),
@@ -406,17 +390,8 @@ class TicTacToeView: UIView {
     
     // MARK: - SHOW THE WIN
     func showTheWin(currentGame: TicTacToeGame, completion: @escaping () -> ()) {
-
-        TicTacToeModel.shared.currentTTTGame?.state = .won
-        
-        // update stats
-        if let currentGame = TicTacToeModel.shared.currentTTTGame {
-            TicTacToeModel.shared.updateGames(with: currentGame)
-        }
-        
         showSuccessView()
         showNewGameButton()
-
         threeRowGridView.jumpForJoy {
             completion()
         }
@@ -424,17 +399,15 @@ class TicTacToeView: UIView {
     
     // MARK: - SHOW THE LOSS
     func showTheLoss(currentGame: TicTacToeGame, completion: @escaping () -> ()) {
-        
-        TicTacToeModel.shared.currentTTTGame?.state = .lost
-
-        // update stats
-        if let currentGame = TicTacToeModel.shared.currentTTTGame {
-            TicTacToeModel.shared.updateGames(with: currentGame)
-        }
-        
+        showSuccessView()
+        successView.showLoss()
+        showNewGameButton()
+    }
+    
+    // MARK: - SHOW CATS GAME
+    func showCatsGame(currentGame: TicTacToeGame, completion: @escaping () -> ()) {
         showSuccessView()
         successView.showCatsGame()
-        
         showNewGameButton()
     }
     
@@ -460,7 +433,25 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
     
     func gameWon() {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        
+        TicTacToeModel.shared.currentTTTGame?.state = .ended
+        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
+        TicTacToeModel.shared.incrementWinCountAndStreak(with: currentGame)
+        
         showTheWin(currentGame: currentGame) {
+            self.updateConstraints()
+        }
+    }
+    
+    func gameLost() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        
+        TicTacToeModel.shared.currentTTTGame?.state = .ended
+        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
+        TicTacToeModel.shared.incrementLossCountAndResetStreak(with: currentGame)
+        ticTacToeViewDelegate.updateWinnerUUID()
+        
+        showTheLoss(currentGame: currentGame) {
             self.updateConstraints()
         }
     }
@@ -471,6 +462,11 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
     
     func catsGame() {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        
+        TicTacToeModel.shared.currentTTTGame?.state = .ended
+        TicTacToeModel.shared.incrementCatsGameCount(with: currentGame)
+        TicTacToeModel.shared.updateGames()
+
         showTheLoss(currentGame: currentGame) {
             self.updateConstraints()
         }

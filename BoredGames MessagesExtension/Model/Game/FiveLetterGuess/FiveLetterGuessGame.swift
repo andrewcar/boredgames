@@ -1,20 +1,11 @@
 //
-//  FiveLetterGuessGames.swift
+//  FiveLetterGuessGame.swift
 //  BoredGames MessagesExtension
 //
-//  Created by Andrew Carvajal on 8/3/22.
+//  Created by Andrew Carvajal on 9/2/22.
 //
 
 import Foundation
-
-struct FiveLetterGuessGames: Hashable, Codable {
-    var value: [FiveLetterGuessGame]
-    var gameCount: Int = 0
-    var winCount: Int = 0
-    var lossCount: Int = 0
-    var streakCount: Int = 0
-    var longestStreak: Int = 0
-}
 
 struct FiveLetterGuessGame: Hashable, Codable {
     var gameType: GameType? = nil
@@ -28,7 +19,7 @@ struct FiveLetterGuessGame: Hashable, Codable {
     var guess6: String? = nil
     var guessNumber: Guess? = Guess.first
     var currentLetter: FiveLetterGuessCurrentLetter = .a0
-    var state: GameState = .playing
+    var state: FLGGameState = .playing
     var playerOne = Player(uuidString: nil, color: nil)
     var playerTwo = Player(uuidString: nil, color: nil)
     var currentPlayerUUID: String? = nil

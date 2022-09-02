@@ -95,29 +95,68 @@ class TicTacToeModel: NSObject {
         }
     }
     
+    // MARK: - ADVANCE TURN NUMBER
+    func advanceTurnNumber() {
+        switch currentTTTGame?.turnNumber {
+        case .first:
+            currentTTTGame?.turnNumber = Turn(rawValue: "second")
+        case .second:
+            currentTTTGame?.turnNumber = Turn(rawValue: "third")
+        case .third:
+            currentTTTGame?.turnNumber = Turn(rawValue: "fourth")
+        case .fourth:
+            currentTTTGame?.turnNumber = Turn(rawValue: "fifth")
+        case .fifth:
+            currentTTTGame?.turnNumber = Turn(rawValue: "sixth")
+        case .sixth:
+            currentTTTGame?.turnNumber = Turn(rawValue: "seventh")
+        case .seventh:
+            currentTTTGame?.turnNumber = Turn(rawValue: "eighth")
+        case .eighth:
+            currentTTTGame?.turnNumber = Turn(rawValue: "ninth")
+        default: ()
+        }
+    }
+    
     // MARK: - UPDATE GAMES
-    func updateGames(with game: TicTacToeGame) {
-        guard !games.value.contains(where: { aGame in
-            aGame.id == game.id
-        }) else {
-            return
-        }
-        games.gameCount += 1
-        games.value.append(game)
-        
-        if game.state == .won {
-            games.winCount += 1
-            if games.streakCount == games.longestStreak {
-                games.longestStreak += 1
-            }
-            games.streakCount += 1
-
-        } else if game.state == .lost {
-            games.lossCount += 1
-            games.streakCount = 0
-        }
+    func updateGames() {
         GamesCache.saveTTTGames(games)
         tttGameDelegate?.didUpdateGame()
+    }
+    
+    func gameIsNotDuplicate(_ game: TicTacToeGame) -> Bool {
+        !games.value.contains(where: { aGame in
+            aGame.id == game.id
+        })
+    }
+    
+    func incrementPlayedCount(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+        
+        games.gameCount += 1
+        games.value.append(game)
+    }
+    
+    func incrementCatsGameCount(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+        games.catsGameCount += 1
+    }
+    
+    func incrementWinCountAndStreak(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+
+        games.winCount += 1
+        if games.streakCount == games.longestStreak {
+            games.longestStreak += 1
+        }
+        games.streakCount += 1
+    }
+    
+    func incrementLossCountAndResetStreak(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+
+        games.lossCount += 1
+        games.streakCount = 0
     }
     
     // MARK: - RESET GAME

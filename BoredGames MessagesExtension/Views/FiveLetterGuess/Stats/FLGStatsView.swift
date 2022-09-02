@@ -1,5 +1,5 @@
 //
-//  StatsView.swift
+//  FLGStatsView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/2/22.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class StatsView: UIView {
+class FLGStatsView: UIView {
     
     // MARK: - Properties
-    var statBarView = HorizontalStatBarView()
+    var statBarView = FLGStatBarView(frame: .zero)
     var statBarPortraitConstraints: [NSLayoutConstraint] = []
     var statBarLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -41,12 +41,7 @@ class StatsView: UIView {
             activateResetButtonPortraitConstraints()
         }
         statBarView.updateConstraints()
-        
-        if Model.shared.appState == .fiveLetterGuess {
-            resetButton.isHidden = !Model.shared.resetAvailable
-        } else if Model.shared.appState == .ticTacToe {
-            resetButton.isHidden = !TicTacToeModel.shared.resetAvailable
-        }
+        resetButton.isHidden = !Model.shared.resetAvailable
     }
     
     // MARK: - ADD SUBVIEWS
@@ -57,7 +52,6 @@ class StatsView: UIView {
     
     // MARK: - STAT BAR VIEW
     private func addStatBarView() {
-        statBarView = HorizontalStatBarView(frame: .zero)
         addSubview(statBarView)
         activateStatBarConstraints(isLandscape: false)
     }
@@ -69,16 +63,16 @@ class StatsView: UIView {
             statBarLandscapeConstraints = [
                 statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
                 statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.width),
-                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeBarSize.height)
+                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalBarSize.width),
+                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalBarSize.height)
             ]
             NSLayoutConstraint.activate(statBarLandscapeConstraints)
         } else {
             statBarPortraitConstraints = [
                 statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
                 statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.barSize.width),
-                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.barSize.height)
+                statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalBarSize.width),
+                statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalBarSize.height)
             ]
             NSLayoutConstraint.activate(statBarPortraitConstraints)
         }
@@ -136,42 +130,25 @@ class StatsView: UIView {
     private func deactivateResetButtonConstraints() {
         NSLayoutConstraint.deactivate(resetButtonPortraitConstraints)
         NSLayoutConstraint.deactivate(resetButtonLandscapeConstraints)
+        resetButtonPortraitConstraints.removeAll()
+        resetButtonLandscapeConstraints.removeAll()
     }
     
     // MARK: - DID TAP RESET BUTTON
     @objc
     private func didTapResetButton(sender: UIButton) {
-        switch Model.shared.appState {
-        case .fiveLetterGuess:
-            var games = Model.shared.flgGames
-            games.value.removeAll()
-            games.gameCount = 0
-            games.winCount = 0
-            games.lossCount = 0
-            games.streakCount = 0
-            GamesCache.saveFLGGames(games)
-            statBarView.playedNumberLabel.text = "\(games.gameCount)"
-            statBarView.wonNumberLabel.text = "\(games.winCount)"
-            statBarView.lostNumberLabel.text = "\(games.lossCount)"
-            statBarView.streakNumberLabel.text = "\(games.streakCount)"
-            Model.shared.flgGames = games
-            GamesCache.removeFLGGames()
-        case .ticTacToe:
-            var games = TicTacToeModel.shared.games
-            games.value.removeAll()
-            games.gameCount = 0
-            games.winCount = 0
-            games.lossCount = 0
-            games.streakCount = 0
-            GamesCache.saveTTTGames(games)
-            statBarView.playedNumberLabel.text = "\(games.gameCount)"
-            statBarView.wonNumberLabel.text = "\(games.winCount)"
-            statBarView.lostNumberLabel.text = "\(games.lossCount)"
-            statBarView.streakNumberLabel.text = "\(games.streakCount)"
-            TicTacToeModel.shared.games = games
-            GamesCache.removeTTTGames()
-        default: ()
-        }
+        var games = Model.shared.flgGames
+        games.value.removeAll()
+        games.gameCount = 0
+        games.winCount = 0
+        games.lossCount = 0
+        games.streakCount = 0
+        GamesCache.saveFLGGames(games)
+        statBarView.playedNumberLabel.text = "\(games.gameCount)"
+        statBarView.wonNumberLabel.text = "\(games.winCount)"
+        statBarView.lostNumberLabel.text = "\(games.lossCount)"
+        statBarView.streakNumberLabel.text = "\(games.streakCount)"
+        Model.shared.flgGames = games
+        GamesCache.removeFLGGames()
     }
-    
 }

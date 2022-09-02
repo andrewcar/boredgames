@@ -495,7 +495,7 @@ class FiveLetterGridView: UIView {
                     fifthGuess: String?,
                     sixthGuess: String?,
                     guessToAnimate: Guess? = .first,
-                    completion: @escaping (GameState) -> ()) {
+                    completion: @escaping (FLGGameState) -> ()) {
         
         if let firstGuess = firstGuess, let answer = answer {
             let guess = firstGuess.lowercased()

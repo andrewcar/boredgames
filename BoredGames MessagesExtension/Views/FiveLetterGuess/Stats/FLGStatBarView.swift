@@ -1,5 +1,5 @@
 //
-//  HorizontalStarBarView.swift
+//  FLGStatBarView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/4/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalStatBarView: UIView {
+class FLGStatBarView: UIView {
     
     // MARK: - Properties
     var playedNumberLabel = UILabel()
@@ -105,13 +105,7 @@ class HorizontalStatBarView: UIView {
         playedNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         playedNumberLabel.textAlignment = .center
         playedNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        if Model.shared.appState == .fiveLetterGuess {
-            playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
-        } else if Model.shared.appState == .ticTacToe {
-            playedNumberLabel.text = "\(TicTacToeModel.shared.games.gameCount)"
-        } else {
-            playedNumberLabel.text = "0"
-        }
+        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
         playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
         
@@ -134,8 +128,8 @@ class HorizontalStatBarView: UIView {
         playedNumberPortraitConstraints = [
             playedNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.padding * 2)),
             playedNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
-            playedNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.numberSize.width),
-            playedNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.numberSize.height)
+            playedNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.width),
+            playedNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(playedNumberPortraitConstraints)
     }
@@ -146,8 +140,8 @@ class HorizontalStatBarView: UIView {
         playedTitlePortraitConstraints = [
             playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
             playedTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
-            playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.titleSize.width),
-            playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.titleSize.height)
+            playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.width),
+            playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(playedTitlePortraitConstraints)
     }
@@ -159,8 +153,8 @@ class HorizontalStatBarView: UIView {
         playedNumberLandscapeConstraints = [
             playedNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
             playedNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
-            playedNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.width),
-            playedNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.height),
+            playedNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
+            playedNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height),
         ]
         NSLayoutConstraint.activate(playedNumberLandscapeConstraints)
     }
@@ -171,8 +165,8 @@ class HorizontalStatBarView: UIView {
         playedTitleLandscapeConstraints = [
             playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
             playedTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
-            playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.width),
-            playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.height)
+            playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
+            playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(playedTitleLandscapeConstraints)
     }
@@ -195,13 +189,7 @@ class HorizontalStatBarView: UIView {
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        if Model.shared.appState == .fiveLetterGuess {
-            wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
-        } else if Model.shared.appState == .ticTacToe {
-            wonNumberLabel.text = "\(TicTacToeModel.shared.games.winCount)"
-        } else {
-            wonNumberLabel.text = "0"
-        }
+        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
@@ -223,8 +211,8 @@ class HorizontalStatBarView: UIView {
         wonNumberPortraitConstraints = [
             wonNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.padding * 2)),
             wonNumberLabel.leadingAnchor.constraint(equalTo: playedNumberLabel.trailingAnchor),
-            wonNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.numberSize.width),
-            wonNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.numberSize.height),
+            wonNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.width),
+            wonNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.height),
         ]
         NSLayoutConstraint.activate(wonNumberPortraitConstraints)
     }
@@ -235,8 +223,8 @@ class HorizontalStatBarView: UIView {
         wonTitlePortraitConstraints = [
             wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
             wonTitleLabel.leadingAnchor.constraint(equalTo: playedTitleLabel.trailingAnchor),
-            wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.titleSize.width),
-            wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.titleSize.height)
+            wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.width),
+            wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(wonTitlePortraitConstraints)
     }
@@ -247,8 +235,8 @@ class HorizontalStatBarView: UIView {
         wonNumberLandscapeConstraints = [
             wonNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
             wonNumberLabel.leadingAnchor.constraint(equalTo: playedNumberLabel.trailingAnchor),
-            wonNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.width),
-            wonNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.height)
+            wonNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
+            wonNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(wonNumberLandscapeConstraints)
     }
@@ -259,8 +247,8 @@ class HorizontalStatBarView: UIView {
         wonTitleLandscapeConstraints = [
             wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
             wonTitleLabel.leadingAnchor.constraint(equalTo: playedTitleLabel.trailingAnchor),
-            wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.width),
-            wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.height)
+            wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
+            wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(wonTitleLandscapeConstraints)
     }
@@ -283,13 +271,7 @@ class HorizontalStatBarView: UIView {
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        if Model.shared.appState == .fiveLetterGuess {
-            lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
-        } else if Model.shared.appState == .ticTacToe {
-            lostNumberLabel.text = "\(TicTacToeModel.shared.games.lossCount)"
-        } else {
-            lostNumberLabel.text = "0"
-        }
+        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
@@ -311,8 +293,8 @@ class HorizontalStatBarView: UIView {
         lostNumberPortraitConstraints = [
             lostNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.padding * 2)),
             lostNumberLabel.leadingAnchor.constraint(equalTo: wonNumberLabel.trailingAnchor),
-            lostNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.numberSize.width),
-            lostNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.numberSize.height)
+            lostNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.width),
+            lostNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(lostNumberPortraitConstraints)
     }
@@ -323,8 +305,8 @@ class HorizontalStatBarView: UIView {
         lostTitlePortraitConstraints = [
             lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
             lostTitleLabel.leadingAnchor.constraint(equalTo: wonTitleLabel.trailingAnchor),
-            lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.titleSize.width),
-            lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.titleSize.height)
+            lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.width),
+            lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(lostTitlePortraitConstraints)
     }
@@ -335,8 +317,8 @@ class HorizontalStatBarView: UIView {
         lostNumberLandscapeConstraints = [
             lostNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
             lostNumberLabel.leadingAnchor.constraint(equalTo: wonNumberLabel.trailingAnchor),
-            lostNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.width),
-            lostNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.height)
+            lostNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
+            lostNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(lostNumberLandscapeConstraints)
     }
@@ -347,8 +329,8 @@ class HorizontalStatBarView: UIView {
         lostTitleLandscapeConstraints = [
             lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
             lostTitleLabel.leadingAnchor.constraint(equalTo: wonTitleLabel.trailingAnchor),
-            lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.width),
-            lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.height)
+            lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
+            lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(lostTitleLandscapeConstraints)
     }
@@ -371,13 +353,7 @@ class HorizontalStatBarView: UIView {
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        if Model.shared.appState == .fiveLetterGuess {
-            streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
-        } else if Model.shared.appState == .ticTacToe {
-            streakNumberLabel.text = "\(TicTacToeModel.shared.games.streakCount)"
-        } else {
-            streakNumberLabel.text = "0"
-        }
+        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         
@@ -399,8 +375,8 @@ class HorizontalStatBarView: UIView {
         streakNumberPortraitConstraints = [
             streakNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.padding * 2)),
             streakNumberLabel.leadingAnchor.constraint(equalTo: lostNumberLabel.trailingAnchor, constant: -Frame.padding),
-            streakNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.numberSize.width),
-            streakNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.numberSize.height)
+            streakNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.width),
+            streakNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(streakNumberPortraitConstraints)
     }
@@ -411,8 +387,8 @@ class HorizontalStatBarView: UIView {
         streakTitlePortraitConstraints = [
             streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
             streakTitleLabel.leadingAnchor.constraint(equalTo: lostTitleLabel.trailingAnchor, constant: -Frame.padding),
-            streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.titleSize.width),
-            streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.titleSize.height)
+            streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.width),
+            streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(streakTitlePortraitConstraints)
     }
@@ -423,8 +399,8 @@ class HorizontalStatBarView: UIView {
         streakNumberLandscapeConstraints = [
             streakNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
             streakNumberLabel.leadingAnchor.constraint(equalTo: lostNumberLabel.trailingAnchor, constant: -Frame.bigPadding),
-            streakNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.width),
-            streakNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeNumberSize.height)
+            streakNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
+            streakNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
         NSLayoutConstraint.activate(streakNumberLandscapeConstraints)
     }
@@ -435,8 +411,8 @@ class HorizontalStatBarView: UIView {
         streakTitleLandscapeConstraints = [
             streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
             streakTitleLabel.leadingAnchor.constraint(equalTo: lostTitleLabel.trailingAnchor, constant: -Frame.bigPadding),
-            streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.width),
-            streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeTitleSize.height)
+            streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
+            streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
         NSLayoutConstraint.activate(streakTitleLandscapeConstraints)
     }
@@ -454,7 +430,7 @@ class HorizontalStatBarView: UIView {
     }
 }
 
-extension HorizontalStatBarView: FLGGameDelegate {
+extension FLGStatBarView: FLGGameDelegate {
     func didUpdateGame() {
         playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
         wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"

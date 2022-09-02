@@ -100,13 +100,22 @@ struct Frame {
         static var statPadding: CGFloat {
             UIScreen.main.bounds.width * 0.1277
         }
-        static var barSize: CGSize {
+        static var horizontalBarSize: CGSize {
             let width = UIScreen.main.bounds.width - statPadding
             return CGSize(width: width, height: width * 0.25)
         }
-        static var landscapeBarSize: CGSize {
+        static var landscapeHorizontalBarSize: CGSize {
             let width = UIScreen.main.bounds.width * 0.5
             return CGSize(width: width, height: width * 0.3)
+        }
+        static var verticalBarSize: CGSize {
+            let width = (UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2.5
+            return CGSize(width: width, height: width * 4.5)
+        }
+        static var landscapeVerticalBarSize: CGSize {
+//            let width = (UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2
+//            let width = verticalBarSize
+            return CGSize(width: verticalBarSize.width / 2, height: verticalBarSize.width / 2)
         }
         static var titleHeight: CGFloat {
             UIScreen.main.bounds.height * 0.2
@@ -117,17 +126,31 @@ struct Frame {
         static var statBarWidthPadding: CGFloat {
             UIScreen.main.bounds.width / 1000
         }
-        static var numberSize: CGSize {
-            CGSize(width: barSize.width / 4, height: barSize.height / 2)
+        
+        static var horizontalNumberSize: CGSize {
+            CGSize(width: horizontalBarSize.width / 4, height: horizontalBarSize.height / 2)
         }
-        static var titleSize: CGSize {
-            CGSize(width: barSize.width / 4, height: barSize.height / 2)
+        static var horizontalTitleSize: CGSize {
+            CGSize(width: horizontalBarSize.width / 4, height: horizontalBarSize.height / 2)
         }
-        static var landscapeNumberSize: CGSize {
-            CGSize(width: landscapeBarSize.width / 4, height: landscapeBarSize.height / 2)
+        static var landscapeHorizontalNumberSize: CGSize {
+            CGSize(width: landscapeHorizontalBarSize.width / 4, height: landscapeHorizontalBarSize.height / 2)
         }
-        static var landscapeTitleSize: CGSize {
-            CGSize(width: landscapeBarSize.width / 4, height: landscapeBarSize.height / 2)
+        static var landscapeHorizontalTitleSize: CGSize {
+            CGSize(width: landscapeHorizontalBarSize.width / 4, height: landscapeHorizontalBarSize.height / 2)
+        }
+        
+        static var verticalNumberSize: CGSize {
+            CGSize(width: verticalBarSize.height / 4, height: verticalBarSize.width / 2)
+        }
+        static var verticalTitleSize: CGSize {
+            CGSize(width: verticalBarSize.height / 4, height: verticalBarSize.width / 2)
+        }
+        static var landscapeVerticalNumberSize: CGSize {
+            CGSize(width: landscapeVerticalBarSize.height / 4, height: landscapeVerticalBarSize.width / 2)
+        }
+        static var landscapeVerticalTitleSize: CGSize {
+            CGSize(width: landscapeVerticalBarSize.height / 4, height: landscapeVerticalBarSize.width / 2)
         }
     }
 }

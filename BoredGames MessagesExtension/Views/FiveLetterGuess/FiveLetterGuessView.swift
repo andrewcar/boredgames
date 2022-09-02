@@ -53,7 +53,7 @@ class FiveLetterGuessView: UIView {
     private var gridButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var gridButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var statsView = StatsView()
+    private var statsView = FLGStatsView()
     private var statsViewPortraitConstraints: [NSLayoutConstraint] = []
     private var statsViewLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -618,7 +618,7 @@ class FiveLetterGuessView: UIView {
         
     // MARK: - STATS VIEW
     private func addStatsView() {
-        statsView = StatsView(frame: .zero)
+        statsView = FLGStatsView(frame: .zero)
         statsView.isHidden = true
         addSubview(statsView)
         activateStatsViewPortraitConstraints()

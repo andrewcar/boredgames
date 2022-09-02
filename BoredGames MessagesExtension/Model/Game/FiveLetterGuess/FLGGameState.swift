@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GameState: String, Hashable, Codable {
+enum FLGGameState: String, Hashable, Codable {
     case playing
     case won
     case lost

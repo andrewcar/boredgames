@@ -11,6 +11,7 @@ protocol ContainerDelegate {
     func didTapSendButton()
     func didTapLogoButton()
     func didTapTTTSquareButton()
+    func updateWinnerUUID()
 }
 
 class ContainerView: UIView {
@@ -510,5 +511,9 @@ extension ContainerView: TicTacToeViewDelegate {
     // MARK: - 🔢 ▶️ 👇
     func didTapTTTGridButton() {
         updateConstraints()
+    }
+    
+    func updateWinnerUUID() {
+        containerDelegate.updateWinnerUUID()
     }
 }
