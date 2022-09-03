@@ -9,5 +9,6 @@ import Foundation
 
 enum TTTGameState: String, Hashable, Codable {
     case playing
-    case ended
+    case someoneWon
+    case catsGame
 }

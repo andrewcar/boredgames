@@ -234,10 +234,10 @@ class ThreeRowGridView: UIView {
         
         func decideFate(from win: Bool) {
             if win {
-                completion(.ended)
+                completion(.someoneWon)
             } else if self.wasCatsGame() {
                 self.threeRowGridViewDelegate.catsGame()
-                completion(.ended)
+                completion(.catsGame)
             } else {
                 completion(.playing)
             }
@@ -568,6 +568,9 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         let emojiString = TicTacToeModel.shared.emojiString(for: turnNumber)
         updateLetterView(letterView, with: emojiString, animated: false) { gameState in
             self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
+            if gameState == .someoneWon {
+                self.threeRowGridViewDelegate.gameWon()
+            }
         }
     }
     

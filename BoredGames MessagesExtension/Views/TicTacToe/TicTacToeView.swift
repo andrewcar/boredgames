@@ -393,6 +393,7 @@ class TicTacToeView: UIView {
         showSuccessView()
         showNewGameButton()
         threeRowGridView.jumpForJoy {
+            self.updateConstraints()
             completion()
         }
     }
@@ -432,21 +433,13 @@ class TicTacToeView: UIView {
 extension TicTacToeView: ThreeRowGridViewDelegate {
     
     func gameWon() {
-        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
-        
-        TicTacToeModel.shared.currentTTTGame?.state = .ended
-        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
-        TicTacToeModel.shared.incrementWinCountAndStreak(with: currentGame)
-        
-        showTheWin(currentGame: currentGame) {
-            self.updateConstraints()
-        }
+        ticTacToeViewDelegate.updateWinnerUUID()
     }
     
     func gameLost() {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
         
-        TicTacToeModel.shared.currentTTTGame?.state = .ended
+        TicTacToeModel.shared.currentTTTGame?.state = .someoneWon
         TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
         TicTacToeModel.shared.incrementLossCountAndResetStreak(with: currentGame)
         ticTacToeViewDelegate.updateWinnerUUID()
@@ -463,11 +456,11 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
     func catsGame() {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
         
-        TicTacToeModel.shared.currentTTTGame?.state = .ended
+        TicTacToeModel.shared.currentTTTGame?.state = .catsGame
         TicTacToeModel.shared.incrementCatsGameCount(with: currentGame)
         TicTacToeModel.shared.updateGames()
 
-        showTheLoss(currentGame: currentGame) {
+        showCatsGame(currentGame: currentGame) {
             self.updateConstraints()
         }
     }

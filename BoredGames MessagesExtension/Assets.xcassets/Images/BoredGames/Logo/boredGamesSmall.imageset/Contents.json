@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "boredGamesSmall_light_1024.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +10,6 @@
           "value" : "light"
         }
       ],
-      "filename" : "boredGamesSmall_light_1024-1.png",
       "idiom" : "universal"
     },
     {
@@ -21,7 +19,6 @@
           "value" : "dark"
         }
       ],
-      "filename" : "boredGamesSmall_dark_1024.png",
       "idiom" : "universal"
     }
   ],

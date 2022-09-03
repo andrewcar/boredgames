@@ -421,7 +421,7 @@ class MessagesViewController: MSMessagesAppViewController {
             c2: currentGame.c2,
             c3: currentGame.c3,
             completion: { gameState in
-                guard gameState == .ended else { return }
+                guard gameState == .someoneWon || gameState == .catsGame else { return }
                 guard let activeConversation = self.activeConversation else { return }
                 guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
                 guard let winnerUUIDString = currentGame.winnerUUID else { return }
@@ -792,8 +792,22 @@ extension MessagesViewController: ContainerDelegate {
     func updateWinnerUUID() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-
-        TicTacToeModel.shared.currentTTTGame?.winnerUUID = remoteParticipantIdentifier.uuidString
-        TicTacToeModel.shared.updateGames()
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+        
+        TicTacToeModel.shared.currentTTTGame?.state = .someoneWon
+        
+        if let playerOneUUIDString = currentGame.playerOne.uuidString,
+            playerOneUUIDString != remoteParticipantIdentifier.uuidString {
+            TicTacToeModel.shared.currentTTTGame?.winnerUUID = playerOneUUIDString
+        } else if let playerTwoUUIDString = currentGame.playerTwo.uuidString,
+                  playerTwoUUIDString != remoteParticipantIdentifier.uuidString {
+            TicTacToeModel.shared.currentTTTGame?.winnerUUID = playerTwoUUIDString
+        }
+        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
+        TicTacToeModel.shared.incrementWinCountAndStreak(with: currentGame)
+        
+        containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
+            TicTacToeModel.shared.updateGames()
+        }
     }
 }
