@@ -63,49 +63,68 @@ class ThreeRowGridView: UIView {
         
         if let move = a1 {
             updateLetterView(self.a1, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = a2 {
             updateLetterView(self.a2, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = a3 {
             updateLetterView(self.a3, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = b1 {
             updateLetterView(self.b1, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = b2 {
             updateLetterView(self.b2, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = b3 {
             updateLetterView(self.b3, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = c1 {
             updateLetterView(self.c1, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = c2 {
             updateLetterView(self.c2, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
         if let move = c3 {
             updateLetterView(self.c3, with: move, animated: false) { gameState in
-                completion(gameState)
+                if gameState == .someoneWon || gameState == .catsGame {
+                    completion(gameState)
+                }
             }
         }
+        completion(.playing)
     }
     
     // MARK: - CATS GAME
@@ -570,6 +589,8 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
             self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
             if gameState == .someoneWon {
                 self.threeRowGridViewDelegate.gameWon()
+            } else if gameState == .catsGame {
+                self.threeRowGridViewDelegate.catsGame()
             }
         }
     }

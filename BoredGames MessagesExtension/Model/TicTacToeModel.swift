@@ -118,6 +118,20 @@ class TicTacToeModel: NSObject {
         }
     }
     
+    // MARK: - UPDATE TTT PLAYER UUID
+    func updateTTTPlayerUUID(with uuidString: String) {
+        guard let currentGame = currentTTTGame else { return }
+        
+        // if it's a fresh game, set playerTwo's UUIDString
+        if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString == nil {
+            self.currentTTTGame?.playerTwo.uuidString = uuidString
+            
+        // else it's the second turn, so set playerOne's UUIDString
+        } else if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString != nil {
+            self.currentTTTGame?.playerOne.uuidString = uuidString
+        }
+    }
+    
     // MARK: - UPDATE GAMES
     func updateGames() {
         GamesCache.saveTTTGames(games)
@@ -142,21 +156,38 @@ class TicTacToeModel: NSObject {
         games.catsGameCount += 1
     }
     
-    func incrementWinCountAndStreak(with game: TicTacToeGame) {
+    func incrementMyWinCountAndStreak(with game: TicTacToeGame) {
         guard gameIsNotDuplicate(game) else { return }
 
-        games.winCount += 1
-        if games.streakCount == games.longestStreak {
-            games.longestStreak += 1
+        games.myWinCount += 1
+        if games.myStreakCount == games.myLongestStreak {
+            games.myLongestStreak += 1
         }
-        games.streakCount += 1
+        games.myStreakCount += 1
     }
     
-    func incrementLossCountAndResetStreak(with game: TicTacToeGame) {
+    func incrementTheirWinCountAndStreak(with game: TicTacToeGame) {
         guard gameIsNotDuplicate(game) else { return }
 
-        games.lossCount += 1
-        games.streakCount = 0
+        games.theirWinCount += 1
+        if games.theirStreakCount == games.theirLongestStreak {
+            games.theirLongestStreak += 1
+        }
+        games.theirStreakCount += 1
+    }
+    
+    func incrementMyLossCountAndResetStreak(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+
+        games.myLossCount += 1
+        games.myStreakCount = 0
+    }
+    
+    func incrementTheirLossCountAndResetStreak(with game: TicTacToeGame) {
+        guard gameIsNotDuplicate(game) else { return }
+
+        games.theirLossCount += 1
+        games.theirStreakCount = 0
     }
     
     // MARK: - RESET GAME

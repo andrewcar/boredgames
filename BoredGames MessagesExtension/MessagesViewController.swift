@@ -224,7 +224,6 @@ class MessagesViewController: MSMessagesAppViewController {
         var c2: String?
         var c3: String?
         var turnNumber: String?
-        var state: String?
         var playerOneUUID: String?
         var playerTwoUUID: String?
         var currentPlayerUUID: String?
@@ -277,10 +276,6 @@ class MessagesViewController: MSMessagesAppViewController {
                     if !value.isEmpty {
                         turnNumber = value
                     }
-                case "state":
-                    if !value.isEmpty {
-                        state = value
-                    }
                 case "playerOneUUID":
                     if !value.isEmpty {
                         playerOneUUID = value
@@ -303,7 +298,6 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         let turnNumberValue = turnNumber ?? "first"
-        let stateValue = state ?? "playing"
         
         if let id = id {
             let game = TicTacToeGame(
@@ -319,7 +313,6 @@ class MessagesViewController: MSMessagesAppViewController {
                 c2: c2,
                 c3: c3,
                 turnNumber: Turn(rawValue: turnNumberValue),
-                state: TTTGameState(rawValue: stateValue) ?? .playing,
                 playerOne: Player(uuidString: playerOneUUID, color: .blue),
                 playerTwo: Player(uuidString: playerTwoUUID, color: .red),
                 currentPlayerUUID: currentPlayerUUID,
@@ -351,7 +344,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 containerView.ticTacToeView.isUserInteractionEnabled = true
                 Model.shared.appState = .ticTacToe
                 TicTacToeModel.shared.ticTacToeState = .grid
-                updateTicTacToeGame()
+                updateTicTacToeGame(from: conversation)
                 
             default:
                 Model.shared.appState = .container
@@ -407,9 +400,9 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - UPDATE TTT GAME
-    private func updateTicTacToeGame() {
+    private func updateTicTacToeGame(from activeConversation: MSConversation) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
-        
+
         containerView.ticTacToeView.threeRowGridView.updateSquaresFromMessage(
             a1: currentGame.a1,
             a2: currentGame.a2,
@@ -421,22 +414,17 @@ class MessagesViewController: MSMessagesAppViewController {
             c2: currentGame.c2,
             c3: currentGame.c3,
             completion: { gameState in
-                guard gameState == .someoneWon || gameState == .catsGame else { return }
-                guard let activeConversation = self.activeConversation else { return }
                 guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-                guard let winnerUUIDString = currentGame.winnerUUID else { return }
-                
-                // loss
-                if remoteParticipantIdentifier.uuidString == winnerUUIDString {
-                    self.containerView.ticTacToeView.showTheLoss(currentGame: currentGame) {
-                        self.containerView.ticTacToeView.showNewGameButton()
+
+                if gameState == .someoneWon {
+                    guard let winnerUUIDString = currentGame.winnerUUID else { return }
+                    if remoteParticipantIdentifier.uuidString == winnerUUIDString {
+                        self.showTheLoss()
+                    } else {
+                        self.showTheWin()
                     }
-                    
-                // win
-                } else {
-                    self.containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
-                        self.containerView.ticTacToeView.showNewGameButton()
-                    }
+                } else if gameState == .catsGame {
+                    self.showCatsGame()
                 }
             }
         )
@@ -461,17 +449,25 @@ class MessagesViewController: MSMessagesAppViewController {
         super.didBecomeActive(with: conversation)
         if Model.shared.appState == .fiveLetterGuess {
             disableKeyboardIfNotOurTurn()
+            updateFLGOtherPlayerUUID()
         } else if Model.shared.appState == .ticTacToe {
             disableGridIfNotOurTurn()
+            updateTTTOtherPlayerUUID()
         }
-        updateOtherPlayerUUID()
     }
     
-    // MARK: - UPDATE OTHER PLAYER UUID
-    private func updateOtherPlayerUUID() {
+    // MARK: - UPDATE FLG OTHER PLAYER UUID
+    private func updateFLGOtherPlayerUUID() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-        Model.shared.updatePlayerUUID(with: remoteParticipantIdentifier.uuidString)
+        Model.shared.updateFLGPlayerUUID(with: remoteParticipantIdentifier.uuidString)
+    }
+    
+    // MARK: - UPDATE TTT OTHER PLAYER UUID
+    private func updateTTTOtherPlayerUUID() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        TicTacToeModel.shared.updateTTTPlayerUUID(with: remoteParticipantIdentifier.uuidString)
     }
     
     // MARK: - DISABLE KEYBOARD IF NOT OUR TURN
@@ -692,7 +688,6 @@ extension MessagesViewController {
             
             queryItems.append(URLQueryItem(name: "gameType", value: GameType.ticTacToe.rawValue))
             queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
-            queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
             
             if let a1 = currentGame.a1 {
                 queryItems.append(URLQueryItem(name: "a1", value: "\(a1)"))
@@ -789,13 +784,24 @@ extension MessagesViewController: ContainerDelegate {
         })
     }
     
-    func updateWinnerUUID() {
+    func showTheWin() {
+        updateWinnerUUID()
+        updateGameWithWin()
+    }
+    
+    func showTheLoss() {
+        updateGameWithLoss()
+    }
+    
+    func showCatsGame() {
+        updateGameWithCatsGame()
+    }
+    
+    private func updateWinnerUUID() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
-        
-        TicTacToeModel.shared.currentTTTGame?.state = .someoneWon
-        
+
         if let playerOneUUIDString = currentGame.playerOne.uuidString,
             playerOneUUIDString != remoteParticipantIdentifier.uuidString {
             TicTacToeModel.shared.currentTTTGame?.winnerUUID = playerOneUUIDString
@@ -803,10 +809,39 @@ extension MessagesViewController: ContainerDelegate {
                   playerTwoUUIDString != remoteParticipantIdentifier.uuidString {
             TicTacToeModel.shared.currentTTTGame?.winnerUUID = playerTwoUUIDString
         }
+    }
+    
+    func updateGameWithWin() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+
+        TicTacToeModel.shared.incrementMyWinCountAndStreak(with: currentGame)
+        TicTacToeModel.shared.incrementTheirLossCountAndResetStreak(with: currentGame)
         TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
-        TicTacToeModel.shared.incrementWinCountAndStreak(with: currentGame)
-        
+
         containerView.ticTacToeView.showTheWin(currentGame: currentGame) {
+            TicTacToeModel.shared.updateGames()
+        }
+    }
+    
+    func updateGameWithLoss() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+
+        TicTacToeModel.shared.incrementMyLossCountAndResetStreak(with: currentGame)
+        TicTacToeModel.shared.incrementTheirWinCountAndStreak(with: currentGame)
+        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
+
+        containerView.ticTacToeView.showTheLoss(currentGame: currentGame) {
+            TicTacToeModel.shared.updateGames()
+        }
+    }
+    
+    func updateGameWithCatsGame() {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
+
+        TicTacToeModel.shared.incrementCatsGameCount(with: currentGame)
+        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
+        
+        containerView.ticTacToeView.showCatsGame(currentGame: currentGame) {
             TicTacToeModel.shared.updateGames()
         }
     }

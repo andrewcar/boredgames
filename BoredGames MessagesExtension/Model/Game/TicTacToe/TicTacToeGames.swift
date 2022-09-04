@@ -10,9 +10,13 @@ import Foundation
 struct TicTacToeGames: Hashable, Codable {
     var value: [TicTacToeGame]
     var gameCount: Int = 0
-    var winCount: Int = 0
-    var lossCount: Int = 0
     var catsGameCount: Int = 0
-    var streakCount: Int = 0
-    var longestStreak: Int = 0
+    var myWinCount: Int = 0
+    var myLossCount: Int = 0
+    var myStreakCount: Int = 0
+    var myLongestStreak: Int = 0
+    var theirWinCount: Int = 0
+    var theirLossCount: Int = 0
+    var theirStreakCount: Int = 0
+    var theirLongestStreak: Int = 0
 }

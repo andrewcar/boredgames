@@ -11,7 +11,9 @@ protocol TicTacToeViewDelegate {
     func didTapTTTSquareButton()
     func didTapTTTStatsButton()
     func didTapTTTGridButton()
-    func updateWinnerUUID()
+    func showTheWin()
+    func showTheLoss()
+    func showCatsGame()
 }
 
 class TicTacToeView: UIView {
@@ -403,6 +405,8 @@ class TicTacToeView: UIView {
         showSuccessView()
         successView.showLoss()
         showNewGameButton()
+        updateConstraints()
+        completion()
     }
     
     // MARK: - SHOW CATS GAME
@@ -410,6 +414,8 @@ class TicTacToeView: UIView {
         showSuccessView()
         successView.showCatsGame()
         showNewGameButton()
+        updateConstraints()
+        completion()
     }
     
     func enableGrid() {
@@ -432,37 +438,20 @@ class TicTacToeView: UIView {
 
 extension TicTacToeView: ThreeRowGridViewDelegate {
     
-    func gameWon() {
-        ticTacToeViewDelegate.updateWinnerUUID()
-    }
-    
-    func gameLost() {
-        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
-        
-        TicTacToeModel.shared.currentTTTGame?.state = .someoneWon
-        TicTacToeModel.shared.incrementPlayedCount(with: currentGame)
-        TicTacToeModel.shared.incrementLossCountAndResetStreak(with: currentGame)
-        ticTacToeViewDelegate.updateWinnerUUID()
-        
-        showTheLoss(currentGame: currentGame) {
-            self.updateConstraints()
-        }
-    }
-    
     private func showSuccessView() {
         successView.isHidden = false
     }
     
+    func gameWon() {
+        ticTacToeViewDelegate.showTheWin()
+    }
+    
+    func gameLost() {
+        ticTacToeViewDelegate.showTheLoss()
+    }
+    
     func catsGame() {
-        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
-        
-        TicTacToeModel.shared.currentTTTGame?.state = .catsGame
-        TicTacToeModel.shared.incrementCatsGameCount(with: currentGame)
-        TicTacToeModel.shared.updateGames()
-
-        showCatsGame(currentGame: currentGame) {
-            self.updateConstraints()
-        }
+        ticTacToeViewDelegate.showCatsGame()
     }
     
     func didTapLetterView(sender: UIButton) {

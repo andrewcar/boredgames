@@ -44,12 +44,10 @@
 		4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993489E2890761D00BC6B0B /* StringProcotolExtensions.swift */; };
 		4997443E28AC12D30062DA57 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997443D28AC12D30062DA57 /* LogoView.swift */; };
 		49A007C728A1B9060016945B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A007C628A1B9060016945B /* UIViewExtensions.swift */; };
-		49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
 		49A07DC8288DB76A008270F9 /* BoredGames MessagesExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 49A07DC7288DB76A008270F9 /* BoredGames MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		49A07DCD288DB76A008270F9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A07DCC288DB76A008270F9 /* Messages.framework */; };
 		49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DCF288DB76A008270F9 /* MessagesViewController.swift */; };
 		49A07DD3288DB76A008270F9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DD1288DB76A008270F9 /* MainInterface.storyboard */; };
-		49A07DD5288DB76B008270F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DD4288DB76B008270F9 /* Assets.xcassets */; };
 		49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE4288DC163008270F9 /* GridLetterView.swift */; };
 		49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE6288DC29C008270F9 /* LetterState.swift */; };
 		49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A07DE8288DC459008270F9 /* UIColorExtensions.swift */; };
@@ -59,6 +57,8 @@
 		49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A647BA289BA858008A97A4 /* GamesCache.swift */; };
 		49AADB1F28B83A5800737F8D /* TTTLetterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AADB1E28B83A5800737F8D /* TTTLetterState.swift */; };
 		49AADB2128B8438E00737F8D /* TTTMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AADB2028B8438E00737F8D /* TTTMove.swift */; };
+		49BB956D28C4069000A7CB7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DD4288DB76B008270F9 /* Assets.xcassets */; };
+		49BB956E28C406AA00A7CB7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49A07DC1288DB76A008270F9 /* Assets.xcassets */; };
 		49C0616328A73D0A002D6EEA /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C0616228A73D0A002D6EEA /* DebugView.swift */; };
 		49C3197328AEE8350064AE94 /* PlayerColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C3197228AEE8350064AE94 /* PlayerColor.swift */; };
 		49C3197A28AF03BF0064AE94 /* ColorDotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C3197928AF03BF0064AE94 /* ColorDotView.swift */; };
@@ -476,7 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49A07DC2288DB76A008270F9 /* Assets.xcassets in Resources */,
+				49BB956E28C406AA00A7CB7A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,9 +484,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49BB956D28C4069000A7CB7A /* Assets.xcassets in Resources */,
 				4993489928906BD100BC6B0B /* words.json in Resources */,
 				49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */,
-				49A07DD5288DB76B008270F9 /* Assets.xcassets in Resources */,
 				492BEB4328AED9E700B8CFF6 /* PublicSans-Bold.ttf in Resources */,
 				49A07DD3288DB76A008270F9 /* MainInterface.storyboard in Resources */,
 			);
@@ -577,6 +577,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon";
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_TARGET_STICKERS_ICON_ROLE = extension;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -607,6 +610,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -637,6 +641,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon";
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_TARGET_STICKERS_ICON_ROLE = extension;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -667,6 +674,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -744,6 +752,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_TARGET_STICKERS_ICON_ROLE = "host-app";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;
@@ -767,6 +777,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_TARGET_STICKERS_ICON_ROLE = "host-app";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 43B5CQKAZ4;

@@ -261,8 +261,8 @@ class Model: NSObject {
         guessYellowLetterCounts[letter.lowercased()]! += 1
     }
     
-    // MARK: - UPDATE GAME PLAYERS
-    func updatePlayerUUID(with uuidString: String) {
+    // MARK: - UPDATE FLG PLAYER UUID
+    func updateFLGPlayerUUID(with uuidString: String) {
         guard let currentGame = currentFLGGame else { return }
         
         // if it's a fresh game, set playerTwo's UUIDString

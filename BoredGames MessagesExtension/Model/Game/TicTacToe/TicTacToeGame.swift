@@ -20,7 +20,6 @@ struct TicTacToeGame: Hashable, Codable {
     var c2: String? = nil
     var c3: String? = nil
     var turnNumber: Turn? = Turn.first
-    var state: TTTGameState = .playing
     var playerOne = Player(uuidString: nil, color: nil)
     var playerTwo = Player(uuidString: nil, color: nil)
     var currentPlayerUUID: String? = nil

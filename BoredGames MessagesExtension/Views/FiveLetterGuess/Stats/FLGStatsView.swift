@@ -143,6 +143,7 @@ class FLGStatsView: UIView {
         games.winCount = 0
         games.lossCount = 0
         games.streakCount = 0
+        games.longestStreak = 0
         GamesCache.saveFLGGames(games)
         statBarView.playedNumberLabel.text = "\(games.gameCount)"
         statBarView.wonNumberLabel.text = "\(games.winCount)"

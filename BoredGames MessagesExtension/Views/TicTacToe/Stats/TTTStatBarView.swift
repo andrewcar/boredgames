@@ -10,7 +10,7 @@ import UIKit
 class TTTStatBarView: UIView {
     
     // MARK: - Properties
-    var you = true
+    var you: Bool
     var whoLabel = UILabel(frame: .zero)
     var whoLabelPortraitConstraints: [NSLayoutConstraint] = []
     var whoLabelLandscapeConstraints: [NSLayoutConstraint] = []
@@ -46,13 +46,14 @@ class TTTStatBarView: UIView {
     
     // MARK: - Initializers
     init(frame: CGRect, you: Bool) {
-        super.init(frame: frame)
         self.you = you
+        super.init(frame: frame)
         configure()
         addSubviews()
     }
     
     required init?(coder: NSCoder) {
+        self.you = true
         super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
@@ -98,7 +99,6 @@ class TTTStatBarView: UIView {
         backgroundColor = .statBubbleBackground
         layer.cornerCurve = .continuous
         layer.cornerRadius = 23
-        TicTacToeModel.shared.tttGameDelegate = self
     }
     
     // MARK: - ADD SUBVIEWS
@@ -240,7 +240,7 @@ class TTTStatBarView: UIView {
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        wonNumberLabel.text = "\(TicTacToeModel.shared.games.winCount)"
+        wonNumberLabel.text = you ? "\(TicTacToeModel.shared.games.myWinCount)" : "\(TicTacToeModel.shared.games.theirWinCount)"
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
@@ -320,7 +320,7 @@ class TTTStatBarView: UIView {
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        lostNumberLabel.text = "\(TicTacToeModel.shared.games.lossCount)"
+        lostNumberLabel.text = you ? "\(TicTacToeModel.shared.games.myLossCount)" : "\(TicTacToeModel.shared.games.theirLossCount)"
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
@@ -400,7 +400,7 @@ class TTTStatBarView: UIView {
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        streakNumberLabel.text = "\(TicTacToeModel.shared.games.streakCount)"
+        streakNumberLabel.text = you ? "\(TicTacToeModel.shared.games.myStreakCount)" : "\(TicTacToeModel.shared.games.theirStreakCount)"
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         
@@ -473,14 +473,5 @@ class TTTStatBarView: UIView {
     private func deactivateStreakTitleConstraints() {
         NSLayoutConstraint.deactivate(streakTitlePortraitConstraints)
         NSLayoutConstraint.deactivate(streakTitleLandscapeConstraints)
-    }
-}
-
-extension TTTStatBarView: TTTGameDelegate {
-    func didUpdateGame() {
-        playedNumberLabel.text = "\(TicTacToeModel.shared.games.gameCount)"
-        wonNumberLabel.text = "\(TicTacToeModel.shared.games.winCount)"
-        lostNumberLabel.text = "\(TicTacToeModel.shared.games.lossCount)"
-        streakNumberLabel.text = "\(TicTacToeModel.shared.games.streakCount)"
     }
 }

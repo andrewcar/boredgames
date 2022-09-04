@@ -27,6 +27,7 @@ class TTTStatsView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews()
+        TicTacToeModel.shared.tttGameDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -175,15 +176,42 @@ class TTTStatsView: UIView {
         var games = TicTacToeModel.shared.games
         games.value.removeAll()
         games.gameCount = 0
-        games.winCount = 0
-        games.lossCount = 0
-        games.streakCount = 0
+        games.catsGameCount = 0
+        games.myWinCount = 0
+        games.myLossCount = 0
+        games.myStreakCount = 0
+        games.myLongestStreak = 0
+        games.theirWinCount = 0
+        games.theirLossCount = 0
+        games.theirStreakCount = 0
+        games.theirLongestStreak = 0
         GamesCache.saveTTTGames(games)
+        
         leftStatBarView.playedNumberLabel.text = "\(games.gameCount)"
-        leftStatBarView.wonNumberLabel.text = "\(games.winCount)"
-        leftStatBarView.lostNumberLabel.text = "\(games.lossCount)"
-        leftStatBarView.streakNumberLabel.text = "\(games.streakCount)"
+        leftStatBarView.wonNumberLabel.text = "\(games.myWinCount)"
+        leftStatBarView.lostNumberLabel.text = "\(games.myLossCount)"
+        leftStatBarView.streakNumberLabel.text = "\(games.myStreakCount)"
+        
+        rightStatBarView.playedNumberLabel.text = "\(games.gameCount)"
+        rightStatBarView.wonNumberLabel.text = "\(games.theirWinCount)"
+        rightStatBarView.lostNumberLabel.text = "\(games.theirLossCount)"
+        rightStatBarView.streakNumberLabel.text = "\(games.theirStreakCount)"
+        
         TicTacToeModel.shared.games = games
         GamesCache.removeTTTGames()
+    }
+}
+
+extension TTTStatsView: TTTGameDelegate {
+    func didUpdateGame() {
+        leftStatBarView.playedNumberLabel.text = "\(TicTacToeModel.shared.games.gameCount)"
+        leftStatBarView.wonNumberLabel.text = "\(TicTacToeModel.shared.games.myWinCount)"
+        leftStatBarView.lostNumberLabel.text = "\(TicTacToeModel.shared.games.myLossCount)"
+        leftStatBarView.streakNumberLabel.text = "\(TicTacToeModel.shared.games.myStreakCount)"
+        
+        rightStatBarView.playedNumberLabel.text = "\(TicTacToeModel.shared.games.gameCount)"
+        rightStatBarView.wonNumberLabel.text = "\(TicTacToeModel.shared.games.theirWinCount)"
+        rightStatBarView.lostNumberLabel.text = "\(TicTacToeModel.shared.games.theirLossCount)"
+        rightStatBarView.streakNumberLabel.text = "\(TicTacToeModel.shared.games.theirStreakCount)"
     }
 }

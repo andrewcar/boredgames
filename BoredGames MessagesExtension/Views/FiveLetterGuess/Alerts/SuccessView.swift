@@ -37,7 +37,7 @@ class SuccessView: UIView {
     }
     
     func showLoss() {
-        titleLabel.text = "FAILURE"
+        titleLabel.text = "YOU LOSE"
         backgroundColor = .successBackgroundRed
     }
     
