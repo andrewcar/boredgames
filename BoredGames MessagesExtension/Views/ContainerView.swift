@@ -128,15 +128,15 @@ class ContainerView: UIView {
         if isLandscape {
             logoLandscapeConstraints = [
                 logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.Logo.upperPadding * 2) + offset),
+                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.Logo.upperPadding * 2) - offset),
                 logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
                 logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
             ]
             NSLayoutConstraint.activate(logoLandscapeConstraints)
         } else {
             logoPortraitConstraints = [
-                logoView.topAnchor.constraint(equalTo: topAnchor, constant: /*Frame.bigPadding*/Frame.Logo.upperPadding),
-                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding + offset),
+                logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset),
                 logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
                 logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
             ]
@@ -162,40 +162,40 @@ class ContainerView: UIView {
     // MARK: - 👌🅱️ 🪟 📜
     private func activateSmallLogoViewConstraints(isLandscape: Bool) {
         deactivateSmallLogoViewConstraints()
-        let offset = Model.shared.appState == .fiveLetterGuess || Model.shared.appState == .ticTacToe ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             smallLogoLandscapeConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
-            var leadingConstraint: NSLayoutConstraint {
-                if Model.shared.appState == .fiveLetterGuess {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - offset)
-                } else if Model.shared.appState == .ticTacToe {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
-                } else {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
-                }
+            switch Model.shared.appState {
+            case .container:
+                let trailingConstraint = smallLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding)
+                smallLogoLandscapeConstraints.append(trailingConstraint)
+            case .fiveLetterGuess:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding)
+                smallLogoLandscapeConstraints.append(leadingConstraint)
+            case .ticTacToe:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
+                smallLogoLandscapeConstraints.append(leadingConstraint)
+            default: ()
             }
-            smallLogoLandscapeConstraints.append(leadingConstraint)
             NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
         } else {
             smallLogoPortraitConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.ticTacToePadding),
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
-            var leadingConstraint: NSLayoutConstraint {
-                if Model.shared.appState == .fiveLetterGuess {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
-                } else if Model.shared.appState == .ticTacToe {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
-                } else {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
-                }
+            switch Model.shared.appState {
+            case .container:
+                let trailingConstraint = smallLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding)
+                smallLogoPortraitConstraints.append(trailingConstraint)
+            case .fiveLetterGuess, .ticTacToe:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
+                smallLogoPortraitConstraints.append(leadingConstraint)
+            default: ()
             }
-            smallLogoPortraitConstraints.append(leadingConstraint)
             NSLayoutConstraint.activate(smallLogoPortraitConstraints)
         }
         smallLogoView.updateConstraints()
@@ -334,11 +334,11 @@ class ContainerView: UIView {
     // MARK: - ❌ ▶️ 📜
     private func activateTicTacToeButtonConstraints(isLandscape: Bool) {
         deactivateTicTacToeButtonConstraints()
-        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
         if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: offset),
-                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -offset),
                 ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
@@ -346,7 +346,7 @@ class ContainerView: UIView {
         } else {
             ticTacToeButtonPortraitConstraints = [
                 ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
+                ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -offset),
                 ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
@@ -440,7 +440,7 @@ class ContainerView: UIView {
         if isLandscape {
             dotsButtonLandscapeConstraints = [
                 dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding + offset),
+                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding - offset),
                 dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]
@@ -448,7 +448,7 @@ class ContainerView: UIView {
         } else {
             dotsButtonPortraitConstraints = [
                 dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding + offset),
+                dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding - offset),
                 dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
             ]

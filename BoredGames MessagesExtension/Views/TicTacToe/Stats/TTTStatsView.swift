@@ -72,7 +72,7 @@ class TTTStatsView: UIView {
             NSLayoutConstraint.activate(leftStatBarLandscapeConstraints)
         } else {
             leftStatBarPortraitConstraints = [
-                leftStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                leftStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
                 leftStatBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(Frame.Stats.verticalBarSize.width / 2) - (Frame.Logo.upperPadding / 2)),
                 leftStatBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.width),
                 leftStatBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.height)
@@ -96,7 +96,7 @@ class TTTStatsView: UIView {
             NSLayoutConstraint.activate(rightStatBarLandscapeConstraints)
         } else {
             rightStatBarPortraitConstraints = [
-                rightStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                rightStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
                 rightStatBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (Frame.Stats.verticalBarSize.width / 2) + (Frame.Logo.upperPadding / 2)),
                 rightStatBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.width),
                 rightStatBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.height)

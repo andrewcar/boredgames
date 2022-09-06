@@ -61,7 +61,7 @@ class FLGStatsView: UIView {
         deactivateStatBarViewConstraints()
         if isLandscape {
             statBarLandscapeConstraints = [
-                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
                 statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
                 statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalBarSize.width),
                 statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalBarSize.height)
@@ -69,7 +69,7 @@ class FLGStatsView: UIView {
             NSLayoutConstraint.activate(statBarLandscapeConstraints)
         } else {
             statBarPortraitConstraints = [
-                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + Frame.Logo.upperPadding),
+                statBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
                 statBarView.centerXAnchor.constraint(equalTo: centerXAnchor),
                 statBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.horizontalBarSize.width),
                 statBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.horizontalBarSize.height)
