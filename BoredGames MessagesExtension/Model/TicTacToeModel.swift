@@ -5,7 +5,7 @@
 //  Created by Andrew Carvajal on 8/24/22.
 //
 
-import Foundation
+import UIKit
 
 protocol TTTGameDelegate {
     func didUpdateGame()
@@ -69,10 +69,36 @@ class TicTacToeModel: NSObject {
         }
     }
     
-    // MARK: - SYMBOL FOR TURN
-    func emojiString(for turn: Turn) -> String {
+    // MARK: - SYMBOL STRING FOR TURN
+    func symbolString(for turn: Turn) -> String {
         let x = "X"
         let o = "O"
+        switch turn {
+        case .first:
+            return x
+        case .second:
+            return o
+        case .third:
+            return x
+        case .fourth:
+            return o
+        case .fifth:
+            return x
+        case .sixth:
+            return o
+        case .seventh:
+            return x
+        case .eighth:
+            return o
+        case .ninth:
+            return x
+        }
+    }
+    
+    // MARK: - SYMBOL IMAGE FOR TURN
+    func symbolImage(for turn: Turn) -> UIImage? {
+        let x = UIImage.ticTacToeX
+        let o = UIImage.ticTacToeO
         switch turn {
         case .first:
             return x

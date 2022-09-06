@@ -135,7 +135,7 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(logoLandscapeConstraints)
         } else {
             logoPortraitConstraints = [
-                logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                logoView.topAnchor.constraint(equalTo: topAnchor, constant: /*Frame.bigPadding*/Frame.Logo.upperPadding),
                 logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding + offset),
                 logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
                 logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
@@ -182,17 +182,17 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
         } else {
             smallLogoPortraitConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.ticTacToePadding),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
             var leadingConstraint: NSLayoutConstraint {
                 if Model.shared.appState == .fiveLetterGuess {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 2) - offset)
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
                 } else if Model.shared.appState == .ticTacToe {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 2) - offset)
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
                 } else {
-                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.padding * 2) - offset)
+                    return smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.ticTacToePadding - offset)
                 }
             }
             smallLogoPortraitConstraints.append(leadingConstraint)

@@ -28,6 +28,7 @@ struct Frame {
         static let targetTallSizeBigger = CGSize(width: 150, height: 81)
         static let smallSize = CGSize(width: 69, height: 69)
         static let upperPadding: CGFloat = UIScreen.main.bounds.width / 16
+        static let ticTacToePadding: CGFloat = UIScreen.main.bounds.width / 20
     }
     
     // MARK: - SUCCESS

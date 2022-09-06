@@ -13,11 +13,15 @@ class LogoView: UIView {
     private var imageView = UIImageView(frame: .zero)
     private var imageConstraints: [NSLayoutConstraint] = []
     
+    private var label = UILabel(frame: .zero)
+    private var labelConstraints: [NSLayoutConstraint] = []
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addImageView()
+//        addLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +33,7 @@ class LogoView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         activateImageConstraints()
+//        activateLabelConstraints()
     }
     
     // MARK: - IMAGE VIEW
@@ -50,5 +55,29 @@ class LogoView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
         ]
         NSLayoutConstraint.activate(imageConstraints)
+    }
+    
+    // MARK: - LABEL
+    private func addLabel() {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Super Cool\nApp, Very Promising"
+        label.font = .systemFont(ofSize: 26, weight: .bold)
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        addSubview(label)
+    }
+    
+    // MARK: - LABEL CONSTRAINTS
+    private func activateLabelConstraints() {
+        NSLayoutConstraint.deactivate(labelConstraints)
+        labelConstraints = [
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+            label.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
+            label.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
+        ]
+        NSLayoutConstraint.activate(labelConstraints)
     }
 }

@@ -101,7 +101,7 @@ class TicTacToeView: UIView {
             ]
         } else {
             threeRowGridConstraints = [
-                threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Grid.upperPadding * 2)),
+                threeRowGridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.ticTacToePadding * 2)),
                 threeRowGridView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
                 threeRowGridView.widthAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: false)),
                 threeRowGridView.heightAnchor.constraint(equalToConstant: Frame.Grid.ticTacToeGridGirth(isLandscape: false))
@@ -461,37 +461,68 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
         guard let turnNumber = currentGame.turnNumber else { return }
         
         let currentSquare = TicTacToeModel.shared.square(for: sender.tag)
-        let emojiString = TicTacToeModel.shared.emojiString(for: turnNumber)
+        let symbolString = TicTacToeModel.shared.symbolString(for: turnNumber)
+        let turnImage = TicTacToeModel.shared.symbolImage(for: turnNumber)
         
         // update model and label with move as emoji string
         switch currentSquare {
         case .a1:
-            TicTacToeModel.shared.currentTTTGame?.a1 = emojiString
-            threeRowGridView.a1.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.a1 = symbolString
+            threeRowGridView.a1.letterImageView.image = turnImage
+            threeRowGridView.a1.letterString = symbolString
         case .a2:
-            TicTacToeModel.shared.currentTTTGame?.a2 = emojiString
-            threeRowGridView.a2.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.a2 = symbolString
+            threeRowGridView.a2.letterImageView.image = turnImage
+            threeRowGridView.a2.letterString = symbolString
         case .a3:
-            TicTacToeModel.shared.currentTTTGame?.a3 = emojiString
-            threeRowGridView.a3.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.a3 = symbolString
+            threeRowGridView.a3.letterImageView.image = turnImage
+            threeRowGridView.a3.letterString = symbolString
         case .b1:
-            TicTacToeModel.shared.currentTTTGame?.b1 = emojiString
-            threeRowGridView.b1.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.b1 = symbolString
+            threeRowGridView.b1.letterImageView.image = turnImage
+            threeRowGridView.b1.letterString = symbolString
         case .b2:
-            TicTacToeModel.shared.currentTTTGame?.b2 = emojiString
-            threeRowGridView.b2.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.b2 = symbolString
+            threeRowGridView.b2.letterImageView.image = turnImage
+            threeRowGridView.b2.letterString = symbolString
         case .b3:
-            TicTacToeModel.shared.currentTTTGame?.b3 = emojiString
-            threeRowGridView.b3.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.b3 = symbolString
+            threeRowGridView.b3.letterImageView.image = turnImage
+            threeRowGridView.b3.letterString = symbolString
         case .c1:
-            TicTacToeModel.shared.currentTTTGame?.c1 = emojiString
-            threeRowGridView.c1.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.c1 = symbolString
+            threeRowGridView.c1.letterImageView.image = turnImage
+            threeRowGridView.c1.letterString = symbolString
         case .c2:
-            TicTacToeModel.shared.currentTTTGame?.c2 = emojiString
-            threeRowGridView.c2.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.c2 = symbolString
+            threeRowGridView.c2.letterImageView.image = turnImage
+            threeRowGridView.c2.letterString = symbolString
         case .c3:
-            TicTacToeModel.shared.currentTTTGame?.c3 = emojiString
-            threeRowGridView.c3.letterLabel.text = emojiString
+            TicTacToeModel.shared.currentTTTGame?.c3 = symbolString
+            threeRowGridView.c3.letterImageView.image = turnImage
+            threeRowGridView.c3.letterString = symbolString
+        }
+        
+        switch currentSquare {
+        case .a1:
+            TicTacToeModel.shared.currentTTTGame?.a1 = symbolString
+        case .a2:
+            TicTacToeModel.shared.currentTTTGame?.a2 = symbolString
+        case .a3:
+            TicTacToeModel.shared.currentTTTGame?.a3 = symbolString
+        case .b1:
+            TicTacToeModel.shared.currentTTTGame?.b1 = symbolString
+        case .b2:
+            TicTacToeModel.shared.currentTTTGame?.b2 = symbolString
+        case .b3:
+            TicTacToeModel.shared.currentTTTGame?.b3 = symbolString
+        case .c1:
+            TicTacToeModel.shared.currentTTTGame?.c1 = symbolString
+        case .c2:
+            TicTacToeModel.shared.currentTTTGame?.c2 = symbolString
+        case .c3:
+            TicTacToeModel.shared.currentTTTGame?.c3 = symbolString
         }
         
         

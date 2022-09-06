@@ -17,10 +17,10 @@ class ThreeRowGridLetterView: UIView {
     var letterViewDelegate: ThreeRowGridLetterViewDelegate!
 
     var square: TicTacToeSquare?
-    
-    var letterLabel = UILabel(frame: .zero)
+    var letterString = ""
+    var letterImageView = UIImageView(frame: .zero)
     var letterState: LetterState = .blank
-    private var letterLabelConstraints: [NSLayoutConstraint] = []
+    private var letterImageConstraints: [NSLayoutConstraint] = []
     
     var button = UIButton(frame: .zero)
     private var buttonConstraints: [NSLayoutConstraint] = []
@@ -48,7 +48,13 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - UPDATE LETTER
     func updateLetter(with letter: String) {
-        letterLabel.text = letter
+        if letter == "X" {
+            letterImageView.image = .ticTacToeX
+        } else if letter == "O" {
+            letterImageView.image = .ticTacToeO
+        } else {
+            letterImageView.image = nil
+        }
     }
     
     // MARK: - UPDATE LETTER STATE
@@ -109,30 +115,30 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - ADD SUBVIEWS
     private func addSubviews() {
-        addLetterLabel()
+        addLetterImageView()
         addButton()
     }
     
     // MARK: - LETTER LABEL
-    private func addLetterLabel() {
-        letterLabel.translatesAutoresizingMaskIntoConstraints = false
-        letterLabel.textAlignment = .center
-        letterLabel.textColor = .white
-        letterLabel.font = .customFont(named: .publicSansBold, size: 40, fallbackWeight: .bold)
-        addSubview(letterLabel)
-        activateLetterLabelConstraints()
+    private func addLetterImageView() {
+        letterImageView.translatesAutoresizingMaskIntoConstraints = false
+        letterImageView.contentMode = .scaleAspectFit
+        addSubview(letterImageView)
+        activateLetterImageConstraints()
     }
     
-    // MARK: - LETTER LABEL CONSTRAINTS
-    private func activateLetterLabelConstraints() {
-        NSLayoutConstraint.deactivate(letterLabelConstraints)
-        letterLabelConstraints = [
-            letterLabel.topAnchor.constraint(equalTo: topAnchor),
-            letterLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            letterLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            letterLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+    // MARK: - LETTER IMAGE CONSTRAINTS
+    private func activateLetterImageConstraints() {
+        let squareGirth = Frame.Grid.ticTacToeSquareGirth(isLandscape: Model.shared.isLandscape)
+        let padding = squareGirth / 5
+        NSLayoutConstraint.deactivate(letterImageConstraints)
+        letterImageConstraints = [
+            letterImageView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            letterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            letterImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
+            letterImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
         ]
-        NSLayoutConstraint.activate(letterLabelConstraints)
+        NSLayoutConstraint.activate(letterImageConstraints)
     }
     
     // MARK: - BUTTON

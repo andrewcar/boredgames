@@ -133,8 +133,7 @@ class ThreeRowGridView: UIView {
         
         let allLetterViews = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
         let blankLetterViews = allLetterViews.filter {
-            guard let text = $0.letterLabel.text else { return false }
-            guard text.isEmpty else { return false }
+            guard $0.letterString.isEmpty else { return false }
             return true
         }
         
@@ -267,18 +266,18 @@ class ThreeRowGridView: UIView {
     private func topHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a1:
-            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
-                let a3Move = a3.letterLabel.text, move.rawValue == a3Move {
+            if move.rawValue == a2.letterString,
+                move.rawValue == a3.letterString {
                 completion(true)
             }
         case .a2:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let a3Move = a3.letterLabel.text, move.rawValue == a3Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == a3.letterString {
                 completion(true)
             }
         case .a3:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let a2Move = a2.letterLabel.text, move.rawValue == a2Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == a2.letterString {
                 completion(true)
             }
         default:
@@ -291,18 +290,18 @@ class ThreeRowGridView: UIView {
     private func middleHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .b1:
-            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
-                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+            if move.rawValue == b2.letterString,
+                move.rawValue == b3.letterString {
                 completion(true)
             }
         case .b2:
-            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
-                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+            if move.rawValue == b1.letterString,
+                move.rawValue == b3.letterString {
                 completion(true)
             }
         case .b3:
-            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
-                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+            if move.rawValue == b1.letterString,
+                move.rawValue == b2.letterString {
                 completion(true)
             }
         default:
@@ -315,18 +314,18 @@ class ThreeRowGridView: UIView {
     private func bottomHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .c1:
-            if let c2Move = c2.letterLabel.text, move.rawValue == c2Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == c2.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .c2:
-            if let c1Move = c1.letterLabel.text, move.rawValue == c1Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == c1.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .c3:
-            if let c1Move = c1.letterLabel.text, move.rawValue == c1Move,
-                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+            if move.rawValue == c1.letterString,
+                move.rawValue == c2.letterString {
                 completion(true)
             }
         default:
@@ -339,18 +338,18 @@ class ThreeRowGridView: UIView {
     private func leftVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a1:
-            if let b1Move = b1.letterLabel.text, move.rawValue == b1Move,
-                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+            if move.rawValue == b1.letterString,
+                move.rawValue == c1.letterString {
                 completion(true)
             }
         case .b1:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == c1.letterString {
                 completion(true)
             }
         case .c1:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let b1Move = b1.letterLabel.text, move.rawValue == b1Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == b1.letterString {
                 completion(true)
             }
         default:
@@ -363,18 +362,18 @@ class ThreeRowGridView: UIView {
     private func middleVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a2:
-            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
-                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+            if move.rawValue == b2.letterString,
+                move.rawValue == c2.letterString {
                 completion(true)
             }
         case .b2:
-            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
-                let c2Move = c2.letterLabel.text, move.rawValue == c2Move {
+            if move.rawValue == a2.letterString,
+                move.rawValue == c2.letterString {
                 completion(true)
             }
         case .c2:
-            if let a2Move = a2.letterLabel.text, move.rawValue == a2Move,
-                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+            if move.rawValue == a2.letterString,
+                move.rawValue == b2.letterString {
                 completion(true)
             }
         default:
@@ -387,18 +386,18 @@ class ThreeRowGridView: UIView {
     private func rightVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a3:
-            if let b3Move = b3.letterLabel.text, move.rawValue == b3Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == b3.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .b3:
-            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == a3.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .c3:
-            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
-                let b3Move = b3.letterLabel.text, move.rawValue == b3Move {
+            if move.rawValue == a3.letterString,
+                move.rawValue == b3.letterString {
                 completion(true)
             }
         default:
@@ -411,18 +410,18 @@ class ThreeRowGridView: UIView {
     private func backslashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a1:
-            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == b2.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .b2:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let c3Move = c3.letterLabel.text, move.rawValue == c3Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == c3.letterString {
                 completion(true)
             }
         case .c3:
-            if let a1Move = a1.letterLabel.text, move.rawValue == a1Move,
-                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+            if move.rawValue == a1.letterString,
+                move.rawValue == b2.letterString {
                 completion(true)
             }
         default:
@@ -435,18 +434,18 @@ class ThreeRowGridView: UIView {
     private func forwardSlashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         switch square {
         case .a3:
-            if let b2Move = b2.letterLabel.text, move.rawValue == b2Move,
-                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+            if move.rawValue == b2.letterString,
+                move.rawValue == c1.letterString {
                 completion(true)
             }
         case .b2:
-            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
-                let c1Move = c1.letterLabel.text, move.rawValue == c1Move {
+            if move.rawValue == a3.letterString,
+                move.rawValue == c1.letterString {
                 completion(true)
             }
         case .c1:
-            if let a3Move = a3.letterLabel.text, move.rawValue == a3Move,
-                let b2Move = b2.letterLabel.text, move.rawValue == b2Move {
+            if move.rawValue == a3.letterString,
+                move.rawValue == b2.letterString {
                 completion(true)
             }
         default:
@@ -584,8 +583,8 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
         guard let turnNumber = currentGame.turnNumber else { return }
         let letterView = letterView(for: TicTacToeModel.shared.square(for: sender.tag))
-        let emojiString = TicTacToeModel.shared.emojiString(for: turnNumber)
-        updateLetterView(letterView, with: emojiString, animated: false) { gameState in
+        let symbolString = TicTacToeModel.shared.symbolString(for: turnNumber)
+        updateLetterView(letterView, with: symbolString, animated: false) { gameState in
             self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
             if gameState == .someoneWon {
                 self.threeRowGridViewDelegate.gameWon()

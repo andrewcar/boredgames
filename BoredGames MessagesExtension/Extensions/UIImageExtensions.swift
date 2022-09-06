@@ -15,6 +15,8 @@ extension UIImage {
     static let fiveLetterGuess = UIImage(named: "fiveLetterGuess")
     static let ticTacToe = UIImage(named: "ticTacToe")
     static let dots = UIImage(named: "dots")
+    static let ticTacToeX = UIImage(named: "ticTacToeX")
+    static let ticTacToeO = UIImage(named: "ticTacToeO")
     
     func scalePreservingAspectRatio(targetSize: CGSize) -> UIImage {
         
