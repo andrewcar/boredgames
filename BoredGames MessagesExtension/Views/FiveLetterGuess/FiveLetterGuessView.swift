@@ -288,7 +288,7 @@ class FiveLetterGuessView: UIView {
             let letterSize = Frame.Keyboard.landscapeLetterSize
 
             keyboardLandscapeConstraints = [
-                keyboardView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.smallSize.height + Frame.padding),
+                keyboardView.centerYAnchor.constraint(equalTo: gridView.centerYAnchor),
                 keyboardView.heightAnchor.constraint(greaterThanOrEqualToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
             let offset = Model.shared.fiveLetterGuessState == .grid && keyboardViewShowing ? 0 : (UIScreen.main.bounds.width * 2)

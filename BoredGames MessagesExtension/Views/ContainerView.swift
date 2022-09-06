@@ -128,7 +128,7 @@ class ContainerView: UIView {
         if isLandscape {
             logoLandscapeConstraints = [
                 logoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
-                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: (Frame.Logo.upperPadding * 2) - offset),
+                logoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset),
                 logoView.widthAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.width),
                 logoView.heightAnchor.constraint(equalToConstant: Frame.Logo.targetTallSize.height)
             ]
@@ -164,7 +164,7 @@ class ContainerView: UIView {
         deactivateSmallLogoViewConstraints()
         if isLandscape {
             smallLogoLandscapeConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                smallLogoView.centerYAnchor.constraint(equalTo: logoView.centerYAnchor),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]
@@ -183,7 +183,7 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(smallLogoLandscapeConstraints)
         } else {
             smallLogoPortraitConstraints = [
-                smallLogoView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding),
+                smallLogoView.centerYAnchor.constraint(equalTo: logoView.centerYAnchor),
                 smallLogoView.widthAnchor.constraint(equalToConstant: Frame.Logo.smallSize.width),
                 smallLogoView.heightAnchor.constraint(equalToConstant: Frame.Logo.smallSize.height)
             ]

@@ -18,7 +18,7 @@ class TTTStatsView: UIView {
     var rightStatBarPortraitConstraints: [NSLayoutConstraint] = []
     var rightStatBarLandscapeConstraints: [NSLayoutConstraint] = []
 
-    var resetButton = UIButton()
+    var resetButton = UIButton(frame: .zero)
     var resetButtonPortraitConstraints: [NSLayoutConstraint] = []
     var resetButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -126,7 +126,6 @@ class TTTStatsView: UIView {
     
     // MARK: - RESET BUTTON
     private func addResetButton() {
-        resetButton = UIButton(frame: .zero)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.addTarget(self, action: #selector(didTapResetButton(sender:)), for: .touchUpInside)
         let image = UIImage().scaledSystemImage(
