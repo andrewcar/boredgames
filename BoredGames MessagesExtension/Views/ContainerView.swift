@@ -11,9 +11,9 @@ protocol ContainerDelegate {
     func didTapSendButton()
     func didTapLogoButton()
     func didTapTTTSquareButton()
-    func showTheWin()
-    func showTheLoss()
-    func showCatsGame()
+    func showTTTWin()
+    func showTTTLoss()
+    func showTTTCatsGame()
 }
 
 class ContainerView: UIView {
@@ -573,14 +573,14 @@ extension ContainerView: TicTacToeViewDelegate {
     }
     
     func showTheWin() {
-        containerDelegate.showTheWin()
+        containerDelegate.showTTTWin()
     }
     
     func showTheLoss() {
-        containerDelegate.showTheLoss()
+        containerDelegate.showTTTLoss()
     }
     
     func showCatsGame() {
-        containerDelegate.showCatsGame()
+        containerDelegate.showTTTCatsGame()
     }
 }

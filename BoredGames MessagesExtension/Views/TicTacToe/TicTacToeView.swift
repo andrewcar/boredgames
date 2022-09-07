@@ -288,16 +288,16 @@ class TicTacToeView: UIView {
             newGameButtonLandscapeConstraints = [
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
-                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 3) - offset)
+                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
+                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding - offset)
             ]
             NSLayoutConstraint.activate(newGameButtonLandscapeConstraints)
         } else {
             newGameButtonPortraitConstraints = [
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.padding * 3)),
-                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 3) - offset)
+                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
+                newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -Frame.Logo.upperPadding - offset)
             ]
             NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
         }
@@ -471,39 +471,30 @@ extension TicTacToeView: ThreeRowGridViewDelegate {
         case .a1:
             TicTacToeModel.shared.currentTTTGame?.a1 = symbolString
             threeRowGridView.a1.letterImageView.image = turnImage
-            threeRowGridView.a1.letterString = symbolString
         case .a2:
             TicTacToeModel.shared.currentTTTGame?.a2 = symbolString
             threeRowGridView.a2.letterImageView.image = turnImage
-            threeRowGridView.a2.letterString = symbolString
         case .a3:
             TicTacToeModel.shared.currentTTTGame?.a3 = symbolString
             threeRowGridView.a3.letterImageView.image = turnImage
-            threeRowGridView.a3.letterString = symbolString
         case .b1:
             TicTacToeModel.shared.currentTTTGame?.b1 = symbolString
             threeRowGridView.b1.letterImageView.image = turnImage
-            threeRowGridView.b1.letterString = symbolString
         case .b2:
             TicTacToeModel.shared.currentTTTGame?.b2 = symbolString
             threeRowGridView.b2.letterImageView.image = turnImage
-            threeRowGridView.b2.letterString = symbolString
         case .b3:
             TicTacToeModel.shared.currentTTTGame?.b3 = symbolString
             threeRowGridView.b3.letterImageView.image = turnImage
-            threeRowGridView.b3.letterString = symbolString
         case .c1:
             TicTacToeModel.shared.currentTTTGame?.c1 = symbolString
             threeRowGridView.c1.letterImageView.image = turnImage
-            threeRowGridView.c1.letterString = symbolString
         case .c2:
             TicTacToeModel.shared.currentTTTGame?.c2 = symbolString
             threeRowGridView.c2.letterImageView.image = turnImage
-            threeRowGridView.c2.letterString = symbolString
         case .c3:
             TicTacToeModel.shared.currentTTTGame?.c3 = symbolString
             threeRowGridView.c3.letterImageView.image = turnImage
-            threeRowGridView.c3.letterString = symbolString
         }
         
         switch currentSquare {

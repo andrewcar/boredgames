@@ -130,10 +130,20 @@ class ThreeRowGridView: UIView {
     // MARK: - CATS GAME
     private func wasCatsGame() -> Bool {
         // if any letter view letter label texts are empty, the game isn't over, so no cats game
-        
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return false }
+        guard let a1 = currentGame.a1 else { return false }
+        guard let a2 = currentGame.a2 else { return false }
+        guard let a3 = currentGame.a3 else { return false }
+        guard let b1 = currentGame.b1 else { return false }
+        guard let b2 = currentGame.b2 else { return false }
+        guard let b3 = currentGame.b3 else { return false }
+        guard let c1 = currentGame.c1 else { return false }
+        guard let c2 = currentGame.c2 else { return false }
+        guard let c3 = currentGame.c3 else { return false }
+
         let allLetterViews = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
         let blankLetterViews = allLetterViews.filter {
-            guard $0.letterString.isEmpty else { return false }
+            guard $0.isEmpty else { return false }
             return true
         }
         
@@ -264,20 +274,24 @@ class ThreeRowGridView: UIView {
     
     // a1, a2, a3
     private func topHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a1 = currentGame.a1 else { completion(false); return }
+        guard let a2 = currentGame.a2 else { completion(false); return }
+        guard let a3 = currentGame.a3 else { completion(false); return }
         switch square {
         case .a1:
-            if move.rawValue == a2.letterString,
-                move.rawValue == a3.letterString {
+            if move.rawValue == a2,
+                move.rawValue == a3 {
                 completion(true)
             }
         case .a2:
-            if move.rawValue == a1.letterString,
-                move.rawValue == a3.letterString {
+            if move.rawValue == a1,
+                move.rawValue == a3 {
                 completion(true)
             }
         case .a3:
-            if move.rawValue == a1.letterString,
-                move.rawValue == a2.letterString {
+            if move.rawValue == a1,
+                move.rawValue == a2 {
                 completion(true)
             }
         default:
@@ -288,20 +302,24 @@ class ThreeRowGridView: UIView {
     
     // b1, b2, b3
     private func middleHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let b1 = currentGame.b1 else { completion(false); return }
+        guard let b2 = currentGame.b2 else { completion(false); return }
+        guard let b3 = currentGame.b3 else { completion(false); return }
         switch square {
         case .b1:
-            if move.rawValue == b2.letterString,
-                move.rawValue == b3.letterString {
+            if move.rawValue == b2,
+                move.rawValue == b3 {
                 completion(true)
             }
         case .b2:
-            if move.rawValue == b1.letterString,
-                move.rawValue == b3.letterString {
+            if move.rawValue == b1,
+                move.rawValue == b3 {
                 completion(true)
             }
         case .b3:
-            if move.rawValue == b1.letterString,
-                move.rawValue == b2.letterString {
+            if move.rawValue == b1,
+                move.rawValue == b2 {
                 completion(true)
             }
         default:
@@ -312,20 +330,24 @@ class ThreeRowGridView: UIView {
     
     // c1, c2, c3
     private func bottomHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let c1 = currentGame.c1 else { completion(false); return }
+        guard let c2 = currentGame.c2 else { completion(false); return }
+        guard let c3 = currentGame.c3 else { completion(false); return }
         switch square {
         case .c1:
-            if move.rawValue == c2.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == c2,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .c2:
-            if move.rawValue == c1.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == c1,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .c3:
-            if move.rawValue == c1.letterString,
-                move.rawValue == c2.letterString {
+            if move.rawValue == c1,
+                move.rawValue == c2 {
                 completion(true)
             }
         default:
@@ -336,20 +358,24 @@ class ThreeRowGridView: UIView {
     
     // a1, b1, c1
     private func leftVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a1 = currentGame.a1 else { completion(false); return }
+        guard let b1 = currentGame.b1 else { completion(false); return }
+        guard let c1 = currentGame.c1 else { completion(false); return }
         switch square {
         case .a1:
-            if move.rawValue == b1.letterString,
-                move.rawValue == c1.letterString {
+            if move.rawValue == b1,
+                move.rawValue == c1 {
                 completion(true)
             }
         case .b1:
-            if move.rawValue == a1.letterString,
-                move.rawValue == c1.letterString {
+            if move.rawValue == a1,
+                move.rawValue == c1 {
                 completion(true)
             }
         case .c1:
-            if move.rawValue == a1.letterString,
-                move.rawValue == b1.letterString {
+            if move.rawValue == a1,
+                move.rawValue == b1 {
                 completion(true)
             }
         default:
@@ -360,20 +386,24 @@ class ThreeRowGridView: UIView {
     
     // a2, b2, c2
     private func middleVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a2 = currentGame.a2 else { completion(false); return }
+        guard let b2 = currentGame.b2 else { completion(false); return }
+        guard let c2 = currentGame.c2 else { completion(false); return }
         switch square {
         case .a2:
-            if move.rawValue == b2.letterString,
-                move.rawValue == c2.letterString {
+            if move.rawValue == b2,
+                move.rawValue == c2 {
                 completion(true)
             }
         case .b2:
-            if move.rawValue == a2.letterString,
-                move.rawValue == c2.letterString {
+            if move.rawValue == a2,
+                move.rawValue == c2 {
                 completion(true)
             }
         case .c2:
-            if move.rawValue == a2.letterString,
-                move.rawValue == b2.letterString {
+            if move.rawValue == a2,
+                move.rawValue == b2 {
                 completion(true)
             }
         default:
@@ -384,20 +414,24 @@ class ThreeRowGridView: UIView {
     
     // a3, b3, c3
     private func rightVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a3 = currentGame.a3 else { completion(false); return }
+        guard let b3 = currentGame.b3 else { completion(false); return }
+        guard let c3 = currentGame.c3 else { completion(false); return }
         switch square {
         case .a3:
-            if move.rawValue == b3.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == b3,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .b3:
-            if move.rawValue == a3.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == a3,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .c3:
-            if move.rawValue == a3.letterString,
-                move.rawValue == b3.letterString {
+            if move.rawValue == a3,
+                move.rawValue == b3 {
                 completion(true)
             }
         default:
@@ -408,20 +442,24 @@ class ThreeRowGridView: UIView {
     
     // a1, b2, c3
     private func backslashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a1 = currentGame.a1 else { completion(false); return }
+        guard let b2 = currentGame.b2 else { completion(false); return }
+        guard let c3 = currentGame.c3 else { completion(false); return }
         switch square {
         case .a1:
-            if move.rawValue == b2.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == b2,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .b2:
-            if move.rawValue == a1.letterString,
-                move.rawValue == c3.letterString {
+            if move.rawValue == a1,
+                move.rawValue == c3 {
                 completion(true)
             }
         case .c3:
-            if move.rawValue == a1.letterString,
-                move.rawValue == b2.letterString {
+            if move.rawValue == a1,
+                move.rawValue == b2 {
                 completion(true)
             }
         default:
@@ -432,20 +470,24 @@ class ThreeRowGridView: UIView {
     
     // a3, b2, c1
     private func forwardSlashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
+        guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard let a3 = currentGame.a3 else { completion(false); return }
+        guard let b2 = currentGame.b2 else { completion(false); return }
+        guard let c1 = currentGame.c1 else { completion(false); return }
         switch square {
         case .a3:
-            if move.rawValue == b2.letterString,
-                move.rawValue == c1.letterString {
+            if move.rawValue == b2,
+                move.rawValue == c1 {
                 completion(true)
             }
         case .b2:
-            if move.rawValue == a3.letterString,
-                move.rawValue == c1.letterString {
+            if move.rawValue == a3,
+                move.rawValue == c1 {
                 completion(true)
             }
         case .c1:
-            if move.rawValue == a3.letterString,
-                move.rawValue == b2.letterString {
+            if move.rawValue == a3,
+                move.rawValue == b2 {
                 completion(true)
             }
         default:
@@ -584,8 +626,8 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         guard let turnNumber = currentGame.turnNumber else { return }
         let letterView = letterView(for: TicTacToeModel.shared.square(for: sender.tag))
         let symbolString = TicTacToeModel.shared.symbolString(for: turnNumber)
+        threeRowGridViewDelegate.didTapLetterView(sender: sender)
         updateLetterView(letterView, with: symbolString, animated: false) { gameState in
-            self.threeRowGridViewDelegate.didTapLetterView(sender: sender)
             if gameState == .someoneWon {
                 self.threeRowGridViewDelegate.gameWon()
             } else if gameState == .catsGame {

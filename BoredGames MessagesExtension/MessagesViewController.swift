@@ -427,12 +427,12 @@ class MessagesViewController: MSMessagesAppViewController {
                 if gameState == .someoneWon {
                     guard let winnerUUIDString = currentGame.winnerUUID else { return }
                     if remoteParticipantIdentifier.uuidString == winnerUUIDString {
-                        self.showTheLoss()
+                        self.showTTTLoss()
                     } else {
-                        self.showTheWin()
+                        self.showTTTWin()
                     }
                 } else if gameState == .catsGame {
-                    self.showCatsGame()
+                    self.showTTTCatsGame()
                 }
             }
         )
@@ -792,16 +792,16 @@ extension MessagesViewController: ContainerDelegate {
         })
     }
     
-    func showTheWin() {
+    func showTTTWin() {
         updateWinnerUUID()
-        updateGameWithWin()
+        updateTTTGameWithWin()
     }
     
-    func showTheLoss() {
+    func showTTTLoss() {
         updateGameWithLoss()
     }
     
-    func showCatsGame() {
+    func showTTTCatsGame() {
         updateGameWithCatsGame()
     }
     
@@ -819,7 +819,7 @@ extension MessagesViewController: ContainerDelegate {
         }
     }
     
-    func updateGameWithWin() {
+    func updateTTTGameWithWin() {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
 
         TicTacToeModel.shared.incrementMyWinCountAndStreak(with: currentGame)

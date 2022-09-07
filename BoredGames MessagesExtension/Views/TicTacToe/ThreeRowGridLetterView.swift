@@ -17,7 +17,6 @@ class ThreeRowGridLetterView: UIView {
     var letterViewDelegate: ThreeRowGridLetterViewDelegate!
 
     var square: TicTacToeSquare?
-    var letterString = ""
     var letterImageView = UIImageView(frame: .zero)
     var letterState: LetterState = .blank
     private var letterImageConstraints: [NSLayoutConstraint] = []
