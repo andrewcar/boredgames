@@ -10,5 +10,4 @@ import Foundation
 enum FiveLetterGuessState {
     case grid
     case stats
-    case debug
 }

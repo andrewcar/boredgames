@@ -49,6 +49,10 @@ class ContainerView: UIView {
     private var smallLogoPortraitConstraints: [NSLayoutConstraint] = []
     private var smallLogoLandscapeConstraints: [NSLayoutConstraint] = []
 
+    private var debugView = DebugView(frame: .zero)
+    private var debugViewPortraitConstraints: [NSLayoutConstraint] = []
+    private var debugViewLandscapeConstraints: [NSLayoutConstraint] = []
+
     // MARK: - 1️⃣
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,6 +64,7 @@ class ContainerView: UIView {
         addDotsButton()
         addFiveLetterGuessView()
         addTicTacToeView()
+        addDebugView()
         addSmallLogoView()
     }
     
@@ -82,6 +87,7 @@ class ContainerView: UIView {
         updateFiveLetterGuessView(isLandscape: isLandscape)
         updateTicTacToeView(isLandscape: isLandscape)
         activateSmallLogoViewConstraints(isLandscape: isLandscape)
+        activateDebugConstraints(isLandscape: isLandscape)
 
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
@@ -101,6 +107,8 @@ class ContainerView: UIView {
             newColor = .ticTacToeBackground
         case .dots:
             newColor = .dotsBackground
+        case .debug:
+            newColor = .containerBackground
         }
         guard let newColor = newColor else { return }
         UIView.animate(withDuration: 0.426, delay: 0, options: .curveEaseOut) {
@@ -162,6 +170,8 @@ class ContainerView: UIView {
     // MARK: - 👌🅱️ 🪟 📜
     private func activateSmallLogoViewConstraints(isLandscape: Bool) {
         deactivateSmallLogoViewConstraints()
+        let flgOffset = Model.shared.fiveLetterGuessState == .grid ? 0 : UIScreen.main.bounds.width
+        let tttOffset = TicTacToeModel.shared.ticTacToeState == .grid ? 0 : UIScreen.main.bounds.width
         if isLandscape {
             smallLogoLandscapeConstraints = [
                 smallLogoView.centerYAnchor.constraint(equalTo: logoView.centerYAnchor),
@@ -173,9 +183,12 @@ class ContainerView: UIView {
                 let trailingConstraint = smallLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding)
                 smallLogoLandscapeConstraints.append(trailingConstraint)
             case .fiveLetterGuess:
-                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding)
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: fiveLetterGuessView.gridView.trailingAnchor, constant: Frame.Logo.upperPadding - flgOffset)
                 smallLogoLandscapeConstraints.append(leadingConstraint)
             case .ticTacToe:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - tttOffset)
+                smallLogoLandscapeConstraints.append(leadingConstraint)
+            case .debug:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
                 smallLogoLandscapeConstraints.append(leadingConstraint)
             default: ()
@@ -191,7 +204,13 @@ class ContainerView: UIView {
             case .container:
                 let trailingConstraint = smallLogoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding)
                 smallLogoPortraitConstraints.append(trailingConstraint)
-            case .fiveLetterGuess, .ticTacToe:
+            case .fiveLetterGuess:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - flgOffset)
+                smallLogoPortraitConstraints.append(leadingConstraint)
+            case .ticTacToe:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - tttOffset)
+                smallLogoPortraitConstraints.append(leadingConstraint)
+            case .debug:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
                 smallLogoPortraitConstraints.append(leadingConstraint)
             default: ()
@@ -470,6 +489,44 @@ class ContainerView: UIView {
         Model.shared.appState = .dots
         updateConstraints()
     }
+    
+    // MARK: - 🫥 🪟
+    private func addDebugView() {
+        addSubview(debugView)
+        activateDebugConstraints(isLandscape: false)
+    }
+    
+    // MARK: - DEBUG VIEW CONSTRAINTS
+    private func activateDebugConstraints(isLandscape: Bool) {
+        deactivateDebugConstraints()
+        let offset = Model.shared.appState == .debug ? 0 : UIScreen.main.bounds.height * 2
+        if isLandscape {
+            debugViewLandscapeConstraints = [
+                debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset),
+                debugView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(debugViewLandscapeConstraints)
+        } else {
+            debugViewPortraitConstraints = [
+                debugView.topAnchor.constraint(equalTo: topAnchor, constant: offset),
+                debugView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                debugView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                debugView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(debugViewPortraitConstraints)
+        }
+    }
+    
+    // MARK: - DEACTIVATE DEBUG CONSTRAINTS
+    private func deactivateDebugConstraints() {
+        NSLayoutConstraint.deactivate(debugViewPortraitConstraints)
+        NSLayoutConstraint.deactivate(debugViewLandscapeConstraints)
+        debugViewPortraitConstraints.removeAll()
+        debugViewLandscapeConstraints.removeAll()
+    }
+
 }
 
 extension ContainerView: SmallLogoViewDelegate {

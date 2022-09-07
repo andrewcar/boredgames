@@ -41,7 +41,7 @@ class TTTStatsView: UIView {
         activateLeftStatBarConstraints(isLandscape: Model.shared.isLandscape)
         activateRightStatBarConstraints(isLandscape: Model.shared.isLandscape)
         activateResetButtonConstraints(isLandscape: Model.shared.isLandscape)
-        resetButton.isHidden = !TicTacToeModel.shared.resetAvailable
+        resetButton.isHidden = !Model.shared.resetAvailable
     }
     
     // MARK: - ADD SUBVIEWS
@@ -72,7 +72,7 @@ class TTTStatsView: UIView {
             NSLayoutConstraint.activate(leftStatBarLandscapeConstraints)
         } else {
             leftStatBarPortraitConstraints = [
-                leftStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
+                leftStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding * 2),
                 leftStatBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(Frame.Stats.verticalBarSize.width / 2) - (Frame.Logo.upperPadding / 2)),
                 leftStatBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.width),
                 leftStatBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.height)
@@ -96,7 +96,7 @@ class TTTStatsView: UIView {
             NSLayoutConstraint.activate(rightStatBarLandscapeConstraints)
         } else {
             rightStatBarPortraitConstraints = [
-                rightStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.targetTallSize.height + (Frame.Logo.upperPadding * 2)),
+                rightStatBarView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding * 2),
                 rightStatBarView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (Frame.Stats.verticalBarSize.width / 2) + (Frame.Logo.upperPadding / 2)),
                 rightStatBarView.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.width),
                 rightStatBarView.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalBarSize.height)
@@ -136,18 +136,17 @@ class TTTStatsView: UIView {
         resetButton.setImage(image, for: .normal)
         resetButton.setTitleColor(.clear, for: .normal)
         addSubview(resetButton)
-        activateResetButtonConstraints(isLandscape: false)
     }
-    
+        
     // MARK: - ACTIVATE RESET BUTTON CONSTRAINTS
     func activateResetButtonConstraints(isLandscape: Bool) {
         deactivateResetButtonConstraints()
         if isLandscape {
             resetButtonLandscapeConstraints = [
-                resetButton.centerYAnchor.constraint(equalTo: centerYAnchor),
                 resetButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 resetButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
-                resetButton.leadingAnchor.constraint(equalTo: leftStatBarView.trailingAnchor, constant: Frame.Logo.upperPadding)
+                resetButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.Logo.upperPadding * 2)),
+                resetButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding)
             ]
             NSLayoutConstraint.activate(resetButtonLandscapeConstraints)
         } else {

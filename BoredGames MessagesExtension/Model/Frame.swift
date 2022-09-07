@@ -110,11 +110,9 @@ struct Frame {
         }
         static var verticalBarSize: CGSize {
             let width = (UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2.5
-            return CGSize(width: width, height: width * 4.5)
+            return CGSize(width: width, height: width * 4)
         }
         static var landscapeVerticalBarSize: CGSize {
-//            let width = (UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2
-//            let width = verticalBarSize
             return CGSize(width: verticalBarSize.width / 2, height: verticalBarSize.width / 2)
         }
         static var titleHeight: CGFloat {

@@ -62,11 +62,13 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - SHAKE
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        super.motionEnded(motion, with: event)
         guard motion == .motionShake else { return }
-        if Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .debug {
-            containerView.fiveLetterGuessView.hideDebugView()
+        if Model.shared.currentGuess == "ACSVP" {
+            showDebugView()
+        } else {
+            showContainer()
         }
-        showContainer()
     }
     
     // MARK: - SHOW CONTAINER
@@ -76,7 +78,13 @@ class MessagesViewController: MSMessagesAppViewController {
         containerView.updateConstraints()
     }
     
-
+    // MARK: - SHOW DEBUG VIEW
+    private func showDebugView() {
+        guard Model.shared.appState != .debug else { return }
+        Model.shared.appState = .debug
+        containerView.updateConstraints()
+    }
+    
     // MARK: - DECODE
     private func appStateFromDecoding(_ message: MSMessage) -> AppState {
         guard let url = message.url else {

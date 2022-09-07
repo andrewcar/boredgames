@@ -115,7 +115,7 @@ class TTTStatBarView: UIView {
         whoLabel.translatesAutoresizingMaskIntoConstraints = false
         whoLabel.textAlignment = .center
         whoLabel.font = .customFont(named: .robotoSlabBlack, size: 18, fallbackWeight: .black)
-        whoLabel.text = you ? "You" : "Them"
+        whoLabel.text = you ? "YOU" : "THEM"
         whoLabel.textColor = .gridLetterBackgroundYellow
         addSubview(whoLabel)
         activateWhoLabelPortraitConstraints()
@@ -190,7 +190,7 @@ class TTTStatBarView: UIView {
     func activatePlayedTitlePortraitConstraints() {
         deactivatePlayedTitleConstraints()
         playedTitlePortraitConstraints = [
-            playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
+            playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
             playedTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.width),
             playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.height)
@@ -203,8 +203,8 @@ class TTTStatBarView: UIView {
     func activatePlayedNumberLandscapeConstraints() {
         deactivatePlayedNumberConstraints()
         playedNumberLandscapeConstraints = [
-            playedNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
-            playedNumberLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+            playedNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
+            playedNumberLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(Frame.Stats.landscapeHorizontalNumberSize.width / 2) - Frame.Stats.landscapeHorizontalNumberSize.width),
             playedNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
             playedNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height),
         ]
@@ -215,8 +215,8 @@ class TTTStatBarView: UIView {
     func activatePlayedTitleLandscapeConstraints() {
         deactivatePlayedTitleConstraints()
         playedTitleLandscapeConstraints = [
-            playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
-            playedTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+            playedTitleLabel.topAnchor.constraint(equalTo: playedNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
+            playedTitleLabel.centerXAnchor.constraint(equalTo: playedNumberLabel.centerXAnchor),
             playedTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
             playedTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
@@ -271,7 +271,7 @@ class TTTStatBarView: UIView {
     func activateWonTitlePortraitConstraints() {
         deactivateWonTitleConstraints()
         wonTitlePortraitConstraints = [
-            wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
+            wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
             wonTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.width),
             wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.height)
@@ -283,8 +283,8 @@ class TTTStatBarView: UIView {
     func activateWonNumberLandscapeConstraints() {
         deactivateWonNumberConstraints()
         wonNumberLandscapeConstraints = [
-            wonNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
-            wonNumberLabel.leadingAnchor.constraint(equalTo: playedNumberLabel.trailingAnchor),
+            wonNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
+            wonNumberLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -(Frame.Stats.landscapeHorizontalNumberSize.width / 2)),
             wonNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
             wonNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
@@ -295,8 +295,8 @@ class TTTStatBarView: UIView {
     func activateWonTitleLandscapeConstraints() {
         deactivateWonTitleConstraints()
         wonTitleLandscapeConstraints = [
-            wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
-            wonTitleLabel.leadingAnchor.constraint(equalTo: playedTitleLabel.trailingAnchor),
+            wonTitleLabel.topAnchor.constraint(equalTo: wonNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
+            wonTitleLabel.centerXAnchor.constraint(equalTo: wonNumberLabel.centerXAnchor),
             wonTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
             wonTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
@@ -351,7 +351,7 @@ class TTTStatBarView: UIView {
     func activateLostTitlePortraitConstraints() {
         deactivateLostTitleConstraints()
         lostTitlePortraitConstraints = [
-            lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
+            lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
             lostTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.width),
             lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.height)
@@ -363,8 +363,8 @@ class TTTStatBarView: UIView {
     func activateLostNumberLandscapeConstraints() {
         deactivateLostNumberConstraints()
         lostNumberLandscapeConstraints = [
-            lostNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
-            lostNumberLabel.leadingAnchor.constraint(equalTo: wonNumberLabel.trailingAnchor),
+            lostNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
+            lostNumberLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (Frame.Stats.landscapeHorizontalNumberSize.width / 2)),
             lostNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
             lostNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
@@ -375,8 +375,8 @@ class TTTStatBarView: UIView {
     func activateLostTitleLandscapeConstraints() {
         deactivateLostTitleConstraints()
         lostTitleLandscapeConstraints = [
-            lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
-            lostTitleLabel.leadingAnchor.constraint(equalTo: wonTitleLabel.trailingAnchor),
+            lostTitleLabel.topAnchor.constraint(equalTo: lostNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
+            lostTitleLabel.centerXAnchor.constraint(equalTo: lostNumberLabel.centerXAnchor),
             lostTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
             lostTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]
@@ -431,7 +431,7 @@ class TTTStatBarView: UIView {
     func activateStreakTitlePortraitConstraints() {
         deactivateStreakTitleConstraints()
         streakTitlePortraitConstraints = [
-            streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.padding * 3)),
+            streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
             streakTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.width),
             streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.verticalTitleSize.height)
@@ -443,8 +443,8 @@ class TTTStatBarView: UIView {
     func activateStreakNumberLandscapeConstraints() {
         deactivateStreakNumberConstraints()
         streakNumberLandscapeConstraints = [
-            streakNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: (Frame.bigPadding * 2)),
-            streakNumberLabel.leadingAnchor.constraint(equalTo: lostNumberLabel.trailingAnchor, constant: -Frame.bigPadding),
+            streakNumberLabel.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
+            streakNumberLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: (Frame.Stats.landscapeHorizontalNumberSize.width / 2) + Frame.Stats.landscapeHorizontalNumberSize.width),
             streakNumberLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.width),
             streakNumberLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalNumberSize.height)
         ]
@@ -455,8 +455,8 @@ class TTTStatBarView: UIView {
     func activateStreakTitleLandscapeConstraints() {
         deactivateStreakTitleConstraints()
         streakTitleLandscapeConstraints = [
-            streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.bigPadding * 3)),
-            streakTitleLabel.leadingAnchor.constraint(equalTo: lostTitleLabel.trailingAnchor, constant: -Frame.bigPadding),
+            streakTitleLabel.topAnchor.constraint(equalTo: streakNumberLabel.bottomAnchor, constant: -(Frame.Logo.upperPadding * 1.8)),
+            streakTitleLabel.centerXAnchor.constraint(equalTo: streakNumberLabel.centerXAnchor),
             streakTitleLabel.widthAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.width),
             streakTitleLabel.heightAnchor.constraint(equalToConstant: Frame.Stats.landscapeHorizontalTitleSize.height)
         ]

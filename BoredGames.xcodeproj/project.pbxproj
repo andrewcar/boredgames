@@ -321,10 +321,10 @@
 			children = (
 				494D914028B1B4D6003E14D9 /* FiveLetterGuess */,
 				494D914328B1DD2E003E14D9 /* TicTacToe */,
+				494D914828B1F057003E14D9 /* ContainerView.swift */,
 				49C0616228A73D0A002D6EEA /* DebugView.swift */,
 				4997443D28AC12D30062DA57 /* LogoView.swift */,
 				494D914E28B2ED2D003E14D9 /* SmallLogoView.swift */,
-				494D914828B1F057003E14D9 /* ContainerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -106,7 +106,7 @@ class FLGStatsView: UIView {
     func activateResetButtonPortraitConstraints() {
         deactivateResetButtonConstraints()
         resetButtonPortraitConstraints = [
-            resetButton.topAnchor.constraint(equalTo: statBarView.bottomAnchor, constant: (Frame.padding * 2)),
+            resetButton.topAnchor.constraint(equalTo: statBarView.bottomAnchor, constant: Frame.Logo.upperPadding),
             resetButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             resetButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             resetButton.centerXAnchor.constraint(equalTo: statBarView.centerXAnchor)
@@ -118,12 +118,12 @@ class FLGStatsView: UIView {
     func activateResetButtonLandscapeConstraints() {
         deactivateResetButtonConstraints()
         resetButtonLandscapeConstraints = [
-            resetButton.topAnchor.constraint(equalTo: statBarView.bottomAnchor, constant: (Frame.padding * 2)),
+            resetButton.topAnchor.constraint(equalTo: statBarView.bottomAnchor, constant: Frame.Logo.upperPadding),
             resetButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             resetButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             resetButton.centerXAnchor.constraint(equalTo: statBarView.centerXAnchor)
         ]
-        NSLayoutConstraint.activate(resetButtonPortraitConstraints)
+        NSLayoutConstraint.activate(resetButtonLandscapeConstraints)
     }
     
     // MARK: - DEACTIVATE RESET BUTTON CONSTRAINTS

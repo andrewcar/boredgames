@@ -10,5 +10,4 @@ import Foundation
 enum TicTacToeState {
     case grid
     case stats
-    case debug
 }

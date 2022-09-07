@@ -17,7 +17,6 @@ class TicTacToeModel: NSObject {
     var games = TicTacToeGames(value: [])
     var currentTTTGame: TicTacToeGame?
     var ticTacToeState: TicTacToeState = .grid
-    var resetAvailable: Bool = true
     
     // MARK: - TAG FOR SQUARE
     func tag(for square: TicTacToeSquare) -> Int {
