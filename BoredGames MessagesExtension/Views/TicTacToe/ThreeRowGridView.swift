@@ -29,6 +29,7 @@ class ThreeRowGridView: UIView {
     var c3 = ThreeRowGridLetterView(frame: .zero)
     private var letterViewConstraints: [NSLayoutConstraint] = []
     let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+    let heavyImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
 
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -626,6 +627,9 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         guard let turnNumber = currentGame.turnNumber else { return }
         let letterView = letterView(for: TicTacToeModel.shared.square(for: sender.tag))
         let symbolString = TicTacToeModel.shared.symbolString(for: turnNumber)
+        
+        heavyImpactFeedbackGenerator.impactOccurred()
+
         threeRowGridViewDelegate.didTapLetterView(sender: sender)
         updateLetterView(letterView, with: symbolString, animated: false) { gameState in
             if gameState == .someoneWon {

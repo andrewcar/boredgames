@@ -777,6 +777,14 @@ extension MessagesViewController: ContainerDelegate {
         TicTacToeModel.shared.currentTTTGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
+    func didTapFiveLetterGuessButton() {
+        requestPresentationStyle(.expanded)
+    }
+    
+    func didTapTicTacToeButton() {
+        requestPresentationStyle(.expanded)
+    }
+    
     func didTapTTTSquareButton() {
         guard let activeConversation = activeConversation else { return }
         

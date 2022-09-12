@@ -10,6 +10,8 @@ import UIKit
 protocol ContainerDelegate {
     func didTapSendButton()
     func didTapLogoButton()
+    func didTapFiveLetterGuessButton()
+    func didTapTicTacToeButton()
     func didTapTTTSquareButton()
     func showTTTWin()
     func showTTTLoss()
@@ -284,6 +286,7 @@ class ContainerView: UIView {
     @objc private func didTapFiveLetterGuessButton(sender: UIButton) {
         Model.shared.appState = .fiveLetterGuess
         updateConstraints()
+        containerDelegate.didTapFiveLetterGuessButton()
     }
     
     // MARK: - 🅰️ 🪟
@@ -385,6 +388,7 @@ class ContainerView: UIView {
     @objc private func didTapTicTacToeButton(sender: UIButton) {
         Model.shared.appState = .ticTacToe
         updateConstraints()
+        containerDelegate.didTapTicTacToeButton()
     }
     
     // MARK: - ❌ 🪟

@@ -63,7 +63,6 @@ class FiveLetterGridView: UIView {
     var dotConstraints: [NSLayoutConstraint] = []
     let lightImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
     let heavyImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
-    let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
     let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 
     // MARK: - Initializers
