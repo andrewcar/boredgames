@@ -1127,6 +1127,10 @@ extension FiveLetterGuessView: KeyboardDelegate {
         default: ()
         }
     }
+    
+    func showNotOurTurn() {
+        successView.showTheirTurn()
+    }
 }
 
 // MARK: - FIVE LETTER GRID DELEGATE
@@ -1148,11 +1152,11 @@ extension FiveLetterGuessView: FiveLetterGridDelegate {
     }
     
     func enableKeyboard() {
-        keyboardView.isUserInteractionEnabled = true
+        Model.shared.keyboardEnabled = true
     }
     
     func disableKeyboard() {
-        keyboardView.isUserInteractionEnabled = false
+        Model.shared.keyboardEnabled = false
     }
     
     func setKeyToGreen(for guessLetter: String) {

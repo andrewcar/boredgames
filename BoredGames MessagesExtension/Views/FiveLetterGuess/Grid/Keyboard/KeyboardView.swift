@@ -11,6 +11,7 @@ protocol KeyboardDelegate {
     func didTapLetter(_ letter: String)
     func didTapEnter()
     func didTapBackspace()
+    func showNotOurTurn()
 }
 
 class KeyboardView: UIView {
@@ -655,5 +656,9 @@ extension KeyboardView: LetterDelegate {
     func didTapBackspace() {
         keyboardDelegate.didTapBackspace()
         selectionFeedbackGenerator.selectionChanged()
+    }
+    
+    func showNotOurTurn() {
+        keyboardDelegate.showNotOurTurn()
     }
 }

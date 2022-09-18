@@ -46,6 +46,17 @@ class SuccessView: UIView {
         backgroundColor = .successBackgroundRed
     }
     
+    func showTheirTurn() {
+        isHidden = false
+        
+        titleLabel.text = "THEIR TURN"
+        backgroundColor = .successBackgroundRed
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.isHidden = true
+            self.reset()
+        }
+    }
+    
     func reset() {
         titleLabel.text = "SUCCESS"
         backgroundColor = .successBackgroundGreen

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491237D928D79D6C00DC9FC6 /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491237D828D79D6C00DC9FC6 /* GameButton.swift */; };
 		4913C0E1289905930039745B /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E0289905930039745B /* UIImageExtensions.swift */; };
 		4913C0E5289913950039745B /* FLGStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C0E4289913950039745B /* FLGStatsView.swift */; };
 		49231BA92894B99000C5EB5E /* NotInWordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49231BA82894B99000C5EB5E /* NotInWordListView.swift */; };
@@ -91,6 +92,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		491237D828D79D6C00DC9FC6 /* GameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButton.swift; sourceTree = "<group>"; };
 		4913C0E0289905930039745B /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		4913C0E4289913950039745B /* FLGStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLGStatsView.swift; sourceTree = "<group>"; };
 		49231BA82894B99000C5EB5E /* NotInWordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotInWordListView.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				49C0616228A73D0A002D6EEA /* DebugView.swift */,
 				4997443D28AC12D30062DA57 /* LogoView.swift */,
 				494D914E28B2ED2D003E14D9 /* SmallLogoView.swift */,
+				491237D828D79D6C00DC9FC6 /* GameButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				494D914D28B29CC9003E14D9 /* TicTacToeState.swift in Sources */,
 				494D915528B6CC95003E14D9 /* TicTacToeGames.swift in Sources */,
 				495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */,
+				491237D928D79D6C00DC9FC6 /* GameButton.swift in Sources */,
 				49A07DE7288DC29C008270F9 /* LetterState.swift in Sources */,
 				4931D9DC28C1C8930026E8D0 /* TicTacToeGame.swift in Sources */,
 				494D915928B6CF28003E14D9 /* FiveLetterGuessModel.swift in Sources */,

@@ -28,6 +28,7 @@ class Model: NSObject {
     var lastGuessInEmojis = ""
     var lastLastGuessInEmojis = ""
     var resetAvailable: Bool = false
+    var keyboardEnabled = true
     var answerLetterCounts: [String: Int] = [
         "a": 0,
         "b": 0,

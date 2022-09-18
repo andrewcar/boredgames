@@ -27,15 +27,15 @@ class ContainerView: UIView {
     private var logoPortraitConstraints: [NSLayoutConstraint] = []
     private var logoLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var fiveLetterGuessButton = UIButton(frame: .zero)
+    private var fiveLetterGuessButton = GameButton(frame: .zero)
     private var fiveLetterGuessButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var fiveLetterGuessButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var ticTacToeButton = UIButton(frame: .zero)
+    private var ticTacToeButton = GameButton(frame: .zero)
     private var ticTacToeButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var ticTacToeButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var dotsButton = UIButton(frame: .zero)
+    private var dotsButton = GameButton(frame: .zero)
     private var dotsButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var dotsButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -232,12 +232,10 @@ class ContainerView: UIView {
     
     // MARK: - 🅰️ ▶️
     private func addFiveLetterGuessButton() {
-        fiveLetterGuessButton.translatesAutoresizingMaskIntoConstraints = false
         fiveLetterGuessButton.addTarget(self, action: #selector(didTapFiveLetterGuessButton(sender:)), for: .touchUpInside)
         if let image = UIImage.fiveLetterGuess {
             fiveLetterGuessButton.setImage(image, for: .normal)
         }
-        fiveLetterGuessButton.setTitleColor(.clear, for: .normal)
         addSubview(fiveLetterGuessButton)
         activateFiveLetterGuessButtonConstraints(isLandscape: false)
     }
@@ -335,12 +333,10 @@ class ContainerView: UIView {
     
     // MARK: - ❌ ▶️
     private func addTicTacToeButton() {
-        ticTacToeButton.translatesAutoresizingMaskIntoConstraints = false
         ticTacToeButton.addTarget(self, action: #selector(didTapTicTacToeButton(sender:)), for: .touchUpInside)
         if let image = UIImage.ticTacToe {
             ticTacToeButton.setImage(image, for: .normal)
         }
-        ticTacToeButton.setTitleColor(.clear, for: .normal)
         addSubview(ticTacToeButton)
         activateTicTacToeButtonConstraints(isLandscape: false)
     }
@@ -437,13 +433,10 @@ class ContainerView: UIView {
     
     // MARK: - 🔴 ▶️
     private func addDotsButton() {
-        dotsButton.isUserInteractionEnabled = false
-        dotsButton.translatesAutoresizingMaskIntoConstraints = false
         dotsButton.addTarget(self, action: #selector(didTapDotsButton(sender:)), for: .touchUpInside)
         if let image = UIImage.fiveLetterGuess {
             dotsButton.setImage(image, for: .normal)
         }
-        dotsButton.setTitleColor(.clear, for: .normal)
         addSubview(dotsButton)
         activateDotsButtonConstraints(isLandscape: false)
     }
@@ -490,8 +483,7 @@ class ContainerView: UIView {
     
     // MARK: - 🔴 ▶️ 👇
     @objc private func didTapDotsButton(sender: UIButton) {
-        Model.shared.appState = .dots
-        updateConstraints()
+        dotsButton.shake()
     }
     
     // MARK: - 🫥 🪟

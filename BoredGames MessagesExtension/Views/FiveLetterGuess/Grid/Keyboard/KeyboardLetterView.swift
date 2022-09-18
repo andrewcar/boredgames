@@ -11,6 +11,7 @@ protocol LetterDelegate {
     func didTapLetter(_ letter: String)
     func didTapBackspace()
     func didTapEnter()
+    func showNotOurTurn()
 }
 
 class KeyboardLetterView: UIView {
@@ -40,7 +41,7 @@ class KeyboardLetterView: UIView {
 //        updateTextColor(for: state)
         updateBackgroundColor(for: state)
     }
-
+    
     
     // MARK: - Private Methods
     private func setupSubviews(_ letter: String) {
@@ -117,6 +118,10 @@ class KeyboardLetterView: UIView {
     
     @objc
     private func didTapButton(sender: UIButton) {
+        guard Model.shared.keyboardEnabled else {
+            showNotOurTurn()
+            return
+        }
         growAndShrink {}
         if let letter = sender.currentTitle {
             if letter == "ENTER" {
@@ -139,5 +144,9 @@ class KeyboardLetterView: UIView {
                 completion()
             }
         }
+    }
+    
+    private func showNotOurTurn() {
+        letterDelegate.showNotOurTurn()
     }
 }
