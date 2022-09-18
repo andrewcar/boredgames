@@ -24,4 +24,9 @@ extension UIView {
             self.backgroundColor = fallbackColor
         }
     }
+    
+    func addBorder(_ color: UIColor, _ width: CGFloat = 2) {
+        layer.borderColor = color.cgColor
+        layer.borderWidth = width
+    }
 }

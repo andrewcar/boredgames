@@ -181,12 +181,8 @@ class FiveLetterGridLetterView: UIView {
     private func setFontColor() {
         switch letterState {
         case .blank:
-            if traitCollection.userInterfaceStyle == .dark {
-                letterLabel.textColor = .white
-            } else {
-                letterLabel.textColor = .white
-            }
-        default:
+            letterLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .white : .black
+        case .gray, .yellow, .green:
             letterLabel.textColor = .white
         }
     }

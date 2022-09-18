@@ -19,6 +19,7 @@ class Model: NSObject {
     var fiveLetterGuessState: FiveLetterGuessState = .grid
     var flgGameDelegate: FLGGameDelegate!
     var isLandscape: Bool = false
+    var isCompact: Bool = true
     var words: Words?
     var flgGames = FiveLetterGuessGames(value: [])
     var customAnswer: String?

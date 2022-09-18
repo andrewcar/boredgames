@@ -289,15 +289,15 @@ class TicTacToeView: UIView {
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
-                newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding - offset)
+                newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
             ]
             NSLayoutConstraint.activate(newGameButtonLandscapeConstraints)
         } else {
             newGameButtonPortraitConstraints = [
                 newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
                 newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
-                newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -Frame.Logo.upperPadding - offset)
+                newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Frame.Logo.upperPadding * 2)),
+                newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
             ]
             NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
         }
@@ -330,7 +330,7 @@ class TicTacToeView: UIView {
         let offset = TicTacToeModel.shared.ticTacToeState == .grid ? 0 : -UIScreen.main.bounds.width
         if isLandscape {
             successLandscapeConstraints = [
-                successView.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: (Frame.padding * 2) + offset),
+                successView.topAnchor.constraint(equalTo: threeRowGridView.bottomAnchor, constant: Frame.padding + offset),
                 successView.centerXAnchor.constraint(equalTo: threeRowGridView.centerXAnchor),
                 successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
                 successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)

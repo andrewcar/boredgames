@@ -26,8 +26,8 @@ struct Frame {
     struct Logo {
         static let targetTallSize = CGSize(width: 100, height: 54)
         static let targetTallSizeBigger = CGSize(width: 150, height: 81)
-        static let smallSize = CGSize(width: 69, height: 69)
-        static let upperPadding: CGFloat = UIScreen.main.bounds.width / 20
+        static let smallSize = CGSize(width: 50, height: 50)
+        static let upperPadding: CGFloat = UIScreen.main.bounds.height / 50
     }
     
     // MARK: - SUCCESS
@@ -45,7 +45,7 @@ struct Frame {
         static let dotGirth: CGFloat = 11
         static func fiveLetterGuessSize(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
             let oneFifthSansPadding: CGFloat = (containerWidth - (scaledPadding * 6)) / 5
-            let gridHeight = containerWidth + oneFifthSansPadding + (scaledPadding * 5)
+            let gridHeight = (oneFifthSansPadding * 6) + (scaledPadding * 7)
             return CGSize(width: containerWidth, height: gridHeight)
         }
         static func ticTacToeGridGirth(isLandscape: Bool) -> CGFloat {
@@ -84,10 +84,14 @@ struct Frame {
             return CGSize(width: letterWidth, height: letterHeight)
         }
         
-        static var landscapeLetterSize: CGSize {
-            let estimatedGridWidth = UIScreen.main.bounds.width / 2.3
-            let remainingWidth = UIScreen.main.bounds.width - estimatedGridWidth
-            let remainingWidthSansPadding = remainingWidth - (padding * 18)
+        static func landscapeLetterSize(keyboardWidth: CGFloat) -> CGSize {
+//            let remainingWidth = UIScreen.main.bounds.width - gridWidth
+//            let percentageOfWidth = remainingWidth / UIScreen.main.bounds.width
+            let percentageOfWidth = keyboardWidth / UIScreen.main.bounds.width
+            let scaledPadding = padding * percentageOfWidth
+//            let remainingWidthSansPadding = remainingWidth - (scaledPadding * 11)
+            let remainingWidthSansPadding = keyboardWidth - (scaledPadding * 11) - Frame.padding - Frame.Logo.upperPadding
+//            let letterWidth = remainingWidthSansPadding / 10
             let letterWidth = remainingWidthSansPadding / 10
             let letterHeight = letterWidth * 1.25
             return CGSize(width: letterWidth, height: letterHeight)
@@ -109,7 +113,8 @@ struct Frame {
             return CGSize(width: width, height: width * 0.3)
         }
         static var verticalBarSize: CGSize {
-            let width = (UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2.5
+            let multiplier = UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
+            let width = ((UIScreen.main.bounds.width - (Logo.upperPadding * 3)) / 2.5) * multiplier
             return CGSize(width: width, height: width * 4)
         }
         static var landscapeVerticalBarSize: CGSize {

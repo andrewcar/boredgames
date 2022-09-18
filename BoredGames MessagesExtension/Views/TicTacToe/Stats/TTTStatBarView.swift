@@ -114,8 +114,9 @@ class TTTStatBarView: UIView {
     private func addWhoLabel() {
         whoLabel.translatesAutoresizingMaskIntoConstraints = false
         whoLabel.textAlignment = .center
-        whoLabel.font = .customFont(named: .robotoSlabBlack, size: 18, fallbackWeight: .black)
-        whoLabel.text = you ? "YOU" : "THEM"
+//        whoLabel.font = .customFont(named: .robotoSlabBlack, size: 18, fallbackWeight: .black)
+        whoLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        whoLabel.text = you ? "You" : "Them"
         whoLabel.textColor = .gridLetterBackgroundYellow
         addSubview(whoLabel)
         activateWhoLabelPortraitConstraints()

@@ -22,36 +22,36 @@ class FiveLetterGridView: UIView {
     
     // MARK: - Properties
     var gridDelegate: FiveLetterGridDelegate?
-    var a1 = FiveLetterGridLetterView()
-    var a2 = FiveLetterGridLetterView()
-    var a3 = FiveLetterGridLetterView()
-    var a4 = FiveLetterGridLetterView()
-    var a5 = FiveLetterGridLetterView()
-    var b1 = FiveLetterGridLetterView()
-    var b2 = FiveLetterGridLetterView()
-    var b3 = FiveLetterGridLetterView()
-    var b4 = FiveLetterGridLetterView()
-    var b5 = FiveLetterGridLetterView()
-    var c1 = FiveLetterGridLetterView()
-    var c2 = FiveLetterGridLetterView()
-    var c3 = FiveLetterGridLetterView()
-    var c4 = FiveLetterGridLetterView()
-    var c5 = FiveLetterGridLetterView()
-    var d1 = FiveLetterGridLetterView()
-    var d2 = FiveLetterGridLetterView()
-    var d3 = FiveLetterGridLetterView()
-    var d4 = FiveLetterGridLetterView()
-    var d5 = FiveLetterGridLetterView()
-    var e1 = FiveLetterGridLetterView()
-    var e2 = FiveLetterGridLetterView()
-    var e3 = FiveLetterGridLetterView()
-    var e4 = FiveLetterGridLetterView()
-    var e5 = FiveLetterGridLetterView()
-    var f1 = FiveLetterGridLetterView()
-    var f2 = FiveLetterGridLetterView()
-    var f3 = FiveLetterGridLetterView()
-    var f4 = FiveLetterGridLetterView()
-    var f5 = FiveLetterGridLetterView()
+    var a1 = FiveLetterGridLetterView(frame: .zero)
+    var a2 = FiveLetterGridLetterView(frame: .zero)
+    var a3 = FiveLetterGridLetterView(frame: .zero)
+    var a4 = FiveLetterGridLetterView(frame: .zero)
+    var a5 = FiveLetterGridLetterView(frame: .zero)
+    var b1 = FiveLetterGridLetterView(frame: .zero)
+    var b2 = FiveLetterGridLetterView(frame: .zero)
+    var b3 = FiveLetterGridLetterView(frame: .zero)
+    var b4 = FiveLetterGridLetterView(frame: .zero)
+    var b5 = FiveLetterGridLetterView(frame: .zero)
+    var c1 = FiveLetterGridLetterView(frame: .zero)
+    var c2 = FiveLetterGridLetterView(frame: .zero)
+    var c3 = FiveLetterGridLetterView(frame: .zero)
+    var c4 = FiveLetterGridLetterView(frame: .zero)
+    var c5 = FiveLetterGridLetterView(frame: .zero)
+    var d1 = FiveLetterGridLetterView(frame: .zero)
+    var d2 = FiveLetterGridLetterView(frame: .zero)
+    var d3 = FiveLetterGridLetterView(frame: .zero)
+    var d4 = FiveLetterGridLetterView(frame: .zero)
+    var d5 = FiveLetterGridLetterView(frame: .zero)
+    var e1 = FiveLetterGridLetterView(frame: .zero)
+    var e2 = FiveLetterGridLetterView(frame: .zero)
+    var e3 = FiveLetterGridLetterView(frame: .zero)
+    var e4 = FiveLetterGridLetterView(frame: .zero)
+    var e5 = FiveLetterGridLetterView(frame: .zero)
+    var f1 = FiveLetterGridLetterView(frame: .zero)
+    var f2 = FiveLetterGridLetterView(frame: .zero)
+    var f3 = FiveLetterGridLetterView(frame: .zero)
+    var f4 = FiveLetterGridLetterView(frame: .zero)
+    var f5 = FiveLetterGridLetterView(frame: .zero)
     private var letterPortraitConstraints: [NSLayoutConstraint] = []
     private var letterLandscapeConstraints: [NSLayoutConstraint] = []
     var leftDotOne = UIView()
@@ -80,44 +80,44 @@ class FiveLetterGridView: UIView {
     
     // MARK: - LETTER PORTRAIT CONSTRAINTS
     func activateLetterPortraitConstraints() {
-        NSLayoutConstraint.deactivate(letterPortraitConstraints)
-        NSLayoutConstraint.deactivate(letterLandscapeConstraints)
+        deactivateLetterConstraints()
+        
         var twoThirdsWidth: CGFloat
         var scaledPadding: CGFloat
         if UIDevice.current.userInterfaceIdiom == .pad {
             twoThirdsWidth = UIScreen.main.bounds.width * 0.5
-            scaledPadding = Frame.padding / 2
+            scaledPadding = (Frame.padding / 3) * 2
         } else {
             twoThirdsWidth = (UIScreen.main.bounds.width / 3) * 2
             scaledPadding = (Frame.padding / 3) * 2
         }
         let oneFifthSansPadding: CGFloat = (twoThirdsWidth - (scaledPadding * 6)) / 5
         let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
-        let offset: CGFloat = 0//GameModel.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.height
+        
         letterPortraitConstraints = [
             
             // FIRST ROW
-            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + offset),
+            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
-            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + offset),
+            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor, constant: Frame.padding),
             a2.widthAnchor.constraint(equalToConstant: size.width),
             a2.heightAnchor.constraint(equalToConstant: size.height),
             
-            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + offset),
+            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor, constant: Frame.padding),
             a3.widthAnchor.constraint(equalToConstant: size.width),
             a3.heightAnchor.constraint(equalToConstant: size.height),
             
-            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + offset),
+            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             a4.leadingAnchor.constraint(equalTo: a3.trailingAnchor, constant: Frame.padding),
             a4.widthAnchor.constraint(equalToConstant: size.width),
             a4.heightAnchor.constraint(equalToConstant: size.height),
             
-            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + offset),
+            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
             a5.leadingAnchor.constraint(equalTo: a4.trailingAnchor, constant: Frame.padding),
             a5.widthAnchor.constraint(equalToConstant: size.width),
             a5.heightAnchor.constraint(equalToConstant: size.height),
@@ -258,42 +258,48 @@ class FiveLetterGridView: UIView {
     
     // MARK: - LETTER LANDSCAPE CONSTRAINTS
     func activateLetterLandscapeConstraints() {
-        NSLayoutConstraint.deactivate(letterPortraitConstraints)
-        NSLayoutConstraint.deactivate(letterLandscapeConstraints)
-        let oneFifthSansPadding: CGFloat = ((UIScreen.main.bounds.size.width / 2.3) / 5) - (Frame.padding * 6)
-        let size = CGSize(width: oneFifthSansPadding, height: oneFifthSansPadding)
-        let offset = Model.shared.appState == .fiveLetterGuess ? 0 : UIScreen.main.bounds.width
+        deactivateLetterConstraints()
+        
+//        let multiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
+//        let oneSixthSansPadding: CGFloat = ((UIScreen.main.bounds.height * multiplier) - (Frame.padding * 10)) / 6
+//        let gridWidth = (oneSixthSansPadding * 5) - (Frame.padding * 2)
+
+        
+        let multiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
+        let padPadding: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? frame.size.height * 0.15 : 0
+        let oneSixthSansPadding: CGFloat = ((UIScreen.main.bounds.height * multiplier) - (Frame.padding * 10) - (Frame.Logo.upperPadding * 5)) / 6
+        let size = CGSize(width: oneSixthSansPadding, height: oneSixthSansPadding)
         letterLandscapeConstraints = [
             
             // FIRST ROW
-            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
-            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            a1.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + padPadding),
+            a1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             a1.widthAnchor.constraint(equalToConstant: size.width),
             a1.heightAnchor.constraint(equalToConstant: size.height),
             
-            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a2.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + padPadding),
             a2.leadingAnchor.constraint(equalTo: a1.trailingAnchor, constant: Frame.padding),
             a2.widthAnchor.constraint(equalToConstant: size.width),
             a2.heightAnchor.constraint(equalToConstant: size.height),
             
-            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a3.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + padPadding),
             a3.leadingAnchor.constraint(equalTo: a2.trailingAnchor, constant: Frame.padding),
             a3.widthAnchor.constraint(equalToConstant: size.width),
             a3.heightAnchor.constraint(equalToConstant: size.height),
             
-            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a4.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + padPadding),
             a4.leadingAnchor.constraint(equalTo: a3.trailingAnchor, constant: Frame.padding),
             a4.widthAnchor.constraint(equalToConstant: size.width),
             a4.heightAnchor.constraint(equalToConstant: size.height),
             
-            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding),
+            a5.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding + padPadding),
             a5.leadingAnchor.constraint(equalTo: a4.trailingAnchor, constant: Frame.padding),
             a5.widthAnchor.constraint(equalToConstant: size.width),
             a5.heightAnchor.constraint(equalToConstant: size.height),
             
             // SECOND ROW
             b1.topAnchor.constraint(equalTo: a1.bottomAnchor, constant: Frame.padding),
-            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            b1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             b1.widthAnchor.constraint(equalToConstant: size.width),
             b1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -319,7 +325,7 @@ class FiveLetterGridView: UIView {
             
             // THIRD ROW
             c1.topAnchor.constraint(equalTo: b1.bottomAnchor, constant: Frame.padding),
-            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            c1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             c1.widthAnchor.constraint(equalToConstant: size.width),
             c1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -345,7 +351,7 @@ class FiveLetterGridView: UIView {
             
             // FOURTH ROW
             d1.topAnchor.constraint(equalTo: c1.bottomAnchor, constant: Frame.padding),
-            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            d1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             d1.widthAnchor.constraint(equalToConstant: size.width),
             d1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -371,7 +377,7 @@ class FiveLetterGridView: UIView {
             
             // FIFTH ROW
             e1.topAnchor.constraint(equalTo: d1.bottomAnchor, constant: Frame.padding),
-            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            e1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             e1.widthAnchor.constraint(equalToConstant: size.width),
             e1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -397,7 +403,7 @@ class FiveLetterGridView: UIView {
             
             // SIXTH ROW
             f1.topAnchor.constraint(equalTo: e1.bottomAnchor, constant: Frame.padding),
-            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding + offset),
+            f1.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.padding),
             f1.widthAnchor.constraint(equalToConstant: size.width),
             f1.heightAnchor.constraint(equalToConstant: size.height),
             
@@ -424,52 +430,15 @@ class FiveLetterGridView: UIView {
         NSLayoutConstraint.activate(letterLandscapeConstraints)
     }
     
+    private func deactivateLetterConstraints() {
+        NSLayoutConstraint.deactivate(letterPortraitConstraints)
+        NSLayoutConstraint.deactivate(letterLandscapeConstraints)
+        letterPortraitConstraints.removeAll()
+        letterLandscapeConstraints.removeAll()
+    }
+    
     // MARK: - ADD LETTERS
     func addLetters() {
-
-        // first row
-        a1 = FiveLetterGridLetterView(frame: .zero)
-        a2 = FiveLetterGridLetterView(frame: .zero)
-        a3 = FiveLetterGridLetterView(frame: .zero)
-        a4 = FiveLetterGridLetterView(frame: .zero)
-        a5 = FiveLetterGridLetterView(frame: .zero)
-        
-        // second row
-        b1 = FiveLetterGridLetterView(frame: .zero)
-        b2 = FiveLetterGridLetterView(frame: .zero)
-        b3 = FiveLetterGridLetterView(frame: .zero)
-        b4 = FiveLetterGridLetterView(frame: .zero)
-        b5 = FiveLetterGridLetterView(frame: .zero)
-        
-        // third row
-        c1 = FiveLetterGridLetterView(frame: .zero)
-        c2 = FiveLetterGridLetterView(frame: .zero)
-        c3 = FiveLetterGridLetterView(frame: .zero)
-        c4 = FiveLetterGridLetterView(frame: .zero)
-        c5 = FiveLetterGridLetterView(frame: .zero)
-        
-        // fourth row
-        d1 = FiveLetterGridLetterView(frame: .zero)
-        d2 = FiveLetterGridLetterView(frame: .zero)
-        d3 = FiveLetterGridLetterView(frame: .zero)
-        d4 = FiveLetterGridLetterView(frame: .zero)
-        d5 = FiveLetterGridLetterView(frame: .zero)
-        
-        // fifth row
-        e1 = FiveLetterGridLetterView(frame: .zero)
-        e2 = FiveLetterGridLetterView(frame: .zero)
-        e3 = FiveLetterGridLetterView(frame: .zero)
-        e4 = FiveLetterGridLetterView(frame: .zero)
-        e5 = FiveLetterGridLetterView(frame: .zero)
-        
-        // sixth row
-        f1 = FiveLetterGridLetterView(frame: .zero)
-        f2 = FiveLetterGridLetterView(frame: .zero)
-        f3 = FiveLetterGridLetterView(frame: .zero)
-        f4 = FiveLetterGridLetterView(frame: .zero)
-        f5 = FiveLetterGridLetterView(frame: .zero)
-
-        // add all letter subviews to view
         for letter in [a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, c1, c2, c3, c4, c5, d1, d2, d3, d4, d5, e1, e2, e3, e4, e5, f1, f2, f3, f4, f5] {
             addSubview(letter)
         }

@@ -67,9 +67,9 @@ class KeyboardView: UIView {
     
     
     // MARK: - Public Methods
-    func updateSubviews(isLandscape: Bool) {
+    func updateSubviews(isLandscape: Bool, gridWidth: CGFloat) {
         if isLandscape {
-            activateLandscapeConstraints()
+            activateLandscapeConstraints(gridWidth: gridWidth)
         } else {
             activatePortraitConstraints()
         }
@@ -485,10 +485,12 @@ class KeyboardView: UIView {
     }
     
     // MARK: - ACTIVATE LANDSCAPE CONSTRAINTS
-    func activateLandscapeConstraints() {
+    func activateLandscapeConstraints(gridWidth: CGFloat) {
         NSLayoutConstraint.deactivate(portraitConstraints)
         NSLayoutConstraint.deactivate(landscapeConstraints)
-        let letterSize = Frame.Keyboard.landscapeLetterSize
+        
+//        let letterSize = Frame.Keyboard.landscapeLetterSize(gridWidth: gridWidth)
+        let letterSize = Frame.Keyboard.landscapeLetterSize(keyboardWidth: frame.width)
         let enterWidth = letterSize.width * 1.5
         landscapeConstraints = [
             

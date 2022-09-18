@@ -23,6 +23,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        Model.shared.isCompact = presentationStyle == .compact ? true : false
         
         // portrait
         if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
