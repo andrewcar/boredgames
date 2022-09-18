@@ -421,11 +421,11 @@ class TicTacToeView: UIView {
     }
     
     func enableGrid() {
-        threeRowGridView.isUserInteractionEnabled = true
+        TicTacToeModel.shared.gridEnabled = true
     }
     
     func disableGrid() {
-        threeRowGridView.isUserInteractionEnabled = false
+        TicTacToeModel.shared.gridEnabled = false
     }
     
     // MARK: - RESET GAME
@@ -439,6 +439,10 @@ class TicTacToeView: UIView {
 }
 
 extension TicTacToeView: ThreeRowGridViewDelegate {
+    
+    func showTheirTurn() {
+        successView.showTheirTurn()
+    }
     
     private func showSuccessView() {
         successView.isHidden = false

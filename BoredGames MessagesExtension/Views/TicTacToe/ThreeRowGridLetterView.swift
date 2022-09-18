@@ -9,6 +9,7 @@ import UIKit
 
 protocol ThreeRowGridLetterViewDelegate {
     func didTapButton(sender: UIButton)
+    func showTheirTurn()
 }
 
 class ThreeRowGridLetterView: UIView {
@@ -162,6 +163,10 @@ class ThreeRowGridLetterView: UIView {
     
     // MARK: - DID TAP BUTTON
     @objc private func didTapButton(sender: UIButton) {
+        guard TicTacToeModel.shared.gridEnabled else {
+            letterViewDelegate.showTheirTurn()
+            return
+        }
         letterViewDelegate.didTapButton(sender: sender)
     }
     

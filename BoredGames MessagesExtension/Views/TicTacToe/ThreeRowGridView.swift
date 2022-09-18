@@ -12,6 +12,7 @@ protocol ThreeRowGridViewDelegate {
     func gameWon()
     func gameLost()
     func catsGame()
+    func showTheirTurn()
 }
 
 class ThreeRowGridView: UIView {
@@ -622,6 +623,11 @@ class ThreeRowGridView: UIView {
 }
 
 extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
+    
+    func showTheirTurn() {
+        threeRowGridViewDelegate.showTheirTurn()
+    }
+    
     func didTapButton(sender: UIButton) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { return }
         guard let turnNumber = currentGame.turnNumber else { return }

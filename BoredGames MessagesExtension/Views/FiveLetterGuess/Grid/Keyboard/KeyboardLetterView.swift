@@ -119,7 +119,7 @@ class KeyboardLetterView: UIView {
     @objc
     private func didTapButton(sender: UIButton) {
         guard Model.shared.keyboardEnabled else {
-            showNotOurTurn()
+            letterDelegate.showNotOurTurn()
             return
         }
         growAndShrink {}
@@ -144,9 +144,5 @@ class KeyboardLetterView: UIView {
                 completion()
             }
         }
-    }
-    
-    private func showNotOurTurn() {
-        letterDelegate.showNotOurTurn()
     }
 }
