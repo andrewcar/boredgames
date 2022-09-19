@@ -508,26 +508,18 @@ class ContainerView: UIView {
         let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.height * 2
         if isLandscape {
             versionLabelLandscapeConstraints = [
-//                versionLabel.leadingAnchor.constraint(equalTo: logoView.leadingAnchor, constant: Frame.Logo.upperPadding - offset),
-//                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
-//                versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: centerXAnchor, constant: -offset),
-//                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.heightAnchor.constraint(equalToConstant: 100),
                 versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
-                versionLabel.trailingAnchor.constraint(equalTo: smallLogoView.trailingAnchor, constant: -Frame.Logo.upperPadding - offset),
                 versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
-                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 2) - offset)
             ]
             NSLayoutConstraint.activate(versionLabelLandscapeConstraints)
         } else {
             versionLabelPortraitConstraints = [
-//                versionLabel.leadingAnchor.constraint(equalTo: logoView.leadingAnchor, constant: Frame.Logo.upperPadding - offset),
-//                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
-//                versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: centerXAnchor, constant: -offset),
-//                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.heightAnchor.constraint(equalToConstant: 100),
                 versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
-                versionLabel.trailingAnchor.constraint(equalTo: smallLogoView.trailingAnchor, constant: -Frame.Logo.upperPadding - offset),
                 versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
-                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 2) - offset)
             ]
             NSLayoutConstraint.activate(versionLabelPortraitConstraints)
         }
