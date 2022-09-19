@@ -145,6 +145,7 @@ class ThreeRowGridLetterView: UIView {
     private func addButton() {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
+        button.isExclusiveTouch = true
         addSubview(button)
         activateButtonConstraints()
     }

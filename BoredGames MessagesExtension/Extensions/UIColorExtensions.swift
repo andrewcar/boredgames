@@ -14,6 +14,7 @@ extension UIColor {
     static let dotsBackground = UIColor(named: "dotsBackground")
     
     static let fiveLetterGuessButton = UIColor(named: "fiveLetterGuessButton")
+    static let versionLabel = UIColor(named: "versionLabel")
     static let messagesBlue = UIColor(named: "messagesBlue")
 
     static let notInWordListBackground = UIColor(named: "notInWordListBackground")

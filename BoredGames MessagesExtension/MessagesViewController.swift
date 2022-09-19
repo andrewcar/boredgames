@@ -798,6 +798,20 @@ extension MessagesViewController: ContainerDelegate {
         activeConversation.send(message, completionHandler: { error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
+                
+                if Model.shared.appState == .fiveLetterGuess {
+                    Model.shared.resetGame {
+                        DispatchQueue.main.async {
+                            self.containerView.fiveLetterGuessView.resetGame()
+                        }
+                    }
+                } else if Model.shared.appState == .ticTacToe {
+                    TicTacToeModel.shared.resetGame {
+                        DispatchQueue.main.async {
+                            self.containerView.ticTacToeView.resetGame()
+                        }
+                    }
+                }
             }
         })
     }

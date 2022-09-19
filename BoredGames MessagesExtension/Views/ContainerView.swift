@@ -50,6 +50,10 @@ class ContainerView: UIView {
     private var smallLogoView = SmallLogoView(frame: .zero)
     private var smallLogoPortraitConstraints: [NSLayoutConstraint] = []
     private var smallLogoLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    private var versionLabel = UILabel(frame: .zero)
+    private var versionLabelPortraitConstraints: [NSLayoutConstraint] = []
+    private var versionLabelLandscapeConstraints: [NSLayoutConstraint] = []
 
     private var debugView = DebugView(frame: .zero)
     private var debugViewPortraitConstraints: [NSLayoutConstraint] = []
@@ -68,6 +72,7 @@ class ContainerView: UIView {
         addTicTacToeView()
         addDebugView()
         addSmallLogoView()
+        addVersionLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -89,6 +94,7 @@ class ContainerView: UIView {
         updateFiveLetterGuessView(isLandscape: isLandscape)
         updateTicTacToeView(isLandscape: isLandscape)
         activateSmallLogoViewConstraints(isLandscape: isLandscape)
+        activateVersionLabelConstraints(isLandscape: isLandscape)
         activateDebugConstraints(isLandscape: isLandscape)
 
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
@@ -484,6 +490,55 @@ class ContainerView: UIView {
     // MARK: - 🔴 ▶️ 👇
     @objc private func didTapDotsButton(sender: UIButton) {
         dotsButton.shake()
+    }
+    
+    // MARK: - ℹ️ 🆒
+    private func addVersionLabel() {
+        versionLabel.translatesAutoresizingMaskIntoConstraints = false
+        versionLabel.text = "\(Bundle.main.appVersionLong) (\(Bundle.main.appBuild))"
+        versionLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        versionLabel.textColor = .versionLabel
+        addSubview(versionLabel)
+        activateVersionLabelConstraints(isLandscape: false)
+    }
+    
+    // MARK: - ℹ️ 🆒 📜
+    private func activateVersionLabelConstraints(isLandscape: Bool) {
+        deactivateVersionLabelConstraints()
+        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.height * 2
+        if isLandscape {
+            versionLabelLandscapeConstraints = [
+//                versionLabel.leadingAnchor.constraint(equalTo: logoView.leadingAnchor, constant: Frame.Logo.upperPadding - offset),
+//                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
+//                versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: centerXAnchor, constant: -offset),
+//                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
+                versionLabel.trailingAnchor.constraint(equalTo: smallLogoView.trailingAnchor, constant: -Frame.Logo.upperPadding - offset),
+                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
+                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+            ]
+            NSLayoutConstraint.activate(versionLabelLandscapeConstraints)
+        } else {
+            versionLabelPortraitConstraints = [
+//                versionLabel.leadingAnchor.constraint(equalTo: logoView.leadingAnchor, constant: Frame.Logo.upperPadding - offset),
+//                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding),
+//                versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: centerXAnchor, constant: -offset),
+//                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+                versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
+                versionLabel.trailingAnchor.constraint(equalTo: smallLogoView.trailingAnchor, constant: -Frame.Logo.upperPadding - offset),
+                versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
+                versionLabel.heightAnchor.constraint(equalToConstant: 100)
+            ]
+            NSLayoutConstraint.activate(versionLabelPortraitConstraints)
+        }
+    }
+    
+    // MARK: - ℹ️ 🆒 📜 🙅🏻‍♂️
+    private func deactivateVersionLabelConstraints() {
+        NSLayoutConstraint.deactivate(versionLabelPortraitConstraints)
+        NSLayoutConstraint.deactivate(versionLabelLandscapeConstraints)
+        versionLabelPortraitConstraints.removeAll()
+        versionLabelLandscapeConstraints.removeAll()
     }
     
     // MARK: - 🫥 🪟
