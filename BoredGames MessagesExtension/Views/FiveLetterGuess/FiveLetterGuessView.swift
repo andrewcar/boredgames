@@ -337,7 +337,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - INFO BUTTON IMAGE
     private func infoButtonImage() -> UIImage {
         UIImage().scaledSystemImage(
-            named: "info.circle",
+            named: "info.circle.fill",
             size: Frame.buttonSize,
             weight: .regular,
             color: .fiveLetterGuessButton)
@@ -350,7 +350,7 @@ class FiveLetterGuessView: UIView {
         infoButtonPortraitConstraints = [
             infoButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             infoButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-            infoButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 2)),
+            infoButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 1.7)),
             infoButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
         ]
         NSLayoutConstraint.activate(infoButtonPortraitConstraints)
@@ -419,7 +419,7 @@ class FiveLetterGuessView: UIView {
         newGameButtonPortraitConstraints = [
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-            newGameButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 2)),
+            newGameButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 1.7)),
             newGameButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
         ]
         NSLayoutConstraint.activate(newGameButtonPortraitConstraints)
@@ -492,7 +492,7 @@ class FiveLetterGuessView: UIView {
         statsButtonPortraitConstraints = [
             statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             statsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-            statsButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 2) - padYOffset),
+            statsButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 1.7) - padYOffset),
             statsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding + offset)
         ]
         NSLayoutConstraint.activate(statsButtonPortraitConstraints)

@@ -64,65 +64,83 @@ class ThreeRowGridView: UIView {
         completion: @escaping (TTTGameState) -> ()) {
         
         if let move = a1 {
-            updateLetterView(self.a1, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.a1, with: move) {
+                self.checkForWin(self.a1, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = a2 {
-            updateLetterView(self.a2, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.a2, with: move) {
+                self.checkForWin(self.a2, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = a3 {
-            updateLetterView(self.a3, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.a3, with: move) {
+                self.checkForWin(self.a3, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = b1 {
-            updateLetterView(self.b1, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.b1, with: move) {
+                self.checkForWin(self.b1, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = b2 {
-            updateLetterView(self.b2, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.b2, with: move) {
+                self.checkForWin(self.b2, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = b3 {
-            updateLetterView(self.b3, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.b3, with: move) {
+                self.checkForWin(self.b3, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = c1 {
-            updateLetterView(self.c1, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.c1, with: move) {
+                self.checkForWin(self.c1, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = c2 {
-            updateLetterView(self.c2, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.c2, with: move) {
+                self.checkForWin(self.c2, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
         if let move = c3 {
-            updateLetterView(self.c3, with: move, animated: false) { gameState in
-                if gameState == .someoneWon || gameState == .catsGame {
-                    completion(gameState)
+            updateLetterView(self.c3, with: move) {
+                self.checkForWin(self.c3, with: move) { gameState in
+                    if gameState == .someoneWon || gameState == .catsGame {
+                        completion(gameState)
+                    }
                 }
             }
         }
@@ -155,67 +173,71 @@ class ThreeRowGridView: UIView {
     }
     
     // MARK: - UPDATE LETTER VIEW
-    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, animated: Bool, completion: @escaping (TTTGameState) -> ()) {
+    private func updateLetterView(_ letterView: ThreeRowGridLetterView?, with move: String?, completion: @escaping () -> Void) {
+        guard let ticTacToeMove = move else { completion(); return }
+        letterView?.updateLetter(with: ticTacToeMove)
+        completion()
+    }
+    
+    // MARK: - CHECK FOR WIN
+    private func checkForWin(_ letterView: ThreeRowGridLetterView?, with move: String?, completion: @escaping (TTTGameState) -> Void) {
         guard let ticTacToeMove = move else { completion(.playing); return }
         guard let move = TTTMove(rawValue: ticTacToeMove) else { completion(.playing); return }
+        guard let square = letterView?.square else { return }
         
-        letterView?.updateLetter(with: ticTacToeMove)
-        
-        guard let square = letterView?.square else { completion(.playing); return }
-                
         switch square {
         case .a1:
             topHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.leftVerticalWin(square: square, move: move) { win in
                     decideFate(from: win)
-
+                    
                     self.backslashWin(square: square, move: move) { win in
-                        decideFate(from: win)
+                        decideFate(from: win, lastCheck: true)
                     }
                 }
             }
         case .a2:
             topHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.middleVerticalWin(square: square, move: move) { win in
-                    decideFate(from: win)
+                    decideFate(from: win, lastCheck: true)
                 }
             }
         case .a3:
             topHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.rightVerticalWin(square: square, move: move) { win in
                     decideFate(from: win)
-
+                    
                     self.forwardSlashWin(square: square, move: move) { win in
-                        decideFate(from: win)
+                        decideFate(from: win, lastCheck: true)
                     }
                 }
             }
         case .b1:
             leftVerticalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.middleHorizontalWin(square: square, move: move) { win in
-                    decideFate(from: win)
+                    decideFate(from: win, lastCheck: true)
                 }
             }
         case .b2:
             middleHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.middleVerticalWin(square: square, move: move) { win in
                     decideFate(from: win)
-
+                    
                     self.backslashWin(square: square, move: move) { win in
                         decideFate(from: win)
-
+                        
                         self.forwardSlashWin(square: square, move: move) { win in
-                            decideFate(from: win)
+                            decideFate(from: win, lastCheck: true)
                         }
                     }
                 }
@@ -223,50 +245,50 @@ class ThreeRowGridView: UIView {
         case .b3:
             middleHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.rightVerticalWin(square: square, move: move) { win in
-                    decideFate(from: win)
+                    decideFate(from: win, lastCheck: true)
                 }
             }
         case .c1:
             bottomHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.leftVerticalWin(square: square, move: move) { win in
                     decideFate(from: win)
-
+                    
                     self.forwardSlashWin(square: square, move: move) { win in
-                        decideFate(from: win)
+                        decideFate(from: win, lastCheck: true)
                     }
                 }
             }
         case .c2:
             bottomHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.middleVerticalWin(square: square, move: move) { win in
-                    decideFate(from: win)
+                    decideFate(from: win, lastCheck: true)
                 }
             }
         case .c3:
             bottomHorizontalWin(square: square, move: move) { win in
                 decideFate(from: win)
-
+                
                 self.rightVerticalWin(square: square, move: move) { win in
                     decideFate(from: win)
-
+                    
                     self.backslashWin(square: square, move: move) { win in
-                        decideFate(from: win)
+                        decideFate(from: win, lastCheck: true)
                     }
                 }
             }
         }
         
-        func decideFate(from win: Bool) {
+        func decideFate(from win: Bool, lastCheck: Bool = false) {
             if win {
                 completion(.someoneWon)
-            } else if self.wasCatsGame() {
-                self.threeRowGridViewDelegate.catsGame()
+            } else if wasCatsGame(), lastCheck {
+                threeRowGridViewDelegate.catsGame()
                 completion(.catsGame)
             } else {
                 completion(.playing)
@@ -277,6 +299,7 @@ class ThreeRowGridView: UIView {
     // a1, a2, a3
     private func topHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a1 = currentGame.a1 else { completion(false); return }
         guard let a2 = currentGame.a2 else { completion(false); return }
         guard let a3 = currentGame.a3 else { completion(false); return }
@@ -305,6 +328,7 @@ class ThreeRowGridView: UIView {
     // b1, b2, b3
     private func middleHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let b1 = currentGame.b1 else { completion(false); return }
         guard let b2 = currentGame.b2 else { completion(false); return }
         guard let b3 = currentGame.b3 else { completion(false); return }
@@ -333,6 +357,7 @@ class ThreeRowGridView: UIView {
     // c1, c2, c3
     private func bottomHorizontalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let c1 = currentGame.c1 else { completion(false); return }
         guard let c2 = currentGame.c2 else { completion(false); return }
         guard let c3 = currentGame.c3 else { completion(false); return }
@@ -361,6 +386,7 @@ class ThreeRowGridView: UIView {
     // a1, b1, c1
     private func leftVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a1 = currentGame.a1 else { completion(false); return }
         guard let b1 = currentGame.b1 else { completion(false); return }
         guard let c1 = currentGame.c1 else { completion(false); return }
@@ -389,6 +415,7 @@ class ThreeRowGridView: UIView {
     // a2, b2, c2
     private func middleVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a2 = currentGame.a2 else { completion(false); return }
         guard let b2 = currentGame.b2 else { completion(false); return }
         guard let c2 = currentGame.c2 else { completion(false); return }
@@ -417,6 +444,7 @@ class ThreeRowGridView: UIView {
     // a3, b3, c3
     private func rightVerticalWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a3 = currentGame.a3 else { completion(false); return }
         guard let b3 = currentGame.b3 else { completion(false); return }
         guard let c3 = currentGame.c3 else { completion(false); return }
@@ -445,6 +473,7 @@ class ThreeRowGridView: UIView {
     // a1, b2, c3
     private func backslashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a1 = currentGame.a1 else { completion(false); return }
         guard let b2 = currentGame.b2 else { completion(false); return }
         guard let c3 = currentGame.c3 else { completion(false); return }
@@ -473,6 +502,7 @@ class ThreeRowGridView: UIView {
     // a3, b2, c1
     private func forwardSlashWin(square: TicTacToeSquare, move: TTTMove, completion: @escaping (Bool) -> ()) {
         guard let currentGame = TicTacToeModel.shared.currentTTTGame else { completion(false); return }
+        guard currentGame.winnerUUID == nil else { completion(true); return }
         guard let a3 = currentGame.a3 else { completion(false); return }
         guard let b2 = currentGame.b2 else { completion(false); return }
         guard let c1 = currentGame.c1 else { completion(false); return }
@@ -637,11 +667,13 @@ extension ThreeRowGridView: ThreeRowGridLetterViewDelegate {
         heavyImpactFeedbackGenerator.impactOccurred()
 
         threeRowGridViewDelegate.didTapLetterView(sender: sender)
-        updateLetterView(letterView, with: symbolString, animated: false) { gameState in
-            if gameState == .someoneWon {
-                self.threeRowGridViewDelegate.gameWon()
-            } else if gameState == .catsGame {
-                self.threeRowGridViewDelegate.catsGame()
+        updateLetterView(letterView, with: symbolString) {
+            self.checkForWin(letterView, with: symbolString) { gameState in
+                if gameState == .someoneWon {
+                    self.threeRowGridViewDelegate.gameWon()
+                } else if gameState == .catsGame {
+                    self.threeRowGridViewDelegate.catsGame()
+                }
             }
         }
     }
