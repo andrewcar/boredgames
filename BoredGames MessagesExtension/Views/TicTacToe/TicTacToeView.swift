@@ -314,6 +314,7 @@ class TicTacToeView: UIView {
     // MARK: - DID TAP NEW GAME BUTTON
     @objc
     private func didTapNewGameButton(sender: UIButton) {
+        enableGrid()
         resetGame()
         updateConstraints()
     }
