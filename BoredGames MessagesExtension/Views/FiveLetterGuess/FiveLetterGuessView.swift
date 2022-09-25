@@ -34,10 +34,10 @@ class FiveLetterGuessView: UIView {
     private var keyboardPortraitConstraints: [NSLayoutConstraint] = []
     private var keyboardLandscapeConstraints: [NSLayoutConstraint] = []
         
-    private var sendButton = UIButton(frame: .zero)
-    private var sendButtonPortraitConstraints: [NSLayoutConstraint] = []
-    private var sendButtonLandscapeConstraints: [NSLayoutConstraint] = []
-    var sendButtonShowing = false
+    private var infoButton = UIButton(frame: .zero)
+    private var infoButtonPortraitConstraints: [NSLayoutConstraint] = []
+    private var infoButtonLandscapeConstraints: [NSLayoutConstraint] = []
+    var infoButtonShowing = true
     
     private var newGameButton = UIButton(frame: .zero)
     private var newGameButtonPortraitConstraints: [NSLayoutConstraint] = []
@@ -78,7 +78,7 @@ class FiveLetterGuessView: UIView {
             activateNotInWordListLandscapeConstraints()
             activateKeyboardConstraints(isLandscape: true)
             keyboardView.updateSubviews(isLandscape: true, gridWidth: gridWidth)
-            activateSendButtonLandscapeConstraints()
+            activateInfoButtonLandscapeConstraints()
             updateStatsButton(isLandscape: true)
             activateStatsViewLandscapeConstraints()
             statsView.updateConstraints()
@@ -90,7 +90,7 @@ class FiveLetterGuessView: UIView {
             activateNotInWordListPortraitConstraints()
             activateKeyboardConstraints(isLandscape: false)
             keyboardView.updateSubviews(isLandscape: false, gridWidth: gridWidth)
-            activateSendButtonPortraitConstraints()
+            activateInfoButtonPortraitConstraints()
             updateStatsButton(isLandscape: false)
             activateStatsViewPortraitConstraints()
             statsView.updateConstraints()
@@ -112,7 +112,7 @@ class FiveLetterGuessView: UIView {
         addKeyboardView()
         addSuccessView()
         addNotInWordListView()
-        addSendButton()
+        addInfoButton()
         addNewGameButton()
         addStatsButton()
         addStatsView()
@@ -314,60 +314,73 @@ class FiveLetterGuessView: UIView {
         keyboardLandscapeConstraints.removeAll()
     }
         
-    // MARK: - SEND BUTTON
-    private func addSendButton() {
-        sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.addTarget(self, action: #selector(didTapSendButton(sender:)), for: .touchUpInside)
-        let image = UIImage().scaledSystemImage(
-            named: "arrow.up.circle.fill",
+    // MARK: - INFO BUTTON
+    private func addInfoButton() {
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.addTarget(self, action: #selector(didTapInfoButton(sender:)), for: .touchUpInside)
+        infoButton.setImage(infoButtonImage(), for: .normal)
+        infoButton.setTitleColor(.clear, for: .normal)
+        addSubview(infoButton)
+        activateInfoButtonPortraitConstraints()
+    }
+    
+    // MARK: - UPDATE INFO BUTTON
+    private func updateInfoButton(isLandscape: Bool) {
+        if isLandscape {
+            activateInfoButtonLandscapeConstraints()
+        } else {
+            activateInfoButtonPortraitConstraints()
+        }
+        infoButton.setImage(infoButtonImage(), for: .normal)
+    }
+    
+    // MARK: - INFO BUTTON IMAGE
+    private func infoButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "info.circle",
             size: Frame.buttonSize,
-            weight: .bold,
-            color: .systemBlue)
-        sendButton.setImage(image, for: .normal)
-        sendButton.setTitleColor(.white, for: .normal)
-        addSubview(sendButton)
-        activateSendButtonPortraitConstraints()
+            weight: .regular,
+            color: .fiveLetterGuessButton)
     }
     
-    // MARK: - SEND BUTTON PORTRAIT CONSTRAINTS
-    private func activateSendButtonPortraitConstraints() {
-        deactivateSendButtonConstraints()
-        sendButtonPortraitConstraints = [
-            sendButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2)),
-            sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-            sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+    // MARK: - INFO BUTTON PORTRAIT CONSTRAINTS
+    private func activateInfoButtonPortraitConstraints() {
+        deactivateInfoButtonConstraints()
+        let offset = Model.shared.fiveLetterGuessState == .grid && infoButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
+        infoButtonPortraitConstraints = [
+            infoButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
+            infoButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+            infoButton.bottomAnchor.constraint(equalTo: gridView.bottomAnchor, constant: (Frame.Logo.upperPadding * 2)),
+            infoButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset)
         ]
-        let offset = Model.shared.fiveLetterGuessState == .grid && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
-        let constraint = sendButton.centerXAnchor.constraint(equalTo: keyboardView.centerXAnchor, constant: offset)
-        sendButtonPortraitConstraints.append(constraint)
-        NSLayoutConstraint.activate(sendButtonPortraitConstraints)
+        NSLayoutConstraint.activate(infoButtonPortraitConstraints)
     }
     
-    // MARK: - SEND BUTTON LANDSCAPE CONSTRAINTS
-    func activateSendButtonLandscapeConstraints() {
-        deactivateSendButtonConstraints()
-        sendButtonLandscapeConstraints = [
-            sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-            sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
-            sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -Frame.padding)
+    // MARK: - INFO BUTTON LANDSCAPE CONSTRAINTS
+    func activateInfoButtonLandscapeConstraints() {
+        deactivateInfoButtonConstraints()
+        let offset = Model.shared.fiveLetterGuessState == .grid && infoButtonShowing ? 0 : UIScreen.main.bounds.width
+        infoButtonLandscapeConstraints = [
+            infoButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+            infoButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
+            infoButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding + offset),
+            infoButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding + offset)
         ]
-        let offset = Model.shared.fiveLetterGuessState == .grid && sendButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
-        let constraint = sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.padding * 4) + offset)
-        sendButtonLandscapeConstraints.append(constraint)
-        NSLayoutConstraint.activate(sendButtonLandscapeConstraints)
+        NSLayoutConstraint.activate(infoButtonLandscapeConstraints)
     }
     
-    // MARK: - DEACTIVATE SEND BUTTON CONSTRAINTS
-    private func deactivateSendButtonConstraints() {
-        NSLayoutConstraint.deactivate(sendButtonPortraitConstraints)
-        NSLayoutConstraint.deactivate(sendButtonLandscapeConstraints)
+    // MARK: - DEACTIVATE INFO BUTTON CONSTRAINTS
+    private func deactivateInfoButtonConstraints() {
+        NSLayoutConstraint.deactivate(infoButtonPortraitConstraints)
+        NSLayoutConstraint.deactivate(infoButtonLandscapeConstraints)
+        infoButtonPortraitConstraints.removeAll()
+        infoButtonLandscapeConstraints.removeAll()
     }
     
-    // MARK: - DID TAP SEND BUTTON
+    // MARK: - DID TAP INFO BUTTON
     @objc
-    private func didTapSendButton(sender: UIButton) {
-        fiveLetterGuessDelegate.didTapFLGSendButton()
-        disableKeyboard()
+    private func didTapInfoButton(sender: UIButton) {
+        successView.showHints()
     }
     
     // MARK: - NEW GAME BUTTON
@@ -417,10 +430,10 @@ class FiveLetterGuessView: UIView {
         deactivateNewGameButtonConstraints()
         let offset = Model.shared.fiveLetterGuessState == .grid && newGameButtonShowing ? 0 : UIScreen.main.bounds.width
         newGameButtonLandscapeConstraints = [
-            newGameButton.topAnchor.constraint(equalTo: keyboardView.bottomAnchor, constant: (Frame.padding * 2) + offset),
-            newGameButton.leadingAnchor.constraint(equalTo: gridView.trailingAnchor, constant: Frame.Logo.upperPadding + offset),
+            newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
-            newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width)
+            newGameButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding + offset),
+            newGameButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding + offset)
         ]
         NSLayoutConstraint.activate(newGameButtonLandscapeConstraints)
     }
@@ -436,7 +449,10 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP NEW GAME BUTTON
     @objc
     private func didTapNewGameButton(sender: UIButton) {
-        resetGame()
+        enableKeyboard()
+        resetGame {
+            self.showInfoButton()
+        }
     }
     
     // MARK: - STATS BUTTON
@@ -672,7 +688,7 @@ class FiveLetterGuessView: UIView {
     }
     
     // MARK: - RESET
-    func resetGame() {
+    func resetGame(completion: @escaping () -> Void) {
         Model.shared.resetGame {
             self.gridView.resetRows()
             self.keyboardView.resetKeyboard()
@@ -680,6 +696,7 @@ class FiveLetterGuessView: UIView {
             for colorDotView in [self.gridView.leftDotOne, self.gridView.rightDotOne, self.gridView.leftDotTwo, self.gridView.rightDotTwo, self.gridView.leftDotThree, self.gridView.rightDotThree] {
                 colorDotView.isHidden = true
             }
+            completion()
         }
     }    
 }
@@ -1171,21 +1188,52 @@ extension FiveLetterGuessView: FiveLetterGridDelegate {
         keyboardView.setKeyToYellow(for: guessLetter)
     }
     
-    func showSendButton() {
-        sendButtonShowing = true
+    func showInfoButton() {
+        hideNewGameButton {
+            self.infoButtonShowing = true
+            if Model.shared.isLandscape {
+                self.activateInfoButtonLandscapeConstraints()
+            } else {
+                self.activateInfoButtonPortraitConstraints()
+            }
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+                self.layoutIfNeeded()
+            } completion: { _ in
+            }
+        }
+    }
+    
+    func hideInfoButton(completion: @escaping () -> Void) {
+        infoButtonShowing = false
         if Model.shared.isLandscape {
-            activateSendButtonLandscapeConstraints()
+            activateInfoButtonLandscapeConstraints()
         } else {
-            activateSendButtonPortraitConstraints()
+            activateInfoButtonPortraitConstraints()
         }
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
+            completion()
         }
     }
     
     func showNewGameButton() {
-        newGameButtonShowing = true
+        hideInfoButton {
+            self.newGameButtonShowing = true
+            if Model.shared.isLandscape {
+                self.activateNewGameButtonLandscapeConstraints()
+            } else {
+                self.activateNewGameButtonPortraitConstraints()
+            }
+            UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+                self.layoutIfNeeded()
+            } completion: { _ in
+            }
+        }
+    }
+    
+    func hideNewGameButton(completion: @escaping () -> Void) {
+        newGameButtonShowing = false
         if Model.shared.isLandscape {
             activateNewGameButtonLandscapeConstraints()
         } else {
@@ -1194,6 +1242,7 @@ extension FiveLetterGuessView: FiveLetterGridDelegate {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
+            completion()
         }
     }
 }

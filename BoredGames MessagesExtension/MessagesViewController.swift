@@ -335,7 +335,7 @@ class MessagesViewController: MSMessagesAppViewController {
     func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
         
-        containerView.fiveLetterGuessView.resetGame()
+        containerView.fiveLetterGuessView.resetGame {}
         containerView.ticTacToeView.resetGame()
         
         Model.shared.updateGamesFromUserDefaults()
@@ -802,7 +802,7 @@ extension MessagesViewController: ContainerDelegate {
                 if Model.shared.appState == .fiveLetterGuess {
                     Model.shared.resetGame {
                         DispatchQueue.main.async {
-                            self.containerView.fiveLetterGuessView.resetGame()
+                            self.containerView.fiveLetterGuessView.resetGame {}
                         }
                     }
                 } else if Model.shared.appState == .ticTacToe {

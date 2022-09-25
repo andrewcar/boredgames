@@ -57,6 +57,28 @@ class SuccessView: UIView {
         }
     }
     
+    func showHints() {
+        isHidden = false
+        
+        titleLabel.text = "NOT IN WORD"
+        backgroundColor = .gridLetterBackgroundGray
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.titleLabel.text = "WRONG SPOT"
+            self.backgroundColor = .successBackgroundRed
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.titleLabel.text = "RIGHT SPOT"
+                self.backgroundColor = .successBackgroundGreen
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.isHidden = true
+                    self.reset()
+                }
+            }
+        }
+    }
+    
     func reset() {
         titleLabel.text = "SUCCESS"
         backgroundColor = .successBackgroundGreen

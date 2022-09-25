@@ -15,7 +15,6 @@ protocol FiveLetterGridDelegate {
     func setKeyToGreen(for guessLetter: String)
     func setKeyToGray(for guessLetter: String)
     func setKeyToYellow(for guessLetter: String)
-    func showSendButton()
 }
 
 class FiveLetterGridView: UIView {
