@@ -135,10 +135,10 @@ class KeyboardLetterView: UIView {
     }
     
     private func growAndShrink(completion: @escaping () -> ()) {
-        UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+        UIView.animate(withDuration: 0.05, delay: 0, options: .allowUserInteraction) {
             self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         } completion: { _ in
-            UIView.animate(withDuration: 0.05, delay: 0, options: .curveLinear) {
+            UIView.animate(withDuration: 0.05, delay: 0, options: .allowUserInteraction) {
                 self.transform = CGAffineTransform(scaleX: 1, y: 1)
             } completion: { _ in
                 completion()

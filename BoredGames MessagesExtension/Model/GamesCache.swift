@@ -12,16 +12,16 @@ struct GamesCache {
     static let tttKey = "TicTacToeGames"
     
     static func saveFLGGames(_ value: FiveLetterGuessGames!) {
-         UserDefaults.standard.set(try? PropertyListEncoder().encode(value), forKey: flgKey)
+        NSUbiquitousKeyValueStore.default.set(try? PropertyListEncoder().encode(value), forKey: flgKey)
     }
     
     static func saveTTTGames(_ value: TicTacToeGames!) {
-         UserDefaults.standard.set(try? PropertyListEncoder().encode(value), forKey: tttKey)
+        NSUbiquitousKeyValueStore.default.set(try? PropertyListEncoder().encode(value), forKey: tttKey)
     }
     
     static func getFLGGames() -> FiveLetterGuessGames? {
         var userData: FiveLetterGuessGames
-        if let data = UserDefaults.standard.value(forKey: flgKey) as? Data {
+        if let data = NSUbiquitousKeyValueStore.default.object(forKey: flgKey) as? Data {
             do {
                 userData = try PropertyListDecoder().decode(FiveLetterGuessGames.self, from: data)
                 return userData
@@ -34,7 +34,7 @@ struct GamesCache {
     
     static func getTTTGames() -> TicTacToeGames? {
         var userData: TicTacToeGames
-        if let data = UserDefaults.standard.value(forKey: tttKey) as? Data {
+        if let data = NSUbiquitousKeyValueStore.default.object(forKey: tttKey) as? Data {
             do {
                 userData = try PropertyListDecoder().decode(TicTacToeGames.self, from: data)
                 return userData
@@ -46,10 +46,10 @@ struct GamesCache {
     }
 
     static func removeFLGGames() {
-        UserDefaults.standard.removeObject(forKey: flgKey)
+        NSUbiquitousKeyValueStore.default.removeObject(forKey: flgKey)
     }
     
     static func removeTTTGames() {
-        UserDefaults.standard.removeObject(forKey: tttKey)
+        NSUbiquitousKeyValueStore.default.removeObject(forKey: tttKey)
     }
 }

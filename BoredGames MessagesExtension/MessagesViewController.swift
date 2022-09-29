@@ -339,6 +339,7 @@ class MessagesViewController: MSMessagesAppViewController {
         containerView.ticTacToeView.resetGame()
         
         Model.shared.updateGamesFromUserDefaults()
+        TicTacToeModel.shared.updateGamesFromUserDefaults()
         
         if let selectedMessage = conversation.selectedMessage {
             let appState = appStateFromDecoding(selectedMessage)
@@ -619,7 +620,7 @@ extension MessagesViewController {
         if let image = UIImage.logoMessageBubble {
             layout.image = image
         }
-        layout.caption = "FIVE LETTER GUESS"
+        layout.caption = "WORD GUESS"
         if let currentGame = Model.shared.currentFLGGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String

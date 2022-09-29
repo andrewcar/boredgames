@@ -193,9 +193,7 @@ class Model: NSObject {
     func updateGamesFromUserDefaults() {
         if let cachedGames = GamesCache.getFLGGames() {
             flgGames = cachedGames
-        }
-        if let cachedGames = GamesCache.getTTTGames() {
-            TicTacToeModel.shared.games = cachedGames
+            flgGameDelegate?.didUpdateGame()
         }
     }
 

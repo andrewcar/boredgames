@@ -15,6 +15,7 @@ struct Frame {
     static let padding: CGFloat = 5
     static let buttonSize = CGSize(width: 44, height: 44)
     static let bigButtonSize = CGSize(width: 64, height: 64)
+    static let versionHeight: CGFloat = 100
     static var sliderTopPadding: CGFloat {
         UIScreen.main.bounds.height / 3
     }

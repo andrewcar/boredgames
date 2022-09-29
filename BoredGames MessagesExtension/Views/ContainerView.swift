@@ -50,7 +50,7 @@ class ContainerView: UIView {
     private var smallLogoView = SmallLogoView(frame: .zero)
     private var smallLogoPortraitConstraints: [NSLayoutConstraint] = []
     private var smallLogoLandscapeConstraints: [NSLayoutConstraint] = []
-    
+        
     private var versionLabel = UILabel(frame: .zero)
     private var versionLabelPortraitConstraints: [NSLayoutConstraint] = []
     private var versionLabelLandscapeConstraints: [NSLayoutConstraint] = []
@@ -258,7 +258,8 @@ class ContainerView: UIView {
     // MARK: - 🅰️ ▶️ 📜
     private func activateFiveLetterGuessButtonConstraints(isLandscape: Bool) {
         deactivateFiveLetterGuessButtonConstraints()
-        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             fiveLetterGuessButtonLandscapeConstraints = [
                 fiveLetterGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -358,7 +359,8 @@ class ContainerView: UIView {
     // MARK: - ❌ ▶️ 📜
     private func activateTicTacToeButtonConstraints(isLandscape: Bool) {
         deactivateTicTacToeButtonConstraints()
-        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
                 ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -458,7 +460,8 @@ class ContainerView: UIView {
     // MARK: - 🔴 ▶️ 📜
     private func activateDotsButtonConstraints(isLandscape: Bool) {
         deactivateDotsButtonConstraints()
-        let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.width * 2
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             dotsButtonLandscapeConstraints = [
                 dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -508,7 +511,7 @@ class ContainerView: UIView {
         let offset = Model.shared.appState == .container ? 0 : UIScreen.main.bounds.height * 2
         if isLandscape {
             versionLabelLandscapeConstraints = [
-                versionLabel.heightAnchor.constraint(equalToConstant: 100),
+                versionLabel.heightAnchor.constraint(equalToConstant: Frame.versionHeight),
                 versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
                 versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
                 versionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 2) - offset)
@@ -516,7 +519,7 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(versionLabelLandscapeConstraints)
         } else {
             versionLabelPortraitConstraints = [
-                versionLabel.heightAnchor.constraint(equalToConstant: 100),
+                versionLabel.heightAnchor.constraint(equalToConstant: Frame.versionHeight),
                 versionLabel.leadingAnchor.constraint(greaterThanOrEqualTo: centerXAnchor, constant: -offset),
                 versionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.Logo.upperPadding - (Frame.padding * 2)),
                 versionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Frame.Logo.upperPadding * 2) - offset)
@@ -569,7 +572,6 @@ class ContainerView: UIView {
         debugViewPortraitConstraints.removeAll()
         debugViewLandscapeConstraints.removeAll()
     }
-
 }
 
 extension ContainerView: SmallLogoViewDelegate {

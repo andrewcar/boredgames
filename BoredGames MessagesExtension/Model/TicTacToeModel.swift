@@ -164,6 +164,14 @@ class TicTacToeModel: NSObject {
         tttGameDelegate?.didUpdateGame()
     }
     
+    // MARK: - UPDATE GAMES FROM USER DEFAULTS
+    func updateGamesFromUserDefaults() {
+        if let cachedGames = GamesCache.getTTTGames() {
+            TicTacToeModel.shared.games = cachedGames
+            tttGameDelegate?.didUpdateGame()
+        }
+    }
+    
     func gameIsNotDuplicate(_ game: TicTacToeGame) -> Bool {
         !games.value.contains(where: { aGame in
             aGame.id == game.id

@@ -1000,146 +1000,200 @@ extension FiveLetterGuessView: KeyboardDelegate {
         case .a1:
             gridView.a1.updateLetter(with: "")
             gridView.a1.setBorderInactive()
+            gridView.leftDotOne.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .a0
         case .a2:
             gridView.a2.updateLetter(with: "")
             gridView.a2.setBorderInactive()
-            gridView.a1.setBorderActive()
+            gridView.a1.growAndShrink {
+                self.gridView.a1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .a1
         case .a3:
             gridView.a3.updateLetter(with: "")
             gridView.a3.setBorderInactive()
-            gridView.a2.setBorderActive()
+            gridView.a2.growAndShrink {
+                self.gridView.a2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .a2
         case .a4:
             gridView.a4.updateLetter(with: "")
             gridView.a4.setBorderInactive()
-            gridView.a3.setBorderActive()
+            gridView.a3.growAndShrink {
+                self.gridView.a3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .a3
         case .a5:
             gridView.a5.updateLetter(with: "")
             gridView.a5.setBorderInactive()
-            gridView.a4.setBorderActive()
+            gridView.a4.growAndShrink {
+                self.gridView.a4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .a4
         case .b1:
             gridView.b1.updateLetter(with: "")
             gridView.b1.setBorderInactive()
+            gridView.rightDotOne.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .b0
         case .b2:
             gridView.b2.updateLetter(with: "")
             gridView.b2.setBorderInactive()
-            gridView.b1.setBorderActive()
+            gridView.b1.growAndShrink {
+                self.gridView.b1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .b1
         case .b3:
             gridView.b3.updateLetter(with: "")
             gridView.b3.setBorderInactive()
-            gridView.b2.setBorderActive()
+            gridView.b2.growAndShrink {
+                self.gridView.b2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .b2
         case .b4:
             gridView.b4.updateLetter(with: "")
             gridView.b4.setBorderInactive()
-            gridView.b3.setBorderActive()
+            gridView.b3.growAndShrink {
+                self.gridView.b3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .b3
         case .b5:
             gridView.b5.updateLetter(with: "")
             gridView.b5.setBorderInactive()
-            gridView.b4.setBorderActive()
+            gridView.b4.growAndShrink {
+                self.gridView.b4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .b4
         case .c1:
             gridView.c1.updateLetter(with: "")
             gridView.c1.setBorderInactive()
+            gridView.leftDotTwo.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .c0
         case .c2:
             gridView.c2.updateLetter(with: "")
             gridView.c2.setBorderInactive()
-            gridView.c1.setBorderActive()
+            gridView.c1.growAndShrink {
+                self.gridView.c1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .c1
         case .c3:
             gridView.c3.updateLetter(with: "")
             gridView.c3.setBorderInactive()
-            gridView.c2.setBorderActive()
+            gridView.c2.growAndShrink {
+                self.gridView.c2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .c2
         case .c4:
             gridView.c4.updateLetter(with: "")
             gridView.c4.setBorderInactive()
-            gridView.c3.setBorderActive()
+            gridView.c3.growAndShrink {
+                self.gridView.c3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .c3
         case .c5:
             gridView.c5.updateLetter(with: "")
             gridView.c5.setBorderInactive()
-            gridView.c4.setBorderActive()
+            gridView.c4.growAndShrink {
+                self.gridView.c4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .c4
         case .d1:
             gridView.d1.updateLetter(with: "")
             gridView.d1.setBorderInactive()
+            gridView.rightDotTwo.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .d0
         case .d2:
             gridView.d2.updateLetter(with: "")
             gridView.d2.setBorderInactive()
-            gridView.d1.setBorderActive()
+            gridView.d1.growAndShrink {
+                self.gridView.d1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .d1
         case .d3:
             gridView.d3.updateLetter(with: "")
             gridView.d3.setBorderInactive()
-            gridView.d2.setBorderActive()
+            gridView.d2.growAndShrink {
+                self.gridView.d2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .d2
         case .d4:
             gridView.d4.updateLetter(with: "")
             gridView.d4.setBorderInactive()
-            gridView.d3.setBorderActive()
+            gridView.d3.growAndShrink {
+                self.gridView.d3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .d3
         case .d5:
             gridView.d5.updateLetter(with: "")
             gridView.d5.setBorderInactive()
-            gridView.d4.setBorderActive()
+            gridView.d4.growAndShrink {
+                self.gridView.d4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .d4
         case .e1:
             gridView.e1.updateLetter(with: "")
             gridView.e1.setBorderInactive()
+            gridView.leftDotThree.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .e0
         case .e2:
             gridView.e2.updateLetter(with: "")
             gridView.e2.setBorderInactive()
-            gridView.e1.setBorderActive()
+            gridView.e1.growAndShrink {
+                self.gridView.e1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .e1
         case .e3:
             gridView.e3.updateLetter(with: "")
             gridView.e3.setBorderInactive()
-            gridView.e2.setBorderActive()
+            gridView.e2.growAndShrink {
+                self.gridView.e2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .e2
         case .e4:
             gridView.e4.updateLetter(with: "")
             gridView.e4.setBorderInactive()
-            gridView.e3.setBorderActive()
+            gridView.e3.growAndShrink {
+                self.gridView.e3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .e3
         case .e5:
             gridView.e5.updateLetter(with: "")
             gridView.e5.setBorderInactive()
-            gridView.e4.setBorderActive()
+            gridView.e4.growAndShrink {
+                self.gridView.e4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .e4
         case .f1:
             gridView.f1.updateLetter(with: "")
             gridView.f1.setBorderInactive()
+            gridView.rightDotThree.isHidden = true
             Model.shared.currentFLGGame?.currentLetter = .f0
         case .f2:
             gridView.f2.updateLetter(with: "")
             gridView.f2.setBorderInactive()
-            gridView.f1.setBorderActive()
+            gridView.f1.growAndShrink {
+                self.gridView.f1.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .f1
         case .f3:
             gridView.f3.updateLetter(with: "")
             gridView.f3.setBorderInactive()
-            gridView.f2.setBorderActive()
+            gridView.f2.growAndShrink {
+                self.gridView.f2.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .f2
         case .f4:
             gridView.f4.updateLetter(with: "")
             gridView.f4.setBorderInactive()
-            gridView.f3.setBorderActive()
+            gridView.f3.growAndShrink {
+                self.gridView.f3.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .f3
         case .f5:
             gridView.f5.updateLetter(with: "")
             gridView.f5.setBorderInactive()
-            gridView.f4.setBorderActive()
+            gridView.f4.growAndShrink {
+                self.gridView.f4.setBorderActive()
+            }
             Model.shared.currentFLGGame?.currentLetter = .f4
         default: ()
         }
