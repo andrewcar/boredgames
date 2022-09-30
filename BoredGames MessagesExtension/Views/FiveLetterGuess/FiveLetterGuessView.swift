@@ -1264,7 +1264,7 @@ extension FiveLetterGuessView: FiveLetterGridDelegate {
         } else {
             activateInfoButtonPortraitConstraints()
         }
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
             completion()
