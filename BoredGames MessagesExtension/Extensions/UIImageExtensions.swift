@@ -10,9 +10,9 @@ import UIKit
 extension UIImage {
     static let boredGamesTall = UIImage(named: "boredGamesTall")
     static let boredGamesSmall = UIImage(named: "boredGamesSmall")
-    static let logoMessageBubble = UIImage(named: "fiveLetterGuess_messageBubble.png")
+    static let logoMessageBubble = UIImage(named: "wordGuess_messageBubble.png")
     static let ticTacToeMessageBubble = UIImage(named: "ticTacToe_messageBubble.png")
-    static let fiveLetterGuess = UIImage(named: "fiveLetterGuess")
+    static let wordGuess = UIImage(named: "wordGuess")
     static let ticTacToe = UIImage(named: "ticTacToe")
     static let dots = UIImage(named: "dots")
     static let ticTacToeX = UIImage(named: "ticTacToeX")

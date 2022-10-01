@@ -1,5 +1,5 @@
 //
-//  FLGStatsView.swift
+//  WGStatsView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/2/22.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class FLGStatsView: UIView {
+class WGStatsView: UIView {
     
     // MARK: - Properties
-    var statBarView = FLGStatBarView(frame: .zero)
+    var statBarView = WGStatBarView(frame: .zero)
     var statBarPortraitConstraints: [NSLayoutConstraint] = []
     var statBarLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -95,7 +95,7 @@ class FLGStatsView: UIView {
             named: "eject.circle.fill",
             size: Frame.buttonSize,
             weight: .bold,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
         resetButton.setImage(image, for: .normal)
         resetButton.setTitleColor(.clear, for: .normal)
         addSubview(resetButton)
@@ -137,19 +137,19 @@ class FLGStatsView: UIView {
     // MARK: - DID TAP RESET BUTTON
     @objc
     private func didTapResetButton(sender: UIButton) {
-        var games = Model.shared.flgGames
+        var games = Model.shared.wgGames
         games.value.removeAll()
         games.gameCount = 0
         games.winCount = 0
         games.lossCount = 0
         games.streakCount = 0
         games.longestStreak = 0
-        GamesCache.saveFLGGames(games)
+        GamesCache.saveWGGames(games)
         statBarView.playedNumberLabel.text = "\(games.gameCount)"
         statBarView.wonNumberLabel.text = "\(games.winCount)"
         statBarView.lostNumberLabel.text = "\(games.lossCount)"
         statBarView.streakNumberLabel.text = "\(games.streakCount)"
-        Model.shared.flgGames = games
-        GamesCache.removeFLGGames()
+        Model.shared.wgGames = games
+        GamesCache.removeWGGames()
     }
 }

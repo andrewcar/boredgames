@@ -1,5 +1,5 @@
 //
-//  FiveLetterGuessCurrentLetter.swift
+//  WordGuessCurrentLetter.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 7/25/22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FiveLetterGuessCurrentLetter: Hashable, Codable, CaseIterable {
+enum WordGuessCurrentLetter: Hashable, Codable, CaseIterable {
     case a0
     case a1
     case a2

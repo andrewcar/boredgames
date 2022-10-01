@@ -108,9 +108,9 @@ class MessagesViewController: MSMessagesAppViewController {
             }
             
             if let gameType = gameType {
-                if gameType == GameType.fiveLetterGuess.rawValue {
-                    decodeFiveLetterGuessMessage(queryItems: queryItems)
-                    return .fiveLetterGuess
+                if gameType == GameType.wordGuess.rawValue {
+                    decodeWordGuessMessage(queryItems: queryItems)
+                    return .wordGuess
                 } else if gameType == GameType.ticTacToe.rawValue {
                     decodeTicTacToeMessage(queryItems: queryItems)
                     return .ticTacToe
@@ -120,8 +120,8 @@ class MessagesViewController: MSMessagesAppViewController {
         return .container
     }
     
-    // MARK: - DECODE FIVE LETTER GUESS MESSAGE
-    private func decodeFiveLetterGuessMessage(queryItems: [URLQueryItem]) {
+    // MARK: - DECODE WORD GUESS MESSAGE
+    private func decodeWordGuessMessage(queryItems: [URLQueryItem]) {
         var id: UUID?
         var answer: String?
         var firstGuess: String?
@@ -200,8 +200,8 @@ class MessagesViewController: MSMessagesAppViewController {
         let stateValue = state ?? "playing"
         
         if let id = id {
-            let game = FiveLetterGuessGame(
-                gameType: .fiveLetterGuess,
+            let game = WordGuessGame(
+                gameType: .wordGuess,
                 id: id,
                 answer: answer,
                 guess1: firstGuess,
@@ -211,11 +211,11 @@ class MessagesViewController: MSMessagesAppViewController {
                 guess5: fifthGuess,
                 guess6: sixthGuess,
                 guessNumber: Guess(rawValue: guessNumberValue),
-                state: FLGGameState(rawValue: stateValue) ?? .playing,
+                state: WGGameState(rawValue: stateValue) ?? .playing,
                 playerOne: Player(uuidString: playerOneUUID, color: .blue),
                 playerTwo: Player(uuidString: playerTwoUUID, color: .red),
                 currentPlayerUUID: currentPlayerUUID)
-            Model.shared.currentFLGGame = game
+            Model.shared.currentWGGame = game
             Model.shared.resetAnswerLetterCountDictionary {}
             Model.shared.populateAnswerLetterCountDictionary {}
         }
@@ -335,7 +335,7 @@ class MessagesViewController: MSMessagesAppViewController {
     func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
         
-        containerView.fiveLetterGuessView.resetGame {}
+        containerView.wordGuessView.resetGame {}
         containerView.ticTacToeView.resetGame()
         
         Model.shared.updateGamesFromUserDefaults()
@@ -345,11 +345,11 @@ class MessagesViewController: MSMessagesAppViewController {
             let appState = appStateFromDecoding(selectedMessage)
             switch appState {
                 
-            case .fiveLetterGuess:
-                containerView.fiveLetterGuessView.keyboardView.isUserInteractionEnabled = true
-                Model.shared.appState = .fiveLetterGuess
-                Model.shared.fiveLetterGuessState = .grid
-                updateFiveLetterGuessGame()
+            case .wordGuess:
+                containerView.wordGuessView.keyboardView.isUserInteractionEnabled = true
+                Model.shared.appState = .wordGuess
+                Model.shared.wordGuessState = .grid
+                updateWordGuessGame()
 
             case .ticTacToe:
                 containerView.ticTacToeView.isUserInteractionEnabled = true
@@ -363,18 +363,18 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
 
-    // MARK: - UPDATE FLG GAME
-    private func updateFiveLetterGuessGame() {
+    // MARK: - UPDATE WG GAME
+    private func updateWordGuessGame() {
         
         // reset correct guess letter counts
         Model.shared.resetGuessLetterCountDictionary {
             
             // update the grid view with any cached guesses
-            if let currentGame = Model.shared.currentFLGGame,
+            if let currentGame = Model.shared.currentWGGame,
                let answer = currentGame.answer,
                let guessNumber = currentGame.guessNumber {
                 
-                self.containerView.fiveLetterGuessView.gridView.updateRowsFromMessage(
+                self.containerView.wordGuessView.gridView.updateRowsFromMessage(
                     answer: answer,
                     firstGuess: currentGame.guess1,
                     secondGuess: currentGame.guess2,
@@ -392,12 +392,12 @@ class MessagesViewController: MSMessagesAppViewController {
                         
                         switch gameState {
                         case .won:
-                            self.containerView.fiveLetterGuessView.showTheWin(currentGame: currentGame) {
-                                self.containerView.fiveLetterGuessView.showNewGameButton()
+                            self.containerView.wordGuessView.showTheWin(currentGame: currentGame) {
+                                self.containerView.wordGuessView.showNewGameButton()
                             }
                         case .lost:
-                            self.containerView.fiveLetterGuessView.showTheLoss(currentGame: currentGame) {
-                                self.containerView.fiveLetterGuessView.showNewGameButton()
+                            self.containerView.wordGuessView.showTheLoss(currentGame: currentGame) {
+                                self.containerView.wordGuessView.showNewGameButton()
                             }
                             
                         default: ()
@@ -445,7 +445,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        containerView.fiveLetterGuessView.updateConstraints()
+        containerView.wordGuessView.updateConstraints()
         containerView.ticTacToeView.updateConstraints()
     }
     
@@ -458,20 +458,20 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - DID BECOME ACTIVE
     override func didBecomeActive(with conversation: MSConversation) {
         super.didBecomeActive(with: conversation)
-        if Model.shared.appState == .fiveLetterGuess {
+        if Model.shared.appState == .wordGuess {
             disableKeyboardIfNotOurTurn()
-            updateFLGOtherPlayerUUID()
+            updateWGOtherPlayerUUID()
         } else if Model.shared.appState == .ticTacToe {
             disableGridIfNotOurTurn()
             updateTTTOtherPlayerUUID()
         }
     }
     
-    // MARK: - UPDATE FLG OTHER PLAYER UUID
-    private func updateFLGOtherPlayerUUID() {
+    // MARK: - UPDATE WG OTHER PLAYER UUID
+    private func updateWGOtherPlayerUUID() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-        Model.shared.updateFLGPlayerUUID(with: remoteParticipantIdentifier.uuidString)
+        Model.shared.updateWGPlayerUUID(with: remoteParticipantIdentifier.uuidString)
     }
     
     // MARK: - UPDATE TTT OTHER PLAYER UUID
@@ -486,12 +486,12 @@ class MessagesViewController: MSMessagesAppViewController {
     private func disableKeyboardIfNotOurTurn() {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
-        guard let currentGame = Model.shared.currentFLGGame else { return }
+        guard let currentGame = Model.shared.currentWGGame else { return }
         guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
         if remoteParticipantIdentifier.uuidString == currentPlayerUUIDString {
-            containerView.fiveLetterGuessView.disableKeyboard()
+            containerView.wordGuessView.disableKeyboard()
         } else {
-            containerView.fiveLetterGuessView.enableKeyboard()
+            containerView.wordGuessView.enableKeyboard()
         }
     }
     
@@ -565,16 +565,16 @@ extension MessagesViewController: MFMessageComposeViewControllerDelegate {
 
 extension MessagesViewController {
     
-    // MARK: - COMPOSE FLG MESSAGE
-    private func composeFLGMessage() -> MSMessage {
+    // MARK: - COMPOSE WG MESSAGE
+    private func composeWGMessage() -> MSMessage {
         let session = activeConversation?.selectedMessage?.session
         let message = MSMessage(session: session ?? MSSession())
         
         let components = NSURLComponents()
         var queryItems: [URLQueryItem] = []
-        if let currentGame = Model.shared.currentFLGGame {
+        if let currentGame = Model.shared.currentWGGame {
             
-            queryItems.append(URLQueryItem(name: "gameType", value: GameType.fiveLetterGuess.rawValue))
+            queryItems.append(URLQueryItem(name: "gameType", value: GameType.wordGuess.rawValue))
             queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
             queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
 
@@ -621,7 +621,7 @@ extension MessagesViewController {
             layout.image = image
         }
         layout.caption = "WORD GUESS"
-        if let currentGame = Model.shared.currentFLGGame,
+        if let currentGame = Model.shared.currentWGGame,
            let guessNumber = currentGame.guessNumber {
             var subcaptionString: String
             switch guessNumber {
@@ -766,13 +766,13 @@ extension MessagesViewController: ContainerDelegate {
     
     func didTapSendButton() {
         guard let activeConversation = activeConversation else { return }
-        updateCurrentFLGPlayer(from: activeConversation)
-        send(message: composeFLGMessage(), from: activeConversation)
+        updateCurrentWGPlayer(from: activeConversation)
+        send(message: composeWGMessage(), from: activeConversation)
     }
     
-    private func updateCurrentFLGPlayer(from activeConversation: MSConversation) {
+    private func updateCurrentWGPlayer(from activeConversation: MSConversation) {
         guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
-        Model.shared.currentFLGGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
+        Model.shared.currentWGGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
     private func updateCurrentTTTPlayer(from activeConversation: MSConversation) {
@@ -780,7 +780,7 @@ extension MessagesViewController: ContainerDelegate {
         TicTacToeModel.shared.currentTTTGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
-    func didTapFiveLetterGuessButton() {
+    func didTapWordGuessButton() {
         requestPresentationStyle(.expanded)
     }
     
@@ -800,10 +800,10 @@ extension MessagesViewController: ContainerDelegate {
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 
-                if Model.shared.appState == .fiveLetterGuess {
+                if Model.shared.appState == .wordGuess {
                     Model.shared.resetGame {
                         DispatchQueue.main.async {
-                            self.containerView.fiveLetterGuessView.resetGame {}
+                            self.containerView.wordGuessView.resetGame {}
                         }
                     }
                 } else if Model.shared.appState == .ticTacToe {

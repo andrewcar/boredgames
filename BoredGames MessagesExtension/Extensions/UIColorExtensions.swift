@@ -9,11 +9,11 @@ import UIKit
 
 extension UIColor {
     static let containerBackground = UIColor(named: "containerBackground")
-    static let fiveLetterGuessBackground = UIColor(named: "fiveLetterGuessBackground")
+    static let wordGuessBackground = UIColor(named: "wordGuessBackground")
     static let ticTacToeBackground = UIColor(named: "ticTacToeBackground")
     static let dotsBackground = UIColor(named: "dotsBackground")
     
-    static let fiveLetterGuessButton = UIColor(named: "fiveLetterGuessButton")
+    static let wordGuessButton = UIColor(named: "wordGuessButton")
     static let versionLabel = UIColor(named: "versionLabel")
     static let messagesBlue = UIColor(named: "messagesBlue")
 

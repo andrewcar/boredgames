@@ -1,5 +1,5 @@
 //
-//  FiveLetterGuessView.swift
+//  WordGuessView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/9/22.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol FiveLetterGuessDelegate {
-    func didTapFLGSendButton()
-    func didTapFLGStatsButton()
-    func didTapFLGGridButton()
+protocol WordGuessDelegate {
+    func didTapWGSendButton()
+    func didTapWGStatsButton()
+    func didTapWGGridButton()
 }
 
-class FiveLetterGuessView: UIView {
+class WordGuessView: UIView {
     
     // MARK: - Properties
-    var fiveLetterGuessDelegate: FiveLetterGuessDelegate!
+    var wordGuessDelegate: WordGuessDelegate!
     
     private var notInWordListView = NotInWordListView(frame: .zero)
     private var notInWordListPortraitConstraints: [NSLayoutConstraint] = []
@@ -52,7 +52,7 @@ class FiveLetterGuessView: UIView {
     private var gridButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var gridButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var statsView = FLGStatsView(frame: .zero)
+    private var statsView = WGStatsView(frame: .zero)
     private var statsViewPortraitConstraints: [NSLayoutConstraint] = []
     private var statsViewLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -177,8 +177,8 @@ class FiveLetterGuessView: UIView {
         deactivateGridViewConstraints()
         
         let scaledPadding = (Frame.padding / 3) * 2
-        let size = Frame.Grid.fiveLetterGuessSize(gridWidth, scaledPadding: scaledPadding)
-        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
+        let size = Frame.Grid.wordGuessSize(gridWidth, scaledPadding: scaledPadding)
+        let offset = Model.shared.appState == .wordGuess && Model.shared.wordGuessState == .grid ? 0 : -UIScreen.main.bounds.width
 
         gridViewPortraitConstraints = [
             gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.smallSize.height + Frame.Logo.upperPadding),
@@ -200,7 +200,7 @@ class FiveLetterGuessView: UIView {
         let multiplier: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
         let oneSixthSansPadding: CGFloat = ((UIScreen.main.bounds.height * multiplier) - (Frame.padding * 10)) / 6
         let gridWidth = (oneSixthSansPadding * 5) - (Frame.padding * 2)
-        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .grid ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.appState == .wordGuess && Model.shared.wordGuessState == .grid ? 0 : UIScreen.main.bounds.width
 
         gridViewLandscapeConstraints = [
             gridView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.padding * 3),
@@ -237,7 +237,7 @@ class FiveLetterGuessView: UIView {
             successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height),
             successView.bottomAnchor.constraint(equalTo: gridView.topAnchor, constant: -(Frame.padding * 2))
         ]
-        let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
+        let offset = Model.shared.wordGuessState == .grid ? 0 : -UIScreen.main.bounds.width
         let constraint = successView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
         successPortraitConstraints.append(constraint)
         NSLayoutConstraint.activate(successPortraitConstraints)
@@ -251,7 +251,7 @@ class FiveLetterGuessView: UIView {
             successView.widthAnchor.constraint(equalToConstant: Frame.Success.size.width),
             successView.heightAnchor.constraint(equalToConstant: Frame.Success.size.height)
         ]
-        let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : -UIScreen.main.bounds.width
+        let offset = Model.shared.wordGuessState == .grid ? 0 : -UIScreen.main.bounds.width
         let constraint = successView.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -(Frame.padding * 2) + offset)
         successLandscapeConstraints.append(constraint)
         NSLayoutConstraint.activate(successLandscapeConstraints)
@@ -277,7 +277,7 @@ class FiveLetterGuessView: UIView {
     private func activateKeyboardConstraints(isLandscape: Bool) {
         if isLandscape {
             deactivateKeyboardConstraints()
-            let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
+            let offset = Model.shared.wordGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
             keyboardLandscapeConstraints = [
                 keyboardView.heightAnchor.constraint(equalTo: heightAnchor),
                 keyboardView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.smallSize.height + (Frame.Logo.upperPadding * 2)),
@@ -292,7 +292,7 @@ class FiveLetterGuessView: UIView {
                 keyboardView.topAnchor.constraint(equalTo: gridView.bottomAnchor, constant: Frame.Logo.upperPadding * 2),
                 keyboardView.heightAnchor.constraint(equalToConstant: (letterSize.height * 3) + (Frame.padding * 4))
             ]
-            let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
+            let offset = Model.shared.wordGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
             let centerXConstraint = keyboardView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset)
             keyboardPortraitConstraints.append(centerXConstraint)
             var widthConstraint: NSLayoutConstraint
@@ -340,13 +340,13 @@ class FiveLetterGuessView: UIView {
             named: "info.circle.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - INFO BUTTON PORTRAIT CONSTRAINTS
     private func activateInfoButtonPortraitConstraints() {
         deactivateInfoButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid && infoButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = Model.shared.wordGuessState == .grid && infoButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
         infoButtonPortraitConstraints = [
             infoButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             infoButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
@@ -359,7 +359,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - INFO BUTTON LANDSCAPE CONSTRAINTS
     func activateInfoButtonLandscapeConstraints() {
         deactivateInfoButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid && infoButtonShowing ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.wordGuessState == .grid && infoButtonShowing ? 0 : UIScreen.main.bounds.width
         infoButtonLandscapeConstraints = [
             infoButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             infoButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
@@ -409,13 +409,13 @@ class FiveLetterGuessView: UIView {
             named: "arrow.clockwise.circle.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - NEW GAME BUTTON PORTRAIT CONSTRAINTS
     private func activateNewGameButtonPortraitConstraints() {
         deactivateNewGameButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid && newGameButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = Model.shared.wordGuessState == .grid && newGameButtonShowing ? 0 : (UIScreen.main.bounds.width * 2)
         newGameButtonPortraitConstraints = [
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
@@ -428,7 +428,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - NEW GAME BUTTON LANDSCAPE CONSTRAINTS
     func activateNewGameButtonLandscapeConstraints() {
         deactivateNewGameButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid && newGameButtonShowing ? 0 : UIScreen.main.bounds.width
+        let offset = Model.shared.wordGuessState == .grid && newGameButtonShowing ? 0 : UIScreen.main.bounds.width
         newGameButtonLandscapeConstraints = [
             newGameButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             newGameButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
@@ -481,13 +481,13 @@ class FiveLetterGuessView: UIView {
             named: "books.vertical.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - STATS BUTTON PORTRAIT CONSTRAINTS
     private func activateStatsButtonPortraitConstraints() {
         deactivateStatsButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = Model.shared.wordGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         let padYOffset = UIDevice.current.userInterfaceIdiom == .pad ? Frame.Logo.upperPadding : 0
         statsButtonPortraitConstraints = [
             statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
@@ -501,7 +501,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - STATS BUTTON LANDSCAPE CONSTRAINTS
     func activateStatsButtonLandscapeConstraints() {
         deactivateStatsButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
+        let offset = Model.shared.wordGuessState == .grid ? 0 : (UIScreen.main.bounds.width * 2)
         statsButtonLandscapeConstraints = [
             statsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
             statsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
@@ -514,9 +514,9 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP STATS BUTTON
     @objc
     private func didTapStatsButton(sender: UIButton) {
-        Model.shared.fiveLetterGuessState = .stats
+        Model.shared.wordGuessState = .stats
         statsView.isHidden = false
-        fiveLetterGuessDelegate.didTapFLGStatsButton()
+        wordGuessDelegate.didTapWGStatsButton()
         updateConstraints()
     }
     
@@ -552,13 +552,13 @@ class FiveLetterGuessView: UIView {
             named: "gamecontroller.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - GRID BUTTON PORTRAIT CONSTRAINTS
     private func activateGridButtonPortraitConstraints() {
         deactivateGridButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .stats ? 0 : -(UIScreen.main.bounds.width * 2)
+        let offset = Model.shared.wordGuessState == .stats ? 0 : -(UIScreen.main.bounds.width * 2)
         gridButtonPortraitConstraints = [
             gridButton.topAnchor.constraint(equalTo: topAnchor, constant: Frame.Logo.upperPadding + Frame.padding),
             gridButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height),
@@ -571,7 +571,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - GRID BUTTON LANDSCAPE CONSTRAINTS
     func activateGridButtonLandscapeConstraints() {
         deactivateGridButtonConstraints()
-        let offset = Model.shared.fiveLetterGuessState == .stats ? 0 : UIScreen.main.bounds.width * 2
+        let offset = Model.shared.wordGuessState == .stats ? 0 : UIScreen.main.bounds.width * 2
         gridButtonLandscapeConstraints = [
             gridButton.centerYAnchor.constraint(equalTo: statsButton.centerYAnchor),
             gridButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - offset),
@@ -592,9 +592,9 @@ class FiveLetterGuessView: UIView {
     // MARK: - DID TAP GRID BUTTON
     @objc
     private func didTapGridButton(sender: UIButton) {
-        Model.shared.fiveLetterGuessState = .grid
+        Model.shared.wordGuessState = .grid
         statsView.isHidden = true
-        fiveLetterGuessDelegate.didTapFLGGridButton()
+        wordGuessDelegate.didTapWGGridButton()
         updateConstraints()
     }
         
@@ -608,7 +608,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - STATS VIEW PORTRAIT CONSTRAINTS
     private func activateStatsViewPortraitConstraints() {
         deactivateStatsViewConstraints()
-        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
+        let offset = Model.shared.appState == .wordGuess && Model.shared.wordGuessState == .stats ? 0 : Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) : UIScreen.main.bounds.width * 3
         statsViewPortraitConstraints = [
             statsView.topAnchor.constraint(equalTo: topAnchor),
             statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
@@ -621,7 +621,7 @@ class FiveLetterGuessView: UIView {
     // MARK: - STATS VIEW LANDSCAPE CONSTRAINTS
     private func activateStatsViewLandscapeConstraints() {
         deactivateStatsViewConstraints()
-        let offset = Model.shared.appState == .fiveLetterGuess && Model.shared.fiveLetterGuessState == .stats ? 0 : /*Model.shared.appState == .container ? -(UIScreen.main.bounds.width * 2) :*/ UIScreen.main.bounds.width * 3
+        let offset = Model.shared.appState == .wordGuess && Model.shared.wordGuessState == .stats ? 0 : UIScreen.main.bounds.width * 3
         statsViewLandscapeConstraints = [
             statsView.topAnchor.constraint(equalTo: topAnchor),
             statsView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset),
@@ -638,7 +638,7 @@ class FiveLetterGuessView: UIView {
     }
         
     // MARK: - SHOW THE WIN
-    func showTheWin(currentGame: FiveLetterGuessGame, completion: @escaping () -> ()) {
+    func showTheWin(currentGame: WordGuessGame, completion: @escaping () -> ()) {
         
         // disable keyboard
         keyboardView.isUserInteractionEnabled = false
@@ -647,7 +647,7 @@ class FiveLetterGuessView: UIView {
         showSuccessView()
         
         // update stats
-        if let currentGame = Model.shared.currentFLGGame {
+        if let currentGame = Model.shared.currentWGGame {
             Model.shared.updateGames(with: currentGame)
         }
         
@@ -669,10 +669,10 @@ class FiveLetterGuessView: UIView {
     }
     
     // MARK: - SHOW THE LOSS
-    func showTheLoss(currentGame: FiveLetterGuessGame, completion: @escaping () -> ()) {
+    func showTheLoss(currentGame: WordGuessGame, completion: @escaping () -> ()) {
         keyboardView.isUserInteractionEnabled = false
         showAnswer()
-        if let currentGame = Model.shared.currentFLGGame {
+        if let currentGame = Model.shared.currentWGGame {
             Model.shared.updateGames(with: currentGame)
         }
         if Model.shared.isLandscape {
@@ -701,241 +701,241 @@ class FiveLetterGuessView: UIView {
     }    
 }
 
-extension FiveLetterGuessView: KeyboardDelegate {
+extension WordGuessView: KeyboardDelegate {
     
     // MARK: - DID TAP LETTER
     func didTapLetter(_ letter: String) {
-        guard let currentGame = Model.shared.currentFLGGame else { return }
+        guard let currentGame = Model.shared.currentWGGame else { return }
         switch currentGame.currentLetter {
         case .a0:
-            Model.shared.currentFLGGame?.guessNumber = .first
+            Model.shared.currentWGGame?.guessNumber = .first
             gridView.a1.updateLetter(with: letter)
             gridView.a1.growAndShrink {
                 self.gridView.a1.setBorderActive()
                 self.gridView.leftDotOne.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .a1
+            Model.shared.currentWGGame?.currentLetter = .a1
         case .a1:
             gridView.a2.updateLetter(with: letter)
             gridView.a2.growAndShrink {
                 self.gridView.a2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .a2
+            Model.shared.currentWGGame?.currentLetter = .a2
         case .a2:
             gridView.a3.updateLetter(with: letter)
             gridView.a3.growAndShrink {
                 self.gridView.a3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .a3
+            Model.shared.currentWGGame?.currentLetter = .a3
         case .a3:
             gridView.a4.updateLetter(with: letter)
             gridView.a4.growAndShrink {
                 self.gridView.a4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .a4
+            Model.shared.currentWGGame?.currentLetter = .a4
         case .a4:
             gridView.a5.updateLetter(with: letter)
             gridView.a5.growAndShrink {
                 self.gridView.a5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .a5
+            Model.shared.currentWGGame?.currentLetter = .a5
         case .b0:
-            Model.shared.currentFLGGame?.guessNumber = .second
+            Model.shared.currentWGGame?.guessNumber = .second
             gridView.b1.updateLetter(with: letter)
             gridView.b1.growAndShrink {
                 self.gridView.b1.setBorderActive()
                 self.gridView.rightDotOne.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .b1
+            Model.shared.currentWGGame?.currentLetter = .b1
         case .b1:
             gridView.b2.updateLetter(with: letter)
             gridView.b2.growAndShrink {
                 self.gridView.b2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .b2
+            Model.shared.currentWGGame?.currentLetter = .b2
         case .b2:
             gridView.b3.updateLetter(with: letter)
             gridView.b3.growAndShrink {
                 self.gridView.b3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .b3
+            Model.shared.currentWGGame?.currentLetter = .b3
         case .b3:
             gridView.b4.updateLetter(with: letter)
             gridView.b4.growAndShrink {
                 self.gridView.b4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .b4
+            Model.shared.currentWGGame?.currentLetter = .b4
         case .b4:
             gridView.b5.updateLetter(with: letter)
             gridView.b5.growAndShrink {
                 self.gridView.b5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .b5
+            Model.shared.currentWGGame?.currentLetter = .b5
         case .c0:
-            Model.shared.currentFLGGame?.guessNumber = .third
+            Model.shared.currentWGGame?.guessNumber = .third
             gridView.c1.updateLetter(with: letter)
             gridView.c1.growAndShrink {
                 self.gridView.c1.setBorderActive()
                 self.gridView.leftDotTwo.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .c1
+            Model.shared.currentWGGame?.currentLetter = .c1
         case .c1:
             gridView.c2.updateLetter(with: letter)
             gridView.c2.growAndShrink {
                 self.gridView.c2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .c2
+            Model.shared.currentWGGame?.currentLetter = .c2
         case .c2:
             gridView.c3.updateLetter(with: letter)
             gridView.c3.growAndShrink {
                 self.gridView.c3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .c3
+            Model.shared.currentWGGame?.currentLetter = .c3
         case .c3:
             gridView.c4.updateLetter(with: letter)
             gridView.c4.growAndShrink {
                 self.gridView.c4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .c4
+            Model.shared.currentWGGame?.currentLetter = .c4
         case .c4:
             gridView.c5.updateLetter(with: letter)
             gridView.c5.growAndShrink {
                 self.gridView.c5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .c5
+            Model.shared.currentWGGame?.currentLetter = .c5
         case .d0:
-            Model.shared.currentFLGGame?.guessNumber = .fourth
+            Model.shared.currentWGGame?.guessNumber = .fourth
             gridView.d1.updateLetter(with: letter)
             gridView.d1.growAndShrink {
                 self.gridView.d1.setBorderActive()
                 self.gridView.rightDotTwo.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .d1
+            Model.shared.currentWGGame?.currentLetter = .d1
         case .d1:
             gridView.d2.updateLetter(with: letter)
             gridView.d2.growAndShrink {
                 self.gridView.d2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .d2
+            Model.shared.currentWGGame?.currentLetter = .d2
         case .d2:
             gridView.d3.updateLetter(with: letter)
             gridView.d3.growAndShrink {
                 self.gridView.d3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .d3
+            Model.shared.currentWGGame?.currentLetter = .d3
         case .d3:
             gridView.d4.updateLetter(with: letter)
             gridView.d4.growAndShrink {
                 self.gridView.d4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .d4
+            Model.shared.currentWGGame?.currentLetter = .d4
         case .d4:
             gridView.d5.updateLetter(with: letter)
             gridView.d5.growAndShrink {
                 self.gridView.d5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .d5
+            Model.shared.currentWGGame?.currentLetter = .d5
         case .e0:
-            Model.shared.currentFLGGame?.guessNumber = .fifth
+            Model.shared.currentWGGame?.guessNumber = .fifth
             gridView.e1.updateLetter(with: letter)
             gridView.e1.growAndShrink {
                 self.gridView.e1.setBorderActive()
                 self.gridView.leftDotThree.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .e1
+            Model.shared.currentWGGame?.currentLetter = .e1
         case .e1:
             gridView.e2.updateLetter(with: letter)
             gridView.e2.growAndShrink {
                 self.gridView.e2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .e2
+            Model.shared.currentWGGame?.currentLetter = .e2
         case .e2:
             gridView.e3.updateLetter(with: letter)
             gridView.e3.growAndShrink {
                 self.gridView.e3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .e3
+            Model.shared.currentWGGame?.currentLetter = .e3
         case .e3:
             gridView.e4.updateLetter(with: letter)
             gridView.e4.growAndShrink {
                 self.gridView.e4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .e4
+            Model.shared.currentWGGame?.currentLetter = .e4
         case .e4:
             gridView.e5.updateLetter(with: letter)
             gridView.e5.growAndShrink {
                 self.gridView.e5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .e5
+            Model.shared.currentWGGame?.currentLetter = .e5
         case .f0:
-            Model.shared.currentFLGGame?.guessNumber = .sixth
+            Model.shared.currentWGGame?.guessNumber = .sixth
             gridView.f1.updateLetter(with: letter)
             gridView.f1.growAndShrink {
                 self.gridView.f1.setBorderActive()
                 self.gridView.rightDotThree.isHidden = false
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .f1
+            Model.shared.currentWGGame?.currentLetter = .f1
         case .f1:
             gridView.f2.updateLetter(with: letter)
             gridView.f2.growAndShrink {
                 self.gridView.f2.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .f2
+            Model.shared.currentWGGame?.currentLetter = .f2
         case .f2:
             gridView.f3.updateLetter(with: letter)
             gridView.f3.growAndShrink {
                 self.gridView.f3.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .f3
+            Model.shared.currentWGGame?.currentLetter = .f3
         case .f3:
             gridView.f4.updateLetter(with: letter)
             gridView.f4.growAndShrink {
                 self.gridView.f4.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .f4
+            Model.shared.currentWGGame?.currentLetter = .f4
         case .f4:
             gridView.f5.updateLetter(with: letter)
             gridView.f5.growAndShrink {
                 self.gridView.f5.setBorderActive()
             }
             Model.shared.currentGuess += letter
-            Model.shared.currentFLGGame?.currentLetter = .f5
+            Model.shared.currentWGGame?.currentLetter = .f5
         case .a5, .b5, .c5, .d5, .e5, .f5: ()
         }
     }
     
     // MARK: - DID TAP ENTER
     func didTapEnter() {
-        guard let currentGame = Model.shared.currentFLGGame else { return }
+        guard let currentGame = Model.shared.currentWGGame else { return }
         guard Model.shared.currentGuess.count == 5 else { return }
         guard gridView.wordIsInList() else { return }
         
@@ -945,44 +945,44 @@ extension FiveLetterGuessView: KeyboardDelegate {
                 if Model.shared.currentGuess.lowercased() != currentGame.answer {
                     switch currentGame.currentLetter {
                     case .a5:
-                        Model.shared.currentFLGGame?.guess1 = Model.shared.currentGuess
-                        Model.shared.currentFLGGame?.currentLetter = .b0
+                        Model.shared.currentWGGame?.guess1 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.currentLetter = .b0
                     case .b5:
-                        Model.shared.currentFLGGame?.guess2 = Model.shared.currentGuess
-                        Model.shared.currentFLGGame?.currentLetter = .c0
+                        Model.shared.currentWGGame?.guess2 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.currentLetter = .c0
                     case .c5:
-                        Model.shared.currentFLGGame?.guess3 = Model.shared.currentGuess
-                        Model.shared.currentFLGGame?.currentLetter = .d0
+                        Model.shared.currentWGGame?.guess3 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.currentLetter = .d0
                     case .d5:
-                        Model.shared.currentFLGGame?.guess4 = Model.shared.currentGuess
-                        Model.shared.currentFLGGame?.currentLetter = .e0
+                        Model.shared.currentWGGame?.guess4 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.currentLetter = .e0
                     case .e5:
-                        Model.shared.currentFLGGame?.guess5 = Model.shared.currentGuess
-                        Model.shared.currentFLGGame?.currentLetter = .f0
+                        Model.shared.currentWGGame?.guess5 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.currentLetter = .f0
                     case .f5:
-                        Model.shared.currentFLGGame?.guess6 = Model.shared.currentGuess
+                        Model.shared.currentWGGame?.guess6 = Model.shared.currentGuess
                         self.showAnswer()
-                        Model.shared.currentFLGGame?.state = .lost
+                        Model.shared.currentWGGame?.state = .lost
                     default: ()
                     }
                 }
                 
-                if Model.shared.currentGuess.lowercased() == Model.shared.currentFLGGame?.answer {
+                if Model.shared.currentGuess.lowercased() == Model.shared.currentWGGame?.answer {
                     self.showSuccessView()
                     self.gridView.jumpForJoy {
                         self.showNewGameButton()
                     }
-                    Model.shared.currentFLGGame?.state = .won
+                    Model.shared.currentWGGame?.state = .won
                 }
                 
-                if let updatedCurrentGame = Model.shared.currentFLGGame,
+                if let updatedCurrentGame = Model.shared.currentWGGame,
                    (updatedCurrentGame.state == .won || updatedCurrentGame.state == .lost) {
                     Model.shared.updateGames(with: updatedCurrentGame)
                 }
                 
                 Model.shared.currentGuess = ""
                 
-                self.fiveLetterGuessDelegate.didTapFLGSendButton()
+                self.wordGuessDelegate.didTapWGSendButton()
                 self.disableKeyboard()
             }
         }
@@ -990,7 +990,7 @@ extension FiveLetterGuessView: KeyboardDelegate {
     
     // MARK: - DID TAP BACKSPACE
     func didTapBackspace() {
-        guard let currentGame = Model.shared.currentFLGGame else { return }
+        guard let currentGame = Model.shared.currentWGGame else { return }
         
         if !Model.shared.currentGuess.isEmpty {
             Model.shared.currentGuess.removeLast()
@@ -1001,200 +1001,200 @@ extension FiveLetterGuessView: KeyboardDelegate {
             gridView.a1.updateLetter(with: "")
             gridView.a1.setBorderInactive()
             gridView.leftDotOne.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .a0
+            Model.shared.currentWGGame?.currentLetter = .a0
         case .a2:
             gridView.a2.updateLetter(with: "")
             gridView.a2.setBorderInactive()
             gridView.a1.growAndShrink {
                 self.gridView.a1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .a1
+            Model.shared.currentWGGame?.currentLetter = .a1
         case .a3:
             gridView.a3.updateLetter(with: "")
             gridView.a3.setBorderInactive()
             gridView.a2.growAndShrink {
                 self.gridView.a2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .a2
+            Model.shared.currentWGGame?.currentLetter = .a2
         case .a4:
             gridView.a4.updateLetter(with: "")
             gridView.a4.setBorderInactive()
             gridView.a3.growAndShrink {
                 self.gridView.a3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .a3
+            Model.shared.currentWGGame?.currentLetter = .a3
         case .a5:
             gridView.a5.updateLetter(with: "")
             gridView.a5.setBorderInactive()
             gridView.a4.growAndShrink {
                 self.gridView.a4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .a4
+            Model.shared.currentWGGame?.currentLetter = .a4
         case .b1:
             gridView.b1.updateLetter(with: "")
             gridView.b1.setBorderInactive()
             gridView.rightDotOne.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .b0
+            Model.shared.currentWGGame?.currentLetter = .b0
         case .b2:
             gridView.b2.updateLetter(with: "")
             gridView.b2.setBorderInactive()
             gridView.b1.growAndShrink {
                 self.gridView.b1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .b1
+            Model.shared.currentWGGame?.currentLetter = .b1
         case .b3:
             gridView.b3.updateLetter(with: "")
             gridView.b3.setBorderInactive()
             gridView.b2.growAndShrink {
                 self.gridView.b2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .b2
+            Model.shared.currentWGGame?.currentLetter = .b2
         case .b4:
             gridView.b4.updateLetter(with: "")
             gridView.b4.setBorderInactive()
             gridView.b3.growAndShrink {
                 self.gridView.b3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .b3
+            Model.shared.currentWGGame?.currentLetter = .b3
         case .b5:
             gridView.b5.updateLetter(with: "")
             gridView.b5.setBorderInactive()
             gridView.b4.growAndShrink {
                 self.gridView.b4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .b4
+            Model.shared.currentWGGame?.currentLetter = .b4
         case .c1:
             gridView.c1.updateLetter(with: "")
             gridView.c1.setBorderInactive()
             gridView.leftDotTwo.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .c0
+            Model.shared.currentWGGame?.currentLetter = .c0
         case .c2:
             gridView.c2.updateLetter(with: "")
             gridView.c2.setBorderInactive()
             gridView.c1.growAndShrink {
                 self.gridView.c1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .c1
+            Model.shared.currentWGGame?.currentLetter = .c1
         case .c3:
             gridView.c3.updateLetter(with: "")
             gridView.c3.setBorderInactive()
             gridView.c2.growAndShrink {
                 self.gridView.c2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .c2
+            Model.shared.currentWGGame?.currentLetter = .c2
         case .c4:
             gridView.c4.updateLetter(with: "")
             gridView.c4.setBorderInactive()
             gridView.c3.growAndShrink {
                 self.gridView.c3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .c3
+            Model.shared.currentWGGame?.currentLetter = .c3
         case .c5:
             gridView.c5.updateLetter(with: "")
             gridView.c5.setBorderInactive()
             gridView.c4.growAndShrink {
                 self.gridView.c4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .c4
+            Model.shared.currentWGGame?.currentLetter = .c4
         case .d1:
             gridView.d1.updateLetter(with: "")
             gridView.d1.setBorderInactive()
             gridView.rightDotTwo.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .d0
+            Model.shared.currentWGGame?.currentLetter = .d0
         case .d2:
             gridView.d2.updateLetter(with: "")
             gridView.d2.setBorderInactive()
             gridView.d1.growAndShrink {
                 self.gridView.d1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .d1
+            Model.shared.currentWGGame?.currentLetter = .d1
         case .d3:
             gridView.d3.updateLetter(with: "")
             gridView.d3.setBorderInactive()
             gridView.d2.growAndShrink {
                 self.gridView.d2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .d2
+            Model.shared.currentWGGame?.currentLetter = .d2
         case .d4:
             gridView.d4.updateLetter(with: "")
             gridView.d4.setBorderInactive()
             gridView.d3.growAndShrink {
                 self.gridView.d3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .d3
+            Model.shared.currentWGGame?.currentLetter = .d3
         case .d5:
             gridView.d5.updateLetter(with: "")
             gridView.d5.setBorderInactive()
             gridView.d4.growAndShrink {
                 self.gridView.d4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .d4
+            Model.shared.currentWGGame?.currentLetter = .d4
         case .e1:
             gridView.e1.updateLetter(with: "")
             gridView.e1.setBorderInactive()
             gridView.leftDotThree.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .e0
+            Model.shared.currentWGGame?.currentLetter = .e0
         case .e2:
             gridView.e2.updateLetter(with: "")
             gridView.e2.setBorderInactive()
             gridView.e1.growAndShrink {
                 self.gridView.e1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .e1
+            Model.shared.currentWGGame?.currentLetter = .e1
         case .e3:
             gridView.e3.updateLetter(with: "")
             gridView.e3.setBorderInactive()
             gridView.e2.growAndShrink {
                 self.gridView.e2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .e2
+            Model.shared.currentWGGame?.currentLetter = .e2
         case .e4:
             gridView.e4.updateLetter(with: "")
             gridView.e4.setBorderInactive()
             gridView.e3.growAndShrink {
                 self.gridView.e3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .e3
+            Model.shared.currentWGGame?.currentLetter = .e3
         case .e5:
             gridView.e5.updateLetter(with: "")
             gridView.e5.setBorderInactive()
             gridView.e4.growAndShrink {
                 self.gridView.e4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .e4
+            Model.shared.currentWGGame?.currentLetter = .e4
         case .f1:
             gridView.f1.updateLetter(with: "")
             gridView.f1.setBorderInactive()
             gridView.rightDotThree.isHidden = true
-            Model.shared.currentFLGGame?.currentLetter = .f0
+            Model.shared.currentWGGame?.currentLetter = .f0
         case .f2:
             gridView.f2.updateLetter(with: "")
             gridView.f2.setBorderInactive()
             gridView.f1.growAndShrink {
                 self.gridView.f1.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .f1
+            Model.shared.currentWGGame?.currentLetter = .f1
         case .f3:
             gridView.f3.updateLetter(with: "")
             gridView.f3.setBorderInactive()
             gridView.f2.growAndShrink {
                 self.gridView.f2.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .f2
+            Model.shared.currentWGGame?.currentLetter = .f2
         case .f4:
             gridView.f4.updateLetter(with: "")
             gridView.f4.setBorderInactive()
             gridView.f3.growAndShrink {
                 self.gridView.f3.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .f3
+            Model.shared.currentWGGame?.currentLetter = .f3
         case .f5:
             gridView.f5.updateLetter(with: "")
             gridView.f5.setBorderInactive()
             gridView.f4.growAndShrink {
                 self.gridView.f4.setBorderActive()
             }
-            Model.shared.currentFLGGame?.currentLetter = .f4
+            Model.shared.currentWGGame?.currentLetter = .f4
         default: ()
         }
     }
@@ -1205,7 +1205,7 @@ extension FiveLetterGuessView: KeyboardDelegate {
 }
 
 // MARK: - FIVE LETTER GRID DELEGATE
-extension FiveLetterGuessView: FiveLetterGridDelegate {
+extension WordGuessView: FiveLetterGridDelegate {
     func showNotInWordListView() {
         notInWordListView.isHidden = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -1302,5 +1302,5 @@ extension FiveLetterGuessView: FiveLetterGridDelegate {
 }
 
 // MARK: - LONG PRESS DELEGATE
-extension FiveLetterGuessView: UIGestureRecognizerDelegate {}
+extension WordGuessView: UIGestureRecognizerDelegate {}
 

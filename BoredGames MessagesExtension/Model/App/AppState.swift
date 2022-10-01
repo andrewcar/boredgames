@@ -9,14 +9,14 @@ import Foundation
 
 enum AppState {
     case container
-    case fiveLetterGuess
+    case wordGuess
     case ticTacToe
     case dots
     case debug
 }
 
 enum GameType: String, Hashable, Codable {
-    case fiveLetterGuess
+    case wordGuess
     case ticTacToe
     case dots
 }

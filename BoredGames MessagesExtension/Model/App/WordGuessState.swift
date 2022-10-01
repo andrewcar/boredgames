@@ -1,5 +1,5 @@
 //
-//  FiveLetterGuessState.swift
+//  WordGuessState.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/21/22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FiveLetterGuessState {
+enum WordGuessState {
     case grid
     case stats
 }

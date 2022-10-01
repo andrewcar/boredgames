@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FLGGameDelegate {
+protocol WGGameDelegate {
     func didUpdateGame()
 }
 
@@ -16,14 +16,14 @@ class Model: NSObject {
     // MARK: - Properties
     static let shared = Model()
     var appState: AppState = .container
-    var fiveLetterGuessState: FiveLetterGuessState = .grid
-    var flgGameDelegate: FLGGameDelegate!
+    var wordGuessState: WordGuessState = .grid
+    var wgGameDelegate: WGGameDelegate!
     var isLandscape: Bool = false
     var isCompact: Bool = true
     var words: Words?
-    var flgGames = FiveLetterGuessGames(value: [])
+    var wgGames = WordGuessGames(value: [])
     var customAnswer: String?
-    var currentFLGGame: FiveLetterGuessGame?
+    var currentWGGame: WordGuessGame?
     var currentGuess = ""
     var lastGuessInEmojis = ""
     var lastLastGuessInEmojis = ""
@@ -165,35 +165,35 @@ class Model: NSObject {
     }
     
     // MARK: - UPDATE GAMES
-    func updateGames(with game: FiveLetterGuessGame) {
-        guard !flgGames.value.contains(where: { aGame in
+    func updateGames(with game: WordGuessGame) {
+        guard !wgGames.value.contains(where: { aGame in
             aGame.id == game.id
         }) else {
             return
         }
-        flgGames.gameCount += 1
-        flgGames.value.append(game)
+        wgGames.gameCount += 1
+        wgGames.value.append(game)
         
         if game.state == .won {
-            flgGames.winCount += 1
-            if flgGames.streakCount == flgGames.longestStreak {
-                flgGames.longestStreak += 1
+            wgGames.winCount += 1
+            if wgGames.streakCount == wgGames.longestStreak {
+                wgGames.longestStreak += 1
             }
-            flgGames.streakCount += 1
+            wgGames.streakCount += 1
 
         } else if game.state == .lost {
-            flgGames.lossCount += 1
-            flgGames.streakCount = 0
+            wgGames.lossCount += 1
+            wgGames.streakCount = 0
         }
-        GamesCache.saveFLGGames(flgGames)
-        flgGameDelegate?.didUpdateGame()
+        GamesCache.saveWGGames(wgGames)
+        wgGameDelegate?.didUpdateGame()
     }
     
     // MARK: - UPDATE GAMES FROM USER DEFAULTS
     func updateGamesFromUserDefaults() {
-        if let cachedGames = GamesCache.getFLGGames() {
-            flgGames = cachedGames
-            flgGameDelegate?.didUpdateGame()
+        if let cachedGames = GamesCache.getWGGames() {
+            wgGames = cachedGames
+            wgGameDelegate?.didUpdateGame()
         }
     }
 
@@ -202,16 +202,16 @@ class Model: NSObject {
         words = Model.shared.load("words.json")
         guard let randomWord = words?.list.randomElement() else { return }
         if let customAnswer = customAnswer {
-            currentFLGGame?.answer = customAnswer.lowercased()
+            currentWGGame?.answer = customAnswer.lowercased()
         } else {
-            currentFLGGame?.answer = randomWord
+            currentWGGame?.answer = randomWord
         }
         populateAnswerLetterCountDictionary {}
     }
     
     // MARK: - POPULATE ANSWER LETTER COUNTS
     func populateAnswerLetterCountDictionary(completion: @escaping () -> ()) {
-        guard let answer = currentFLGGame?.answer else { completion(); return }
+        guard let answer = currentWGGame?.answer else { completion(); return }
         for letter in answer {
             let letterString = "\(letter)"
             answerLetterCounts[letterString]! += 1
@@ -261,45 +261,45 @@ class Model: NSObject {
         guessYellowLetterCounts[letter.lowercased()]! += 1
     }
     
-    // MARK: - UPDATE FLG PLAYER UUID
-    func updateFLGPlayerUUID(with uuidString: String) {
-        guard let currentGame = currentFLGGame else { return }
+    // MARK: - UPDATE WG PLAYER UUID
+    func updateWGPlayerUUID(with uuidString: String) {
+        guard let currentGame = currentWGGame else { return }
         
         // if it's a fresh game, set playerTwo's UUIDString
         if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString == nil {
-            self.currentFLGGame?.playerTwo.uuidString = uuidString
+            self.currentWGGame?.playerTwo.uuidString = uuidString
             
         // else it's the second turn, so set playerOne's UUIDString
         } else if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString != nil {
-            self.currentFLGGame?.playerOne.uuidString = uuidString
+            self.currentWGGame?.playerOne.uuidString = uuidString
         }
     }
     
     // MARK: - ADVANCE GUESS NUMBER AND LETTER
     func advanceGuessNumberAndLetter() {
-        switch currentFLGGame?.guessNumber {
+        switch currentWGGame?.guessNumber {
         case .first:
-            currentFLGGame?.guessNumber = .second
-            currentFLGGame?.currentLetter = .b0
+            currentWGGame?.guessNumber = .second
+            currentWGGame?.currentLetter = .b0
         case .second:
-            currentFLGGame?.guessNumber = .third
-            currentFLGGame?.currentLetter = .c0
+            currentWGGame?.guessNumber = .third
+            currentWGGame?.currentLetter = .c0
         case .third:
-            currentFLGGame?.guessNumber = .fourth
-            currentFLGGame?.currentLetter = .d0
+            currentWGGame?.guessNumber = .fourth
+            currentWGGame?.currentLetter = .d0
         case .fourth:
-            currentFLGGame?.guessNumber = .fifth
-            currentFLGGame?.currentLetter = .e0
+            currentWGGame?.guessNumber = .fifth
+            currentWGGame?.currentLetter = .e0
         case .fifth:
-            currentFLGGame?.guessNumber = .sixth
-            currentFLGGame?.currentLetter = .f0
+            currentWGGame?.guessNumber = .sixth
+            currentWGGame?.currentLetter = .f0
         default: ()
         }
     }
     
     // MARK: - RESET GAME
     func resetGame(completion: @escaping () -> ()) {
-        currentFLGGame = FiveLetterGuessGame()
+        currentWGGame = WordGuessGame()
         currentGuess = ""
         lastGuessInEmojis = ""
         resetAnswerLetterCountDictionary {

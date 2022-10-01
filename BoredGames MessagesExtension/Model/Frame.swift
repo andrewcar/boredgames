@@ -44,7 +44,7 @@ struct Frame {
     // MARK: - GRID
     struct Grid {
         static let dotGirth: CGFloat = 11
-        static func fiveLetterGuessSize(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
+        static func wordGuessSize(_ containerWidth: CGFloat, scaledPadding: CGFloat) -> CGSize {
             let oneFifthSansPadding: CGFloat = (containerWidth - (scaledPadding * 6)) / 5
             let gridHeight = (oneFifthSansPadding * 6) + (scaledPadding * 7)
             return CGSize(width: containerWidth, height: gridHeight)

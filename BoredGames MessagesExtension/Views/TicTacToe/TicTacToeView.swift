@@ -149,7 +149,7 @@ class TicTacToeView: UIView {
             named: "books.vertical.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - STATS BUTTON CONSTRAINTS
@@ -214,7 +214,7 @@ class TicTacToeView: UIView {
             named: "gamecontroller.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - GRID BUTTON CONSTRAINTS
@@ -277,7 +277,7 @@ class TicTacToeView: UIView {
             named: "arrow.clockwise.circle.fill",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
     }
     
     // MARK: - NEW GAME BUTTON CONSTRAINTS

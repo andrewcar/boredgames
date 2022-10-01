@@ -1,5 +1,5 @@
 //
-//  FLGStatBarView.swift
+//  WGStatBarView.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/4/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FLGStatBarView: UIView {
+class WGStatBarView: UIView {
     
     // MARK: - Properties
     var playedNumberLabel = UILabel()
@@ -88,7 +88,7 @@ class FLGStatBarView: UIView {
         backgroundColor = .statBubbleBackground
         layer.cornerCurve = .continuous
         layer.cornerRadius = 23
-        Model.shared.flgGameDelegate = self
+        Model.shared.wgGameDelegate = self
     }
     
     // MARK: - ADD SUBVIEWS
@@ -105,7 +105,7 @@ class FLGStatBarView: UIView {
         playedNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         playedNumberLabel.textAlignment = .center
         playedNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
+        playedNumberLabel.text = "\(Model.shared.wgGames.gameCount)"
         playedNumberLabel.textColor = .statBubbleValueText
         addSubview(playedNumberLabel)
         
@@ -189,7 +189,7 @@ class FLGStatBarView: UIView {
         wonNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         wonNumberLabel.textAlignment = .center
         wonNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
+        wonNumberLabel.text = "\(Model.shared.wgGames.winCount)"
         wonNumberLabel.textColor = .statBubbleValueText
         addSubview(wonNumberLabel)
         
@@ -271,7 +271,7 @@ class FLGStatBarView: UIView {
         lostNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         lostNumberLabel.textAlignment = .center
         lostNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
+        lostNumberLabel.text = "\(Model.shared.wgGames.lossCount)"
         lostNumberLabel.textColor = .statBubbleValueText
         addSubview(lostNumberLabel)
         
@@ -353,7 +353,7 @@ class FLGStatBarView: UIView {
         streakNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         streakNumberLabel.textAlignment = .center
         streakNumberLabel.font = .customFont(named: .robotoSlabBlack, size: 34, fallbackWeight: .black)
-        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
+        streakNumberLabel.text = "\(Model.shared.wgGames.streakCount)"
         streakNumberLabel.textColor = .statBubbleValueText
         addSubview(streakNumberLabel)
         
@@ -430,11 +430,11 @@ class FLGStatBarView: UIView {
     }
 }
 
-extension FLGStatBarView: FLGGameDelegate {
+extension WGStatBarView: WGGameDelegate {
     func didUpdateGame() {
-        playedNumberLabel.text = "\(Model.shared.flgGames.gameCount)"
-        wonNumberLabel.text = "\(Model.shared.flgGames.winCount)"
-        lostNumberLabel.text = "\(Model.shared.flgGames.lossCount)"
-        streakNumberLabel.text = "\(Model.shared.flgGames.streakCount)"
+        playedNumberLabel.text = "\(Model.shared.wgGames.gameCount)"
+        wonNumberLabel.text = "\(Model.shared.wgGames.winCount)"
+        lostNumberLabel.text = "\(Model.shared.wgGames.lossCount)"
+        streakNumberLabel.text = "\(Model.shared.wgGames.streakCount)"
     }
 }

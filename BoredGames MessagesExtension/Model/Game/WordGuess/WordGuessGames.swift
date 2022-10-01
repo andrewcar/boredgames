@@ -1,5 +1,5 @@
 //
-//  FiveLetterGuessGames.swift
+//  WordGuessGames.swift
 //  BoredGames MessagesExtension
 //
 //  Created by Andrew Carvajal on 8/3/22.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct FiveLetterGuessGames: Hashable, Codable {
-    var value: [FiveLetterGuessGame]
+struct WordGuessGames: Hashable, Codable {
+    var value: [WordGuessGame]
     var gameCount: Int = 0
     var winCount: Int = 0
     var lossCount: Int = 0

@@ -30,7 +30,7 @@ class SuccessView: UIView {
     
     // MARK: - Public Methods
     func showAnswer() {
-        if let answer = Model.shared.currentFLGGame?.answer {
+        if let answer = Model.shared.currentWGGame?.answer {
             titleLabel.text = answer.uppercased()
         }
         backgroundColor = .successBackgroundRed

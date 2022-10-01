@@ -132,7 +132,7 @@ class TTTStatsView: UIView {
             named: "eject.circle.fill",
             size: Frame.buttonSize,
             weight: .bold,
-            color: .fiveLetterGuessButton)
+            color: .wordGuessButton)
         resetButton.setImage(image, for: .normal)
         resetButton.setTitleColor(.clear, for: .normal)
         addSubview(resetButton)
