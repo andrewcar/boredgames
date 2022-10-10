@@ -39,6 +39,18 @@ class ContainerView: UIView {
     private var dotsButtonPortraitConstraints: [NSLayoutConstraint] = []
     private var dotsButtonLandscapeConstraints: [NSLayoutConstraint] = []
     
+    private var batteryGuessButton = GameButton(frame: .zero)
+    private var batteryGuessButtonPortraitConstraints: [NSLayoutConstraint] = []
+    private var batteryGuessButtonLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    private var songGuessButton = GameButton(frame: .zero)
+    private var songGuessButtonPortraitConstraints: [NSLayoutConstraint] = []
+    private var songGuessButtonLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    private var placeGuessButton = GameButton(frame: .zero)
+    private var placeGuessButtonPortraitConstraints: [NSLayoutConstraint] = []
+    private var placeGuessButtonLandscapeConstraints: [NSLayoutConstraint] = []
+    
     var wordGuessView = WordGuessView(frame: .zero)
     private var wordGuessPortraitConstraints: [NSLayoutConstraint] = []
     private var wordGuessLandscapeConstraints: [NSLayoutConstraint] = []
@@ -46,6 +58,10 @@ class ContainerView: UIView {
     var ticTacToeView = TicTacToeView(frame: .zero)
     private var ticTacToePortraitConstraints: [NSLayoutConstraint] = []
     private var ticTacToeLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    var batteryGuessView = BatteryGuessView(frame: .zero)
+    private var batteryGuessPortraitConstraints: [NSLayoutConstraint] = []
+    private var batteryGuessLandscapeConstraints: [NSLayoutConstraint] = []
 
     private var smallLogoView = SmallLogoView(frame: .zero)
     private var smallLogoPortraitConstraints: [NSLayoutConstraint] = []
@@ -68,6 +84,9 @@ class ContainerView: UIView {
         addWordGuessButton()
         addTicTacToeButton()
         addDotsButton()
+        addBatteryGuessButton()
+        addPlaceGuessButton()
+        addSongGuessButton()
         addWordGuessView()
         addTicTacToeView()
         addDebugView()
@@ -91,6 +110,9 @@ class ContainerView: UIView {
         updateWordGuessButton(isLandscape: isLandscape)
         updateTicTacToeButton(isLandscape: isLandscape)
         updateDotsButton(isLandscape: isLandscape)
+        updateBatteryGuessButton(isLandscape: isLandscape)
+        updateSongGuessButton(isLandscape: isLandscape)
+        updatePlaceGuessButton(isLandscape: isLandscape)
         updateWordGuessView(isLandscape: isLandscape)
         updateTicTacToeView(isLandscape: isLandscape)
         activateSmallLogoViewConstraints(isLandscape: isLandscape)
@@ -239,9 +261,7 @@ class ContainerView: UIView {
     // MARK: - 🅰️ ▶️
     private func addWordGuessButton() {
         wordGuessButton.addTarget(self, action: #selector(didTapWordGuessButton(sender:)), for: .touchUpInside)
-        if let image = UIImage.wordGuess {
-            wordGuessButton.setImage(image, for: .normal)
-        }
+        wordGuessButton.setImage(wordGuessButtonImage(), for: .normal)
         addSubview(wordGuessButton)
         activateWordGuessButtonConstraints(isLandscape: false)
     }
@@ -249,10 +269,17 @@ class ContainerView: UIView {
     // MARK: - 🅰️ ▶️ 🔄
     private func updateWordGuessButton(isLandscape: Bool) {
         activateWordGuessButtonConstraints(isLandscape: isLandscape)
-        if let image = UIImage.wordGuess {
-            wordGuessButton.setImage(image, for: .normal)
-        }
+        wordGuessButton.setImage(wordGuessButtonImage(), for: .normal)
         wordGuessView.updateConstraints()
+    }
+    
+    // MARK: - 🅰️ ▶️ 🌄
+    private func wordGuessButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "w.square.fill",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .gameButton)
     }
     
     // MARK: - 🅰️ ▶️ 📜
@@ -262,7 +289,7 @@ class ContainerView: UIView {
         let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             wordGuessButtonLandscapeConstraints = [
-                wordGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                wordGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 3)),
                 wordGuessButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - Frame.gameButtonPadding - offset),
                 wordGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 wordGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
@@ -270,7 +297,7 @@ class ContainerView: UIView {
             NSLayoutConstraint.activate(wordGuessButtonLandscapeConstraints)
         } else {
             wordGuessButtonPortraitConstraints = [
-                wordGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                wordGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 2)),
                 wordGuessButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -Frame.buttonSize.width - Frame.gameButtonPadding - offset),
                 wordGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
                 wordGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
@@ -363,18 +390,18 @@ class ContainerView: UIView {
         let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             ticTacToeButtonLandscapeConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 3)),
                 ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -offset),
-                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width * 0.8),
+                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height * 0.8)
             ]
             NSLayoutConstraint.activate(ticTacToeButtonLandscapeConstraints)
         } else {
             ticTacToeButtonPortraitConstraints = [
-                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                ticTacToeButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 2)),
                 ticTacToeButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -offset),
-                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                ticTacToeButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width * 0.8),
+                ticTacToeButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height * 0.8)
             ]
             NSLayoutConstraint.activate(ticTacToeButtonPortraitConstraints)
         }
@@ -464,22 +491,21 @@ class ContainerView: UIView {
         let offset = Model.shared.appState == .container ? 0 : doubleWidth
         if isLandscape {
             dotsButtonLandscapeConstraints = [
-                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 3)),
                 dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding - offset),
-                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width * 0.8),
+                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height * 0.8)
             ]
             NSLayoutConstraint.activate(dotsButtonLandscapeConstraints)
         } else {
             dotsButtonPortraitConstraints = [
-                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+                dotsButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -(Frame.gameButtonPadding / 2)),
                 dotsButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: Frame.buttonSize.width + Frame.gameButtonPadding - offset),
-                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
-                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                dotsButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width * 0.8),
+                dotsButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height * 0.8)
             ]
             NSLayoutConstraint.activate(dotsButtonPortraitConstraints)
         }
-        NSLayoutConstraint.activate(dotsButtonPortraitConstraints)
     }
     
     // MARK: - 🔴 ▶️ 📜 🙅🏻‍♂️
@@ -494,6 +520,187 @@ class ContainerView: UIView {
     @objc private func didTapDotsButton(sender: UIButton) {
         dotsButton.shake()
     }
+    
+    // MARK: - 🔋 ▶️
+    private func addBatteryGuessButton() {
+        batteryGuessButton.addTarget(self, action: #selector(didTapBatteryGuessButton(sender:)), for: .touchUpInside)
+        batteryGuessButton.setImage(batteryGuessButtonImage(), for: .normal)
+        addSubview(batteryGuessButton)
+        activateBatteryGuessButtonConstraints(isLandscape: false)
+    }
+    
+    // MARK: - 🔋 ▶️ 🔄
+    private func updateBatteryGuessButton(isLandscape: Bool) {
+        activateBatteryGuessButtonConstraints(isLandscape: isLandscape)
+        batteryGuessButton.setImage(batteryGuessButtonImage(), for: .normal)
+    }
+    
+    // MARK: - 🔋 ▶️ 🌄
+    private func batteryGuessButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "battery.75",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .gameButtonDisabled)
+    }
+    
+    // MARK: - 🔋 ▶️ 📜
+    private func activateBatteryGuessButtonConstraints(isLandscape: Bool) {
+        deactivateBatteryGuessButtonConstraints()
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
+        if isLandscape {
+            batteryGuessButtonLandscapeConstraints = [
+                batteryGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.bigPadding),
+                batteryGuessButton.centerXAnchor.constraint(equalTo: wordGuessButton.centerXAnchor, constant: -offset),
+                batteryGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                batteryGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(batteryGuessButtonLandscapeConstraints)
+        } else {
+            batteryGuessButtonPortraitConstraints = [
+                batteryGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.gameButtonPadding / 2),
+                batteryGuessButton.centerXAnchor.constraint(equalTo: wordGuessButton.centerXAnchor, constant: -offset),
+                batteryGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                batteryGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(batteryGuessButtonPortraitConstraints)
+        }
+    }
+    
+    // MARK: - 🔋 ▶️ 📜 🙅🏻‍♂️
+    private func deactivateBatteryGuessButtonConstraints() {
+        NSLayoutConstraint.deactivate(batteryGuessButtonPortraitConstraints)
+        NSLayoutConstraint.deactivate(batteryGuessButtonLandscapeConstraints)
+        batteryGuessButtonPortraitConstraints.removeAll()
+        batteryGuessButtonLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - 🔋 ▶️ 👇
+    @objc private func didTapBatteryGuessButton(sender: UIButton) {
+        batteryGuessButton.shake()
+    }
+
+    // MARK: - 🎶 ▶️
+    private func addSongGuessButton() {
+        songGuessButton.addTarget(self, action: #selector(didTapSongGuessButton(sender:)), for: .touchUpInside)
+        songGuessButton.setImage(songGuessButtonImage(), for: .normal)
+        addSubview(songGuessButton)
+        activateSongGuessButtonConstraints(isLandscape: false)
+    }
+    
+    // MARK: - 🎶 ▶️ 🔄
+    private func updateSongGuessButton(isLandscape: Bool) {
+        activateSongGuessButtonConstraints(isLandscape: isLandscape)
+        songGuessButton.setImage(songGuessButtonImage(), for: .normal)
+    }
+    
+    // MARK: - 🎶 ▶️ 🌄
+    private func songGuessButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "music.quarternote.3",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .gameButtonDisabled)
+    }
+    
+    // MARK: - 🎶 ▶️ 📜
+    private func activateSongGuessButtonConstraints(isLandscape: Bool) {
+        deactivateSongGuessButtonConstraints()
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
+        if isLandscape {
+            songGuessButtonLandscapeConstraints = [
+                songGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.bigPadding),
+                songGuessButton.centerXAnchor.constraint(equalTo: ticTacToeButton.centerXAnchor, constant: -offset),
+                songGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                songGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(songGuessButtonLandscapeConstraints)
+        } else {
+            songGuessButtonPortraitConstraints = [
+                songGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.gameButtonPadding / 2),
+                songGuessButton.centerXAnchor.constraint(equalTo: ticTacToeButton.centerXAnchor, constant: -offset),
+                songGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                songGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(songGuessButtonPortraitConstraints)
+        }
+    }
+    
+    // MARK: - 🎶 ▶️ 📜 🙅🏻‍♂️
+    private func deactivateSongGuessButtonConstraints() {
+        NSLayoutConstraint.deactivate(songGuessButtonPortraitConstraints)
+        NSLayoutConstraint.deactivate(songGuessButtonLandscapeConstraints)
+        songGuessButtonPortraitConstraints.removeAll()
+        songGuessButtonLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - 🎶 ▶️ 👇
+    @objc private func didTapSongGuessButton(sender: UIButton) {
+        songGuessButton.shake()
+    }
+    
+    // MARK: - 🌎 ▶️
+    private func addPlaceGuessButton() {
+        placeGuessButton.addTarget(self, action: #selector(didTapPlaceGuessButton(sender:)), for: .touchUpInside)
+        placeGuessButton.setImage(placeGuessButtonImage(), for: .normal)
+        addSubview(placeGuessButton)
+        activatePlaceGuessButtonConstraints(isLandscape: false)
+    }
+    
+    // MARK: - 🌎 ▶️ 🔄
+    private func updatePlaceGuessButton(isLandscape: Bool) {
+        activatePlaceGuessButtonConstraints(isLandscape: isLandscape)
+        placeGuessButton.setImage(placeGuessButtonImage(), for: .normal)
+    }
+    
+    // MARK: - 🌎 ▶️ 🌄
+    private func placeGuessButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "globe.americas.fill",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .gameButtonDisabled)
+    }
+    
+    // MARK: - 🌎 ▶️ 📜
+    private func activatePlaceGuessButtonConstraints(isLandscape: Bool) {
+        deactivatePlaceGuessButtonConstraints()
+        let doubleWidth = UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .container ? 0 : doubleWidth
+        if isLandscape {
+            placeGuessButtonLandscapeConstraints = [
+                placeGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.bigPadding),
+                placeGuessButton.centerXAnchor.constraint(equalTo: dotsButton.centerXAnchor, constant: -offset),
+                placeGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                placeGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(placeGuessButtonLandscapeConstraints)
+        } else {
+            placeGuessButtonPortraitConstraints = [
+                placeGuessButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Frame.gameButtonPadding / 2),
+                placeGuessButton.centerXAnchor.constraint(equalTo: dotsButton.centerXAnchor, constant: -offset),
+                placeGuessButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                placeGuessButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(placeGuessButtonPortraitConstraints)
+        }
+    }
+    
+    // MARK: - 🌎 ▶️ 📜 🙅🏻‍♂️
+    private func deactivatePlaceGuessButtonConstraints() {
+        NSLayoutConstraint.deactivate(placeGuessButtonPortraitConstraints)
+        NSLayoutConstraint.deactivate(placeGuessButtonLandscapeConstraints)
+        placeGuessButtonPortraitConstraints.removeAll()
+        placeGuessButtonLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - 🌎 ▶️ 👇
+    @objc private func didTapPlaceGuessButton(sender: UIButton) {
+        placeGuessButton.shake()
+    }
+
     
     // MARK: - ℹ️ 🆒
     private func addVersionLabel() {

@@ -23,6 +23,7 @@
 		4931D9DA28C1C87E0026E8D0 /* WordGuessGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931D9D928C1C87E0026E8D0 /* WordGuessGame.swift */; };
 		4931D9DC28C1C8930026E8D0 /* TicTacToeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4931D9DB28C1C8930026E8D0 /* TicTacToeGame.swift */; };
 		49447DB028A0406D00BED45A /* RobotoSlab-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */; };
+		494C04EE28E8B652000839B3 /* BatteryGuessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494C04ED28E8B652000839B3 /* BatteryGuessView.swift */; };
 		494D914228B1D996003E14D9 /* TicTacToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914128B1D996003E14D9 /* TicTacToeView.swift */; };
 		494D914528B1E392003E14D9 /* ThreeRowGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914428B1E392003E14D9 /* ThreeRowGridView.swift */; };
 		494D914728B1E552003E14D9 /* ThreeRowGridLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D914628B1E552003E14D9 /* ThreeRowGridLetterView.swift */; };
@@ -109,6 +110,7 @@
 		4931D9DB28C1C8930026E8D0 /* TicTacToeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeGame.swift; sourceTree = "<group>"; };
 		49447DAF28A0405E00BED45A /* RobotoSlab-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoSlab-Black.ttf"; sourceTree = "<group>"; };
 		494C04EA28E3D7D5000839B3 /* BoredGames MessagesExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BoredGames MessagesExtension.entitlements"; sourceTree = "<group>"; };
+		494C04ED28E8B652000839B3 /* BatteryGuessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryGuessView.swift; sourceTree = "<group>"; };
 		494D914128B1D996003E14D9 /* TicTacToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeView.swift; sourceTree = "<group>"; };
 		494D914428B1E392003E14D9 /* ThreeRowGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeRowGridView.swift; sourceTree = "<group>"; };
 		494D914628B1E552003E14D9 /* ThreeRowGridLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeRowGridLetterView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,14 @@
 			path = TicTacToe;
 			sourceTree = "<group>";
 		};
+		494C04EF28E8B659000839B3 /* BatteryGuess */ = {
+			isa = PBXGroup;
+			children = (
+				494C04ED28E8B652000839B3 /* BatteryGuessView.swift */,
+			);
+			path = BatteryGuess;
+			sourceTree = "<group>";
+		};
 		494D914028B1B4D6003E14D9 /* WordGuess */ = {
 			isa = PBXGroup;
 			children = (
@@ -323,9 +333,10 @@
 		49A07DEC288F05DF008270F9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				494D914828B1F057003E14D9 /* ContainerView.swift */,
 				494D914028B1B4D6003E14D9 /* WordGuess */,
 				494D914328B1DD2E003E14D9 /* TicTacToe */,
-				494D914828B1F057003E14D9 /* ContainerView.swift */,
+				494C04EF28E8B659000839B3 /* BatteryGuess */,
 				49C0616228A73D0A002D6EEA /* DebugView.swift */,
 				4997443D28AC12D30062DA57 /* LogoView.swift */,
 				494D914E28B2ED2D003E14D9 /* SmallLogoView.swift */,
@@ -552,6 +563,7 @@
 				4993489B28906E3600BC6B0B /* Words.swift in Sources */,
 				49A07DE9288DC459008270F9 /* UIColorExtensions.swift in Sources */,
 				4997443E28AC12D30062DA57 /* LogoView.swift in Sources */,
+				494C04EE28E8B652000839B3 /* BatteryGuessView.swift in Sources */,
 				495EAD7B28903E19004290AD /* Frame.swift in Sources */,
 				4913C0E1289905930039745B /* UIImageExtensions.swift in Sources */,
 			);
