@@ -65,8 +65,8 @@ class BatteryGuessView: UIView {
             batteryLandscapeConstraints = [
                 batteryView.centerXAnchor.constraint(equalTo: centerXAnchor),
                 batteryView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                batteryView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7),
-                batteryView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width * 0.7) * 0.45)
+                batteryView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.7),
+                batteryView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.height * 0.7) * 0.45)
             ]
             NSLayoutConstraint.activate(batteryLandscapeConstraints)
         } else {
@@ -98,8 +98,8 @@ class BatteryGuessView: UIView {
             capLandscapeConstraints = [
                 capView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor, constant: Frame.smallPadding),
                 capView.centerYAnchor.constraint(equalTo: batteryView.centerYAnchor),
-                capView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.03),
-                capView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.07)
+                capView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.03),
+                capView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.07)
             ]
             NSLayoutConstraint.activate(capLandscapeConstraints)
         } else {
