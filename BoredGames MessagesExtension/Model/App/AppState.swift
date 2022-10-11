@@ -12,6 +12,7 @@ enum AppState {
     case wordGuess
     case ticTacToe
     case dots
+    case batteryGuess
     case debug
 }
 
@@ -19,4 +20,5 @@ enum GameType: String, Hashable, Codable {
     case wordGuess
     case ticTacToe
     case dots
+    case batteryGuess
 }

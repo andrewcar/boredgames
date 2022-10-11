@@ -35,6 +35,8 @@
 		494D915728B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */; };
 		494D915B28B6DE7B003E14D9 /* TicTacToeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */; };
 		4950D938289B8184004BA711 /* WGStatBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* WGStatBarView.swift */; };
+		4957D27628F4BDB100B96D3A /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27528F4BDB100B96D3A /* BatteryView.swift */; };
+		4957D27828F5396D00B96D3A /* BatteryCapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27728F5396D00B96D3A /* BatteryCapView.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* WordGuessCurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* WordGuessCurrentLetter.swift */; };
 		495EAD75288F74CE004290AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* Model.swift */; };
@@ -122,6 +124,8 @@
 		494D915628B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeCurrentSquare.swift; sourceTree = "<group>"; };
 		494D915A28B6DE7B003E14D9 /* TicTacToeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeModel.swift; sourceTree = "<group>"; };
 		4950D937289B8184004BA711 /* WGStatBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WGStatBarView.swift; sourceTree = "<group>"; };
+		4957D27528F4BDB100B96D3A /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
+		4957D27728F5396D00B96D3A /* BatteryCapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryCapView.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* WordGuessCurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessCurrentLetter.swift; sourceTree = "<group>"; };
 		495EAD74288F74CE004290AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -223,6 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				494C04ED28E8B652000839B3 /* BatteryGuessView.swift */,
+				4957D27528F4BDB100B96D3A /* BatteryView.swift */,
+				4957D27728F5396D00B96D3A /* BatteryCapView.swift */,
 			);
 			path = BatteryGuess;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 				49A07DD0288DB76A008270F9 /* MessagesViewController.swift in Sources */,
 				49A07DF0288F0B4E008270F9 /* KeyboardLetterView.swift in Sources */,
 				494D914928B1F057003E14D9 /* ContainerView.swift in Sources */,
+				4957D27628F4BDB100B96D3A /* BatteryView.swift in Sources */,
 				494D914B28B29C2A003E14D9 /* WordGuessState.swift in Sources */,
 				49A07DEB288F05C9008270F9 /* KeyboardView.swift in Sources */,
 				49A647BB289BA858008A97A4 /* GamesCache.swift in Sources */,
@@ -566,6 +573,7 @@
 				494C04EE28E8B652000839B3 /* BatteryGuessView.swift in Sources */,
 				495EAD7B28903E19004290AD /* Frame.swift in Sources */,
 				4913C0E1289905930039745B /* UIImageExtensions.swift in Sources */,
+				4957D27828F5396D00B96D3A /* BatteryCapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

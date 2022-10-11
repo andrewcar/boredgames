@@ -11,6 +11,7 @@ extension UIColor {
     static let containerBackground = UIColor(named: "containerBackground")
     static let wordGuessBackground = UIColor(named: "wordGuessBackground")
     static let ticTacToeBackground = UIColor(named: "ticTacToeBackground")
+    static let batteryGuessBackground = UIColor(named: "batteryGuessBackground")
     static let dotsBackground = UIColor(named: "dotsBackground")
     
     static let gameButton = UIColor(named: "gameButton")

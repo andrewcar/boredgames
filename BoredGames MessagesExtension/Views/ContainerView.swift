@@ -12,6 +12,7 @@ protocol ContainerDelegate {
     func didTapLogoButton()
     func didTapWordGuessButton()
     func didTapTicTacToeButton()
+    func didTapBatteryGuessButton()
     func didTapTTTSquareButton()
     func showTTTWin()
     func showTTTLoss()
@@ -89,6 +90,7 @@ class ContainerView: UIView {
         addSongGuessButton()
         addWordGuessView()
         addTicTacToeView()
+        addBatteryGuessView()
         addDebugView()
         addSmallLogoView()
         addVersionLabel()
@@ -115,6 +117,7 @@ class ContainerView: UIView {
         updatePlaceGuessButton(isLandscape: isLandscape)
         updateWordGuessView(isLandscape: isLandscape)
         updateTicTacToeView(isLandscape: isLandscape)
+        updateBatteryGuessView(isLandscape: isLandscape)
         activateSmallLogoViewConstraints(isLandscape: isLandscape)
         activateVersionLabelConstraints(isLandscape: isLandscape)
         activateDebugConstraints(isLandscape: isLandscape)
@@ -137,6 +140,8 @@ class ContainerView: UIView {
             newColor = .ticTacToeBackground
         case .dots:
             newColor = .dotsBackground
+        case .batteryGuess:
+            newColor = .batteryGuessBackground
         case .debug:
             newColor = .containerBackground
         }
@@ -218,6 +223,9 @@ class ContainerView: UIView {
             case .ticTacToe:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - tttOffset)
                 smallLogoLandscapeConstraints.append(leadingConstraint)
+            case .batteryGuess:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
+                smallLogoLandscapeConstraints.append(leadingConstraint)
             case .debug:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
                 smallLogoLandscapeConstraints.append(leadingConstraint)
@@ -239,6 +247,9 @@ class ContainerView: UIView {
                 smallLogoPortraitConstraints.append(leadingConstraint)
             case .ticTacToe:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding - tttOffset)
+                smallLogoPortraitConstraints.append(leadingConstraint)
+            case .batteryGuess:
+                let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
                 smallLogoPortraitConstraints.append(leadingConstraint)
             case .debug:
                 let leadingConstraint = smallLogoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.Logo.upperPadding)
@@ -541,7 +552,7 @@ class ContainerView: UIView {
             named: "battery.75",
             size: Frame.buttonSize,
             weight: .regular,
-            color: .gameButtonDisabled)
+            color: .gameButton)
     }
     
     // MARK: - 🔋 ▶️ 📜
@@ -578,7 +589,53 @@ class ContainerView: UIView {
     
     // MARK: - 🔋 ▶️ 👇
     @objc private func didTapBatteryGuessButton(sender: UIButton) {
-        batteryGuessButton.shake()
+        Model.shared.appState = .batteryGuess
+        updateConstraints()
+        containerDelegate.didTapBatteryGuessButton()
+    }
+    
+    // MARK: - 🔋 🪟
+    private func addBatteryGuessView() {
+//        batteryGuessView.batteryGuessViewDelegate = self
+        addSubview(batteryGuessView)
+        activateBatteryGuessViewConstraints(isLandscape: false)
+    }
+    
+    // MARK: - 🔋 🪟 🔄
+    private func updateBatteryGuessView(isLandscape: Bool) {
+        activateBatteryGuessViewConstraints(isLandscape: isLandscape)
+        batteryGuessView.updateConstraints()
+    }
+    
+    // MARK: - 🔋 🪟 📜
+    private func activateBatteryGuessViewConstraints(isLandscape: Bool) {
+        deactivateBatteryGuessViewConstraints()
+        let offset = Model.shared.appState == .batteryGuess ? 0 : UIScreen.main.bounds.width * 2
+        if isLandscape {
+            batteryGuessLandscapeConstraints = [
+                batteryGuessView.topAnchor.constraint(equalTo: topAnchor),
+                batteryGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                batteryGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ]
+            NSLayoutConstraint.activate(batteryGuessLandscapeConstraints)
+        } else {
+            batteryGuessPortraitConstraints = [
+                batteryGuessView.topAnchor.constraint(equalTo: topAnchor),
+                batteryGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
+                batteryGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ]
+            NSLayoutConstraint.activate(batteryGuessPortraitConstraints)
+        }
+    }
+    
+    // MARK: - 🔋 🪟 📜 🙅🏻‍♂️
+    private func deactivateBatteryGuessViewConstraints() {
+        NSLayoutConstraint.deactivate(batteryGuessPortraitConstraints)
+        NSLayoutConstraint.deactivate(batteryGuessLandscapeConstraints)
+        batteryGuessPortraitConstraints.removeAll()
+        batteryGuessLandscapeConstraints.removeAll()
     }
 
     // MARK: - 🎶 ▶️

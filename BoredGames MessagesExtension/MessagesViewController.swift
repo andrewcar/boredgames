@@ -447,6 +447,7 @@ class MessagesViewController: MSMessagesAppViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         containerView.wordGuessView.updateConstraints()
         containerView.ticTacToeView.updateConstraints()
+        containerView.batteryGuessView.updateConstraints()
     }
     
     // MARK: - WILL BECOME ACTIVE
@@ -785,6 +786,10 @@ extension MessagesViewController: ContainerDelegate {
     }
     
     func didTapTicTacToeButton() {
+        requestPresentationStyle(.expanded)
+    }
+    
+    func didTapBatteryGuessButton() {
         requestPresentationStyle(.expanded)
     }
     
