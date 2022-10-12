@@ -22,6 +22,15 @@ class BatteryGuessView: UIView {
     private var percentagePortraitConstraints: [NSLayoutConstraint] = []
     private var percentageLandscapeConstraints: [NSLayoutConstraint] = []
     
+    private var leftTapView = UIView(frame: .zero)
+    private var leftTapPortraitConstraints: [NSLayoutConstraint] = []
+    private var leftTapLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    private var rightTapView = UIView(frame: .zero)
+    private var rightTapPortraitConstraints: [NSLayoutConstraint] = []
+    private var rightTapLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +49,8 @@ class BatteryGuessView: UIView {
         activateBatteryConstraints(isLandscape: Model.shared.isLandscape)
         activateCapConstraints(isLandscape: Model.shared.isLandscape)
         activatePercentageLabel(isLandscape: Model.shared.isLandscape)
+        activateLeftTapConstraints(isLandscape: Model.shared.isLandscape)
+        activateRightTapConstraints(isLandscape: Model.shared.isLandscape)
         
         batteryView.updateConstraints()
     }
@@ -54,6 +65,8 @@ class BatteryGuessView: UIView {
         addBatteryView()
         addCapView()
         addPercentageLabel()
+        addLeftTapView()
+        addRightTapView()
     }
     
     // MARK: - Battery View
@@ -103,7 +116,7 @@ class BatteryGuessView: UIView {
         deactivateCapConstraints()
         if isLandscape {
             capLandscapeConstraints = [
-                capView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor, constant: Frame.smallPadding),
+                capView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor, constant: 4),
                 capView.centerYAnchor.constraint(equalTo: batteryView.centerYAnchor),
                 capView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.03),
                 capView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.07)
@@ -111,7 +124,7 @@ class BatteryGuessView: UIView {
             NSLayoutConstraint.activate(capLandscapeConstraints)
         } else {
             capPortraitConstraints = [
-                capView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor, constant: Frame.smallPadding),
+                capView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor, constant: 4),
                 capView.centerYAnchor.constraint(equalTo: batteryView.centerYAnchor),
                 capView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.03),
                 capView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.07)
@@ -166,12 +179,97 @@ class BatteryGuessView: UIView {
         percentagePortraitConstraints.removeAll()
         percentageLandscapeConstraints.removeAll()
     }
+    
+    private func addLeftTapView() {
+        leftTapView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLeftView(sender:)))
+        leftTapView.addGestureRecognizer(tapGesture)
+                
+        addSubview(leftTapView)
+        activateLeftTapConstraints(isLandscape: false)
+    }
+    
+    @objc private func didTapLeftView(sender: UITapGestureRecognizer) {
+        guard batteryView.currentProgress <= 100 && batteryView.currentProgress > 0 else { return }
+        batteryView.currentProgress -= 1
+        didUpdate(percentage: batteryView.currentProgress)
+        batteryView.updateConstraints()
+    }
+    
+    private func activateLeftTapConstraints(isLandscape: Bool) {
+        if isLandscape {
+            leftTapLandscapeConstraints = [
+                leftTapView.topAnchor.constraint(equalTo: batteryView.topAnchor),
+                leftTapView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                leftTapView.trailingAnchor.constraint(equalTo: batteryView.leadingAnchor),
+                leftTapView.bottomAnchor.constraint(equalTo: batteryView.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(leftTapLandscapeConstraints)
+        } else {
+            leftTapPortraitConstraints = [
+                leftTapView.topAnchor.constraint(equalTo: batteryView.topAnchor),
+                leftTapView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                leftTapView.trailingAnchor.constraint(equalTo: batteryView.leadingAnchor),
+                leftTapView.bottomAnchor.constraint(equalTo: batteryView.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(leftTapPortraitConstraints)
+        }
+    }
+    
+    private func deactivateLeftTapConstraints() {
+        NSLayoutConstraint.deactivate(leftTapPortraitConstraints)
+        NSLayoutConstraint.deactivate(leftTapLandscapeConstraints)
+        leftTapPortraitConstraints.removeAll()
+        leftTapLandscapeConstraints.removeAll()
+    }
+    
+    private func addRightTapView() {
+        rightTapView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapRightView(sender:)))
+        rightTapView.addGestureRecognizer(tapGesture)
+        
+        addSubview(rightTapView)
+    }
+    
+    @objc private func didTapRightView(sender: UITapGestureRecognizer) {
+        guard batteryView.currentProgress < 100 && batteryView.currentProgress >= 0 else { return }
+        batteryView.currentProgress += 1
+        didUpdate(percentage: batteryView.currentProgress)
+        batteryView.updateConstraints()
+    }
+    
+    private func activateRightTapConstraints(isLandscape: Bool) {
+        if isLandscape {
+            rightTapLandscapeConstraints = [
+                rightTapView.topAnchor.constraint(equalTo: batteryView.topAnchor),
+                rightTapView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor),
+                rightTapView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                rightTapView.bottomAnchor.constraint(equalTo: batteryView.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(rightTapLandscapeConstraints)
+        } else {
+            rightTapPortraitConstraints = [
+                rightTapView.topAnchor.constraint(equalTo: batteryView.topAnchor),
+                rightTapView.leadingAnchor.constraint(equalTo: batteryView.trailingAnchor),
+                rightTapView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                rightTapView.bottomAnchor.constraint(equalTo: batteryView.bottomAnchor)
+            ]
+            NSLayoutConstraint.activate(rightTapPortraitConstraints)
+        }
+    }
+    
+    private func deactivateRightTapConstraints() {
+        NSLayoutConstraint.deactivate(rightTapPortraitConstraints)
+        NSLayoutConstraint.deactivate(rightTapLandscapeConstraints)
+        rightTapPortraitConstraints.removeAll()
+        rightTapLandscapeConstraints.removeAll()
+    }
 }
 
 extension BatteryGuessView: BatteryViewDelegate {
-    func didUpdate(percentage: Double) {
-        let percentageTimesOneHundred = percentage * 100
-        let percentageTrimmingRemainder = String(format: "%.0f", percentageTimesOneHundred)
-        percentageLabel.text = "\(percentageTrimmingRemainder)%"
+    func didUpdate(percentage: Int) {
+        percentageLabel.text = "\(percentage)%"
     }
 }

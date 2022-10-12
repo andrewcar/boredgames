@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BatteryViewDelegate {
-    func didUpdate(percentage: Double)
+    func didUpdate(percentage: Int)
 }
 
 class BatteryView: UIView, UIGestureRecognizerDelegate {
@@ -23,7 +23,7 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
     private var progressPortraitConstraints: [NSLayoutConstraint] = []
     private var progressLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var currentProgress: Double = 0.0
+    var currentProgress = 100
         
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -66,10 +66,11 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
                              
     @objc private func didTap(sender: UITapGestureRecognizer) {
         let locationX = sender.location(in: self).x
-        let percentageOfWidth = locationX / frame.width
-        if percentageOfWidth <= 1 && percentageOfWidth >= 0.01 {
-            currentProgress = percentageOfWidth
-        }
+        let floatPercentageOfWidth = (locationX / frame.width) * 100
+        let percentageOfWidth = Int(floatPercentageOfWidth)
+        guard percentageOfWidth <= 100 && percentageOfWidth >= 1 else { return }
+        
+        currentProgress = percentageOfWidth
         updateConstraints()
         batteryDelegate.didUpdate(percentage: currentProgress)
     }
@@ -83,10 +84,11 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
         let locationX = sender.location(in: self).x
-        let percentageOfWidth = locationX / frame.width
-        if percentageOfWidth <= 1 && percentageOfWidth >= 0.01 {
-            currentProgress = percentageOfWidth
-        }
+        let floatPercentageOfWidth = (locationX / frame.width) * 100
+        let percentageOfWidth = Int(floatPercentageOfWidth)
+        guard percentageOfWidth <= 100 && percentageOfWidth >= 1 else { return }
+        
+        currentProgress = percentageOfWidth
         updateConstraints()
         batteryDelegate.didUpdate(percentage: currentProgress)
     }
@@ -101,7 +103,6 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
         progressView.layer.cornerCurve = .continuous
         progressView.layer.cornerRadius = 19
         addSubview(progressView)
-        activateProgressConstraints(isLandscape: false)
     }
     
     private func activateProgressConstraints(isLandscape: Bool) {
@@ -111,8 +112,8 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
                 progressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
                 progressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
                 progressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
-                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: currentProgress),
-                progressView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.bigPadding)
+                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                progressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
             ]
             NSLayoutConstraint.activate(progressLandscapeConstraints)
         } else {
@@ -120,8 +121,8 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
                 progressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
                 progressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
                 progressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
-                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: currentProgress),
-                progressView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.bigPadding)
+                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                progressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
             ]
             NSLayoutConstraint.activate(progressPortraitConstraints)
         }
