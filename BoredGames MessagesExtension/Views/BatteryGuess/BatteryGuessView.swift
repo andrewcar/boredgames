@@ -18,6 +18,10 @@ class BatteryGuessView: UIView {
     private var capPortraitConstraints: [NSLayoutConstraint] = []
     private var capLandscapeConstraints: [NSLayoutConstraint] = []
     
+    private var percentageLabel = UILabel(frame: .zero)
+    private var percentagePortraitConstraints: [NSLayoutConstraint] = []
+    private var percentageLandscapeConstraints: [NSLayoutConstraint] = []
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,13 +37,10 @@ class BatteryGuessView: UIView {
     override func updateConstraints() {
         super.updateConstraints()
         
-        if Model.shared.isLandscape {
-            activateBatteryConstraints(isLandscape: true)
-            activateCapConstraints(isLandscape: true)
-        } else {
-            activateBatteryConstraints(isLandscape: false)
-            activateCapConstraints(isLandscape: false)
-        }
+        activateBatteryConstraints(isLandscape: Model.shared.isLandscape)
+        activateCapConstraints(isLandscape: Model.shared.isLandscape)
+        activatePercentageLabel(isLandscape: Model.shared.isLandscape)
+        
         batteryView.updateConstraints()
     }
     
@@ -52,9 +53,13 @@ class BatteryGuessView: UIView {
     private func addSubviews() {
         addBatteryView()
         addCapView()
+        addPercentageLabel()
     }
     
+    // MARK: - Battery View
+    
     private func addBatteryView() {
+        batteryView.batteryDelegate = self
         addSubview(batteryView)
         activateBatteryConstraints(isLandscape: false)
     }
@@ -87,6 +92,8 @@ class BatteryGuessView: UIView {
         batteryLandscapeConstraints.removeAll()
     }
     
+    // MARK: - Cap View
+    
     private func addCapView() {
         addSubview(capView)
         activateCapConstraints(isLandscape: false)
@@ -118,5 +125,53 @@ class BatteryGuessView: UIView {
         NSLayoutConstraint.deactivate(capLandscapeConstraints)
         capPortraitConstraints.removeAll()
         capLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - Percentage Label
+    
+    private func addPercentageLabel() {
+        percentageLabel.translatesAutoresizingMaskIntoConstraints = false
+        percentageLabel.font = .systemFont(ofSize: 42, weight: .bold)
+        percentageLabel.textColor = .wordGuessButton
+        percentageLabel.textAlignment = .center
+        percentageLabel.adjustsFontSizeToFitWidth = true
+        addSubview(percentageLabel)
+        activatePercentageLabel(isLandscape: false)
+    }
+    
+    private func activatePercentageLabel(isLandscape: Bool) {
+        deactivatePercentageConstraints()
+        if isLandscape {
+            percentageLandscapeConstraints = [
+                percentageLabel.topAnchor.constraint(equalTo: batteryView.bottomAnchor, constant: Frame.bigPadding),
+                percentageLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                percentageLabel.widthAnchor.constraint(equalTo: batteryView.widthAnchor),
+                percentageLabel.heightAnchor.constraint(equalToConstant: 100)
+            ]
+            NSLayoutConstraint.activate(percentageLandscapeConstraints)
+        } else {
+            percentagePortraitConstraints = [
+                percentageLabel.topAnchor.constraint(equalTo: batteryView.bottomAnchor, constant: Frame.bigPadding),
+                percentageLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                percentageLabel.widthAnchor.constraint(equalTo: batteryView.widthAnchor),
+                percentageLabel.heightAnchor.constraint(equalToConstant: 100)
+            ]
+            NSLayoutConstraint.activate(percentagePortraitConstraints)
+        }
+    }
+    
+    private func deactivatePercentageConstraints() {
+        NSLayoutConstraint.deactivate(percentagePortraitConstraints)
+        NSLayoutConstraint.deactivate(percentageLandscapeConstraints)
+        percentagePortraitConstraints.removeAll()
+        percentageLandscapeConstraints.removeAll()
+    }
+}
+
+extension BatteryGuessView: BatteryViewDelegate {
+    func didUpdate(percentage: Double) {
+        let percentageTimesOneHundred = percentage * 100
+        let percentageTrimmingRemainder = String(format: "%.0f", percentageTimesOneHundred)
+        percentageLabel.text = "\(percentageTrimmingRemainder)%"
     }
 }
