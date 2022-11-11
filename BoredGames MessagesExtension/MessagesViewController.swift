@@ -19,24 +19,26 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addContainerView()
+        UIDevice.current.isBatteryMonitoringEnabled = true
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        Model.shared.isCompact = presentationStyle == .compact ? true : false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        Model.shared.isCompact = presentationStyle == .compact ? true : false
         
-        // portrait
-        if UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height {
-            Model.shared.isLandscape = false
-
-        // landscape
-        } else {
-            Model.shared.isLandscape = true
-        }
-        
+        setOrientation()
         activateContainerConstraints()
         containerView.updateConstraints()
+    }
+    
+    private func setOrientation() {
+        let isPortrait = UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height
+        Model.shared.isLandscape = !isPortrait
     }
     
     // MARK: - CONTAINER VIEW
@@ -114,6 +116,9 @@ class MessagesViewController: MSMessagesAppViewController {
                 } else if gameType == GameType.ticTacToe.rawValue {
                     decodeTicTacToeMessage(queryItems: queryItems)
                     return .ticTacToe
+                } else if gameType == GameType.batteryGuess.rawValue {
+                    decodeBatteryGuessMessage(queryItems: queryItems)
+                    return .batteryGuess
                 }
             }
         }
@@ -331,12 +336,87 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: - DECODE BATTERY GUESS MESSAGE
+    private func decodeBatteryGuessMessage(queryItems: [URLQueryItem]) {
+        var id: UUID?
+        var playerOneBatteryPercentage: String?
+        var playerTwoBatteryPercentage: String?
+        var playerOneGuess: String?
+        var playerTwoGuess: String?
+        var state: String?
+        var playerOneUUID: String?
+        var playerTwoUUID: String?
+        var currentPlayerUUID: String?
+        
+        for queryItem in queryItems {
+            if let value = queryItem.value {
+                switch queryItem.name {
+                case "id":
+                    if !value.isEmpty {
+                        id = UUID(uuidString: value)
+                    }
+                case "playerOneBatteryPercentage":
+                    if !value.isEmpty {
+                        playerOneBatteryPercentage = value
+                    }
+                case "playerTwoBatteryPercentage":
+                    if !value.isEmpty {
+                        playerTwoBatteryPercentage = value
+                    }
+                case "playerOneGuess":
+                    if !value.isEmpty {
+                        playerOneGuess = value
+                    }
+                case "playerTwoGuess":
+                    if !value.isEmpty {
+                        playerTwoGuess = value
+                    }
+                case "state":
+                    if !value.isEmpty {
+                        state = value
+                    }
+                case "playerOneUUID":
+                    if !value.isEmpty {
+                        playerOneUUID = value
+                    }
+                case "playerTwoUUID":
+                    if !value.isEmpty {
+                        playerTwoUUID = value
+                    }
+                case "currentPlayerUUID":
+                    if !value.isEmpty {
+                        currentPlayerUUID = value
+                    }
+                default: ()
+                }
+            }
+        }
+        
+        let stateValue = state ?? "playing"
+        
+        if let id = id {
+            let game = BatteryGuessGame(
+                gameType: .batteryGuess,
+                id: id,
+                playerOneBatteryPercentage: playerOneBatteryPercentage,
+                playerTwoBatteryPercentage: playerTwoBatteryPercentage,
+                playerOneGuess: playerOneGuess,
+                playerTwoGuess: playerTwoGuess,
+                state: BGGameState(rawValue: stateValue) ?? .playing,
+                playerOne: Player(uuidString: playerOneUUID, color: .blue),
+                playerTwo: Player(uuidString: playerTwoUUID, color: .red),
+                currentPlayerUUID: currentPlayerUUID)
+            Model.shared.currentBGGame = game
+        }
+    }
+    
     // MARK: - COME ALIVE
     func comeAlive(with conversation: MSConversation) {
         requestPresentationStyle(.expanded)
         
         containerView.wordGuessView.resetGame {}
         containerView.ticTacToeView.resetGame()
+        containerView.batteryGuessView.resetGame()
         
         Model.shared.updateGamesFromUserDefaults()
         TicTacToeModel.shared.updateGamesFromUserDefaults()
@@ -356,6 +436,12 @@ class MessagesViewController: MSMessagesAppViewController {
                 Model.shared.appState = .ticTacToe
                 TicTacToeModel.shared.ticTacToeState = .grid
                 updateTicTacToeGame(from: conversation)
+                
+            case .batteryGuess:
+                containerView.batteryGuessView.isUserInteractionEnabled = true
+                Model.shared.appState = .batteryGuess
+                //Model.shared.batteryGuessState = .main
+                updateBatteryGuessGame(from: conversation)
                 
             default:
                 Model.shared.appState = .container
@@ -441,7 +527,49 @@ class MessagesViewController: MSMessagesAppViewController {
         )
         TicTacToeModel.shared.advanceTurnNumber()
     }
+    
+    // MARK: - UPDATE BG GAME
+    private func updateBatteryGuessGame(from activeConversation: MSConversation) {
+        guard let currentGame = Model.shared.currentBGGame else { return }
+        guard let playerOneGuess = currentGame.playerOneGuess else { return }
+        guard let batteryGuessPercentageInt = Int(playerOneGuess) else { return }
+        
+        #if DEBUG
+        let batteryLevel = abs(UIDevice.current.batteryLevel)
+        #else
+        let batteryLevel = UIDevice.current.batteryLevel
+        #endif
+        
+        let actualBatteryPercentageInt = Int(batteryLevel * 100)
+        let periodOrExclamation = batteryGuessPercentageInt == actualBatteryPercentageInt ? "!" : "."
 
+        containerView.batteryGuessView.percentageLabel.text = ""
+
+        containerView.batteryGuessView.topResultLabel.text = "Your battery is at \(actualBatteryPercentageInt)%."
+        containerView.batteryGuessView.topResultLabel.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+            self.containerView.batteryGuessView.topResultLabel.alpha = 1
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.containerView.batteryGuessView.batteryView.currentProgress = actualBatteryPercentageInt
+            self.containerView.updateConstraints(with: 2) {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.containerView.batteryGuessView.batteryView.currentProgress = batteryGuessPercentageInt
+                    
+                    self.containerView.batteryGuessView.bottomResultLabel.alpha = 0
+                    self.containerView.batteryGuessView.bottomResultLabel.text = "Their guess was \(batteryGuessPercentageInt)%" + periodOrExclamation
+                    UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+                        self.containerView.batteryGuessView.bottomResultLabel.alpha = 1
+                    }
+                    self.containerView.updateConstraints(with: 2) {
+                        //
+                    }
+                }
+            }
+        }
+    }
     
     // MARK: - TRAIT COLLECTION DID CHANGE
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -465,6 +593,9 @@ class MessagesViewController: MSMessagesAppViewController {
         } else if Model.shared.appState == .ticTacToe {
             disableGridIfNotOurTurn()
             updateTTTOtherPlayerUUID()
+        } else if Model.shared.appState == .batteryGuess {
+            //disableGridIfNotOurTurn()
+            updateBGOtherPlayerUUID()
         }
     }
     
@@ -480,6 +611,13 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let activeConversation = activeConversation else { return }
         guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
         TicTacToeModel.shared.updateTTTPlayerUUID(with: remoteParticipantIdentifier.uuidString)
+    }
+    
+    // MARK: - UPDATE BG OTHER PLAYER UUID
+    private func updateBGOtherPlayerUUID() {
+        guard let activeConversation = activeConversation else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        Model.shared.updateBGPlayerUUID(with: remoteParticipantIdentifier.uuidString)
     }
     
     // MARK: - DISABLE KEYBOARD IF NOT OUR TURN
@@ -554,6 +692,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called after the extension transitions to a new presentation style.
     
         // Use this method to finalize any behaviors associated with the change in presentation style.
+        containerView.updateConstraints()
     }
 }
 
@@ -618,7 +757,7 @@ extension MessagesViewController {
         message.url = components.url!
         
         let layout = MSMessageTemplateLayout()
-        if let image = UIImage.logoMessageBubble {
+        if let image = UIImage.wordGuessMessageBubble {
             layout.image = image
         }
         layout.caption = "WORD GUESS"
@@ -758,6 +897,59 @@ extension MessagesViewController {
         message.layout = layout
         return message
     }
+    
+    // MARK: - COMPOSE BG MESSAGE
+    private func composeBGMessage() -> MSMessage {
+        let session = activeConversation?.selectedMessage?.session
+        let message = MSMessage(session: session ?? MSSession())
+        
+        let components = NSURLComponents()
+        var queryItems: [URLQueryItem] = []
+        if let currentGame = Model.shared.currentBGGame {
+            
+            queryItems.append(URLQueryItem(name: "gameType", value: GameType.batteryGuess.rawValue))
+            queryItems.append(URLQueryItem(name: "id", value: "\(currentGame.id)"))
+            queryItems.append(URLQueryItem(name: "state", value: "\(currentGame.state)"))
+
+            if let playerOneBatteryPercentage = currentGame.playerOneBatteryPercentage {
+                queryItems.append(URLQueryItem(name: "playerOneBatteryPercentage", value: "\(playerOneBatteryPercentage)"))
+            }
+            if let playerTwoBatteryPercentage = currentGame.playerTwoBatteryPercentage {
+                queryItems.append(URLQueryItem(name: "playerTwoBatteryPercentage", value: "\(playerTwoBatteryPercentage)"))
+            }
+            if let playerOneGuess = currentGame.playerOneGuess {
+                queryItems.append(URLQueryItem(name: "playerOneGuess", value: "\(playerOneGuess)"))
+            }
+            if let playerTwoGuess = currentGame.playerTwoGuess {
+                queryItems.append(URLQueryItem(name: "playerTwoGuess", value: "\(playerTwoGuess)"))
+            }
+            if let playerOneUUID = currentGame.playerOne.uuidString {
+                queryItems.append(URLQueryItem(name: "playerOneUUID", value: "\(playerOneUUID)"))
+            }
+            if let playerTwoUUID = currentGame.playerTwo.uuidString {
+                queryItems.append(URLQueryItem(name: "playerTwoUUID", value: "\(playerTwoUUID)"))
+            }
+            if let currentPlayerUUID = currentGame.currentPlayerUUID {
+                queryItems.append(URLQueryItem(name: "currentPlayerUUID", value: "\(currentPlayerUUID)"))
+            }
+            if let winnerUUID = currentGame.winnerUUID {
+                queryItems.append(URLQueryItem(name: "winnerUUID", value: "\(winnerUUID)"))
+            }
+        }
+        components.queryItems = queryItems
+        
+        message.url = components.url!
+        
+        let layout = MSMessageTemplateLayout()
+        if let image = UIImage.batteryGuessMessageBubble {
+            layout.image = image
+        }
+        layout.caption = "BATTERY GUESS"
+        layout.subcaption = "Your battery percentage is... 🥁"
+        
+        message.layout = layout
+        return message
+    }
 }
 
 extension MessagesViewController: ContainerDelegate {
@@ -765,10 +957,16 @@ extension MessagesViewController: ContainerDelegate {
         showContainer()
     }
     
-    func didTapSendButton() {
+    func didTapWGSendButton() {
         guard let activeConversation = activeConversation else { return }
         updateCurrentWGPlayer(from: activeConversation)
         send(message: composeWGMessage(), from: activeConversation)
+    }
+    
+    func didTapBGSendButton() {
+        guard let activeConversation = activeConversation else { return }
+        updateCurrentBGPlayer(from: activeConversation)
+        send(message: composeBGMessage(), from: activeConversation)
     }
     
     private func updateCurrentWGPlayer(from activeConversation: MSConversation) {
@@ -779,6 +977,11 @@ extension MessagesViewController: ContainerDelegate {
     private func updateCurrentTTTPlayer(from activeConversation: MSConversation) {
         guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
         TicTacToeModel.shared.currentTTTGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
+    }
+    
+    private func updateCurrentBGPlayer(from activeConversation: MSConversation) {
+        guard let remoteParticipantUUID = activeConversation.remoteParticipantIdentifiers.first else { return }
+        Model.shared.currentBGGame?.currentPlayerUUID = remoteParticipantUUID.uuidString
     }
     
     func didTapWordGuessButton() {
@@ -806,7 +1009,7 @@ extension MessagesViewController: ContainerDelegate {
                 print("Error: \(error.localizedDescription)")
                 
                 if Model.shared.appState == .wordGuess {
-                    Model.shared.resetGame {
+                    Model.shared.resetWGGame {
                         DispatchQueue.main.async {
                             self.containerView.wordGuessView.resetGame {}
                         }
@@ -815,6 +1018,12 @@ extension MessagesViewController: ContainerDelegate {
                     TicTacToeModel.shared.resetGame {
                         DispatchQueue.main.async {
                             self.containerView.ticTacToeView.resetGame()
+                        }
+                    }
+                } else if Model.shared.appState == .batteryGuess {
+                    Model.shared.resetBGGame {
+                        DispatchQueue.main.async {
+                            self.containerView.batteryGuessView.resetGame()
                         }
                     }
                 }

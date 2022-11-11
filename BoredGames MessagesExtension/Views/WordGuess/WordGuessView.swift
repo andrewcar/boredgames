@@ -689,7 +689,7 @@ class WordGuessView: UIView {
     
     // MARK: - RESET
     func resetGame(completion: @escaping () -> Void) {
-        Model.shared.resetGame {
+        Model.shared.resetWGGame {
             self.gridView.resetRows()
             self.keyboardView.resetKeyboard()
             self.successView.isHidden = true

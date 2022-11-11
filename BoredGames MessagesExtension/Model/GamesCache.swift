@@ -10,6 +10,7 @@ import Foundation
 struct GamesCache {
     static let wgKey = "WordGuessGames"
     static let tttKey = "TicTacToeGames"
+    static let bgKey = "BatteryGuessGames"
     
     static func saveWGGames(_ value: WordGuessGames!) {
         NSUbiquitousKeyValueStore.default.set(try? PropertyListEncoder().encode(value), forKey: wgKey)
@@ -17,6 +18,10 @@ struct GamesCache {
     
     static func saveTTTGames(_ value: TicTacToeGames!) {
         NSUbiquitousKeyValueStore.default.set(try? PropertyListEncoder().encode(value), forKey: tttKey)
+    }
+    
+    static func saveBGGames(_ value: BatteryGuessGames!) {
+        NSUbiquitousKeyValueStore.default.set(try? PropertyListEncoder().encode(value), forKey: bgKey)
     }
     
     static func getWGGames() -> WordGuessGames? {
@@ -44,6 +49,19 @@ struct GamesCache {
         }
         return nil
     }
+    
+    static func getBGGames() -> BatteryGuessGames? {
+        var userData: BatteryGuessGames
+        if let data = NSUbiquitousKeyValueStore.default.object(forKey: bgKey) as? Data {
+            do {
+                userData = try PropertyListDecoder().decode(BatteryGuessGames.self, from: data)
+                return userData
+            } catch {
+                print("ERROR: \(error.localizedDescription)")
+            }
+        }
+        return nil
+    }
 
     static func removeWGGames() {
         NSUbiquitousKeyValueStore.default.removeObject(forKey: wgKey)
@@ -51,5 +69,9 @@ struct GamesCache {
     
     static func removeTTTGames() {
         NSUbiquitousKeyValueStore.default.removeObject(forKey: tttKey)
+    }
+    
+    static func removeBGGames() {
+        NSUbiquitousKeyValueStore.default.removeObject(forKey: bgKey)
     }
 }

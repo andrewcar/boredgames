@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "batteryGuess_messageBubble.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

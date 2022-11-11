@@ -11,6 +11,10 @@ protocol WGGameDelegate {
     func didUpdateGame()
 }
 
+protocol BGGameDelegate {
+    func didUpdateGame()
+}
+
 class Model: NSObject {
     
     // MARK: - Properties
@@ -18,12 +22,15 @@ class Model: NSObject {
     var appState: AppState = .container
     var wordGuessState: WordGuessState = .grid
     var wgGameDelegate: WGGameDelegate!
+    var bgGameDelegate: BGGameDelegate!
     var isLandscape: Bool = false
     var isCompact: Bool = true
     var words: Words?
     var wgGames = WordGuessGames(value: [])
+    var bgGames = BatteryGuessGames(value: [])
     var customAnswer: String?
     var currentWGGame: WordGuessGame?
+    var currentBGGame: BatteryGuessGame?
     var currentGuess = ""
     var lastGuessInEmojis = ""
     var lastLastGuessInEmojis = ""
@@ -189,11 +196,18 @@ class Model: NSObject {
         wgGameDelegate?.didUpdateGame()
     }
     
+    
+    
     // MARK: - UPDATE GAMES FROM USER DEFAULTS
     func updateGamesFromUserDefaults() {
         if let cachedGames = GamesCache.getWGGames() {
             wgGames = cachedGames
             wgGameDelegate?.didUpdateGame()
+        }
+        
+        if let cachedGames = GamesCache.getBGGames() {
+            bgGames = cachedGames
+            bgGameDelegate?.didUpdateGame()
         }
     }
 
@@ -275,6 +289,20 @@ class Model: NSObject {
         }
     }
     
+    // MARK: - UPDATE BG PLAYER UUID
+    func updateBGPlayerUUID(with uuidString: String) {
+        guard let currentGame = currentBGGame else { return }
+        
+        // if it's a fresh game, set playerTwo's UUIDString
+        if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString == nil {
+            self.currentBGGame?.playerTwo.uuidString = uuidString
+            
+            // else it's the second turn, so set playerOne's UUIDString
+        } else if currentGame.playerOne.uuidString == nil, currentGame.playerTwo.uuidString != nil {
+            self.currentBGGame?.playerOne.uuidString = uuidString
+        }
+    }
+    
     // MARK: - ADVANCE GUESS NUMBER AND LETTER
     func advanceGuessNumberAndLetter() {
         switch currentWGGame?.guessNumber {
@@ -297,8 +325,8 @@ class Model: NSObject {
         }
     }
     
-    // MARK: - RESET GAME
-    func resetGame(completion: @escaping () -> ()) {
+    // MARK: - RESET WG GAME
+    func resetWGGame(completion: @escaping () -> ()) {
         currentWGGame = WordGuessGame()
         currentGuess = ""
         lastGuessInEmojis = ""
@@ -307,5 +335,11 @@ class Model: NSObject {
                 completion()
             }
         }
+    }
+    
+    // MARK: - RESET BG GAME
+    func resetBGGame(completion: @escaping () -> ()) {
+        currentBGGame = BatteryGuessGame()
+        completion()
     }
 }

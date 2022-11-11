@@ -45,4 +45,6 @@ extension UIColor {
     static let statBubbleBackground = UIColor(named: "statBubbleBackground")
     static let statBubbleValueText = UIColor(named: "statBubbleValueText")
     static let statBubbleTitleText = UIColor(named: "statBubbleTitleText")
+    
+    static let batteryGuessRed = UIColor(named: "batteryGuessRed")
 }

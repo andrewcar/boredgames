@@ -8,7 +8,8 @@
 import UIKit
 
 protocol ContainerDelegate {
-    func didTapSendButton()
+    func didTapWGSendButton()
+    func didTapBGSendButton()
     func didTapLogoButton()
     func didTapWordGuessButton()
     func didTapTicTacToeButton()
@@ -125,6 +126,31 @@ class ContainerView: UIView {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
             self.layoutIfNeeded()
         } completion: { _ in
+        }
+    }
+    
+    func updateConstraints(with duration: TimeInterval, completion: @escaping () -> Void) {
+        let isLandscape = UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height ? false : true
+        
+        updateBackgroundColor()
+        updateLogoView(isLandscape: isLandscape)
+        updateWordGuessButton(isLandscape: isLandscape)
+        updateTicTacToeButton(isLandscape: isLandscape)
+        updateDotsButton(isLandscape: isLandscape)
+        updateBatteryGuessButton(isLandscape: isLandscape)
+        updateSongGuessButton(isLandscape: isLandscape)
+        updatePlaceGuessButton(isLandscape: isLandscape)
+        updateWordGuessView(isLandscape: isLandscape)
+        updateTicTacToeView(isLandscape: isLandscape)
+        updateBatteryGuessView(isLandscape: isLandscape)
+        activateSmallLogoViewConstraints(isLandscape: isLandscape)
+        activateVersionLabelConstraints(isLandscape: isLandscape)
+        activateDebugConstraints(isLandscape: isLandscape)
+        
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.3, options: .curveEaseIn) {
+            self.layoutIfNeeded()
+        } completion: { _ in
+            completion()
         }
     }
     
@@ -596,7 +622,7 @@ class ContainerView: UIView {
     
     // MARK: - 🔋 🪟
     private func addBatteryGuessView() {
-//        batteryGuessView.batteryGuessViewDelegate = self
+        batteryGuessView.batteryGuessDelegate = self
         addSubview(batteryGuessView)
         activateBatteryGuessViewConstraints(isLandscape: false)
     }
@@ -610,13 +636,13 @@ class ContainerView: UIView {
     // MARK: - 🔋 🪟 📜
     private func activateBatteryGuessViewConstraints(isLandscape: Bool) {
         deactivateBatteryGuessViewConstraints()
-        let offset = Model.shared.appState == .batteryGuess ? 0 : UIScreen.main.bounds.width * 2
+        let offset = Model.shared.appState == .batteryGuess ? 0 : -UIScreen.main.bounds.width
         if isLandscape {
             batteryGuessLandscapeConstraints = [
                 batteryGuessView.topAnchor.constraint(equalTo: topAnchor),
                 batteryGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
                 batteryGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor)
+                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
             ]
             NSLayoutConstraint.activate(batteryGuessLandscapeConstraints)
         } else {
@@ -624,7 +650,7 @@ class ContainerView: UIView {
                 batteryGuessView.topAnchor.constraint(equalTo: topAnchor),
                 batteryGuessView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: offset),
                 batteryGuessView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor)
+                batteryGuessView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: offset)
             ]
             NSLayoutConstraint.activate(batteryGuessPortraitConstraints)
         }
@@ -757,7 +783,6 @@ class ContainerView: UIView {
     @objc private func didTapPlaceGuessButton(sender: UIButton) {
         placeGuessButton.shake()
     }
-
     
     // MARK: - ℹ️ 🆒
     private func addVersionLabel() {
@@ -850,7 +875,7 @@ extension ContainerView: WordGuessDelegate {
     
     // MARK: - ⤴️ ▶️ 👇
     func didTapWGSendButton() {
-        containerDelegate.didTapSendButton()
+        containerDelegate.didTapWGSendButton()
     }
     
     // MARK: - 📈 ▶️ 👇
@@ -891,5 +916,12 @@ extension ContainerView: TicTacToeViewDelegate {
     
     func showCatsGame() {
         containerDelegate.showTTTCatsGame()
+    }
+}
+
+extension ContainerView: BatteryGuessDelegate {
+    
+    func didTapBGSendButton() {
+        containerDelegate.didTapBGSendButton()
     }
 }

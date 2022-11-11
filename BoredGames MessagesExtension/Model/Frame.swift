@@ -22,6 +22,7 @@ struct Frame {
     static var gameButtonPadding: CGFloat {
         return (UIScreen.main.bounds.width - (buttonSize.width * 4)) / 5
     }
+    
 
     // MARK: - LOGO
     struct Logo {

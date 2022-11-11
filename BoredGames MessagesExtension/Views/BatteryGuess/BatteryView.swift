@@ -19,10 +19,18 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
     private var tapGesture = UITapGestureRecognizer()
     private var panGesture = UIPanGestureRecognizer()
     
-    private var progressView = UIView(frame: .zero)
-    private var progressPortraitConstraints: [NSLayoutConstraint] = []
-    private var progressLandscapeConstraints: [NSLayoutConstraint] = []
+    var redProgressView = UIView(frame: .zero)
+    private var redProgressPortraitConstraints: [NSLayoutConstraint] = []
+    private var redProgressLandscapeConstraints: [NSLayoutConstraint] = []
+
+    var greenProgressView = UIView(frame: .zero)
+    private var greenProgressPortraitConstraints: [NSLayoutConstraint] = []
+    private var greenProgressLandscapeConstraints: [NSLayoutConstraint] = []
     
+    var chargingImageView = UIImageView(frame: .zero)
+    private var chargingImagePortraitConstraints: [NSLayoutConstraint] = []
+    private var chargingImageLandscapeConstraints: [NSLayoutConstraint] = []
+        
     var currentProgress = 100
         
     // MARK: - Initializers
@@ -39,7 +47,9 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Overrides
     override func updateConstraints() {
         super.updateConstraints()
-        activateProgressConstraints(isLandscape: Model.shared.isLandscape)
+        activateRedProgressConstraints(isLandscape: Model.shared.isLandscape)
+        activateGreenProgressConstraints(isLandscape: Model.shared.isLandscape)
+        activateChargingImageConstraints(isLandscape: Model.shared.isLandscape)
     }
     
     // MARK: - Private Methods
@@ -58,6 +68,30 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
         layer.cornerRadius = 25
     }
     
+    private func addSubviews() {
+        addRedProgressView()
+        addGreenProgressView()
+        addChargingImageView()
+    }
+    
+    private func updateProgressView(locationX: Double) {
+        let floatPercentageOfWidth = locationX / frame.width
+        let floatPercentageOfWidthTimes100 = floatPercentageOfWidth * 100
+        let percentageOfWidthTimes100 = Int(floatPercentageOfWidthTimes100)
+        
+        guard percentageOfWidthTimes100 <= 100 && percentageOfWidthTimes100 >= 1 else { return }
+        currentProgress = percentageOfWidthTimes100
+        
+        redProgressView.alpha = percentageOfWidthTimes100 <= 21 ? 1 : 0
+        greenProgressView.alpha = percentageOfWidthTimes100 >= 21 ? 1 : 0
+        chargingImageView.alpha = percentageOfWidthTimes100 == 100 ? 1 : 0
+        
+        updateConstraints()
+        batteryDelegate.didUpdate(percentage: currentProgress)
+    }
+    
+    // MARK: - TAP
+    
     private func addTapGesture() {
         tapGesture.addTarget(self, action: #selector(didTap(sender:)))
         tapGesture.delegate = self
@@ -65,15 +99,10 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
     }
                              
     @objc private func didTap(sender: UITapGestureRecognizer) {
-        let locationX = sender.location(in: self).x
-        let floatPercentageOfWidth = (locationX / frame.width) * 100
-        let percentageOfWidth = Int(floatPercentageOfWidth)
-        guard percentageOfWidth <= 100 && percentageOfWidth >= 1 else { return }
-        
-        currentProgress = percentageOfWidth
-        updateConstraints()
-        batteryDelegate.didUpdate(percentage: currentProgress)
+        updateProgressView(locationX: sender.location(in: self).x)
     }
+    
+    // MARK: - PAN
     
     private func addPanGesture() {
         panGesture.maximumNumberOfTouches = 1
@@ -83,55 +112,136 @@ class BatteryView: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
-        let locationX = sender.location(in: self).x
-        let floatPercentageOfWidth = (locationX / frame.width) * 100
-        let percentageOfWidth = Int(floatPercentageOfWidth)
-        guard percentageOfWidth <= 100 && percentageOfWidth >= 1 else { return }
-        
-        currentProgress = percentageOfWidth
-        updateConstraints()
-        batteryDelegate.didUpdate(percentage: currentProgress)
+        updateProgressView(locationX: sender.location(in: self).x)
     }
     
-    private func addSubviews() {
-        addProgressView()
+    // MARK: - RED PROGRESS VIEW
+    
+    private func addRedProgressView() {
+        redProgressView.translatesAutoresizingMaskIntoConstraints = false
+        redProgressView.backgroundColor =  .batteryGuessRed
+        redProgressView.layer.cornerCurve = .continuous
+        redProgressView.layer.cornerRadius = 19
+        addSubview(redProgressView)
     }
     
-    private func addProgressView() {
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.backgroundColor = .wordGuessButton
-        progressView.layer.cornerCurve = .continuous
-        progressView.layer.cornerRadius = 19
-        addSubview(progressView)
-    }
-    
-    private func activateProgressConstraints(isLandscape: Bool) {
-        deactivateProgressConstraints()
+    private func activateRedProgressConstraints(isLandscape: Bool) {
+        deactivateRedProgressConstraints()
         if isLandscape {
-            progressLandscapeConstraints = [
-                progressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
-                progressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
-                progressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
-                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
-                progressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
+            redProgressLandscapeConstraints = [
+                redProgressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
+                redProgressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+                redProgressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
+                redProgressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                redProgressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
             ]
-            NSLayoutConstraint.activate(progressLandscapeConstraints)
+            NSLayoutConstraint.activate(redProgressLandscapeConstraints)
         } else {
-            progressPortraitConstraints = [
-                progressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
-                progressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
-                progressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
-                progressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
-                progressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
+            redProgressPortraitConstraints = [
+                redProgressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
+                redProgressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+                redProgressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
+                redProgressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                redProgressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
             ]
-            NSLayoutConstraint.activate(progressPortraitConstraints)
+            NSLayoutConstraint.activate(redProgressPortraitConstraints)
         }
     }
     
-    private func deactivateProgressConstraints() {
-        NSLayoutConstraint.deactivate(progressPortraitConstraints)
-        NSLayoutConstraint.deactivate(progressLandscapeConstraints)
-        progressPortraitConstraints.removeAll()
-        progressLandscapeConstraints.removeAll()
+    private func deactivateRedProgressConstraints() {
+        NSLayoutConstraint.deactivate(redProgressPortraitConstraints)
+        NSLayoutConstraint.deactivate(redProgressLandscapeConstraints)
+        redProgressPortraitConstraints.removeAll()
+        redProgressLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - GREEN PROGRESS VIEW
+    
+    private func addGreenProgressView() {
+        greenProgressView.translatesAutoresizingMaskIntoConstraints = false
+        greenProgressView.backgroundColor =  .gridLetterBackgroundGreen
+        greenProgressView.layer.cornerCurve = .continuous
+        greenProgressView.layer.cornerRadius = 19
+        addSubview(greenProgressView)
+    }
+    
+    private func activateGreenProgressConstraints(isLandscape: Bool) {
+        deactivateGreenProgressConstraints()
+        if isLandscape {
+            greenProgressLandscapeConstraints = [
+                greenProgressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
+                greenProgressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+                greenProgressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
+                greenProgressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                greenProgressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
+            ]
+            NSLayoutConstraint.activate(greenProgressLandscapeConstraints)
+        } else {
+            greenProgressPortraitConstraints = [
+                greenProgressView.topAnchor.constraint(equalTo: topAnchor, constant: Frame.bigPadding),
+                greenProgressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Frame.bigPadding),
+                greenProgressView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Frame.bigPadding),
+                greenProgressView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: CGFloat(currentProgress) / 100),
+                greenProgressView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -Frame.bigPadding)
+            ]
+            NSLayoutConstraint.activate(greenProgressPortraitConstraints)
+        }
+    }
+    
+    private func deactivateGreenProgressConstraints() {
+        NSLayoutConstraint.deactivate(greenProgressPortraitConstraints)
+        NSLayoutConstraint.deactivate(greenProgressLandscapeConstraints)
+        greenProgressPortraitConstraints.removeAll()
+        greenProgressLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - CHARGING IMAGE VIEW
+    
+    private func addChargingImageView() {
+        chargingImageView.translatesAutoresizingMaskIntoConstraints = false
+        chargingImageView.image = chargingImage()
+        addSubview(chargingImageView)
+    }
+    
+    private func chargingImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "bolt.fill",
+            size: Frame.bigButtonSize,
+            weight: .regular,
+            color: .white)
+    }
+    
+    private func updateChargingImage(isLandscape: Bool) {
+        activateChargingImageConstraints(isLandscape: isLandscape)
+        chargingImageView.image = chargingImage()
+        updateConstraints()
+    }
+    
+    private func activateChargingImageConstraints(isLandscape: Bool) {
+        deactivateChargingImageConstraints()
+        if isLandscape {
+            chargingImageLandscapeConstraints = [
+                chargingImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                chargingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                chargingImageView.widthAnchor.constraint(lessThanOrEqualToConstant: Frame.bigButtonSize.height),
+                chargingImageView.heightAnchor.constraint(lessThanOrEqualToConstant: Frame.bigButtonSize.height)
+            ]
+            NSLayoutConstraint.activate(chargingImageLandscapeConstraints)
+        } else {
+            chargingImagePortraitConstraints = [
+                chargingImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                chargingImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                chargingImageView.widthAnchor.constraint(lessThanOrEqualToConstant: Frame.bigButtonSize.height),
+                chargingImageView.heightAnchor.constraint(lessThanOrEqualToConstant: Frame.bigButtonSize.height)
+            ]
+            NSLayoutConstraint.activate(chargingImagePortraitConstraints)
+        }
+    }
+    
+    private func deactivateChargingImageConstraints() {
+        NSLayoutConstraint.deactivate(chargingImagePortraitConstraints)
+        NSLayoutConstraint.deactivate(chargingImageLandscapeConstraints)
+        chargingImagePortraitConstraints.removeAll()
+        chargingImageLandscapeConstraints.removeAll()
     }
 }

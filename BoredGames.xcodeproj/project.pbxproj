@@ -37,6 +37,9 @@
 		4950D938289B8184004BA711 /* WGStatBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4950D937289B8184004BA711 /* WGStatBarView.swift */; };
 		4957D27628F4BDB100B96D3A /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27528F4BDB100B96D3A /* BatteryView.swift */; };
 		4957D27828F5396D00B96D3A /* BatteryCapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27728F5396D00B96D3A /* BatteryCapView.swift */; };
+		4957D27A28F7604F00B96D3A /* BGGameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27928F7604F00B96D3A /* BGGameState.swift */; };
+		4957D27D28F7608E00B96D3A /* BatteryGuessGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27C28F7608E00B96D3A /* BatteryGuessGame.swift */; };
+		4957D27F28F7610300B96D3A /* BatteryGuessGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4957D27E28F7610200B96D3A /* BatteryGuessGames.swift */; };
 		495EAD71288F4ED1004290AD /* ButtonTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD70288F4ED1004290AD /* ButtonTag.swift */; };
 		495EAD73288F7461004290AD /* WordGuessCurrentLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD72288F7461004290AD /* WordGuessCurrentLetter.swift */; };
 		495EAD75288F74CE004290AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495EAD74288F74CE004290AD /* Model.swift */; };
@@ -126,6 +129,9 @@
 		4950D937289B8184004BA711 /* WGStatBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WGStatBarView.swift; sourceTree = "<group>"; };
 		4957D27528F4BDB100B96D3A /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		4957D27728F5396D00B96D3A /* BatteryCapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryCapView.swift; sourceTree = "<group>"; };
+		4957D27928F7604F00B96D3A /* BGGameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGameState.swift; sourceTree = "<group>"; };
+		4957D27C28F7608E00B96D3A /* BatteryGuessGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryGuessGame.swift; sourceTree = "<group>"; };
+		4957D27E28F7610200B96D3A /* BatteryGuessGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryGuessGames.swift; sourceTree = "<group>"; };
 		495EAD70288F4ED1004290AD /* ButtonTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTag.swift; sourceTree = "<group>"; };
 		495EAD72288F7461004290AD /* WordGuessCurrentLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessCurrentLetter.swift; sourceTree = "<group>"; };
 		495EAD74288F74CE004290AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -253,6 +259,16 @@
 				4931D9D428C1737C0026E8D0 /* Stats */,
 			);
 			path = TicTacToe;
+			sourceTree = "<group>";
+		};
+		4957D27B28F7605400B96D3A /* BatteryGuess */ = {
+			isa = PBXGroup;
+			children = (
+				4957D27E28F7610200B96D3A /* BatteryGuessGames.swift */,
+				4957D27C28F7608E00B96D3A /* BatteryGuessGame.swift */,
+				4957D27928F7604F00B96D3A /* BGGameState.swift */,
+			);
+			path = BatteryGuess;
 			sourceTree = "<group>";
 		};
 		495EAD7828903C3D004290AD /* Grid */ = {
@@ -403,6 +419,7 @@
 			children = (
 				4931D9D728C1C84B0026E8D0 /* WordGuess */,
 				4931D9D828C1C85A0026E8D0 /* TicTacToe */,
+				4957D27B28F7605400B96D3A /* BatteryGuess */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -525,10 +542,12 @@
 				49231BAC2895853C00C5EB5E /* SuccessView.swift in Sources */,
 				49A07DE5288DC163008270F9 /* GridLetterView.swift in Sources */,
 				494D915B28B6DE7B003E14D9 /* TicTacToeModel.swift in Sources */,
+				4957D27A28F7604F00B96D3A /* BGGameState.swift in Sources */,
 				4931D9D328C173790026E8D0 /* TTTStatBarView.swift in Sources */,
 				494D914F28B2ED2D003E14D9 /* SmallLogoView.swift in Sources */,
 				494D914228B1D996003E14D9 /* TicTacToeView.swift in Sources */,
 				49D9936328A41FF300D863BB /* AppState.swift in Sources */,
+				4957D27F28F7610300B96D3A /* BatteryGuessGames.swift in Sources */,
 				491237DB28D7E6A500DC9FC6 /* BundleExtensions.swift in Sources */,
 				494D914728B1E552003E14D9 /* ThreeRowGridLetterView.swift in Sources */,
 				4931D9D128C173070026E8D0 /* TTTStatsView.swift in Sources */,
@@ -549,6 +568,7 @@
 				4993489F2890761D00BC6B0B /* StringProcotolExtensions.swift in Sources */,
 				49AADB1F28B83A5800737F8D /* TTTLetterState.swift in Sources */,
 				494D915728B6CD0F003E14D9 /* TicTacToeCurrentSquare.swift in Sources */,
+				4957D27D28F7608E00B96D3A /* BatteryGuessGame.swift in Sources */,
 				494D914528B1E392003E14D9 /* ThreeRowGridView.swift in Sources */,
 				492BEB4128AEB08400B8CFF6 /* Player.swift in Sources */,
 				4913C0E5289913950039745B /* WGStatsView.swift in Sources */,

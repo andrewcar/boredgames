@@ -7,10 +7,16 @@
 
 import SwiftUI
 
+protocol BatteryGuessDelegate {
+    func didTapBGSendButton()
+}
+
 class BatteryGuessView: UIView {
     
     // MARK: - Properties
-    private var batteryView = BatteryView(frame: .zero)
+    var batteryGuessDelegate: BatteryGuessDelegate!
+    
+    var batteryView = BatteryView(frame: .zero)
     private var batteryPortraitConstraints: [NSLayoutConstraint] = []
     private var batteryLandscapeConstraints: [NSLayoutConstraint] = []
     
@@ -18,9 +24,17 @@ class BatteryGuessView: UIView {
     private var capPortraitConstraints: [NSLayoutConstraint] = []
     private var capLandscapeConstraints: [NSLayoutConstraint] = []
     
-    private var percentageLabel = UILabel(frame: .zero)
+    var percentageLabel = UILabel(frame: .zero)
     private var percentagePortraitConstraints: [NSLayoutConstraint] = []
     private var percentageLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    var topResultLabel = UILabel(frame: .zero)
+    private var topResultPortraitConstraints: [NSLayoutConstraint] = []
+    private var topResultLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    var bottomResultLabel = UILabel(frame: .zero)
+    private var bottomResultPortraitConstraints: [NSLayoutConstraint] = []
+    private var bottomResultLandscapeConstraints: [NSLayoutConstraint] = []
     
     private var leftTapView = UIView(frame: .zero)
     private var leftTapPortraitConstraints: [NSLayoutConstraint] = []
@@ -29,6 +43,11 @@ class BatteryGuessView: UIView {
     private var rightTapView = UIView(frame: .zero)
     private var rightTapPortraitConstraints: [NSLayoutConstraint] = []
     private var rightTapLandscapeConstraints: [NSLayoutConstraint] = []
+    
+    private var sendButton = UIButton(frame: .zero)
+    private var sendPortraitConstraints: [NSLayoutConstraint] = []
+    private var sendLandscapeConstraints: [NSLayoutConstraint] = []
+    private var sendButtonHidden = true
     
     
     // MARK: - Initializers
@@ -48,9 +67,12 @@ class BatteryGuessView: UIView {
         
         activateBatteryConstraints(isLandscape: Model.shared.isLandscape)
         activateCapConstraints(isLandscape: Model.shared.isLandscape)
-        activatePercentageLabel(isLandscape: Model.shared.isLandscape)
+        activatePercentageConstraints(isLandscape: Model.shared.isLandscape)
+        activateBottomResultConstraints(isLandscape: Model.shared.isLandscape)
+        activateTopResultConstraints(isLandscape: Model.shared.isLandscape)
         activateLeftTapConstraints(isLandscape: Model.shared.isLandscape)
         activateRightTapConstraints(isLandscape: Model.shared.isLandscape)
+        activateSendButtonConstraints(isLandscape: Model.shared.isLandscape)
         
         batteryView.updateConstraints()
     }
@@ -65,8 +87,11 @@ class BatteryGuessView: UIView {
         addBatteryView()
         addCapView()
         addPercentageLabel()
+        addBottomResultLabel()
+        addTopResultLabel()
         addLeftTapView()
         addRightTapView()
+        addSendButton()
     }
     
     // MARK: - Battery View
@@ -79,20 +104,22 @@ class BatteryGuessView: UIView {
     
     private func activateBatteryConstraints(isLandscape: Bool) {
         deactivateBatteryConstraints()
+        let compactCompensation = Model.shared.isCompact ? 0.7 : 1
+        let yOffset = Model.shared.isCompact ? -(UIScreen.main.bounds.width * 0.1) : 0
         if isLandscape {
             batteryLandscapeConstraints = [
                 batteryView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                batteryView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                batteryView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.7),
-                batteryView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.height * 0.7) * 0.45)
+                batteryView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: yOffset / 2),
+                batteryView.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.height * 0.7) * compactCompensation),
+                batteryView.heightAnchor.constraint(equalToConstant: ((UIScreen.main.bounds.height * 0.7) * 0.45) * compactCompensation)
             ]
             NSLayoutConstraint.activate(batteryLandscapeConstraints)
         } else {
             batteryPortraitConstraints = [
                 batteryView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                batteryView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                batteryView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.7),
-                batteryView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width * 0.7) * 0.45)
+                batteryView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: yOffset),
+                batteryView.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width * 0.7) * compactCompensation),
+                batteryView.heightAnchor.constraint(equalToConstant: ((UIScreen.main.bounds.width * 0.7) * 0.45) * compactCompensation)
             ]
             NSLayoutConstraint.activate(batteryPortraitConstraints)
         }
@@ -149,14 +176,14 @@ class BatteryGuessView: UIView {
         percentageLabel.textAlignment = .center
         percentageLabel.adjustsFontSizeToFitWidth = true
         addSubview(percentageLabel)
-        activatePercentageLabel(isLandscape: false)
+        activatePercentageConstraints(isLandscape: false)
     }
     
-    private func activatePercentageLabel(isLandscape: Bool) {
+    private func activatePercentageConstraints(isLandscape: Bool) {
         deactivatePercentageConstraints()
         if isLandscape {
             percentageLandscapeConstraints = [
-                percentageLabel.topAnchor.constraint(equalTo: batteryView.bottomAnchor, constant: Frame.bigPadding),
+                percentageLabel.topAnchor.constraint(equalTo: batteryView.bottomAnchor, constant: Frame.padding),
                 percentageLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
                 percentageLabel.widthAnchor.constraint(equalTo: batteryView.widthAnchor),
                 percentageLabel.heightAnchor.constraint(equalToConstant: 100)
@@ -180,6 +207,88 @@ class BatteryGuessView: UIView {
         percentageLandscapeConstraints.removeAll()
     }
     
+    // MARK: - Bottom Result Label
+    
+    private func addBottomResultLabel() {
+        bottomResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        bottomResultLabel.font = .systemFont(ofSize: 33, weight: .bold)
+        bottomResultLabel.textColor = .wordGuessButton
+        bottomResultLabel.textAlignment = .center
+        bottomResultLabel.adjustsFontSizeToFitWidth = true
+        addSubview(bottomResultLabel)
+        activateBottomResultConstraints(isLandscape: false)
+    }
+    
+    private func activateBottomResultConstraints(isLandscape: Bool) {
+        deactivateBottomResultConstraints()
+        if isLandscape {
+            bottomResultLandscapeConstraints = [
+                bottomResultLabel.bottomAnchor.constraint(equalTo: batteryView.topAnchor, constant: Frame.Logo.upperPadding),
+                bottomResultLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                bottomResultLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -Frame.Logo.upperPadding * 2),
+                bottomResultLabel.heightAnchor.constraint(equalToConstant: 69)
+            ]
+            NSLayoutConstraint.activate(bottomResultLandscapeConstraints)
+        } else {
+            bottomResultPortraitConstraints = [
+                bottomResultLabel.bottomAnchor.constraint(equalTo: batteryView.topAnchor, constant: -Frame.Logo.upperPadding),
+                bottomResultLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                bottomResultLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -Frame.Logo.upperPadding * 2),
+                bottomResultLabel.heightAnchor.constraint(equalToConstant: 69)
+            ]
+            NSLayoutConstraint.activate(bottomResultPortraitConstraints)
+        }
+    }
+    
+    private func deactivateBottomResultConstraints() {
+        NSLayoutConstraint.deactivate(bottomResultPortraitConstraints)
+        NSLayoutConstraint.deactivate(bottomResultLandscapeConstraints)
+        bottomResultPortraitConstraints.removeAll()
+        bottomResultLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - Top Result Label
+    
+    private func addTopResultLabel() {
+        topResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        topResultLabel.font = .systemFont(ofSize: 25, weight: .bold)
+        topResultLabel.textColor = .wordGuessButton
+        topResultLabel.textAlignment = .center
+        topResultLabel.adjustsFontSizeToFitWidth = true
+        addSubview(topResultLabel)
+        activateTopResultConstraints(isLandscape: false)
+    }
+    
+    private func activateTopResultConstraints(isLandscape: Bool) {
+        deactivateTopResultConstraints()
+        if isLandscape {
+            topResultLandscapeConstraints = [
+                topResultLabel.bottomAnchor.constraint(equalTo: bottomResultLabel.topAnchor, constant: Frame.bigPadding),
+                topResultLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                topResultLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -Frame.Logo.upperPadding * 2),
+                topResultLabel.heightAnchor.constraint(equalToConstant: 69)
+            ]
+            NSLayoutConstraint.activate(topResultLandscapeConstraints)
+        } else {
+            topResultPortraitConstraints = [
+                topResultLabel.bottomAnchor.constraint(equalTo: bottomResultLabel.topAnchor, constant: Frame.bigPadding),
+                topResultLabel.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                topResultLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -Frame.Logo.upperPadding * 2),
+                topResultLabel.heightAnchor.constraint(equalToConstant: 69)
+            ]
+            NSLayoutConstraint.activate(topResultPortraitConstraints)
+        }
+    }
+    
+    private func deactivateTopResultConstraints() {
+        NSLayoutConstraint.deactivate(topResultPortraitConstraints)
+        NSLayoutConstraint.deactivate(topResultLandscapeConstraints)
+        topResultPortraitConstraints.removeAll()
+        topResultLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - Left Tap View
+    
     private func addLeftTapView() {
         leftTapView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -193,6 +302,11 @@ class BatteryGuessView: UIView {
     @objc private func didTapLeftView(sender: UITapGestureRecognizer) {
         guard batteryView.currentProgress <= 100 && batteryView.currentProgress > 0 else { return }
         batteryView.currentProgress -= 1
+        
+        batteryView.redProgressView.alpha = batteryView.currentProgress <= 21 ? 1 : 0
+        batteryView.greenProgressView.alpha = batteryView.currentProgress >= 21 ? 1 : 0
+        batteryView.chargingImageView.alpha = batteryView.currentProgress == 100 ? 1 : 0
+
         didUpdate(percentage: batteryView.currentProgress)
         batteryView.updateConstraints()
     }
@@ -224,6 +338,8 @@ class BatteryGuessView: UIView {
         leftTapLandscapeConstraints.removeAll()
     }
     
+    // MARK: - Right Tap View
+    
     private func addRightTapView() {
         rightTapView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -236,6 +352,11 @@ class BatteryGuessView: UIView {
     @objc private func didTapRightView(sender: UITapGestureRecognizer) {
         guard batteryView.currentProgress < 100 && batteryView.currentProgress >= 0 else { return }
         batteryView.currentProgress += 1
+        
+        batteryView.redProgressView.alpha = batteryView.currentProgress <= 21 ? 1 : 0
+        batteryView.greenProgressView.alpha = batteryView.currentProgress >= 21 ? 1 : 0
+        batteryView.chargingImageView.alpha = batteryView.currentProgress == 100 ? 1 : 0
+
         didUpdate(percentage: batteryView.currentProgress)
         batteryView.updateConstraints()
     }
@@ -266,10 +387,87 @@ class BatteryGuessView: UIView {
         rightTapPortraitConstraints.removeAll()
         rightTapLandscapeConstraints.removeAll()
     }
+    
+    private func addSendButton() {
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.setImage(sendButtonImage(), for: .normal)
+        sendButton.addTarget(self, action: #selector(didTapSendButton), for: .touchUpInside)
+        addSubview(sendButton)
+        activateSendButtonConstraints(isLandscape: false)
+    }
+    
+    @objc private func didTapSendButton() {
+        if let currentGame = Model.shared.currentBGGame,
+            currentGame.playerOne.uuidString != nil {
+            Model.shared.currentBGGame?.playerTwoGuess = "\(batteryView.currentProgress)"
+        } else {
+            Model.shared.currentBGGame?.playerOneGuess = "\(batteryView.currentProgress)"
+        }
+        batteryGuessDelegate.didTapBGSendButton()
+    }
+    
+    private func sendButtonImage() -> UIImage {
+        UIImage().scaledSystemImage(
+            named: "arrow.up.message.fill",
+            size: Frame.buttonSize,
+            weight: .regular,
+            color: .messagesBlue)
+    }
+    
+    private func activateSendButtonConstraints(isLandscape: Bool) {
+        deactivateSendButtonConstraints()
+        if isLandscape {
+            let offset = sendButtonHidden ? (UIScreen.main.bounds.width * 2) : 0
+            sendLandscapeConstraints = [
+                sendButton.leadingAnchor.constraint(equalTo: capView.trailingAnchor, constant: Frame.bigButtonSize.width + offset),
+                sendButton.centerYAnchor.constraint(equalTo: batteryView.centerYAnchor),
+                sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+            ]
+            NSLayoutConstraint.activate(sendLandscapeConstraints)
+        } else {
+            let offset = sendButtonHidden ? UIScreen.main.bounds.height : 0
+            if Model.shared.isCompact {
+                sendPortraitConstraints = [
+                    sendButton.centerYAnchor.constraint(equalTo: batteryView.centerYAnchor),
+                    sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Frame.Logo.upperPadding + offset),
+                    sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                    sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                ]
+            } else {
+                sendPortraitConstraints = [
+                    sendButton.topAnchor.constraint(equalTo: percentageLabel.bottomAnchor, constant: Frame.Logo.upperPadding + offset),
+                    sendButton.centerXAnchor.constraint(equalTo: batteryView.centerXAnchor),
+                    sendButton.widthAnchor.constraint(equalToConstant: Frame.buttonSize.width),
+                    sendButton.heightAnchor.constraint(equalToConstant: Frame.buttonSize.height)
+                ]
+            }
+            NSLayoutConstraint.activate(sendPortraitConstraints)
+        }
+    }
+    
+    private func deactivateSendButtonConstraints() {
+        NSLayoutConstraint.deactivate(sendPortraitConstraints)
+        NSLayoutConstraint.deactivate(sendLandscapeConstraints)
+        sendPortraitConstraints.removeAll()
+        sendLandscapeConstraints.removeAll()
+    }
+    
+    // MARK: - RESET GAME
+    func resetGame() {
+        Model.shared.resetBGGame {
+            self.percentageLabel.text = ""
+            self.batteryView.currentProgress = 100
+            self.updateConstraints()
+        }
+    }
 }
 
 extension BatteryGuessView: BatteryViewDelegate {
     func didUpdate(percentage: Int) {
+        if sendButtonHidden {
+            sendButtonHidden.toggle()
+        }
         percentageLabel.text = "\(percentage)%"
     }
 }
