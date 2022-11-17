@@ -47,7 +47,7 @@ class BatteryGuessView: UIView {
     private var sendButton = UIButton(frame: .zero)
     private var sendPortraitConstraints: [NSLayoutConstraint] = []
     private var sendLandscapeConstraints: [NSLayoutConstraint] = []
-    private var sendButtonHidden = true
+    var sendButtonHidden = true
     
     
     // MARK: - Initializers
@@ -303,8 +303,7 @@ class BatteryGuessView: UIView {
         guard batteryView.currentProgress <= 100 && batteryView.currentProgress > 0 else { return }
         batteryView.currentProgress -= 1
         
-        batteryView.redProgressView.alpha = batteryView.currentProgress <= 21 ? 1 : 0
-        batteryView.greenProgressView.alpha = batteryView.currentProgress >= 21 ? 1 : 0
+        batteryView.progressView.backgroundColor = batteryView.currentProgress <= 21 ? .batteryGuessRed : .gridLetterBackgroundGreen
         batteryView.chargingImageView.alpha = batteryView.currentProgress == 100 ? 1 : 0
 
         didUpdate(percentage: batteryView.currentProgress)
@@ -353,8 +352,7 @@ class BatteryGuessView: UIView {
         guard batteryView.currentProgress < 100 && batteryView.currentProgress >= 0 else { return }
         batteryView.currentProgress += 1
         
-        batteryView.redProgressView.alpha = batteryView.currentProgress <= 21 ? 1 : 0
-        batteryView.greenProgressView.alpha = batteryView.currentProgress >= 21 ? 1 : 0
+        batteryView.progressView.backgroundColor = batteryView.currentProgress <= 21 ? .batteryGuessRed : .gridLetterBackgroundGreen
         batteryView.chargingImageView.alpha = batteryView.currentProgress == 100 ? 1 : 0
 
         didUpdate(percentage: batteryView.currentProgress)

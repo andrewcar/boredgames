@@ -14,6 +14,14 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Properties
     private var containerView = ContainerView(frame: .zero)
     private var containerConstraints: [NSLayoutConstraint] = []
+    
+    private var batteryLevel: Float {
+#if DEBUG
+        abs(UIDevice.current.batteryLevel)
+#else
+        UIDevice.current.batteryLevel
+#endif
+    }
         
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -532,26 +540,52 @@ class MessagesViewController: MSMessagesAppViewController {
     private func updateBatteryGuessGame(from activeConversation: MSConversation) {
         guard let currentGame = Model.shared.currentBGGame else { return }
         guard let playerOneGuess = currentGame.playerOneGuess else { return }
+        guard let remoteParticipantIdentifier = activeConversation.remoteParticipantIdentifiers.first else { return }
+        guard let currentPlayerUUIDString = currentGame.currentPlayerUUID else { return }
+
+        if let playerTwoBatteryPercentage = currentGame.playerTwoBatteryPercentage,
+            let actualBatteryPercentageInt = Int(playerTwoBatteryPercentage) {
+            updateBatteryGuessSubviewsForCompletedGuess(
+                remoteParticipantIdentifier: remoteParticipantIdentifier,
+                currentPlayerUUIDString: currentPlayerUUIDString,
+                actualBatteryPercentageInt: actualBatteryPercentageInt,
+                playerOneGuess: playerOneGuess)
+        } else {
+            updateBatteryGuessSubviewsForNewGuess(
+                remoteParticipantIdentifier: remoteParticipantIdentifier,
+                currentPlayerUUIDString: currentPlayerUUIDString,
+                currentGame: currentGame,
+                batteryLevel: batteryLevel)
+        }
+    }
+    
+    private func updateBatteryGuessSubviewsForNewGuess(remoteParticipantIdentifier: UUID,
+                                                       currentPlayerUUIDString: String,
+                                                       currentGame: BatteryGuessGame,
+                                                       batteryLevel: Float) {
+        guard let playerOneGuess = currentGame.playerOneGuess else { return }
         guard let batteryGuessPercentageInt = Int(playerOneGuess) else { return }
-        
-        #if DEBUG
-        let batteryLevel = abs(UIDevice.current.batteryLevel)
-        #else
-        let batteryLevel = UIDevice.current.batteryLevel
-        #endif
         
         let actualBatteryPercentageInt = Int(batteryLevel * 100)
         let periodOrExclamation = batteryGuessPercentageInt == actualBatteryPercentageInt ? "!" : "."
 
         containerView.batteryGuessView.percentageLabel.text = ""
+        containerView.batteryGuessView.batteryView.chargingImageView.alpha = 0
+        
+        let pronoun = remoteParticipantIdentifier.uuidString == currentPlayerUUIDString ? "Their" : "Your"
 
-        containerView.batteryGuessView.topResultLabel.text = "Your battery is at \(actualBatteryPercentageInt)%."
+        containerView.batteryGuessView.topResultLabel.text = pronoun + " battery is at \(actualBatteryPercentageInt)%."
         containerView.batteryGuessView.topResultLabel.alpha = 0
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
-            self.containerView.batteryGuessView.topResultLabel.alpha = 1
+        
+        if remoteParticipantIdentifier.uuidString != currentPlayerUUIDString {
+            UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+                self.containerView.batteryGuessView.topResultLabel.alpha = 1
+            }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Model.shared.currentBGGame?.playerTwoBatteryPercentage = "\(actualBatteryPercentageInt)"
+            
             self.containerView.batteryGuessView.batteryView.currentProgress = actualBatteryPercentageInt
             self.containerView.updateConstraints(with: 2) {
                 
@@ -559,12 +593,68 @@ class MessagesViewController: MSMessagesAppViewController {
                     self.containerView.batteryGuessView.batteryView.currentProgress = batteryGuessPercentageInt
                     
                     self.containerView.batteryGuessView.bottomResultLabel.alpha = 0
-                    self.containerView.batteryGuessView.bottomResultLabel.text = "Their guess was \(batteryGuessPercentageInt)%" + periodOrExclamation
+                    
+                    let secondPronoun = remoteParticipantIdentifier.uuidString == currentPlayerUUIDString ? "Your" : "Their"
+
+                    self.containerView.batteryGuessView.bottomResultLabel.text = secondPronoun + " guess was \(batteryGuessPercentageInt)%" + periodOrExclamation
                     UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
                         self.containerView.batteryGuessView.bottomResultLabel.alpha = 1
                     }
                     self.containerView.updateConstraints(with: 2) {
-                        //
+                        self.containerView.batteryGuessView.batteryView.chargingImageView.alpha = batteryGuessPercentageInt == 100 ? 1 : 0
+                    }
+                    
+                    if remoteParticipantIdentifier.uuidString != currentPlayerUUIDString {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            if self.containerView.batteryGuessView.sendButtonHidden {
+                                self.containerView.batteryGuessView.sendButtonHidden.toggle()
+                                self.containerView.updateConstraints()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func updateBatteryGuessSubviewsForCompletedGuess(remoteParticipantIdentifier: UUID,
+                                                             currentPlayerUUIDString: String,
+                                                             actualBatteryPercentageInt: Int,
+                                                             playerOneGuess: String) {
+        guard let batteryGuessPercentageInt = Int(playerOneGuess) else { return }
+
+        let periodOrExclamation = batteryGuessPercentageInt == actualBatteryPercentageInt ? "!" : "."
+        
+        containerView.batteryGuessView.percentageLabel.text = ""
+        containerView.batteryGuessView.batteryView.chargingImageView.alpha = 0
+        
+        let pronoun = remoteParticipantIdentifier.uuidString == currentPlayerUUIDString ? "They" : "You"
+        
+        containerView.batteryGuessView.topResultLabel.text = pronoun + " guessed \(playerOneGuess)%."
+        containerView.batteryGuessView.topResultLabel.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+            self.containerView.batteryGuessView.topResultLabel.alpha = 1
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Model.shared.currentBGGame?.playerTwoBatteryPercentage = "\(actualBatteryPercentageInt)"
+            
+            self.containerView.batteryGuessView.batteryView.currentProgress = batteryGuessPercentageInt
+            self.containerView.updateConstraints(with: 2) {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.containerView.batteryGuessView.batteryView.currentProgress = actualBatteryPercentageInt
+                    
+                    self.containerView.batteryGuessView.bottomResultLabel.alpha = 0
+                    
+                    let secondPronoun = remoteParticipantIdentifier.uuidString == currentPlayerUUIDString ? "Your" : "Their"
+                    
+                    self.containerView.batteryGuessView.bottomResultLabel.text = secondPronoun + " battery was \(actualBatteryPercentageInt)%" + periodOrExclamation
+                    UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut) {
+                        self.containerView.batteryGuessView.bottomResultLabel.alpha = 1
+                    }
+                    self.containerView.updateConstraints(with: 2) {
+                        self.containerView.batteryGuessView.batteryView.chargingImageView.alpha = batteryGuessPercentageInt == 100 ? 1 : 0
                     }
                 }
             }
